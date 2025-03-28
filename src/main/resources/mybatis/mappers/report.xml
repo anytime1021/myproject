@@ -1,0 +1,14 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sboot.pro.argus.dao.ReportDAO">
+	<select id="addReportForm" parameterType="String" resultType="reportVO">
+		<choose>
+			<when test="searchArea == '울산'">
+				select * from ulsan_workRate where login_work_area = #{searchArea}
+			</when>
+			<when test="searchArea == '여수'">
+				select * from yeosu_workRate where login_work_area = #{searchArea}
+			</when>
+	</choose>
+	</select>
+</mapper>

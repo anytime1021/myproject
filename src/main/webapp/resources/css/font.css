@@ -1,0 +1,11 @@
+@charset "utf-8";
+
+@font-face {
+    font-family: "vitoPrice";    
+    src: url("../font/vitro_price.ttf");
+}
+
+@font-face {
+    font-family: "vitoCore";    
+    src: url("../font/vitro_core.ttf");
+}

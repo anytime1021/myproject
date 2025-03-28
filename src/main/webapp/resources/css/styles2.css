@@ -1,0 +1,32 @@
+
+/* 레포트 게시판 */
+.first-container {width: 100%; height: 100%; background-color: white;}
+.first-container .image-container {width: 100%; height: 250px; background-size:cover; position:relative;}
+.first-container .report-menu {width: 100%; height: 50px;}
+.first-container .report-menu-banner {width: 100%; height: 150px; display:flex; justify-content: center; align-items: center;}
+.first-container .report-menu-banner .text-control {font-size: 50px;}
+.first-container .report-container {padding: 20px; width: 100%; height: 100%;}
+.first-container .report-container .report-list {width: 100%; height: 100%; overflow-x: auto;}
+
+/* 레포트 게시판 테이블 */
+.table-control {width: 100%; border-collapse: collapse; text-align: center;}
+.ul-wrap {margin: 0px; padding: 0px; list-style: none; display: flex; text-align: center; justify-content: center; align-items: center; height:50px; border-bottom: 1px solid gray;}
+.ul-wrap .li-wrap {width: 100px; margin: 0px; padding: 0px 10px 0px 10px;}
+.btn {background-color: dodgerblue; min-width: 100px; border-radius: 5px;}
+
+
+/* 레포트 작성 폼 */
+/* 작업일자 및 결재 */
+.first-container .report-name {width: 100%; height: 50px; font-size: 30px; text-align: center; justify-content: center;}
+.first-container .report-date-sign {width: 100%; height: 100%; display: flex; justify-content: space-between;}
+.first-container .report-date-sign .report-date {width: 50%; height: 100%; border:1px solid black; float:left;}
+.first-container .report-date-sign .report-sign {width: 40%; height: 100%; border:1px solid black; float:right;}
+
+/* 작업 현황 */
+.first-container .work-rate {width: 100%; height: 100%; border: 1px solid black;}
+
+
+
+
+
+
