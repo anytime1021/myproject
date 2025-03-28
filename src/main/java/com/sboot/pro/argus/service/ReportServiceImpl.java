@@ -20,4 +20,9 @@ public class ReportServiceImpl implements ReportService{
 	public List<ReportVO> addReportForm(String searchArea) throws Exception {
 		return reportDAO.addReportForm(searchArea);
 	}
+	
+	@Override
+	public void addWorkReportList(List<ReportVO> workReportList) throws Exception {
+		reportDAO.insertAddWorkReportList(workReportList);
+	};
 }

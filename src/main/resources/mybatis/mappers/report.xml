@@ -4,10 +4,10 @@
 	<select id="addReportForm" parameterType="String" resultType="reportVO">
 		<choose>
 			<when test="searchArea == '울산'">
-				select * from ulsan_workRate where login_work_area = #{searchArea}
+				select * from ulsan_workRate_total where login_work_area_total = #{searchArea}
 			</when>
 			<when test="searchArea == '여수'">
-				select * from yeosu_workRate where login_work_area = #{searchArea}
+				select * from yeosu_workRate_total where login_work_area_total = #{searchArea}
 			</when>
 	</choose>
 	</select>
