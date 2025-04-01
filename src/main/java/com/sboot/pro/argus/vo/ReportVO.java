@@ -1,6 +1,9 @@
 package com.sboot.pro.argus.vo;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+import com.sboot.pro.argus.service.ReportService;
+import com.sboot.pro.argus.service.ReportServiceImpl;
 
 import lombok.Data;
 
@@ -23,12 +26,12 @@ public class ReportVO {
 	private String login_work_area;
 	
 	// 변수 배열
-	private int work_amount_RTStr;
-	private int work_amount_PAUTStr;
-	private int work_amount_TOFDStr;
-	private int work_amount_UTStr;
-	private int work_amount_MPTStr;
-	private String work_manpowerArray;
+	private int work_amount_RTArray;
+	private int work_amount_PAUTArray;
+	private int work_amount_TOFDArray;
+	private int work_amount_UTArray;
+	private int work_amount_MPTArray;
+	private int work_manpowerArray;
 	private String work_xrayArray;
 	private String work_PAUTArray;
 	private String work_charyangArray;
@@ -47,275 +50,172 @@ public class ReportVO {
 	private String work_charyang_total;
 	private String login_work_area_total;
 	
-	public ReportVO(Integer work_amount_RTStr, Integer work_amount_PAUTStr, Integer work_amount_TOFDStr, Integer work_amount_UTStr,
-			Integer work_amount_MPTStr, String work_manpowerArray, String work_xrayArray, String work_PAUTArray, String work_charyangArray) {
-		this.work_amount_RTStr = work_amount_RTStr;
-		this.work_amount_PAUTStr = work_amount_PAUTStr;
-		this.work_amount_TOFDStr = work_amount_TOFDStr;
-		this.work_amount_UTStr = work_amount_UTStr;
-		this.work_amount_MPTStr = work_amount_MPTStr;
+	public ReportVO() {
+		this.work_amount_RTArray = work_amount_RTArray;
+		this.work_amount_PAUTArray = work_amount_PAUTArray;
+		this.work_amount_TOFDArray = work_amount_TOFDArray;
+		this.work_amount_UTArray = work_amount_UTArray;
+		this.work_amount_MPTArray = work_amount_MPTArray;
 		this.work_manpowerArray = work_manpowerArray;
 		this.work_xrayArray = work_xrayArray;
 		this.work_PAUTArray = work_PAUTArray;
 		this.work_charyangArray = work_charyangArray;
 	}
+
+	//	public ReportVO(int work_amount_RTArray, int work_amount_PAUTArray, int work_amount_TOFDArray, int work_amount_UTArray,
+	//	int work_amount_MPTArray, int work_manpowerArray, Arraying work_xrayArray, Arraying work_PAUTArray, Arraying work_charyangArray) {
+	//	this.work_amount_RTArray = work_amount_RTArray;
+	//	this.work_amount_PAUTArray = work_amount_PAUTArray;
+	//	this.work_amount_TOFDArray = work_amount_TOFDArray;
+	//	this.work_amount_UTArray = work_amount_UTArray;
+	//	this.work_amount_MPTArray = work_amount_MPTArray;
+	//	this.work_manpowerArray = work_manpowerArray;
+	//	this.work_xrayArray = work_xrayArray;
+	//	this.work_PAUTArray = work_PAUTArray;
+	//	this.work_charyangArray = work_charyangArray;
+	//	}
 	
-	public int getwork_num() {
-		return work_num;
-	}
-	public void setwork_num(int work_num) {
-		this.work_num = work_num;
-	}
-	public String getwork_name() {
-		return work_name;
-	}
-	public void setwork_name(String work_name) {
-		this.work_name = work_name;
-	}
-	public int getwork_amount_RT() {
-		return work_amount_RT;
-	}
-	public void setwork_amount_RT(int work_amount_RT) {
-		this.work_amount_RT = work_amount_RT;
-	}
-	public int getwork_amount_PAUT() {
-		return work_amount_PAUT;
-	}
-	public void setwork_amount_PAUT(int work_amount_PAUT) {
-		this.work_amount_PAUT = work_amount_PAUT;
-	}
-	public int getwork_amount_TOFD() {
-		return work_amount_TOFD;
-	}
-	public void setwork_amount_TOFD(int work_amount_TOFD) {
-		this.work_amount_TOFD = work_amount_TOFD;
-	}
-	public int getwork_amount_UT() {
-		return work_amount_UT;
-	}
-	public void setwork_amount_UT(int work_amount_UT) {
-		this.work_amount_UT = work_amount_UT;
-	}
-	public int getwork_amount_MPT() {
-		return work_amount_MPT;
-	}
-	public void setwork_amount_MPT(int work_amount_MPT) {
-		this.work_amount_MPT = work_amount_MPT;
-	}
-	public int getwork_manpower() {
-		return work_manpower;
-	}
-	public void setwork_manpower(int work_manpower) {
-		this.work_manpower = work_manpower;
-	}
-	public String getwork_xray() {
-		return work_xray;
-	}
-	public void setwork_xray(String work_xray) {
-		this.work_xray = work_xray;
-	}
-	public String getwork_PAUT() {
-		return work_PAUT;
-	}
-	public void setwork_PAUT(String work_PAUT) {
-		this.work_PAUT = work_PAUT;
-	}
-	public String getwork_charyang() {
-		return work_charyang;
-	}
-	public void setwork_charyang(String work_charyang) {
-		this.work_charyang = work_charyang;
-	}
-	public String getLogin_work_area() {
-		return login_work_area;
-	}
-	public void setLogin_work_area(String login_work_area) {
-		this.login_work_area = login_work_area;
-	}
 	public int getWork_num() {
 		return work_num;
 	}
+
 	public void setWork_num(int work_num) {
 		this.work_num = work_num;
 	}
+
 	public String getWork_name() {
 		return work_name;
 	}
+
 	public void setWork_name(String work_name) {
 		this.work_name = work_name;
 	}
+
 	public int getWork_amount_RT() {
 		return work_amount_RT;
 	}
+
 	public void setWork_amount_RT(int work_amount_RT) {
 		this.work_amount_RT = work_amount_RT;
 	}
+
 	public int getWork_amount_PAUT() {
 		return work_amount_PAUT;
 	}
+
 	public void setWork_amount_PAUT(int work_amount_PAUT) {
 		this.work_amount_PAUT = work_amount_PAUT;
 	}
+
 	public int getWork_amount_TOFD() {
 		return work_amount_TOFD;
 	}
+
 	public void setWork_amount_TOFD(int work_amount_TOFD) {
 		this.work_amount_TOFD = work_amount_TOFD;
 	}
+
 	public int getWork_amount_UT() {
 		return work_amount_UT;
 	}
+
 	public void setWork_amount_UT(int work_amount_UT) {
 		this.work_amount_UT = work_amount_UT;
 	}
+
 	public int getWork_amount_MPT() {
 		return work_amount_MPT;
 	}
+
 	public void setWork_amount_MPT(int work_amount_MPT) {
 		this.work_amount_MPT = work_amount_MPT;
 	}
+
 	public int getWork_manpower() {
 		return work_manpower;
 	}
+
 	public void setWork_manpower(int work_manpower) {
 		this.work_manpower = work_manpower;
 	}
+
 	public String getWork_xray() {
 		return work_xray;
 	}
+
 	public void setWork_xray(String work_xray) {
 		this.work_xray = work_xray;
 	}
+
 	public String getWork_PAUT() {
 		return work_PAUT;
 	}
+
 	public void setWork_PAUT(String work_PAUT) {
 		this.work_PAUT = work_PAUT;
 	}
+
 	public String getWork_charyang() {
 		return work_charyang;
 	}
+
 	public void setWork_charyang(String work_charyang) {
 		this.work_charyang = work_charyang;
 	}
-	public int getWork_num_total() {
-		return work_num_total;
-	}
-	public void setWork_num_total(int work_num_total) {
-		this.work_num_total = work_num_total;
-	}
-	public String getWork_name_total() {
-		return work_name_total;
-	}
-	public void setWork_name_total(String work_name_total) {
-		this.work_name_total = work_name_total;
-	}
-	public int getWork_amount_RT_total() {
-		return work_amount_RT_total;
-	}
-	public void setWork_amount_RT_total(int work_amount_RT_total) {
-		this.work_amount_RT_total = work_amount_RT_total;
-	}
-	public int getWork_amount_PAUT_total() {
-		return work_amount_PAUT_total;
-	}
-	public void setWork_amount_PAUT_total(int work_amount_PAUT_total) {
-		this.work_amount_PAUT_total = work_amount_PAUT_total;
-	}
-	public int getWork_amount_TOFD_total() {
-		return work_amount_TOFD_total;
-	}
-	public void setWork_amount_TOFD_total(int work_amount_TOFD_total) {
-		this.work_amount_TOFD_total = work_amount_TOFD_total;
-	}
-	public int getWork_amount_UT_total() {
-		return work_amount_UT_total;
-	}
-	public void setWork_amount_UT_total(int work_amount_UT_total) {
-		this.work_amount_UT_total = work_amount_UT_total;
-	}
-	public int getWork_amount_MPT_total() {
-		return work_amount_MPT_total;
-	}
-	public void setWork_amount_MPT_total(int work_amount_MPT_total) {
-		this.work_amount_MPT_total = work_amount_MPT_total;
-	}
-	public int getWork_manpower_total() {
-		return work_manpower_total;
-	}
-	public void setWork_manpower_total(int work_manpower_total) {
-		this.work_manpower_total = work_manpower_total;
-	}
-	public String getWork_xray_total() {
-		return work_xray_total;
-	}
-	public void setWork_xray_total(String work_xray_total) {
-		this.work_xray_total = work_xray_total;
-	}
-	public String getWork_PAUT_total() {
-		return work_PAUT_total;
-	}
-	public void setWork_PAUT_total(String work_PAUT_total) {
-		this.work_PAUT_total = work_PAUT_total;
-	}
-	public String getWork_charyang_total() {
-		return work_charyang_total;
-	}
-	public void setWork_charyang_total(String work_charyang_total) {
-		this.work_charyang_total = work_charyang_total;
-	}
-	public String getLogin_work_area_total() {
-		return login_work_area_total;
-	}
-	public void setLogin_work_area_total(String login_work_area_total) {
-		this.login_work_area_total = login_work_area_total;
+
+	public String getLogin_work_area() {
+		return login_work_area;
 	}
 
-	public int getWork_amount_RTStr() {
-		return work_amount_RTStr;
+	public void setLogin_work_area(String login_work_area) {
+		this.login_work_area = login_work_area;
 	}
 
-	public void setWork_amount_RTStr(int work_amount_RTStr) {
-		this.work_amount_RTStr = work_amount_RTStr;
+	public int getWork_amount_RTArray() {
+		return work_amount_RTArray;
 	}
 
-	public int getWork_amount_PAUTStr() {
-		return work_amount_PAUTStr;
+	public void setWork_amount_RTArray(int work_amount_RTArray) {
+		this.work_amount_RTArray = work_amount_RTArray;
 	}
 
-	public void setWork_amount_PAUTStr(int work_amount_PAUTStr) {
-		this.work_amount_PAUTStr = work_amount_PAUTStr;
+	public int getWork_amount_PAUTArray() {
+		return work_amount_PAUTArray;
 	}
 
-	public int getWork_amount_TOFDStr() {
-		return work_amount_TOFDStr;
+	public void setWork_amount_PAUTArray(int work_amount_PAUTArray) {
+		this.work_amount_PAUTArray = work_amount_PAUTArray;
 	}
 
-	public void setWork_amount_TOFDStr(int work_amount_TOFDStr) {
-		this.work_amount_TOFDStr = work_amount_TOFDStr;
+	public int getWork_amount_TOFDArray() {
+		return work_amount_TOFDArray;
 	}
 
-	public int getWork_amount_UTStr() {
-		return work_amount_UTStr;
+	public void setWork_amount_TOFDArray(int work_amount_TOFDArray) {
+		this.work_amount_TOFDArray = work_amount_TOFDArray;
 	}
 
-	public void setWork_amount_UTStr(int work_amount_UTStr) {
-		this.work_amount_UTStr = work_amount_UTStr;
+	public int getWork_amount_UTArray() {
+		return work_amount_UTArray;
 	}
 
-	public int getWork_amount_MPTStr() {
-		return work_amount_MPTStr;
+	public void setWork_amount_UTArray(int work_amount_UTArray) {
+		this.work_amount_UTArray = work_amount_UTArray;
 	}
 
-	public void setWork_amount_MPTStr(int work_amount_MPTStr) {
-		this.work_amount_MPTStr = work_amount_MPTStr;
+	public int getWork_amount_MPTArray() {
+		return work_amount_MPTArray;
 	}
 
-	public String getWork_manpowerArray() {
+	public void setWork_amount_MPTArray(int work_amount_MPTArray) {
+		this.work_amount_MPTArray = work_amount_MPTArray;
+	}
+
+	public int getWork_manpowerArray() {
 		return work_manpowerArray;
 	}
 
-	public void setWork_manpowerArray(String work_manpowerArray) {
+	public void setWork_manpowerArray(int work_manpowerArray) {
 		this.work_manpowerArray = work_manpowerArray;
 	}
 
@@ -342,5 +242,102 @@ public class ReportVO {
 	public void setWork_charyangArray(String work_charyangArray) {
 		this.work_charyangArray = work_charyangArray;
 	}
+
+	public int getWork_num_total() {
+		return work_num_total;
+	}
+
+	public void setWork_num_total(int work_num_total) {
+		this.work_num_total = work_num_total;
+	}
+
+	public String getWork_name_total() {
+		return work_name_total;
+	}
+
+	public void setWork_name_total(String work_name_total) {
+		this.work_name_total = work_name_total;
+	}
+
+	public int getWork_amount_RT_total() {
+		return work_amount_RT_total;
+	}
+
+	public void setWork_amount_RT_total(int work_amount_RT_total) {
+		this.work_amount_RT_total = work_amount_RT_total;
+	}
+
+	public int getWork_amount_PAUT_total() {
+		return work_amount_PAUT_total;
+	}
+
+	public void setWork_amount_PAUT_total(int work_amount_PAUT_total) {
+		this.work_amount_PAUT_total = work_amount_PAUT_total;
+	}
+
+	public int getWork_amount_TOFD_total() {
+		return work_amount_TOFD_total;
+	}
+
+	public void setWork_amount_TOFD_total(int work_amount_TOFD_total) {
+		this.work_amount_TOFD_total = work_amount_TOFD_total;
+	}
+
+	public int getWork_amount_UT_total() {
+		return work_amount_UT_total;
+	}
+
+	public void setWork_amount_UT_total(int work_amount_UT_total) {
+		this.work_amount_UT_total = work_amount_UT_total;
+	}
+
+	public int getWork_amount_MPT_total() {
+		return work_amount_MPT_total;
+	}
+
+	public void setWork_amount_MPT_total(int work_amount_MPT_total) {
+		this.work_amount_MPT_total = work_amount_MPT_total;
+	}
+
+	public int getWork_manpower_total() {
+		return work_manpower_total;
+	}
+
+	public void setWork_manpower_total(int work_manpower_total) {
+		this.work_manpower_total = work_manpower_total;
+	}
+
+	public String getWork_xray_total() {
+		return work_xray_total;
+	}
+
+	public void setWork_xray_total(String work_xray_total) {
+		this.work_xray_total = work_xray_total;
+	}
+
+	public String getWork_PAUT_total() {
+		return work_PAUT_total;
+	}
+
+	public void setWork_PAUT_total(String work_PAUT_total) {
+		this.work_PAUT_total = work_PAUT_total;
+	}
+
+	public String getWork_charyang_total() {
+		return work_charyang_total;
+	}
+
+	public void setWork_charyang_total(String work_charyang_total) {
+		this.work_charyang_total = work_charyang_total;
+	}
+
+	public String getLogin_work_area_total() {
+		return login_work_area_total;
+	}
+
+	public void setLogin_work_area_total(String login_work_area_total) {
+		this.login_work_area_total = login_work_area_total;
+	}
+	
 }
 

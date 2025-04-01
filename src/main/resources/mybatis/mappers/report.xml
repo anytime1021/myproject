@@ -11,4 +11,22 @@
 			</when>
 	</choose>
 	</select>
+	
+	<insert id="insertAddWorkReportList" parameterType="reportVO">
+		<choose>
+			<when test="searchArea == '울산'">
+				insert into ulsan_workRate(work_amount_RT, work_amount_PAUT, work_amount_TOFD,
+				work_amount_UT, work_amount_MPT, work_manpower, work_xray, work_PAUT, work_charyang)
+				values
+				<foreach collection="workReportList" item="item" separator=",">
+				(#{item.work_amount_RT},#{item.work_amount_PAUT},#{item.work_amount_TOFD},#{item.work_amount_UT},
+				#{item.work_amount_MPT},#{item.work_manpower},#{item.work_xray},#{item.work_PAUT},#{item.work_charyang})
+				</foreach>
+			</when>
+		</choose>
+	</insert>
+	
+	<select id="selectReportForm" parameterType="String" resultType="reportVO">
+			select * from ulsan_workRate where login_work_area = #{searchArea} and work_name is null;
+	</select>
 </mapper>

@@ -138,48 +138,26 @@
 								<td style="width:19%;">차 량</td>
 							</tr>
 							<!-- c:forEach문 적용 예정-->
-							<c:forEach var="addReport_total" items="${addReport_total}">
+							<c:forEach var="testList" items="${testList}">
 							<c:set var="i" value="${i+1}" />
 								<tr>
-									<td style="width:4%;">${addReport_total.work_num_total}</td>
-									<td style="width:14%;">${addReport.work_name_total}</td>
-									<td style="width:7%;"><input type="text" id="work_amount_RT${i}"> / ${addReport_total.work_amount_RT_total}</td>
-									<td style="width:7%;">${addReport_total.work_amount_PAUT_total}</td>
-									<td style="width:7%;">${addReport_total.work_amount_TOFD_total}</td>
-									<td style="width:7%;">${addReport_total.work_amount_UT_total}</td>
-									<td style="width:7%;">${addReport_total.work_amount_MPT_total}</td>
-									<td style="width:14%;">${addReport_total.work_manpower_total}</td>
-									<td style="width:7%;">${addReport_total.work_xray_total}</td>
-									<td style="width:7%;">${addReport_total.work_PAUT_total}</td>
-									<td style="width:19%;">${addReport_total.work_charyang_total}</td>
+									<td style="width:4%;">${testList.work_num}</td>
+									<td style="width:14%;">${testList.work_name}</td>
+									<td style="width:7%;"><input type="text" id="work_amount_RT${i}"> / ${testList.work_amount_RT}</td>
+									<td style="width:7%;">${testList.work_amount_PAUT}</td>
+									<td style="width:7%;">${testList.work_amount_TOFD}</td>
+									<td style="width:7%;">${testList.work_amount_UT}</td>
+									<td style="width:7%;">${testList.work_amount_MPT}</td>
+									<td style="width:14%;">${testList.work_manpower}</td>
+									<td style="width:7%;">${testList.work_xray}</td>
+									<td style="width:7%;">${testList.work_PAUT}</td>
+									<td style="width:19%;">${testList.work_charyang}</td>
 								</tr>
 							</c:forEach>
 							<!-- 여기까지 적용 예정-->
 						</table>
 					</div>
 				</section>
-				<div class="work-rate">
-					<table class="table-control-work">
-						<form name="addReport" method="post" action="${contextPath}/report/addReport.do">
-							<c:forEach var="addReport_total" items="${addReport_total}">
-								<tr>
-									<td style="width:4%;">${addReport_total.work_num_total}</td>
-									<td style="width:14%;">${addReport_total.work_name_total}</td>
-									<td style="width:7%;"><input type="text" name="work_amount_RT"></td>
-									<td style="width:7%;"><input type="text" name="work_amount_PAUT"></td>
-									<td style="width:7%;"><input type="text" name="work_amount_TOFD"></td>
-									<td style="width:7%;"><input type="text" name="work_amount_UT"></td>
-									<td style="width:7%;"><input type="text" name="work_amount_MPT"></td>
-									<td style="width:14%;"><input type="text" name="work_manpower"></td>
-									<td style="width:7%;"><input type="text" name="work_xray"></td>
-									<td style="width:7%;"><input type="text" name="work_PAUT"></td>
-									<td style="width:19%;"><input type="text" name="work_charyang"></td>
-								</tr>
-							</c:forEach>
-				   			<button type="submit">전송</button>
-						</form>
-					</table>
-				</div>
 			</article>
     	</main>
     <%@ include file="../include/footer.jsp"%>	

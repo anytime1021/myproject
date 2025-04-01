@@ -22,7 +22,12 @@ public class ReportServiceImpl implements ReportService{
 	}
 	
 	@Override
-	public void addWorkReportList(List<ReportVO> workReportList) throws Exception {
-		reportDAO.insertAddWorkReportList(workReportList);
+	public void addWorkReportList(String searchArea, List<ReportVO> workReportList) throws Exception {
+		reportDAO.insertAddWorkReportList(searchArea, workReportList);
 	};
+	
+	@Override
+	public List<ReportVO> testForm(String searchArea) throws Exception {
+		return reportDAO.selectReportForm(searchArea);
+	}
 }

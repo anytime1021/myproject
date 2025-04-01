@@ -13,5 +13,7 @@ import com.sboot.pro.argus.vo.ReportVO;
 public interface ReportDAO {
 	public List<ReportVO> addReportForm(String searchArea) throws Exception;
 	
-	public void insertAddWorkReportList(@Param("list") List<ReportVO> workReportList) throws Exception;
+	public void insertAddWorkReportList(@Param("searchArea") String searchArea, @Param("workReportList") List<ReportVO> workReportList) throws Exception;
+
+	public List<ReportVO> selectReportForm(String searchArea) throws Exception;
 }
