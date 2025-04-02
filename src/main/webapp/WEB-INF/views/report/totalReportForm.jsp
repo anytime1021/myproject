@@ -73,49 +73,6 @@
 				<p>작    업    일    보(Rev.3)</p>
 			</div>
 			<article>
-				<section class="report-date-sign"> 
-					<div class="report-date">
-						<table class="table-control-report">
-							<tr>
-								<td style="height:30%;"><b>No</b></td>
-								<td style="height:30%;"><b>사업소</b></td>
-								<td style="height:30%;"><b>날짜</b></td>
-								<td style="height:30%;"><b>요일</b></td>
-								<td style="height:30%;"><b>날씨</b></td>
-							</tr>
-							<tr>
-							    <td style="height:70%;">1</td>
-							    <td style="height:70%;">1</td>
-							    <td style="height:70%;">1</td>
-							    <td style="height:70%;">1</td>
-								<td style="height:70%;">1</td>
-							</tr>
-						</table>
-					</div>
-					<div class="report-sign">
-						<table class="table-control-report">
-							<tr>
-								<tr>
-								    <td rowspan="3"><b>결재</b></td>
-								    <td colspan="2" style="height:20%;"><b>사업소</b></td>
-								    <td colspan="2" style="height:20%;"><b>본사</b></td>
-								</tr>
-								<tr>
-								    <td style="height:20%;">담당</td>
-								    <td style="height:20%;">소장</td>
-								    <td style="height:20%;">담당</td>
-								    <td style="height:20%;">팀장</td>
-								</tr>
-								<tr>
-								    <td style="height:60%;">1</td>
-								    <td style="height:60%;">1</td>
-								    <td style="height:60%;">1</td>
-								    <td style="height:60%;">1</td>
-								</tr>
-							</tr>
-						</table>
-					</div>
-				</section>
 				<h3><b> 1. 작업현황</b></h3>
 				<section>
 					<div class="work-rate">
@@ -141,9 +98,9 @@
 							<c:forEach var="addReport_total" items="${addReport_total}">
 							<c:set var="i" value="${i+1}" />
 								<tr>
-									<td style="width:4%;">${addReport_total.work_num_total}</td>
-									<td style="width:14%;">${addReport.work_name_total}</td>
-									<td style="width:7%;"><input type="text" id="work_amount_RT${i}"> / ${addReport_total.work_amount_RT_total}</td>
+									<td style="width:4%;">${i}</td>
+									<td style="width:14%;">${addReport_total.work_name_total}</td>
+									<td style="width:7%;">${addReport_total.work_amount_RT_total}</td>
 									<td style="width:7%;">${addReport_total.work_amount_PAUT_total}</td>
 									<td style="width:7%;">${addReport_total.work_amount_TOFD_total}</td>
 									<td style="width:7%;">${addReport_total.work_amount_UT_total}</td>
@@ -155,31 +112,30 @@
 								</tr>
 							</c:forEach>
 							<!-- 여기까지 적용 예정-->
+							<tr style="height: 20px;"></tr>
+							<form name="addTotalReport" method="post" action="${contextPath}/report/addTotalReport.do">
+								<tr>
+									<td style="width:4%;">+</td>
+									<td style="width:14%;"><input type="text" name="work_name_total"></td>
+									<td style="width:7%;"><input type="text" name="work_amount_RT_total"></td>
+									<td style="width:7%;"><input type="text" name="work_amount_PAUT_total"></td>
+									<td style="width:7%;"><input type="text" name="work_amount_TOFD_total"></td>
+									<td style="width:7%;"><input type="text" name="work_amount_UT_total"></td>
+									<td style="width:7%;"><input type="text" name="work_amount_MPT_total"></td>
+									<td style="width:14%;"><input type="text" name="work_manpower_total"></td>
+									<td style="width:7%;"><input type="text" name="work_xray_total"></td>
+									<td style="width:7%;"><input type="text" name="work_PAUT_total"></td>
+									<td style="width:19%;"><input type="text" name="work_charyang_total"></td>
+								</tr>
+								<tr>
+						            <td colspan="11" style="text-align: right;">
+						                <button type="submit">추가하기</button>
+						            </td>
+						        </tr>
+							</form>
 						</table>
 					</div>
 				</section>
-				<div class="work-rate">
-					<table class="table-control-work">
-						<form name="addReport" method="post" action="${contextPath}/report/addReport.do">
-							<c:forEach var="addReport_total" items="${addReport_total}">
-								<tr>
-									<td style="width:4%;">${addReport_total.work_num_total}</td>
-									<td style="width:14%;">${addReport_total.work_name_total}</td>
-									<td style="width:7%;"><input type="text" name="work_amount_RT"></td>
-									<td style="width:7%;"><input type="text" name="work_amount_PAUT"></td>
-									<td style="width:7%;"><input type="text" name="work_amount_TOFD"></td>
-									<td style="width:7%;"><input type="text" name="work_amount_UT"></td>
-									<td style="width:7%;"><input type="text" name="work_amount_MPT"></td>
-									<td style="width:14%;"><input type="text" name="work_manpower"></td>
-									<td style="width:7%;"><input type="text" name="work_xray"></td>
-									<td style="width:7%;"><input type="text" name="work_PAUT"></td>
-									<td style="width:19%;"><input type="text" name="work_charyang"></td>
-								</tr>
-							</c:forEach>
-				   			<button type="submit">전송</button>
-						</form>
-					</table>
-				</div>
 			</article>
     	</main>
     <%@ include file="../include/footer.jsp"%>	

@@ -1,19 +1,21 @@
 package com.sboot.pro.argus.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.sboot.pro.argus.dao.ReportDAO;
 import com.sboot.pro.argus.service.ReportService;
 import com.sboot.pro.argus.vo.LoginVO;
@@ -29,25 +31,49 @@ public class ReportControllerImpl implements ReportController{
 	@Autowired
 	private ReportService reportService;
 	
-//	@Autowired
-//	private ReportVO reportVO;
+	@Autowired
+	private ReportVO reportVO;
 	
 	@Autowired
 	private ReportDAO reportDAO;
+	
 	
 	// 보고서 게시판 접속
 	@Override
 	@GetMapping("/report/reportArea.do")
 	public ModelAndView reportArea(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("/report/reportArea");
+		HttpSession session = request.getSession();
+		LoginVO login = (LoginVO) session.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		List<ReportVO> reportListJsp = new ArrayList<ReportVO>();
+		reportListJsp = reportService.reportListJava(searchArea);
+		mav.addObject("reportListJsp", reportListJsp);
 		return mav;
 	}
 	
-	// 보고서 글쓰기 양식
+	// 일별 보고서 보기
 	@Override
-	@GetMapping("/report/addReportForm.do")
-	public ModelAndView addReportForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("/report/addReportForm");
+	@GetMapping("/report/reportView.do")
+	public ModelAndView reportView(@RequestParam("work_date") String work_date, HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+		ModelAndView mav = new ModelAndView("/report/reportView");
+		System.out.println(work_date);
+        
+		HttpSession session = request.getSession();
+		LoginVO login = (LoginVO) session.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		List<ReportVO> dailyReport = new ArrayList<ReportVO>();
+		dailyReport = reportService.dailyReportInfo(searchArea, work_date);
+		mav.addObject("dailyReport", dailyReport);
+		return mav;
+	}
+		
+	// 월별 보고서 전체 양식
+	@Override
+	@GetMapping("/report/totalReportForm.do")
+	public ModelAndView totalReportForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView("/report/totalReportForm");
 		HttpSession session = request.getSession();
 		LoginVO login = (LoginVO) session.getAttribute("login");
 		String searchArea = login.getLogin_area();
@@ -57,8 +83,35 @@ public class ReportControllerImpl implements ReportController{
 		return mav;
 	}
 	
+	// 월별 보고서 현장 추가
 	@Override
-	@PostMapping("/report/addReport.do")
+	@PostMapping("/report/addTotalReport.do")
+	public ModelAndView addTotalReport(@ModelAttribute("addTotal") ReportVO addTotal, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView("redirect:/report/totalReportForm.do");
+		HttpSession session = request.getSession();
+		LoginVO login = (LoginVO) session.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		reportService.addTotalReport(addTotal, searchArea);
+		return mav;
+	}
+	
+	// 일일 보고서 글쓰기 양식
+	@Override
+	@GetMapping("/report/addWorkReportForm.do")
+	public ModelAndView addReportForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView("/report/addWorkReportForm");
+		HttpSession session = request.getSession();
+		LoginVO login = (LoginVO) session.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		List<ReportVO> addReport_total = new ArrayList<ReportVO>();
+		addReport_total = reportService.addReportForm(searchArea);
+		mav.addObject("addReport_total", addReport_total);
+		return mav;
+	}
+	
+	// 보고서 글쓰기(정보저장)
+	@Override
+	@PostMapping("/report/addWorkReport.do")
 	public ModelAndView addReport(@RequestParam(value = "work_amount_RT", required = false) String[] work_amount_RTArray,
 			@RequestParam(value = "work_amount_PAUT", required = false) String[] work_amount_PAUTArray,
 			@RequestParam(value = "work_amount_TOFD", required = false) String[] work_amount_TOFDArray,
@@ -94,60 +147,11 @@ public class ReportControllerImpl implements ReportController{
 			List<ReportVO> test = new ArrayList<ReportVO>();
 			test = reportService.testForm(searchArea);
 			mav.addObject("testList", test);
-			
-//			List<ReportVO> workReportList = new ArrayList<>();
-//			for (int i = 0; i < work_amount_RTStr.length; i++) {
-//			    workReportList.add(new ReportVO(
-//			        Integer.parseInt(work_amount_RTStr[i]),
-//			        Integer.parseInt(work_amount_PAUTStr[i]),
-//			        Integer.parseInt(work_amount_TOFDStr[i]),
-//			        Integer.parseInt(work_amount_UTStr[i]),
-//			        Integer.parseInt(work_amount_MPTStr[i]),
-//			        Integer.parseInt(work_manpowerArray[i]),
-//			        work_xrayArray[i],
-//			        work_PAUTArray[i],
-//			        work_charyangArray[i]
-//			    ));
-//			}
 			mav.setViewName("report/testList");
-//			JsonArray jArray = new JsonArray();
-//			Iterator<ReportVO> it = workReportList.iterator();
-//			while(it.hasNext()) {
-//				ReportVO test = it.next();
-//				JsonObject object = new JsonObject();
-//				int RT = test.getWork_amount_RT();
-//				int PAUT = test.getWork_amount_PAUT();
-//				int TOFD = test.getWork_amount_TOFD();
-//				int UT = test.getWork_amount_UT();
-//				int MPT = test.getWork_amount_MPT();
-//				int manpower = test.getWork_manpower();
-//				String xray = test.getWork_xray();
-//				String PAUT2 = test.getWork_PAUT();
-//				String charyang = test.getWork_charyang();
-//				System.out.println(object);
-//			}
 			return mav;
+					
 			
-//			List beforeBmCal = adminService.beforeBmCal();
-//			Gson gson = new Gson();
-//			JsonArray jArray = new JsonArray();
-//			Iterator<AdminVO> it = beforeBmCal.iterator();
-//			while(it.hasNext()) {
-//				AdminVO admin = it.next();
-//				JsonObject object = new JsonObject();
-//				int beforeSetPrice = admin.getSetAcc_price();
-//				String beforeStore_category = admin.getStore_category();
-//				
-//				object.addProperty("beforeSetPrice", beforeSetPrice);
-//				object.addProperty("beforeStore_category", beforeStore_category);
-//				jArray.add(object);
-//			}
-//			
-//			String json = gson.toJson(jArray);
-//			System.out.println("json변환:"+json);
-//			return json;
 		}
 	}
 
 
-//reportService.addWorkReportList(workReportList);

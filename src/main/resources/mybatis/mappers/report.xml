@@ -1,7 +1,57 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sboot.pro.argus.dao.ReportDAO">
-	<select id="addReportForm" parameterType="String" resultType="reportVO">
+
+	<!-- 보고서 게시판 접속 -->
+	<select id="selectReportList" parameterType="String" resultType="reportVO">
+		<choose>
+			<when test="searchArea == '울산'">
+				SELECT * FROM (
+					SELECT work_date, work_title, ROW_NUMBER() OVER (ORDER BY work_date) AS row_num 
+					FROM (SELECT DISTINCT work_date, work_title FROM ulsan_workrate) AS t1
+					) AS t2 order by row_num desc;
+			</when>
+			<when test="searchArea == '여수'">
+				SELECT * FROM (
+					SELECT work_date, work_title, ROW_NUMBER() OVER (ORDER BY work_date) AS row_num 
+					FROM (SELECT DISTINCT date_format(work_date, '%Y-%m-%d') as work_date, work_title FROM yeosu_workrate) AS t1
+					) AS t2 order by row_num desc;
+			</when>
+		</choose>
+	</select>
+	
+	<!-- 일별 보고서 보기 -->
+	<select id="selectDailyReport" parameterType="String" resultType="reportVO">
+			<choose>
+			<when test="searchArea == '울산'">
+				SELECT * FROM ulsan_workrate where work_date like concat('%',#{work_date},'%');
+			</when>
+			<when test="searchArea == '여수'">
+				SELECT * FROM ulsan_workrate where work_date like concat('%',#{work_date},'%');
+			</when>
+		</choose>
+	</select>
+	
+	<!-- 월별 보고서 현장 추가 -->
+	<insert id="insertTotalReport" parameterType="reportVO">
+		<choose>
+			<when test="searchArea == '울산'">
+				insert into ulsan_workRate_total(work_name_total, work_amount_RT_total, work_amount_PAUT_total, work_amount_TOFD_total,
+				work_amount_UT_total, work_amount_MPT_total, work_manpower_total, work_xray_total, work_PAUT_total, work_charyang_total)
+				values(#{addTotal.work_name_total}, #{addTotal.work_amount_RT_total}, #{addTotal.work_amount_PAUT_total}, #{addTotal.work_amount_TOFD_total},
+				#{addTotal.work_amount_UT_total}, #{addTotal.work_amount_MPT_total}, #{addTotal.work_manpower_total}, #{addTotal.work_xray_total}, #{addTotal.work_PAUT_total}, #{addTotal.work_charyang_total})
+			</when>
+			<when test="searchArea == '여수'">
+				insert into yeosu_workRate_total(work_name_total, work_amount_RT_total, work_amount_PAUT_total, work_amount_TOFD_total,
+				work_amount_UT_total, work_amount_MPT_total, work_manpower_total, work_xray_total, work_PAUT_total, work_charyang_total)
+				values(#{addTotal.work_name_total}, #{addTotal.work_amount_RT_total}, #{addTotal.work_amount_PAUT_total}, #{addTotal.work_amount_TOFD_total},
+				#{addTotal.work_amount_UT_total}, #{addTotal.work_amount_MPT_total}, #{addTotal.work_manpower_total}, #{addTotal.work_xray_total}, #{addTotal.work_PAUT_total}, #{addTotal.work_charyang_total})
+			</when>
+		</choose>
+	</insert>
+		
+	<!-- 일일 보고서 글쓰기 양식 -->
+	<select id="selectAddReportForm" parameterType="String" resultType="reportVO">
 		<choose>
 			<when test="searchArea == '울산'">
 				select * from ulsan_workRate_total where login_work_area_total = #{searchArea}
@@ -9,9 +59,10 @@
 			<when test="searchArea == '여수'">
 				select * from yeosu_workRate_total where login_work_area_total = #{searchArea}
 			</when>
-	</choose>
+		</choose>
 	</select>
 	
+	<!-- 보고서 글쓰기(정보저장) -->
 	<insert id="insertAddWorkReportList" parameterType="reportVO">
 		<choose>
 			<when test="searchArea == '울산'">

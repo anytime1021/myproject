@@ -15,6 +15,7 @@ public class LoginServiceImpl implements LoginService {
 	@Autowired
 	private LoginDAO loginDAO;
 	
+	// 로그인
 	@Override
 	public LoginVO login(String login_id, String login_pwd) throws Exception {
 		return loginDAO.login(login_id, login_pwd);

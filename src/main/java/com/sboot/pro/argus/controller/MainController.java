@@ -13,6 +13,8 @@ public interface MainController {
 	// 메인 페이지 접속
 	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
+	public ModelAndView fronttest(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
 	// 로그인 페이지 접속
 	public ModelAndView loginForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
 

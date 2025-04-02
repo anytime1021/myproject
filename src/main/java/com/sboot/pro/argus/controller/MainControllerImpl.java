@@ -36,6 +36,13 @@ public class MainControllerImpl implements MainController {
 		return mav;
 	}
 	
+	@Override
+	@GetMapping("/report/fronttest.do")
+	public ModelAndView fronttest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView("/report/fronttest");
+		return mav;
+	}
+	
 	// 로그인 페이지 접속
 	@Override
 	@GetMapping("/login/loginForm.do")

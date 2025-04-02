@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -22,12 +23,6 @@
 	<link rel="stylesheet" href="${contextPath}/resources/css/styles2.css">
 </head>
 <style>
-	.table-control {
-		width: 100%;
-		border-collapse: collapse;
-		text-align: center;
-	}	
-	
 	th, td {
 		border: 1px solid black;
 		padding: 10px;
@@ -36,17 +31,6 @@
 	thead {
 		background-color: white;
 	}
-	
-	#wrap {
-		position: absolute;
-		font-size:70px;
-		color: black;
-		text-align:center;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-	}
-	
 </style>
 <body>
 	<%@ include file="../include/header.jsp"%>
@@ -76,16 +60,20 @@
 								<th>작성일</th>
 							</tr>
 						</thead>
+						<c:forEach var="reportListJsp" items="${reportListJsp}">
+						<c:set var="i" value="${i+1}" />
 						<tbody>
 							<tr>
-								<td>1</td>
-								<td>임시 게시글 입니다.</td>
-								<td style="border:1px solid blue;">2025-03-25</td>
+								<td>${i}</td>
+								<td><a href="${contextPath}/report/reportView.do?work_date=${reportListJsp.work_date}">${reportListJsp.work_title}</a></td>
+								<td>${reportListJsp.work_date}</td>
 							</tr>
 						</tbody>
+						</c:forEach>
 					</table>
 					<div>
-					<a class="btn" href="${contextPath}/report/addReportForm.do">작성하기</a>
+					<a class="btn" href="${contextPath}/report/addWorkReportForm.do">작성하기</a>
+					<a class="btn" href="${contextPath}/report/totalReportForm.do">전체 폼 작성하기</a>
 					</div>
 				</div>
 			</div>
