@@ -126,6 +126,7 @@
 									<td style="width:7%;"><input type="text" name="work_xray_total"></td>
 									<td style="width:7%;"><input type="text" name="work_PAUT_total"></td>
 									<td style="width:19%;"><input type="text" name="work_charyang_total"></td>
+									<input type="text" name="work_date_total" value="${board_date}" hidden>
 								</tr>
 								<tr>
 						            <td colspan="11" style="text-align: right;">

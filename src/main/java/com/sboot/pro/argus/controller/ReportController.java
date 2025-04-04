@@ -13,30 +13,61 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 public interface ReportController {
-	// 보고서 게시판 접속
+	// 일별 보고서 게시판 접속
 	public ModelAndView reportArea(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	// 일별 보고서 보기
-	public ModelAndView reportView(@RequestParam("work_date") String work_date, HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
-	// 월별 보고서 전체 양식
-	public ModelAndView totalReportForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
-	// 월별 보고서 현장 추가
-	public ModelAndView addTotalReport(@ModelAttribute("addTotal") ReportVO addTotal, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView reportView(@RequestParam("board_date") String board_date, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	// 일일 보고서 글쓰기 양식
-	public ModelAndView addReportForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView addDailyReportForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
-	// 보고서 글쓰기(정보저장)
-	public ModelAndView addReport(@RequestParam(value = "work_amount_RT", required = false) String[] work_amount_RTStr,
+	// 일일 보고서 글쓰기(정보저장)
+	public ModelAndView addReport(@RequestParam(value = "work_name", required =false) String[] work_nameArray,
+			@RequestParam(value = "work_amount_RT", required = false) String[] work_amount_RTStr,
 			@RequestParam(value = "work_amount_PAUT", required = false) String[] work_amount_PAUTStr,
 			@RequestParam(value = "work_amount_TOFD", required = false) String[] work_amount_TOFDStr,
 			@RequestParam(value = "work_amount_UT", required = false) String[] work_amount_UTStr,
 			@RequestParam(value = "work_amount_MPT", required = false) String[] work_amount_MPTStr,
 			@RequestParam(value = "work_manpower", required = false) String[] work_manpowerArray,
-			@RequestParam(value = "work_xray", required = false) String[] work_xrayArray,
-			@RequestParam(value = "work_PAUT", required = false) String[] work_PAUTArray,
-			@RequestParam(value = "work_charyang", required = false) String[] work_charyangArray,
 			HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+	// 일일 보고서 수정 폼
+	public ModelAndView modDailyReport(@RequestParam("board_date") String work_date, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+	// 일일 보고서 수정
+	public ModelAndView modReport(@RequestParam(value = "work_name", required =false) String[] work_nameArray,
+			@RequestParam(value = "work_amount_RT", required = false) String[] work_amount_RTArray,
+			@RequestParam(value = "work_amount_PAUT", required = false) String[] work_amount_PAUTArray,
+			@RequestParam(value = "work_amount_TOFD", required = false) String[] work_amount_TOFDArray,
+			@RequestParam(value = "work_amount_UT", required = false) String[] work_amount_UTArray,
+			@RequestParam(value = "work_amount_MPT", required = false) String[] work_amount_MPTArray,
+			@RequestParam(value = "work_manpower", required = false) String[] work_manpowerArray,
+			@RequestParam("work_date") String work_date,
+			HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+	// 월별 보고서 게시판 접속
+	public ModelAndView reportAreaTotal(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+	// 월별 보고서 전체 양식
+	public ModelAndView addTotalReportForm(@RequestParam("work_date_total") String work_date_total, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+	// 월별 보고서 현장 추가
+	public ModelAndView addTotalReport(@ModelAttribute("addTotalReport") ReportVO addTotal, HttpServletRequest request, HttpServletResponse response) throws Exception;
+//	public ModelAndView addTotalReport(@ModelAttribute("addTotal") ReportVO addTotal, @RequestParam(value = "work_date_total", required = false) String workDateStr, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+
+	
+//	// 일일 보고서 글쓰기(정보저장)
+//	public ModelAndView addReport(@RequestParam(value = "work_name", required =false) String work_nameArray,
+//			@RequestParam(value = "work_amount_RT", required = false) String[] work_amount_RTStr,
+//			@RequestParam(value = "work_amount_PAUT", required = false) String[] work_amount_PAUTStr,
+//			@RequestParam(value = "work_amount_TOFD", required = false) String[] work_amount_TOFDStr,
+//			@RequestParam(value = "work_amount_UT", required = false) String[] work_amount_UTStr,
+//			@RequestParam(value = "work_amount_MPT", required = false) String[] work_amount_MPTStr,
+//			@RequestParam(value = "work_manpower", required = false) String[] work_manpowerArray,
+//			@RequestParam(value = "work_xray", required = false) String[] work_xrayArray,
+//			@RequestParam(value = "work_PAUT", required = false) String[] work_PAUTArray,
+//			@RequestParam(value = "work_charyang", required = false) String[] work_charyangArray,
+//			HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

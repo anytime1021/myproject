@@ -54,11 +54,11 @@
 								<td style="height:30%;"><b>날씨</b></td>
 							</tr>
 							<tr>
-							    <td style="height:70%;">1</td>
-							    <td style="height:70%;">1</td>
-							    <td style="height:70%;">1</td>
-							    <td style="height:70%;">1</td>
-								<td style="height:70%;">1</td>
+							    <td style="height:70%;"></td>
+							    <td style="height:70%;"></td>
+							    <td style="height:70%;"></td>
+							    <td style="height:70%;"></td>
+								<td style="height:70%;"></td>
 							</tr>
 						</table>
 					</div>
@@ -77,10 +77,10 @@
 								    <td style="height:20%;">팀장</td>
 								</tr>
 								<tr>
-								    <td style="height:60%;">1</td>
-								    <td style="height:60%;">1</td>
-								    <td style="height:60%;">1</td>
-								    <td style="height:60%;">1</td>
+								    <td style="height:60%;"></td>
+								    <td style="height:60%;"></td>
+								    <td style="height:60%;"></td>
+								    <td style="height:60%;"></td>
 								</tr>
 							</tr>
 						</table>
@@ -108,12 +108,12 @@
 								<td style="width:19%;">차 량</td>
 							</tr>
 							<!-- c:forEach문 적용 예정-->
-							<form name="addWorkReport" method="post" action="${contextPath}/report/addWorkReport.do">
+							<form name="addDailyReport" method="post" action="${contextPath}/report/addDailyReport.do">
 								<c:forEach var="addReport_total" items="${addReport_total}">
 								<c:set var="i" value="${i+1}" />
 									<tr>
 										<td style="width:4%;">${i}</td>
-										<td style="width:14%;">${addReport_total.work_name_total}</td>
+										<td style="width:14%;"><input type="text" name="work_name" value="${addReport_total.work_name_total}" hidden> ${addReport_total.work_name_total}</td>
 										<td style="width:7%;"><input type="text" name="work_amount_RT"> / ${addReport_total.work_amount_RT_total}</td>
 										<td style="width:7%;"><input type="text" name="work_amount_PAUT"> / ${addReport_total.work_amount_PAUT_total}</td>
 										<td style="width:7%;"><input type="text" name="work_amount_TOFD"> / ${addReport_total.work_amount_TOFD_total}</td>

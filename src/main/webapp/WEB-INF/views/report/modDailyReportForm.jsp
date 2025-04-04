@@ -108,26 +108,31 @@
 								<td style="width:19%;">차 량</td>
 							</tr>
 							<!-- c:forEach문 적용 예정-->
-							<c:forEach var="item" items="${mergedList}" varStatus="status">
+							<form name="modDailyReport" method="post" action="${contextPath}/report/modDailyReport.do?board_date=${mergedList[0].work_date}">
+								<c:forEach var="item" items="${mergedList}" varStatus="status">
+									<tr>
+										<td style="width:4%;">${status.count}</td>
+										<td style="width:14%;"><input type="text" name="work_name" value="${item.work_name}"></td>
+										<td style="width:7%;"><input type="text" name="work_amount_RT" value="${item.work_amount_RT}"> / ${item.work_amount_RT_total}</td>
+										<td style="width:7%;"><input type="text" name="work_amount_PAUT" value="${item.work_amount_PAUT}"> / ${item.work_amount_PAUT_total}</td>
+										<td style="width:7%;"><input type="text" name="work_amount_TOFD" value="${item.work_amount_TOFD}"> / ${item.work_amount_TOFD_total}</td>
+										<td style="width:7%;"><input type="text" name="work_amount_UT" value="${item.work_amount_UT}"> / ${item.work_amount_UT_total}</td>
+										<td style="width:7%;"><input type="text" name="work_amount_MPT" value="${item.work_amount_MPT}"> / ${item.work_amount_MPT_total}</td>
+										<td style="width:14%;"><input type="text" name="work_manpower" value="${item.work_manpower}"> / ${item.work_manpower_total}</td>
+										<td style="width:7%;">${item.work_xray}</td>
+										<td style="width:7%;">${item.work_PAUT}</td>
+										<td style="width:19%;">${item.work_charyang}</td>
+									</tr>
+								</c:forEach>
 								<tr>
-									<td style="width:4%;">${status.count}</td>
-									<td style="width:14%;">${item.work_name}</td>
-									<td style="width:7%;">${item.work_amount_RT} / ${item.work_amount_RT_total}</td>
-									<td style="width:7%;">${item.work_amount_PAUT} / ${item.work_amount_PAUT_total}</td>
-									<td style="width:7%;">${item.work_amount_TOFD} / ${item.work_amount_TOFD_total}</td>
-									<td style="width:7%;">${item.work_amount_UT} / ${item.work_amount_UT_total}</td>
-									<td style="width:7%;">${item.work_amount_MPT} / ${item.work_amount_MPT_total}</td>
-									<td style="width:14%;">${item.work_manpower} / ${item.work_manpower_total}</td>
-									<td style="width:7%;">${item.work_xray}</td>
-									<td style="width:7%;">${item.work_PAUT}</td>
-									<td style="width:19%;">${item.work_charyang}</td>
-								</tr>
-							</c:forEach>
+									<input type="text" name="work_date" value="${mergedList[0].work_date}" hidden>
+								<td colspan="11" style="text-align: right;">
+									<button type="submit">수정하기</button>
+								</td>
+							</form>
 						</table>
 					</div>
 				</section>
-				<a href="${contextPath}/report/modDailyReportForm.do?board_date=${work_date}">수정하기</a>
-				<a href="${contextPath}/report/removeDailyReport.do?board_date=${work_date}">삭제하기</a>
 			</article>
     	</main>
     <%@ include file="../include/footer.jsp"%>	

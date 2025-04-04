@@ -1,5 +1,7 @@
 package com.sboot.pro.argus.controller;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,8 +11,11 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sboot.pro.argus.dao.LoginDAO;
+import com.sboot.pro.argus.dao.ReportDAO;
 import com.sboot.pro.argus.service.LoginService;
+import com.sboot.pro.argus.service.ReportService;
 import com.sboot.pro.argus.vo.LoginVO;
+import com.sboot.pro.argus.vo.ReportVO;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,6 +23,15 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller("mainController")
 public class MainControllerImpl implements MainController {
+	
+	@Autowired
+	private ReportService reportService;
+	
+	@Autowired
+	private ReportVO reportVO;
+	
+	@Autowired
+	private ReportDAO reportDAO;
 	
 	@Autowired
 	private LoginService loginService;
@@ -88,4 +102,5 @@ public class MainControllerImpl implements MainController {
 		session.invalidate();
 		return mav;
 	}
+
 }

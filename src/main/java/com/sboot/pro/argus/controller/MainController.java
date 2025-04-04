@@ -24,5 +24,6 @@ public interface MainController {
 
 	// 로그아웃
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception;
+
 }
 

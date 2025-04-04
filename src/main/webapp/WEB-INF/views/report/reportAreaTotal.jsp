@@ -60,18 +60,17 @@
 								<th>작성일</th>
 							</tr>
 						</thead>
-						<c:forEach var="reportListJsp" items="${reportListJsp}">
+						<c:forEach var="reportListTotalJsp" items="${reportListTotalJsp}">
 						<c:set var="i" value="${i+1}" />
 						<tbody>
 							<tr>
-								<td>${reportListJsp.row_num}</td>
-								<td><a href="${contextPath}/report/reportView.do?board_date=${reportListJsp.board_date}">${reportListJsp.board_title}</a></td>
-								<td>${reportListJsp.board_date}</td>
+<!--								<fmt:formatDate var="work_date_total" value="${reportListTotalJsp.work_date_total}" pattern="yyyy-MM"/>-->
+								<td>${reportListTotalJsp.row_num}</td>
+								<td><a href="${contextPath}/report/addTotalReportForm.do?board_date=${reportListTotalJsp.board_date}">${reportListTotalJsp.board_title}</a></td>
+								<td>${reportListTotalJsp.board_date}</td>
 							</tr>
 						</tbody>
 						</c:forEach>
-						<c:set var="getBoard_date" value="${reportListJsp[0].board_date}" />
-						<a class="btn" href="${contextPath}/report/addDailyReportForm.do">작성하기</a>
 					</table>
 				</div>
 			</div>

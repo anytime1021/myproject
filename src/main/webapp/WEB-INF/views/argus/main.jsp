@@ -36,18 +36,9 @@
 		        not use video
 		    </video>
 			-->
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+			<c:forEach var="test" items="${test}">
+				${test.work_date_total}
+			</c:forEach>
 			<!--유튜브 영상 삽입
 			<div id="player"></div>
 			-->
