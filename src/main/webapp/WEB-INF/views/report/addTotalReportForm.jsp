@@ -20,6 +20,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="${contextPath}/resources/css/styles.css">
 	<link rel="stylesheet" href="${contextPath}/resources/css/styles2.css">
+	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <style>
 	.table-control-report {
@@ -76,7 +77,7 @@
 				<h3><b> 1. 작업현황</b></h3>
 				<section>
 					<div class="work-rate">
-						<table class="table-control-work">
+						<table id="table-control-work" class="table-control-work">
 							<tr>
 								<td rowspan="2" style="width:4%;"><b>No</b></td>
 								<td rowspan="2" style="width:14%;"><b>현 장</b></td>
@@ -95,11 +96,11 @@
 								<td style="width:19%;">차 량</td>
 							</tr>
 							<!-- c:forEach문 적용 예정-->
-							<c:forEach var="addReport_total" items="${addReport_total}">
+							<c:forEach var="addReport_total" items="${addReport_total}" varStatus="status">
 							<c:set var="i" value="${i+1}" />
-								<tr>
-									<td style="width:4%;">${i}</td>
-									<td style="width:14%;">${addReport_total.work_name_total}</td>
+								<tr data-id="${status.index}">
+									<td style="width:4%;" class="row-no${status.index}">${i}</td>
+									<td style="width:14%;" class="work_name_total${status.index}">${addReport_total.work_name_total}</td>
 									<td style="width:7%;">${addReport_total.work_amount_RT_total}</td>
 									<td style="width:7%;">${addReport_total.work_amount_PAUT_total}</td>
 									<td style="width:7%;">${addReport_total.work_amount_TOFD_total}</td>
@@ -114,12 +115,12 @@
 							<!-- 여기까지 적용 예정-->
 								<tr>
 									<td colspan="2" style="width:18%; text-align:center;">합 계</td>
-									<td style="width:7%;">${addReport_total_sum.work_amount_RT_total}</td>
-									<td style="width:7%;">${addReport_total_sum.work_amount_PAUT_total}</td>
-									<td style="width:7%;">${addReport_total_sum.work_amount_TOFD_total}</td>
-									<td style="width:7%;">${addReport_total_sum.work_amount_UT_total}</td>
-									<td style="width:7%;">${addReport_total_sum.work_amount_MPT_total}</td>
-									<td style="width:14%;">${addReport_total_sum.work_manpower_total}</td>
+									<td style="width:7%;" id="sum_RT">${addReport_total_sum.work_amount_RT_total}</td>
+									<td style="width:7%;" id="sum_PAUT">${addReport_total_sum.work_amount_PAUT_total}</td>
+									<td style="width:7%;" id="sum_TOFD">${addReport_total_sum.work_amount_TOFD_total}</td>
+									<td style="width:7%;" id="sum_UT">${addReport_total_sum.work_amount_UT_total}</td>
+									<td style="width:7%;" id="sum_MPT">${addReport_total_sum.work_amount_MPT_total}</td>
+									<td style="width:14%;" id="sum_manpower">${addReport_total_sum.work_manpower_total}</td>
 									<td style="width:7%;"></td>
 									<td style="width:7%;"></td>
 									<td style="width:19%;"></td>
@@ -138,7 +139,7 @@
 									<td style="width:7%;"><input type="text" name="work_xray_total"></td>
 									<td style="width:7%;"><input type="text" name="work_PAUT_total"></td>
 									<td style="width:19%;"><input type="text" name="work_charyang_total"></td>
-									<input type="text" name="work_date_total" value="${board_date}" hidden>
+									<input type="text" name="work_date_total" value="${board_date}" class="work_date_total" hidden>
 								</tr>
 								<tr>
 						            <td colspan="11" style="text-align: right;">
@@ -153,7 +154,7 @@
 							</tr>
 							<tr>
 								<td colspan="11" style="text-align: left;">
-									<a href="${contextPath}/report/removeTotalReportForm.do?work_date=${board_date}">삭제하기</a>
+									<button id="deleteMode"> 삭제하기 </button>
 								</td>
 							</tr> 
 						</table>
@@ -163,5 +164,85 @@
     	</main>
     <%@ include file="../include/footer.jsp"%>	
 </body>
+<script>
+let deleteMode = false;
+
+// 삭제 모드 진입
+$("#deleteMode").click(function () {
+	if(!deleteMode) {
+		deleteMode = true;
+		$(this).text("돌아가기");
+	
+	  	$("td[class^='row-no']").each(function () {
+			const originalText = $(this).text();
+			$(this).data("original-text", originalText);
+		    $(this)
+				.text("-")
+		      	.css({
+		        	"cursor": "pointer",
+		      	  	"color": "black",
+		     	   	"font-weight": "bold"
+		  	    })
+			    .addClass("delete-clickable");
+			});
+		
+		  	alert("삭제 모드입니다. '-' 를 클릭하면 해당 행이 삭제됩니다.");
+		} else {
+			deleteMode = false;
+			$(this).text("삭제하기");
+	
+			$("td[class^='row-no']").each(function () {
+				const originalText = $(this).data("original-text");
+			    $(this)
+			    	.text(originalText)
+			        .css({
+			          	"cursor": "",
+			          	"color": "",
+			          	"font-weight": ""
+			        })
+			        .removeClass("delete-clickable");
+			  	});
+			}
+		});
+		
+		$(document).on("click", ".delete-clickable", function () {
+	 		if (!deleteMode) return;
+	
+	  		const $row = $(this).closest("tr");
+	  		const rowIndex = $row.data("id");
+		
+		 
+	  		const workName = $(".work_name_total" + rowIndex).text().trim();
+			const work_date_total = $(".work_date_total").val()
+	
+	  		if (!workName) {
+	   	 		alert("작업명이 없습니다.");
+	    		return;
+	  		}
+	
+	  		if (!confirm("[" + workName + "] 항목을 삭제하시겠습니까?")) return;
+	
+	  		$.ajax({
+	    		type: "POST",
+			    url: "/report/removeTotalReportRow.do",
+			    data: {
+			      	work_name_total: workName,
+			      	work_date_total: work_date_total
+			    },
+	    		success: function (res) {
+	      			$row.remove();
+					$("#sum_RT").text(res.work_amount_RT_total);
+					$("#sum_PAUT").text(res.work_amount_PAUT_total);
+					$("#sum_TOFD").text(res.work_amount_TOFD_total);
+					$("#sum_UT").text(res.work_amount_UT_total);
+					$("#sum_MPT").text(res.work_amount_MPT_total);
+					$("#sum_manpower").text(res.work_manpower_total);
+	    		},
+	    		error: function () {
+	      			alert("삭제 실패!");
+	    		}
+	  		});
+		});
+</script>
 <script src="${contextPath}/resources/js/script.js"></script>
 </html>

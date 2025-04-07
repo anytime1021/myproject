@@ -40,6 +40,9 @@ public interface ReportService {
 	// 월별 보고서 수정
 	public void modTotalReportList(String searchArea, List<ReportVO> modTotalReportList, String searchDate) throws Exception;
 	
+	// 월별 보고서 행 삭제
+	public int removeTotalReportRow(String searchArea, String work_name_total, String searchDate) throws Exception;
+	
 	public List<ReportVO> testForm(String searchArea) throws Exception;
 	
 	// 테스트

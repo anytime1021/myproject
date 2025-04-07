@@ -76,6 +76,10 @@ public interface ReportController {
 			@RequestParam("work_date") String work_date,
 			HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
+	// 월별 보고서 행 삭제
+	public ReportVO removeTotalReportRow(@RequestParam("work_name_total") String work_name_total, @RequestParam("work_date_total") String work_date_total,
+			HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
 //	// 일일 보고서 글쓰기(정보저장)
 //	public ModelAndView addReport(@RequestParam(value = "work_name", required =false) String work_nameArray,
 //			@RequestParam(value = "work_amount_RT", required = false) String[] work_amount_RTStr,

@@ -3,6 +3,7 @@ package com.sboot.pro.argus.controller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +12,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.sboot.pro.argus.DTO.CombinedReportResponse;
 import com.sboot.pro.argus.dao.ReportDAO;
 import com.sboot.pro.argus.service.ReportService;
 import com.sboot.pro.argus.vo.LoginVO;
 import com.sboot.pro.argus.vo.ReportVO;
-import com.sboot.pro.argus.DTO.*;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -356,7 +360,6 @@ public class ReportControllerImpl implements ReportController{
 		LoginVO login = (LoginVO) session.getAttribute("login");
 		String searchArea = login.getLogin_area();
 		
-		// 현재 날짜 기준 연월 받아오기
 		String searchDate = board_date.substring(0,7);
 		
 //		List<ReportVO> addReport_total = new ArrayList<ReportVO>();
@@ -468,8 +471,29 @@ public class ReportControllerImpl implements ReportController{
 			
 			return mav;
 		}
+	
+	// 월별 보고서 행 삭제	
+	@PostMapping("/report/removeTotalReportRow.do")
+	@ResponseBody
+	public ReportVO removeTotalReportRow(@RequestParam("work_name_total") String work_name_total, @RequestParam("work_date_total") String work_date_total,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		LoginVO login = (LoginVO) session.getAttribute("login");
+		String searchArea = login.getLogin_area();
 		
-
+		String searchDate = work_date_total.substring(0,7);
+		
+		int result = reportService.removeTotalReportRow(searchArea, work_name_total, searchDate);
+		ReportVO removeSum = reportDAO.selectAddReportSumForm(searchArea, searchDate);
+//		Gson gson = new Gson();
+//		JsonArray jArray = new JsonArray();
+//		Iterator<ReportVO> it = removeSum.iterator();
+//		while(it.hasNext()) {
+//			ReportVO reportvo = it.next();
+//			JsonObject object = new JsonObject();
+//		}
+		return removeSum;
+	}
 //	@Override
 //	@PostMapping("/report/addDailyReport.do")
 //	public ModelAndView addReport(@RequestParam(value = "work_name", required =false) String work_nameArray,

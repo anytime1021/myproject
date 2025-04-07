@@ -53,7 +53,11 @@ public interface ReportDAO {
 	public ReportVO selectAddReportSumForm(@Param("searchArea") String searchArea, @Param("work_date_total") String work_date_total) throws Exception;
 
 	// 월별 보고서 수정
-	public void updateTotalReportList(@Param("searchArea") String searchArea, @Param("modTotalReportList") List<ReportVO> modTotalReportList, @Param("searchDate") String searchDate);
+	public void updateTotalReportList(@Param("searchArea") String searchArea, @Param("modTotalReportList") List<ReportVO> modTotalReportList, @Param("searchDate") String searchDate) throws Exception;
+	
+	// 월별 보고서 행 삭제
+	
+	public int deleteTotalReportRow(@Param("searchArea") String searchArea, @Param("work_name_total") String work_name_total, @Param("searchDate") String searchDate) throws Exception;
 	
 	public List<ReportVO> selectReportForm(String searchArea) throws Exception;
 	

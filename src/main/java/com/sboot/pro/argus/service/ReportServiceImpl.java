@@ -103,8 +103,16 @@ public class ReportServiceImpl implements ReportService{
 	}
 	
 	// 월별 보고서 수정
+	@Override
 	public void modTotalReportList(String searchArea, List<ReportVO> modTotalReportList, String searchDate) throws Exception {
 		reportDAO.updateTotalReportList(searchArea, modTotalReportList, searchDate);
+	}
+	
+	// 월별 보고서 행 삭제
+	@Override
+	public int removeTotalReportRow(String searchArea, String work_name_total, String searchDate) throws Exception {
+		reportDAO.deleteTotalReportRow(searchArea, work_name_total, searchDate);
+		return 1;
 	}
 	
 	@Override

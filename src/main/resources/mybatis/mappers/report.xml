@@ -173,6 +173,11 @@
 		</foreach>
 	</update>
 	
+	<!-- 월별 보고서 행 삭제 -->
+	<delete id="deleteTotalReportRow" parameterType="String">
+		delete from workrate_total where login_work_area_total = #{searchArea} and 
+		work_name_total = #{work_name_total} and work_date_total like concat('%',#{searchDate},'%');
+	</delete>
 	<select id="selectReportForm" parameterType="String" resultType="reportVO">
 			select * from ulsan_workRate where login_work_area = #{searchArea} and work_name is null;
 	</select>
