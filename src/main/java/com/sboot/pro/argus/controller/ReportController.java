@@ -46,6 +46,9 @@ public interface ReportController {
 			@RequestParam("work_date") String work_date,
 			HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
+	// 일일 보고서 삭제
+	public ModelAndView removeDailyReport(@RequestParam("board_date") String work_dat, HttpServletResponse response, HttpServletRequest request) throws Exception;
+	
 	// 월별 보고서 게시판 접속
 	public ModelAndView reportAreaTotal(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
@@ -56,7 +59,8 @@ public interface ReportController {
 	public ModelAndView addTotalReport(@ModelAttribute("addTotalReport") ReportVO addTotal, HttpServletRequest request, HttpServletResponse response) throws Exception;
 //	public ModelAndView addTotalReport(@ModelAttribute("addTotal") ReportVO addTotal, @RequestParam(value = "work_date_total", required = false) String workDateStr, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
-
+	public ModelAndView modTotalReportForm(@RequestParam("work_date") String work_date, HttpServletRequest request, HttpServletResponse response) throws Exception;
+			@RequestParam(value = "work_amount_UT_total", required = false) String[] work_amount_UTArray,
 	
 //	// 일일 보고서 글쓰기(정보저장)
 //	public ModelAndView addReport(@RequestParam(value = "work_name", required =false) String work_nameArray,

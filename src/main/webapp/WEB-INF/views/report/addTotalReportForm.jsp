@@ -112,6 +112,18 @@
 								</tr>
 							</c:forEach>
 							<!-- 여기까지 적용 예정-->
+								<tr>
+									<td colspan="2" style="width:18%; text-align:center;">합 계</td>
+									<td style="width:7%;">${addReport_total_sum.work_amount_RT_total}</td>
+									<td style="width:7%;">${addReport_total_sum.work_amount_PAUT_total}</td>
+									<td style="width:7%;">${addReport_total_sum.work_amount_TOFD_total}</td>
+									<td style="width:7%;">${addReport_total_sum.work_amount_UT_total}</td>
+									<td style="width:7%;">${addReport_total_sum.work_amount_MPT_total}</td>
+									<td style="width:14%;">${addReport_total_sum.work_manpower_total}</td>
+									<td style="width:7%;"></td>
+									<td style="width:7%;"></td>
+									<td style="width:19%;"></td>
+								</tr>
 							<tr style="height: 20px;"></tr>
 							<form name="addTotalReport" method="post" action="${contextPath}/report/addTotalReport.do">
 								<tr>
@@ -134,6 +146,16 @@
 						            </td>
 						        </tr>
 							</form>
+							<tr>
+								<td colspan="11" style="text-align: left;">
+									<a href="${contextPath}/report/modTotalReportForm.do?work_date=${board_date}">수정하기</a>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="11" style="text-align: left;">
+									<a href="${contextPath}/report/removeTotalReportForm.do?work_date=${board_date}">삭제하기</a>
+								</td>
+							</tr> 
 						</table>
 					</div>
 				</section>

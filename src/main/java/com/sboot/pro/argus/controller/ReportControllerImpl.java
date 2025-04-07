@@ -1,11 +1,6 @@
 package com.sboot.pro.argus.controller;
 
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,10 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.sboot.pro.argus.DTO.CombinedReportResponse;
 import com.sboot.pro.argus.dao.ReportDAO;
 import com.sboot.pro.argus.service.ReportService;
 import com.sboot.pro.argus.vo.LoginVO;
 import com.sboot.pro.argus.vo.ReportVO;
+import com.sboot.pro.argus.DTO.*;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -77,13 +74,20 @@ public class ReportControllerImpl implements ReportController{
 //        // LocalDate -> java.util.Date 변환
 //        Date date = java.sql.Date.valueOf(localDate);
 
-		List<ReportVO> dailyReport = new ArrayList<ReportVO>();
-		dailyReport = reportService.dailyReportInfo(searchArea, board_date);
+//		List<ReportVO> dailyReport = new ArrayList<ReportVO>();
+//		dailyReport = reportService.dailyReportInfo(searchArea, board_date);
 		
 		String searchDate = board_date.substring(0,7);
 		
 		List<ReportVO> addReport_total = new ArrayList<ReportVO>();
 		addReport_total = reportService.addReportForm(searchArea, searchDate);
+		
+		CombinedReportResponse data = reportService.getCombinedReport(searchArea, board_date);
+
+		List<ReportVO> dailyReport = data.getReportList();
+		ReportVO addReport_sum = data.getSingleReport();
+		
+		ReportVO addReport_total_sum = reportDAO.selectAddReportSumForm(searchArea, searchDate);
 		
 		List<ReportVO> mergedList = new ArrayList<>();
 		//--------------------------------------------------------------------------------
@@ -115,17 +119,20 @@ public class ReportControllerImpl implements ReportController{
 		            merged.setWork_manpower(daily.getWork_manpower());
 		            merged.setWork_manpower_total(total.getWork_manpower_total());
 
-		            merged.setWork_xray(total.getWork_xray());
-		            merged.setWork_PAUT(total.getWork_PAUT());
-		            merged.setWork_charyang(total.getWork_charyang());
+		            merged.setWork_xray_total(total.getWork_xray_total());
+		            merged.setWork_PAUT_total(total.getWork_PAUT_total());
+		            merged.setWork_charyang_total(total.getWork_charyang_total());
 
 		            mergedList.add(merged);
 		            break; // 중복 방지용
 		        }
 		    }
 		}
+		
 		mav.addObject("work_date", board_date);
 		mav.addObject("mergedList", mergedList);
+		mav.addObject("addReport_sum", addReport_sum);
+		mav.addObject("addReport_total_sum", addReport_total_sum);
 		//--------------------------------------------------------------------------------
 //		mav.addObject("board_date", board_date);
 //		mav.addObject("addReport_total", addReport_total);
@@ -258,9 +265,9 @@ public class ReportControllerImpl implements ReportController{
 		            merged.setWork_manpower(daily.getWork_manpower());
 		            merged.setWork_manpower_total(total.getWork_manpower_total());
 
-		            merged.setWork_xray(total.getWork_xray());
-		            merged.setWork_PAUT(total.getWork_PAUT());
-		            merged.setWork_charyang(total.getWork_charyang());
+		            merged.setWork_xray_total(total.getWork_xray_total());
+		            merged.setWork_PAUT_total(total.getWork_PAUT_total());
+		            merged.setWork_charyang_total(total.getWork_charyang_total());
 
 		            mergedList.add(merged);
 		            break; // 중복 방지용
@@ -282,16 +289,12 @@ public class ReportControllerImpl implements ReportController{
 			@RequestParam(value = "work_amount_UT", required = false) String[] work_amount_UTArray,
 			@RequestParam(value = "work_amount_MPT", required = false) String[] work_amount_MPTArray,
 			@RequestParam(value = "work_manpower", required = false) String[] work_manpowerArray,
-			@RequestParam("board_date") String work_date,
+			@RequestParam("work_date") String work_date,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 			ModelAndView mav = new ModelAndView("redirect:/report/reportArea.do");
 			HttpSession session = request.getSession();
 			LoginVO login = (LoginVO) session.getAttribute("login");
 			String searchArea = login.getLogin_area();
-
-	        System.out.println("----------");
-	        System.out.println(work_date);
-	        System.out.println("----------");
 			
 			List<ReportVO> modReportList = new ArrayList<>();
 			for (int i = 0; i < work_amount_RTArray.length; i++) {
@@ -312,6 +315,22 @@ public class ReportControllerImpl implements ReportController{
 			mav.addObject("testList", test);
 			return mav;
 		}
+	
+	// 일일 보고서 삭제
+	@Override
+	@GetMapping("/report/removeDailyReport.do")
+	public ModelAndView removeDailyReport(@RequestParam("board_date") String work_date, HttpServletResponse response, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("redirect:/report/reportArea.do");
+		
+		HttpSession session = request.getSession();
+		LoginVO login = (LoginVO) session.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		
+		int result = 0;
+		result = reportService.removeDailyReport(searchArea, work_date);
+		
+		return mav;
+	}
 	
 	
 	// 월별 보고서 게시판 접속
@@ -340,10 +359,19 @@ public class ReportControllerImpl implements ReportController{
 		// 현재 날짜 기준 연월 받아오기
 		String searchDate = board_date.substring(0,7);
 		
-		List<ReportVO> addReport_total = new ArrayList<ReportVO>();
-		addReport_total = reportService.addReportForm(searchArea, searchDate);
+//		List<ReportVO> addReport_total = new ArrayList<ReportVO>();
+//		addReport_total = reportService.addReportForm(searchArea, searchDate);
+//		ReportVO addReport_total_sum = new ReportVO();
+//		reportService.addReportSumForm(searchArea, searchDate);
+		
+		CombinedReportResponse data = reportService.getCombinedReport(searchArea, searchDate);
+
+		List<ReportVO> addReport_total = data.getReportList();
+		ReportVO addReport_total_sum = data.getSingleReport();
+		
 		mav.addObject("board_date", board_date);
 		mav.addObject("addReport_total", addReport_total);
+		mav.addObject("addReport_total_sum", addReport_total_sum);
 		
 //		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
 //		YearMonth yearMonth = YearMonth.parse(work_date_total, formatter);
@@ -372,6 +400,74 @@ public class ReportControllerImpl implements ReportController{
 		reportService.addTotalReport(addTotal, searchArea);
 		return mav;
 	}
+	
+	// 월별 보고서 수정 폼
+	@Override
+	@GetMapping("/report/modTotalReportForm.do")
+	public ModelAndView modTotalReportForm(@RequestParam("work_date") String work_date, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView("/report/modTotalReportForm");
+		HttpSession session = request.getSession();
+		LoginVO login = (LoginVO) session.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		
+		// 현재 날짜 기준 연월 받아오기
+		String searchDate = work_date.substring(0,7);
+		
+		CombinedReportResponse data = reportService.getCombinedReport(searchArea, searchDate);
+
+		List<ReportVO> addReport_total = data.getReportList();
+		ReportVO addReport_total_sum = data.getSingleReport();
+		
+		mav.addObject("board_date", work_date);
+		mav.addObject("addReport_total", addReport_total);
+		mav.addObject("addReport_total_sum", addReport_total_sum);
+		
+		return mav;
+	}
+	
+	// 월별 보고서 수정
+	// 월별 보고서 수정하기
+	@Override
+	@PostMapping("/report/modTotalReport.do")
+	public ModelAndView modTotalReport(@RequestParam(value = "work_name_total", required =false) String[] work_name_totalArray,
+			@RequestParam(value = "work_amount_RT_total", required = false) String[] work_amount_RT_totalArray,
+			@RequestParam(value = "work_amount_PAUT_total", required = false) String[] work_amount_PAUT_totalArray,
+			@RequestParam(value = "work_amount_TOFD_total", required = false) String[] work_amount_TOFD_totalArray,
+			@RequestParam(value = "work_amount_UT_total", required = false) String[] work_amount_UT_totalArray,
+			@RequestParam(value = "work_amount_MPT_total", required = false) String[] work_amount_MPT_totalArray,
+			@RequestParam(value = "work_manpower_total", required = false) String[] work_manpower_totalArray,
+			@RequestParam(value = "work_xray_total", required = false) String[] work_xray_totalArray,
+			@RequestParam(value = "work_PAUT_total", required = false) String[] work_PAUT_totalArray,
+			@RequestParam(value = "work_charyang_total", required = false) String[] work_charyang_totalArray,
+			@RequestParam("work_date") String work_date,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+			ModelAndView mav = new ModelAndView("redirect:/report/addTotalReportForm.do?board_date=" + work_date);
+			HttpSession session = request.getSession();
+			LoginVO login = (LoginVO) session.getAttribute("login");
+			String searchArea = login.getLogin_area();
+			
+			String searchDate = work_date.substring(0,7);
+			
+			List<ReportVO> modTotalReportList = new ArrayList<>();
+			for (int i = 0; i < work_amount_RT_totalArray.length; i++) {
+				ReportVO reportVO = new ReportVO();
+				reportVO.setWork_name_total(work_name_totalArray[i]);
+				reportVO.setWork_amount_RT_total(Integer.parseInt(work_amount_RT_totalArray[i]));
+				reportVO.setWork_amount_PAUT_total(Integer.parseInt(work_amount_PAUT_totalArray[i]));
+				reportVO.setWork_amount_TOFD_total(Integer.parseInt(work_amount_TOFD_totalArray[i]));
+				reportVO.setWork_amount_UT_total(Integer.parseInt(work_amount_UT_totalArray[i]));
+				reportVO.setWork_amount_MPT_total(Integer.parseInt(work_amount_MPT_totalArray[i]));
+				reportVO.setWork_manpower_total(Integer.parseInt(work_manpower_totalArray[i]));
+				reportVO.setWork_xray_total(work_xray_totalArray[i]);
+				reportVO.setWork_PAUT_total(work_PAUT_totalArray[i]);
+				reportVO.setWork_charyang_total(work_charyang_totalArray[i]);
+				modTotalReportList.add(reportVO);
+			}
+			
+			reportService.modTotalReportList(searchArea, modTotalReportList, searchDate);
+			
+			return mav;
+		}
 		
 
 //	@Override

@@ -118,11 +118,23 @@
 									<td style="width:7%;">${item.work_amount_UT} / ${item.work_amount_UT_total}</td>
 									<td style="width:7%;">${item.work_amount_MPT} / ${item.work_amount_MPT_total}</td>
 									<td style="width:14%;">${item.work_manpower} / ${item.work_manpower_total}</td>
-									<td style="width:7%;">${item.work_xray}</td>
-									<td style="width:7%;">${item.work_PAUT}</td>
-									<td style="width:19%;">${item.work_charyang}</td>
+									<td style="width:7%;">${item.work_xray_total}</td>
+									<td style="width:7%;">${item.work_PAUT_total}</td>
+									<td style="width:19%;">${item.work_charyang_total}</td>
 								</tr>
 							</c:forEach>
+							<tr>
+								<td colspan="2" style="width:18%; text-align:center;">합 계</td>
+								<td style="width:7%;">${addReport_sum.work_amount_RT} / ${addReport_total_sum.work_amount_RT_total}</td>
+								<td style="width:7%;">${addReport_sum.work_amount_PAUT} / ${addReport_total_sum.work_amount_PAUT_total}</td>
+								<td style="width:7%;">${addReport_sum.work_amount_TOFD} / ${addReport_total_sum.work_amount_TOFD_total}</td>
+								<td style="width:7%;">${addReport_sum.work_amount_UT} / ${addReport_total_sum.work_amount_UT_total}</td>
+								<td style="width:7%;">${addReport_sum.work_amount_MPT} / ${addReport_total_sum.work_amount_MPT_total}</td>
+								<td style="width:14%;">${addReport_sum.work_manpower} / ${addReport_total_sum.work_manpower_total}</td>
+								<td style="width:7%;"></td>
+								<td style="width:7%;"></td>
+								<td style="width:19%;"></td>
+							</tr>
 						</table>
 					</div>
 				</section>

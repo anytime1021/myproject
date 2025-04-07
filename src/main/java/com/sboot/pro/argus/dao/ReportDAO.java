@@ -18,6 +18,9 @@ public interface ReportDAO {
 	// 일일 보고서 보기
 	public List<ReportVO> selectDailyReport(@Param("searchArea") String searchArea, @Param("work_date") String board_date) throws Exception;
 	
+	// 일일 보고서 합
+	public ReportVO selectAddDailyReportSumForm(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
+	
 	// 일일 보고서 게시판 글 추가
 	public void insertWorkrate_board(@Param("board_title") String board_title, @Param("work_date") String work_date, @Param("searchArea") String searchArea) throws Exception;
 	
@@ -28,6 +31,15 @@ public interface ReportDAO {
 	// 일일 보고서 수정
 	public void updateWorkReport(@Param("searchArea") String searchArea, @Param("modWorkReportList") List<ReportVO> modWorkReportList, @Param("work_date") String work_date) throws Exception;
 	
+	// 일일 보고서 삭제
+	public int deleteDailyReport(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
+	
+	// 일일 보고서 게시판 일일 보고서 제목 삭제 판단
+	public int existDailyReport(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
+	
+	// 일일 보고서 게시판 일일 보고서 제목 삭제
+	public void deleteDailyReportBoard(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
+	
 	// 월별 보고서 게시판 접속
 	public List<ReportVO> selectTotalReportList(String searchArea) throws Exception;
 	
@@ -37,7 +49,12 @@ public interface ReportDAO {
 	// 월별 전체량
 	public List<ReportVO> selectAddReportForm(@Param("searchArea") String searchArea, @Param("work_date_total") String work_date_total) throws Exception;
 	
+	// 월별 전체량 합
+	public ReportVO selectAddReportSumForm(@Param("searchArea") String searchArea, @Param("work_date_total") String work_date_total) throws Exception;
 
+	// 월별 보고서 수정
+	public void updateTotalReportList(@Param("searchArea") String searchArea, @Param("modTotalReportList") List<ReportVO> modTotalReportList, @Param("searchDate") String searchDate);
+	
 	public List<ReportVO> selectReportForm(String searchArea) throws Exception;
 	
 	// 테스트
