@@ -59,8 +59,22 @@ public interface ReportController {
 	public ModelAndView addTotalReport(@ModelAttribute("addTotalReport") ReportVO addTotal, HttpServletRequest request, HttpServletResponse response) throws Exception;
 //	public ModelAndView addTotalReport(@ModelAttribute("addTotal") ReportVO addTotal, @RequestParam(value = "work_date_total", required = false) String workDateStr, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
+	// 월별 보고서 수정 폼
 	public ModelAndView modTotalReportForm(@RequestParam("work_date") String work_date, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+	// 월별 보고서 수정
+	public ModelAndView modTotalReport(@RequestParam(value = "work_name_total", required =false) String[] work_nameArray,
+			@RequestParam(value = "work_amount_RT_total", required = false) String[] work_amount_RTArray,
+			@RequestParam(value = "work_amount_PAUT_total", required = false) String[] work_amount_PAUTArray,
+			@RequestParam(value = "work_amount_TOFD_total", required = false) String[] work_amount_TOFDArray,
 			@RequestParam(value = "work_amount_UT_total", required = false) String[] work_amount_UTArray,
+			@RequestParam(value = "work_amount_MPT_total", required = false) String[] work_amount_MPTArray,
+			@RequestParam(value = "work_manpower_total", required = false) String[] work_manpowerArray,
+			@RequestParam(value = "work_xray_total", required = false) String[] work_xray_totalArray,
+			@RequestParam(value = "work_PAUT_total", required = false) String[] work_PAUT_totalArray,
+			@RequestParam(value = "work_charyang_total", required = false) String[] work_charyang_totalArray,
+			@RequestParam("work_date") String work_date,
+			HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 //	// 일일 보고서 글쓰기(정보저장)
 //	public ModelAndView addReport(@RequestParam(value = "work_name", required =false) String work_nameArray,
