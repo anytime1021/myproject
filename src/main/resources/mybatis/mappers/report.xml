@@ -179,6 +179,6 @@
 		work_name_total = #{work_name_total} and work_date_total like concat('%',#{searchDate},'%');
 	</delete>
 	<select id="selectReportForm" parameterType="String" resultType="reportVO">
-			select * from ulsan_workRate where login_work_area = #{searchArea} and work_name is null;
+		select * from ulsan_workRate where login_work_area = #{searchArea} and work_name is null;
 	</select>
 </mapper>

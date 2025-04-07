@@ -165,7 +165,6 @@ public class ReportControllerImpl implements ReportController{
 		
 		SimpleDateFormat date_now = new SimpleDateFormat("yyyy-MM-dd");
         String work_date = date_now.format(new Date());
-        System.out.println(work_date);
 		
 		String searchDate = work_date.substring(0,7);
 		
@@ -375,20 +374,7 @@ public class ReportControllerImpl implements ReportController{
 		mav.addObject("board_date", board_date);
 		mav.addObject("addReport_total", addReport_total);
 		mav.addObject("addReport_total_sum", addReport_total_sum);
-		
-//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
-//		YearMonth yearMonth = YearMonth.parse(work_date_total, formatter);
-//        
-//		String work_date_totalStr = yearMonth.toString();
-//		
-//		LocalDateTime requestTime = (LocalDateTime) request.getAttribute("requestTime");
-//		
-//		System.out.println(requestTime);
-//		
-//		List<ReportVO> addReport_total = new ArrayList<ReportVO>();
-//		addReport_total = reportService.addReportForm(searchArea, work_date_totalStr);
-//		mav.addObject("addReport_total", addReport_total);
-//		mav.addObject("work_date_total_this", work_date_total);
+	
 		return mav;
 	}
 	
@@ -494,46 +480,16 @@ public class ReportControllerImpl implements ReportController{
 //		}
 		return removeSum;
 	}
-//	@Override
-//	@PostMapping("/report/addDailyReport.do")
-//	public ModelAndView addReport(@RequestParam(value = "work_name", required =false) String work_nameArray,
-//			@RequestParam(value = "work_amount_RT", required = false) String[] work_amount_RTArray,
-//			@RequestParam(value = "work_amount_PAUT", required = false) String[] work_amount_PAUTArray,
-//			@RequestParam(value = "work_amount_TOFD", required = false) String[] work_amount_TOFDArray,
-//			@RequestParam(value = "work_amount_UT", required = false) String[] work_amount_UTArray,
-//			@RequestParam(value = "work_amount_MPT", required = false) String[] work_amount_MPTArray,
-//			@RequestParam(value = "work_manpower", required = false) String[] work_manpowerArray,
-//			@RequestParam(value = "work_xray", required = false) String[] work_xrayArray,
-//			@RequestParam(value = "work_PAUT", required = false) String[] work_PAUTArray,
-//			@RequestParam(value = "work_charyang", required = false) String[] work_charyangArray,
-//			HttpServletRequest request, HttpServletResponse response) throws Exception {
-//			ModelAndView mav = new ModelAndView("redirect:/report/testList.do");
-//			HttpSession session = request.getSession();
-//			LoginVO login = (LoginVO) session.getAttribute("login");
-//			String searchArea = login.getLogin_area();
-//			
-//			List<ReportVO> workReportList = new ArrayList<>();
-//			for (int i = 0; i < work_amount_RTArray.length; i++) {
-//				System.out.println(work_amount_RTArray[i]);
-//				ReportVO reportVO = new ReportVO();
-//				reportVO.setWork_amount_RT(Integer.parseInt(work_amount_RTArray[i]));
-//				reportVO.setWork_amount_PAUT(Integer.parseInt(work_amount_PAUTArray[i]));
-//				reportVO.setWork_amount_TOFD(Integer.parseInt(work_amount_TOFDArray[i]));
-//				reportVO.setWork_amount_UT(Integer.parseInt(work_amount_UTArray[i]));
-//				reportVO.setWork_amount_MPT(Integer.parseInt(work_amount_MPTArray[i]));
-//				reportVO.setWork_manpower(Integer.parseInt(work_manpowerArray[i]));
-//				reportVO.setWork_xray(work_xrayArray[i]);
-//				reportVO.setWork_PAUT(work_PAUTArray[i]);
-//				reportVO.setWork_charyang(work_charyangArray[i]);
-//				workReportList.add(reportVO);
-//			}
-//			reportService.addWorkReportList(searchArea, workReportList);
-//			
-//			List<ReportVO> test = new ArrayList<ReportVO>();
-//			test = reportService.testForm(searchArea);
-//			mav.addObject("testList", test);
-//			mav.setViewName("report/testList");
-//			return mav;	
-//		}
+	
+	// -------------------------------------------------------------------------------------------------------------------
+	
+	// sow 추가 폼
+	@Override
+	@GetMapping("/report/sowAddTotalForm.do")
+	public ModelAndView sowAddTotalForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView("/report/sowAddTotalForm");
+
+		return mav;
 	}
+}
 

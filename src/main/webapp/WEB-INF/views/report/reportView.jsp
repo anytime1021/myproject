@@ -91,11 +91,11 @@
 					<div class="work-rate">
 						<table class="table-control-work">
 							<tr>
-								<td rowspan="2" style="width:4%;"><b>No</b></td>
+								<td style="width:4%;"><b>No</b></td>
 								<td rowspan="2" style="width:14%;"><b>현 장</b></td>
 								<td colspan="5"><b>작 업 량(완료 / 전체)</b></td>
 								<td rowspan="2" style="width:14%;"><b>투입인원</b></td>
-								<td colspan="3"><b>보 유 장 비 (수량)</b></td>
+								<td colspan="4"><b>보 유 장 비 (수량)</b></td>
 							</tr>
 							<tr>
 								<td style="width:7%;">RT</td>
@@ -105,7 +105,8 @@
 								<td style="width:7%;">M/PT</td>
 								<td style="width:7%;">γ-ray</td>
 								<td style="width:7%;">PA-UT</td>
-								<td style="width:19%;">차 량</td>
+								<td></td>
+								<td colspan="2" style="width:19%;">차 량</td>
 							</tr>
 							<!-- c:forEach문 적용 예정-->
 							<c:forEach var="item" items="${mergedList}" varStatus="status">
@@ -120,7 +121,7 @@
 									<td style="width:14%;">${item.work_manpower} / ${item.work_manpower_total}</td>
 									<td style="width:7%;">${item.work_xray_total}</td>
 									<td style="width:7%;">${item.work_PAUT_total}</td>
-									<td style="width:19%;">${item.work_charyang_total}</td>
+									<td colspan="2" style="width:19%;">${item.work_charyang_total}</td>
 								</tr>
 							</c:forEach>
 							<tr>
@@ -133,7 +134,8 @@
 								<td style="width:14%;">${addReport_sum.work_manpower} / ${addReport_total_sum.work_manpower_total}</td>
 								<td style="width:7%;"></td>
 								<td style="width:7%;"></td>
-								<td style="width:19%;"></td>
+								<td style="width:10%;">추가시간 총계</td>
+								<td style="width:9%;"></td>
 							</tr>
 						</table>
 					</div>
