@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.sboot.pro.argus.DTO.BoardType;
 import com.sboot.pro.argus.DTO.CombinedReportResponse;
 import com.sboot.pro.argus.dao.ReportDAO;
 import com.sboot.pro.argus.service.ReportService;
@@ -49,14 +50,17 @@ public class ReportControllerImpl implements ReportController{
 		HttpSession session = request.getSession();
 		LoginVO login = (LoginVO) session.getAttribute("login");
 		String searchArea = login.getLogin_area();
-		List<ReportVO> reportListJsp = new ArrayList<ReportVO>();
-		reportListJsp = reportService.reportListJava(searchArea);
+//		List<ReportVO> reportListJsp = new ArrayList<ReportVO>();
+//		reportListJsp = reportService.reportListJava(searchArea);
 //		 Timestamp workDate = (Timestamp) request.getAttribute("work_date");
 //	        Timestamp workDateTotal = (Timestamp) request.getAttribute("work_date_total");
 //
 //	        System.out.println("work_date: " + workDate);
 //	        System.out.println("work_date_total: " + workDateTotal);
+		int token = 1;
 		
+		String tableName = BoardType.fromToken(token).getTableName();
+		List<ReportVO> reportListJsp = reportService.reportListTotalJava(searchArea, tableName);
 		mav.addObject("reportListJsp", reportListJsp);
 		return mav;
 	}
@@ -345,7 +349,10 @@ public class ReportControllerImpl implements ReportController{
 		LoginVO login = (LoginVO) session.getAttribute("login");
 		String searchArea = login.getLogin_area();
 		List<ReportVO> reportListTotalJsp = new ArrayList<ReportVO>();
-		reportListTotalJsp = reportService.reportListTotalJava(searchArea);
+		// 월별 작업현황 토큰 1
+		int token = 2;
+		String tableName = BoardType.fromToken(token).getTableName();
+		reportListTotalJsp = reportService.reportListTotalJava(searchArea, tableName);
 		mav.addObject("reportListTotalJsp", reportListTotalJsp);
 		return mav;
 	}
@@ -483,7 +490,7 @@ public class ReportControllerImpl implements ReportController{
 	
 	// -------------------------------------------------------------------------------------------------------------------
 	
-	// sow 게시판 접속
+	// sow 일별 게시판 접속
 	@Override
 	@GetMapping("/report/sowBoard.do")
 	public ModelAndView sowBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -492,8 +499,10 @@ public class ReportControllerImpl implements ReportController{
 		LoginVO login = (LoginVO) session.getAttribute("login");
 		String searchArea = login.getLogin_area();
 		
-		ReportVO sowBoardList = new ReportVO();
-		sowBoardList = reportService.sowBoardList(searchArea);
+		int token = 3;
+		
+		String tableName = BoardType.fromToken(token).getTableName();
+		List<ReportVO> sowBoardList = reportService.reportListTotalJava(searchArea, tableName);
 		mav.addObject("sowBoardList", sowBoardList);
 		return mav;
 	}
@@ -519,5 +528,28 @@ public class ReportControllerImpl implements ReportController{
 		mav.addObject("searchArea", searchArea);
 		return mav;
 	}
+	
+	// sow 월별 게시판 접속
+	@Override
+	@GetMapping("/report/sowBoardTotal.do")
+	public ModelAndView sowBoardTotal(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView("/report/sowBoardTotal");
+		HttpSession session = request.getSession();
+		LoginVO login = (LoginVO) session.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		
+		// 월별 근무현황 토큰 2
+//		int token = 2;
+//		List<ReportVO> sowListTotalJsp = new ArrayList<ReportVO>();
+//		sowListTotalJsp = reportService.reportListTotalJava(searchArea, token);
+		
+		int token = 4;
+		
+		String tableName = BoardType.fromToken(token).getTableName();
+		List<ReportVO> sowListTotalJsp = reportService.reportListTotalJava(searchArea, tableName);
+		mav.addObject("sowListTotalJsp", sowListTotalJsp);
+		return mav;
+	}
+	// sow 월별 추가 폼
 }
 

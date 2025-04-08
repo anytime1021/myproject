@@ -58,9 +58,14 @@ public class ReportServiceImpl implements ReportService{
 	}
 	
 	// 월별 보고서 게시판 접속
+//	@Override
+//	public List<ReportVO> reportListTotalJava(String searchArea, int token) throws Exception {
+//			return reportDAO.selectTotalReportList(searchArea, token);
+//	}
+	
 	@Override
-	public List<ReportVO> reportListTotalJava(String searchArea) throws Exception {
-		return reportDAO.selectTotalReportList(searchArea);
+	public List<ReportVO> reportListTotalJava(String searchArea, String tableName) throws Exception {
+			return reportDAO.selectTotalReportList(searchArea, tableName);
 	}
 	
 	// 월별 보고서 현장 추가

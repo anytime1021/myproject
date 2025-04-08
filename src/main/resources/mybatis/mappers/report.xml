@@ -31,7 +31,8 @@
 	<select id="selectTotalReportList" parameterType="String" resultType="reportVO">
 	select * from
 		(select * from (
-			select  ROW_NUMBER() OVER (ORDER BY board_date) AS row_num, board_title, board_date, board_area from workrate_total_board where board_area = #{searchArea}
+			select  ROW_NUMBER() OVER (ORDER BY board_date) AS row_num, board_title, board_date, board_area from 
+					${tableName} where board_area = #{searchArea}
 		) as t1
 	) as t2 order by board_date desc;
 <!--		<choose>-->

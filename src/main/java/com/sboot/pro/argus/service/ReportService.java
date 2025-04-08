@@ -22,8 +22,11 @@ public interface ReportService {
 	// 일일 보고서 삭제
 	public int removeDailyReport(String searchArea, String work_date) throws Exception;
 	
+//	// 월별 보고서 게시판 접속
+//	public List<ReportVO> reportListTotalJava(String searchArea, int token) throws Exception;
+	
 	// 월별 보고서 게시판 접속
-	public List<ReportVO> reportListTotalJava(String searchArea) throws Exception;
+	public List<ReportVO> reportListTotalJava(String searchArea, String tableName) throws Exception;
 	
 //	// 월별 전체량
 	public List<ReportVO> addReportForm(String searchArea, String work_date_total) throws Exception;

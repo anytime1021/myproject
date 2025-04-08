@@ -40,8 +40,11 @@ public interface ReportDAO {
 	// 일일 보고서 게시판 일일 보고서 제목 삭제
 	public void deleteDailyReportBoard(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
 	
+//	// 월별 보고서 게시판 접속
+//	public List<ReportVO> selectTotalReportList(@Param("searchArea") String searchArea, @Param("token") int token) throws Exception;
+	
 	// 월별 보고서 게시판 접속
-	public List<ReportVO> selectTotalReportList(String searchArea) throws Exception;
+	public List<ReportVO> selectTotalReportList(@Param("searchArea") String searchArea, @Param("tableName") String tableName) throws Exception;
 	
 	// 월별 보고서 현장 추가
 	public void insertTotalReport(@Param("addTotal") ReportVO addTotal, @Param("searchArea") String searchArea) throws Exception;
