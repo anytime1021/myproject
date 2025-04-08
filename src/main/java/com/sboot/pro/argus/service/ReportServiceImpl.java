@@ -115,6 +115,14 @@ public class ReportServiceImpl implements ReportService{
 		return 1;
 	}
 	
+	// -------------------------------------------------------------------------------------------------------------------
+	
+	// sow 게시판 접속
+	public ReportVO sowBoardList(String searchArea) throws Exception {
+		return reportDAO.selectSowBoardList(searchArea);
+	}
+	
+	
 	@Override
 	public List<ReportVO> testForm(String searchArea) throws Exception {
 		return reportDAO.selectReportForm(searchArea);

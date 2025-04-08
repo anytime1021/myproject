@@ -40,14 +40,21 @@
 			</div>
 			<div class="report-menu">
 				<ul class="ul-wrap">
-					<li class="li-wrap"> 보고서 1 </li>
+					<li class="li-wrap dropdown">
+						<span class="report-title"> 작업일보 </span>
+						<ul class="dropdown-menu">
+							<li><a href="${contextPath}/report/reportAreaTotal.do">작업현황(월별)</a></li>
+							<li><a href="${contextPath}/report/sowBoard.do">근무현황(월별)</a></li>
+							<li><a href="#">실적</a></li>
+						</ul>
+					</li>
 					<li class="li-wrap"> 보고서 2 </li>
 					<li class="li-wrap"> 보고서 3 </li>
 					<li class="li-wrap"> 보고서 4 </li>
 				</ul>
 			</div>
 			<div class="report-menu-banner">
-				<p class="text-control">보고서 1</p>
+				<p class="text-control">작업현황(월별)</p>
 			</div>
 			<div class="report-container">
 				<div class="report-list">
@@ -55,9 +62,9 @@
 					<table class="table-control">
 						<thead>
 							<tr>
-								<th>NO</th>
+								<th style="width:10%;">NO</th>
 								<th style="width:80%;">제 목</th>
-								<th>작성일</th>
+								<th style="width:10%;">작성일</th>
 							</tr>
 						</thead>
 						<c:forEach var="reportListTotalJsp" items="${reportListTotalJsp}">

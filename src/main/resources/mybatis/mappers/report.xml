@@ -178,7 +178,24 @@
 		delete from workrate_total where login_work_area_total = #{searchArea} and 
 		work_name_total = #{work_name_total} and work_date_total like concat('%',#{searchDate},'%');
 	</delete>
+	
 	<select id="selectReportForm" parameterType="String" resultType="reportVO">
 		select * from ulsan_workRate where login_work_area = #{searchArea} and work_name is null;
 	</select>
+	
+	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+	<!-- sow 게시판 접속 -->
+	<select id="selectSowBoardList" parameterType="String" resultType="reportVO">
+		select * from
+		(select * from (
+			select  ROW_NUMBER() OVER (ORDER BY board_date) AS row_num, board_title, board_date, board_area from sow_board where board_area = #{searchArea}
+		) as t1
+	) as t2 order by board_date desc;
+	</select>
+	
+	<!-- sow 추가 폼 -->
+	<select id="selectWorkName" parameterType="String" resultType="reportVO">
+		select work_name_total from workrate_total where login_work_area_total = #{searchArea} and work_date_total like concat('%',#{searchDate},'%');
+	</select>
+	
 </mapper>

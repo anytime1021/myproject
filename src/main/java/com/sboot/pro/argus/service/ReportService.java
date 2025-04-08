@@ -43,6 +43,11 @@ public interface ReportService {
 	// 월별 보고서 행 삭제
 	public int removeTotalReportRow(String searchArea, String work_name_total, String searchDate) throws Exception;
 	
+	// -------------------------------------------------------------------------------------------------------------------
+	
+	// sow 게시판 접속
+	public ReportVO sowBoardList(String searchArea) throws Exception;
+	
 	public List<ReportVO> testForm(String searchArea) throws Exception;
 	
 	// 테스트

@@ -83,6 +83,9 @@ public interface ReportController {
 	
 	// -------------------------------------------------------------------------------------------------------------------
 	
+	// sow 게시판 접속
+	public ModelAndView sowBoard(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
 	// sow 추가 폼
-	public ModelAndView sowAddTotalForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView sowAddForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

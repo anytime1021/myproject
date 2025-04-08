@@ -2,7 +2,15 @@
 /* 레포트 게시판 */
 .first-container {width: 100%; height: 100%; background-color: white;}
 .first-container .image-container {width: 100%; height: 250px; background-size:cover; position:relative;}
-.first-container .report-menu {width: 100%; height: 50px;}
+.first-container .report-menu {width: 100%; height: 50px; font-family: sans-serif;}
+.first-container .report-menu .ul-wrap {list-style: none; padding: 0px; margin: 0px; display: flex; gap: 12px;}
+.first-container .report-menu .ul-wrap .li-wrap {position: relative;}
+.first-container .report-menu .ul-wrap .li-wrap .dropdown-menu {display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); background-color: white; min-width: 140px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); z-index: 1000; padding: 0px; margin: 0px; border-radius: 6px; text-align: center;}
+.first-container .report-menu .ul-wrap .li-wrap .dropdown-menu li {padding: 10px 0px; border-bottom: 1px solid #eee;}
+.first-container .report-menu .ul-wrap .li-wrap .dropdown-menu li:last-child {border-bottom: none;}
+.first-container .report-menu .ul-wrap .li-wrap .dropdown-menu li a {text-decoration: none; color: #333; display:block; transition: background-color 0.2s;}
+.first-container .report-menu .ul-wrap .li-wrap .dropdown-menu li a:hover {background-color:#f0f0f0;}
+.first-container .report-menu .ul-wrap .li-wrap.dropdown:hover .dropdown-menu {display: block;}
 .first-container .report-menu-banner {width: 100%; height: 150px; display:flex; justify-content: center; align-items: center;}
 .first-container .report-menu-banner .text-control {font-size: 50px;}
 .first-container .report-container {padding: 20px; width: 100%; height: 100%;}
@@ -33,3 +41,15 @@
 .first-container .work-rate .table-control-work input[type="text"] {width:50px;}
 
 /* 근무현황(sow) */
+.first-container .section-flex {display: flex;}
+.first-container .section-flex .sow-title {width: 75%; height: 100%; border: 1px solid black; display: flex;}
+.first-container .section-flex .sow-title2 {width: 25%; height: 100%; border: 1px solid black; display: flex;	align-items: center; background-color: #cccccc;}
+.first-container .section-flex .table-structure {width: 100%; height: 100%;}
+.first-container .section-flex .table-structure table {table-layout: fixed;	font-size: 10px; width: 100%; border-collapse: collapse; text-align: center; align-items: center;}
+.first-container .section-flex .table-structure thead {background-color: #cccccc; text-align: center; align-items: center;}
+.first-container .section-flex .table-structure th,
+.first-container .section-flex .table-structure td {border: 1px solid black; padding: 10px;}
+.first-container .section-flex .table-structure .dropdown {position: relative; cursor: pointer;}
+.first-container .section-flex .table-structure .dropdown .dropdown-menu {display: none; position: absolute; top: 100%; left: 0; width: 100%; border: 1px solid #ccc; background: white; z-index: 999;}
+.first-container .section-flex .table-structure .dropdown .dropdown-menu li {padding: 0px; border-bottom: 1px solid #eee;}
+.first-container .section-flex .table-structure .dropdown .dropdown-menu li:hover {background: #f2f2f2;}

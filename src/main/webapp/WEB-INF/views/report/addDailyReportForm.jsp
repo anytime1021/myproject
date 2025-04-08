@@ -32,7 +32,14 @@
 			</div>
 			<div class="report-menu">
 				<ul class="ul-wrap">
-					<li class="li-wrap"> 보고서 1 </li>
+					<li class="li-wrap dropdown">
+						<span class="report-title"> 작업일보 </span>
+						<ul class="dropdown-menu">
+							<li><a href="${contextPath}/report/reportArea.do">작업현황</a></li>
+							<li><a href="${contextPath}/report/sowBoard.do">근무현황</a></li>
+							<li><a href="#">실적</a></li>
+						</ul>
+					</li>
 					<li class="li-wrap"> 보고서 2 </li>
 					<li class="li-wrap"> 보고서 3 </li>
 					<li class="li-wrap"> 보고서 4 </li>

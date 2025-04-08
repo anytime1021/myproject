@@ -56,8 +56,15 @@ public interface ReportDAO {
 	public void updateTotalReportList(@Param("searchArea") String searchArea, @Param("modTotalReportList") List<ReportVO> modTotalReportList, @Param("searchDate") String searchDate) throws Exception;
 	
 	// 월별 보고서 행 삭제
-	
 	public int deleteTotalReportRow(@Param("searchArea") String searchArea, @Param("work_name_total") String work_name_total, @Param("searchDate") String searchDate) throws Exception;
+	
+	// -------------------------------------------------------------------------------------------------------------------
+	
+	// sow 게시판 접속
+	public ReportVO selectSowBoardList(String searchArea) throws Exception;
+	
+	// sow 추가 폼
+	public List<ReportVO> selectWorkName(@Param("searchArea") String searchArea, @Param("searchDate") String searchDate) throws Exception;
 	
 	public List<ReportVO> selectReportForm(String searchArea) throws Exception;
 	

@@ -483,12 +483,40 @@ public class ReportControllerImpl implements ReportController{
 	
 	// -------------------------------------------------------------------------------------------------------------------
 	
+	// sow 게시판 접속
+	@Override
+	@GetMapping("/report/sowBoard.do")
+	public ModelAndView sowBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView("/report/sowBoard");
+		HttpSession session = request.getSession();
+		LoginVO login = (LoginVO) session.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		
+		ReportVO sowBoardList = new ReportVO();
+		sowBoardList = reportService.sowBoardList(searchArea);
+		mav.addObject("sowBoardList", sowBoardList);
+		return mav;
+	}
+	
 	// sow 추가 폼
 	@Override
-	@GetMapping("/report/sowAddTotalForm.do")
-	public ModelAndView sowAddTotalForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("/report/sowAddTotalForm");
-
+	@GetMapping("/report/sowAddForm.do")
+	public ModelAndView sowAddForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView("/report/sowAddForm");
+		HttpSession session = request.getSession();
+		LoginVO login = (LoginVO) session.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		
+		List<ReportVO> sowWorkName = new ArrayList<ReportVO>();
+		
+		SimpleDateFormat date_now = new SimpleDateFormat("yyyy-MM-dd");
+        String work_date = date_now.format(new Date());
+		
+		String searchDate = work_date.substring(0,7);
+		
+		sowWorkName = reportDAO.selectWorkName(searchArea, searchDate);
+		mav.addObject("sowWorkName", sowWorkName); 
+		mav.addObject("searchArea", searchArea);
 		return mav;
 	}
 }

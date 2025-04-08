@@ -54,7 +54,7 @@
 				</ul>
 			</div>
 			<div class="report-menu-banner">
-				<p class="text-control">작업현황</p>
+				<p class="text-control">근무현황</p>
 			</div>
 			<div class="report-container">
 				<div class="report-list">
@@ -67,18 +67,18 @@
 								<th style="width:10%;">작성일</th>
 							</tr>
 						</thead>
-						<c:forEach var="reportListJsp" items="${reportListJsp}">
+						<c:forEach var="sowBoardList" items="${sowBoardList}">
 						<c:set var="i" value="${i+1}" />
 						<tbody>
 							<tr>
-								<td>${reportListJsp.row_num}</td>
-								<td><a href="${contextPath}/report/reportView.do?board_date=${reportListJsp.board_date}">${reportListJsp.board_title}</a></td>
-								<td>${reportListJsp.board_date}</td>
+								<td>${sowBoardList.row_num}</td>
+								<td><a href="${contextPath}/report/reportView.do?board_date=${sowBoardList.board_date}">${sowBoardList.board_title}</a></td>
+								<td>${sowBoardList.board_date}</td>
 							</tr>
 						</tbody>
 						</c:forEach>
-						<c:set var="getBoard_date" value="${reportListJsp[0].board_date}" />
-						<a class="btn" href="${contextPath}/report/addDailyReportForm.do">작성하기</a>
+						<c:set var="getBoard_date" value="${sowBoardList[0].board_date}" />
+						<a class="btn" href="${contextPath}/report/sowAddForm.do">작성하기</a>
 					</table>
 				</div>
 			</div>
