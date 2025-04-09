@@ -54,7 +54,7 @@
 				</ul>
 			</div>
 			<div class="report-menu-banner">
-				<p class="text-control">작업현황(월별)</p>
+				<p class="text-control">근무현황(월별)</p>
 			</div>
 			<div class="report-container">
 				<div class="report-list">
@@ -73,7 +73,7 @@
 							<tr>
 <!--								<fmt:formatDate var="work_date_total" value="${reportListTotalJsp.work_date_total}" pattern="yyyy-MM"/>-->
 								<td>${sowListTotalJsp.row_num}</td>
-								<td><a href="#">${sowListTotalJsp.board_title}</a></td>
+								<td><a href="${contextPath}/report/sowAddTotalForm.do?board_date=${sowListTotalJsp.board_date}">${sowListTotalJsp.board_title}</a></td>
 								<td>${sowListTotalJsp.board_date}</td>
 							</tr>
 						</tbody>

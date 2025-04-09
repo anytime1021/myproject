@@ -51,6 +51,16 @@ public interface ReportService {
 	// sow 게시판 접속
 	public ReportVO sowBoardList(String searchArea) throws Exception;
 	
+	// sow 일별 추가 폼
+	public List<ReportVO> selectSowMonthList(String searchArea, String searchDate) throws Exception;
+	
+	// sow 월별 추가(정보저장)
+	public int sowAddTotal(String searchArea, String sowDML_name, String work_date) throws Exception;
+	
+	// sow 월별 데이터
+	public List<ReportVO> selectAddTotal(String searchArea, String searchDate) throws Exception;
+	
+	
 	public List<ReportVO> testForm(String searchArea) throws Exception;
 	
 	// 테스트

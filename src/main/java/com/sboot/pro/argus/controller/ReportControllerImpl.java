@@ -3,21 +3,20 @@ package com.sboot.pro.argus.controller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.sboot.pro.argus.DTO.BoardType;
 import com.sboot.pro.argus.DTO.CombinedReportResponse;
 import com.sboot.pro.argus.dao.ReportDAO;
@@ -507,7 +506,7 @@ public class ReportControllerImpl implements ReportController{
 		return mav;
 	}
 	
-	// sow 추가 폼
+	// sow 일별 추가 폼
 	@Override
 	@GetMapping("/report/sowAddForm.do")
 	public ModelAndView sowAddForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -524,6 +523,8 @@ public class ReportControllerImpl implements ReportController{
 		String searchDate = work_date.substring(0,7);
 		
 		sowWorkName = reportDAO.selectWorkName(searchArea, searchDate);
+		List<ReportVO> sowMonthList = new ArrayList<ReportVO>();
+		sowMonthList = reportService.selectSowMonthList(searchArea, searchDate);
 		mav.addObject("sowWorkName", sowWorkName); 
 		mav.addObject("searchArea", searchArea);
 		return mav;
@@ -550,6 +551,44 @@ public class ReportControllerImpl implements ReportController{
 		mav.addObject("sowListTotalJsp", sowListTotalJsp);
 		return mav;
 	}
+	
 	// sow 월별 추가 폼
+	@Override
+	@GetMapping("/report/sowAddTotalForm.do")
+	public ModelAndView sowAddTotalForm(@RequestParam("board_date") String board_date, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView("/report/sowAddTotalForm");
+		HttpSession session = request.getSession();
+		LoginVO login = (LoginVO) session.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		
+		String searchDate = board_date.substring(0,7);
+		
+		List<ReportVO> sowWorkName = new ArrayList<ReportVO>();
+		sowWorkName = reportDAO.selectWorkName(searchArea, searchDate);
+		mav.addObject("sowWorkName", sowWorkName); 
+		mav.addObject("searchArea", searchArea);
+		mav.addObject("searchDate", searchDate);
+		return mav;
+	}
+	
+	// sow 월별 추가(정보저장)
+	
+	@PostMapping("/report/sowAddTotal.do")
+	public ModelAndView sowAddTotal(@RequestParam("sowDML_name") String sowDML_name, @RequestParam("searchDate") String searchDate, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView("redirect:/report/sowAddTotalForm.do?board_date="+searchDate+"-01");
+		HttpSession session = request.getSession();
+		LoginVO login = (LoginVO) session.getAttribute("login");
+		String searchArea = login.getLogin_area();
+	
+		String work_date = searchDate + "-01";
+		System.out.println(work_date);
+		
+		int insert = 0;
+		insert = reportService.sowAddTotal(searchArea, sowDML_name, work_date);
+//		List<ReportVO> result= reportService.selectAddTotal(searchArea, searchDate);
+
+		return mav;
+	}
 }
+
 

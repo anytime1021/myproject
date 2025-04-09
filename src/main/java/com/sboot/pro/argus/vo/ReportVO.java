@@ -60,6 +60,17 @@ public class ReportVO {
 	private String board_date;
 	private String board_area;
 	
+	// sow 일별
+	private String sowDWL_name;
+	private String sowDWL_work_name;
+	private String sowDWL_shift;
+	private int sowDWL_hours;
+	private int sowDWL_overtime;
+	
+	// sow 월별
+	private String sowDML_name;
+
+	// 게시판 번호
 	private int row_num;
 
 	public int getWork_num() {
@@ -398,8 +409,52 @@ public class ReportVO {
 		this.row_num = row_num;
 	}
 
-	
-	
-	
+	public String getSowDWL_name() {
+		return sowDWL_name;
+	}
+
+	public void setSowDWL_name(String sowDWL_name) {
+		this.sowDWL_name = sowDWL_name;
+	}
+
+	public String getSowDWL_work_name() {
+		return sowDWL_work_name;
+	}
+
+	public void setSowDWL_work_name(String sowDWL_work_name) {
+		this.sowDWL_work_name = sowDWL_work_name;
+	}
+
+	public String getSowDWL_shift() {
+		return sowDWL_shift;
+	}
+
+	public void setSowDWL_shift(String sowDWL_shift) {
+		this.sowDWL_shift = sowDWL_shift;
+	}
+
+	public int getSowDWL_hours() {
+		return sowDWL_hours;
+	}
+
+	public void setSowDWL_hours(int sowDWL_hours) {
+		this.sowDWL_hours = sowDWL_hours;
+	}
+
+	public int getSowDWL_overtime() {
+		return sowDWL_overtime;
+	}
+
+	public void setSowDWL_overtime(int sowDWL_overtime) {
+		this.sowDWL_overtime = sowDWL_overtime;
+	}
+
+	public String getSowDML_name() {
+		return sowDML_name;
+	}
+
+	public void setSowDML_name(String sowDML_name) {
+		this.sowDML_name = sowDML_name;
+	}
 }
 

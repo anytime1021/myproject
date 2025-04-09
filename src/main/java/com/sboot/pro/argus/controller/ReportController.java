@@ -83,12 +83,15 @@ public interface ReportController {
 	
 	// -------------------------------------------------------------------------------------------------------------------
 	
-	// sow 게시판 접속
+	// sow 일별 게시판 접속
 	public ModelAndView sowBoard(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
-	// sow 추가 폼
+	// sow 일별 추가 폼
 	public ModelAndView sowAddForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	// sow 월별 게시판 접속
 	public ModelAndView sowBoardTotal(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+	// sow 월별 추가 폼
+	public ModelAndView sowAddTotalForm(@RequestParam("board_date") String board_date, HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

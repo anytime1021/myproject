@@ -127,6 +127,21 @@ public class ReportServiceImpl implements ReportService{
 		return reportDAO.selectSowBoardList(searchArea);
 	}
 	
+	// sow 일별 추가 폼
+	public List<ReportVO> selectSowMonthList(String searchArea, String searchDate) throws Exception {
+		return reportDAO.selectSowMonthList(searchArea, searchDate);
+	}
+	
+	// sow 월별 추가(정보저장)
+	public int sowAddTotal(String searchArea, String sowDML_name, String work_date) throws Exception {
+		return reportDAO.insertSowTotal(searchArea, sowDML_name, work_date);
+	}
+	
+	// sow 월별 정보 가져오기
+	public List<ReportVO> selectAddTotal(String searchArea, String searchDate) throws Exception {
+		return reportDAO.selectAddTotal(searchArea, searchDate);
+	}
+	
 	
 	@Override
 	public List<ReportVO> testForm(String searchArea) throws Exception {

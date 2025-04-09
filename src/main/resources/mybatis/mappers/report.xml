@@ -194,9 +194,23 @@
 	) as t2 order by board_date desc;
 	</select>
 	
-	<!-- sow 추가 폼 -->
+	<!-- sow 일별 추가 폼 (작업목록 가져오기)-->
 	<select id="selectWorkName" parameterType="String" resultType="reportVO">
 		select work_name_total from workrate_total where login_work_area_total = #{searchArea} and work_date_total like concat('%',#{searchDate},'%');
 	</select>
 	
+	<!-- sow 일별 추가 폼 -->
+	<select id="selectSowMonthList" parameterType="String" resultType="reportVO">
+		select * from sowMonthWorkLog where login_work_area_total = #{searchArea} and work_date_total like concat('%',#{searchDate},'%');
+	</select>
+	
+	<!-- sow 월별 추가(정보저장) -->
+	<insert id="insertSowTotal" parameterType="String">
+		insert into sowmonthworklog(sowDML_name, work_date, login_work_area_total) values (#{sowDML_name}, #{work_date}, #{searchArea});
+	</insert>
+
+	<!-- sow 월별 이름 가져오기 -->
+	<select id="selectAddTotal" parameterType="String" resultType="reportVO">
+		select * from sowmonthworklog where work_date like concat('%',#{searchDate},'%') and login_work_area_total = #{searchArea};
+	</select>
 </mapper>

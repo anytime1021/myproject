@@ -66,8 +66,17 @@ public interface ReportDAO {
 	// sow 게시판 접속
 	public ReportVO selectSowBoardList(String searchArea) throws Exception;
 	
-	// sow 추가 폼
+	// sow 일별 추가 폼 (작업목록 가져오기)
 	public List<ReportVO> selectWorkName(@Param("searchArea") String searchArea, @Param("searchDate") String searchDate) throws Exception;
+	
+	// sow 일별 추가 폼
+	public List<ReportVO> selectSowMonthList(@Param("searchArea") String searchArea, @Param("searchDate") String searchDate) throws Exception;
+	
+	// sow 월별 추가(정보저장)
+	public int insertSowTotal(@Param("searchArea") String searchArea, @Param("sowDML_name") String sowDML_name, @Param("work_date") String work_date) throws Exception;
+	
+	// sow 월별 정보 가져오기
+	public List<ReportVO> selectAddTotal(@Param("searchArea") String searchArea, @Param("searchDate") String searchDate) throws Exception;
 	
 	public List<ReportVO> selectReportForm(String searchArea) throws Exception;
 	
