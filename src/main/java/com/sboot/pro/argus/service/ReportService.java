@@ -57,7 +57,7 @@ public interface ReportService {
 	// sow 월별 추가(정보저장)
 	public int sowAddTotal(String searchArea, String sowDML_name, String work_date) throws Exception;
 	
-	// sow 월별 데이터
+	// sow 월별 이름 가져오기
 	public List<ReportVO> selectAddTotal(String searchArea, String searchDate) throws Exception;
 	
 	

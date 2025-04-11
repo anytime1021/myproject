@@ -24,45 +24,45 @@
 </head>
 
 <body>
-	<main class="first-container">
+	<main class="second-container">
 		<article>
 			<section class="section-flex">
-				<div class="sow-title">
+				<div class="sow-title-nameList">
 					<h4>${searchDate}월 근무자 목록</h4>
 				</div>
 			</section>
 			<section class="section-flex">
-				<div class="table-structure">
+				<div class="add-form-container">
 					<table id="sowTable">
 						<thead>
 							<tr>
-								<td style="width:3%">No</td>
-								<td style="width:5%">성명</td>
+								<td style="width:30%">No</td>
+								<td style="width:70%">성명</td>
 							</tr>
 						</thead>
 						<tbody id="sowTbody">
-							<c:forEach var="sowWorkName" items="${sowWorkName}" varStatus="status">
+							<c:forEach var="sowName" items="${sowName}" varStatus="status">
 							<c:set var="i" value="${i+1}" />
 							<tr>
 								<td>${i}</td>
-								<td style="width:3%">${sowWorkName.sowDML_name}</td>
+								<td style="width:3%">${sowName.sowDML_name}</td>
 							</tr>
 							</c:forEach>
+							<form name="addTotalReport" method="post" action="${contextPath}/report/sowAddTotal.do">
+								<tr style="height: 20px;">
+								</tr>
+								<tr>
+									<td style="width:30%;">+</td>
+									<td style="width:70%;"><input type="text" name="sowDML_name"></td>
+									<input type="text" name="searchDate" value="${searchDate}" class="searchDate" hidden>
+								</tr>
+								<tr>
+							        <td colspan="2" style="text-align: right;">
+							            <button type="submit">추가하기</button>
+							        </td>
+							    </tr>
+							</form>
 						</tbody>
-						<tr style="height:40px;">
-						</tr>
-						<form name="addTotalReport" method="post" action="${contextPath}/report/sowAddTotal.do">
-							<tr>
-								<td style="width:3%;">+</td>
-								<td style="width:5%;"><input type="text" name="sowDML_name"></td>
-								<input type="text" name="searchDate" value="${searchDate}" class="searchDate" hidden>
-							</tr>
-							<tr>
-					            <td colspan="2" style="text-align: right;">
-					                <button type="submit">추가하기</button>
-					            </td>
-					        </tr>
-						</form>
 					</table>
 				</div>
 			</section>

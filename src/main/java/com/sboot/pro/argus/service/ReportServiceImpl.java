@@ -137,7 +137,7 @@ public class ReportServiceImpl implements ReportService{
 		return reportDAO.insertSowTotal(searchArea, sowDML_name, work_date);
 	}
 	
-	// sow 월별 정보 가져오기
+	// sow 월별 이름 가져오기
 	public List<ReportVO> selectAddTotal(String searchArea, String searchDate) throws Exception {
 		return reportDAO.selectAddTotal(searchArea, searchDate);
 	}

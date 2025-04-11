@@ -565,9 +565,15 @@ public class ReportControllerImpl implements ReportController{
 		
 		List<ReportVO> sowWorkName = new ArrayList<ReportVO>();
 		sowWorkName = reportDAO.selectWorkName(searchArea, searchDate);
-		mav.addObject("sowWorkName", sowWorkName); 
+		System.out.println(searchArea);
+		System.out.println(searchDate);
+		mav.addObject("sowWorkName", sowWorkName);
 		mav.addObject("searchArea", searchArea);
 		mav.addObject("searchDate", searchDate);
+		List<ReportVO> sowName= reportService.selectAddTotal(searchArea, searchDate);
+//		boolean listCheck = true;
+//		mav.addObject("listCheck", listCheck);
+		mav.addObject("sowName", sowName);
 		return mav;
 	}
 	
@@ -585,8 +591,6 @@ public class ReportControllerImpl implements ReportController{
 		
 		int insert = 0;
 		insert = reportService.sowAddTotal(searchArea, sowDML_name, work_date);
-//		List<ReportVO> result= reportService.selectAddTotal(searchArea, searchDate);
-
 		return mav;
 	}
 }
