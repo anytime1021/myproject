@@ -72,7 +72,7 @@
 						<tbody>
 							<tr>
 								<td>${sowBoardList.row_num}</td>
-								<td><a href="${contextPath}/report/reportView.do?board_date=${sowBoardList.board_date}">${sowBoardList.board_title}</a></td>
+								<td><a href="${contextPath}/report/sowDailyView.do?board_date=${sowBoardList.board_date}">${sowBoardList.board_title}</a></td>
 								<td>${sowBoardList.board_date}</td>
 							</tr>
 						</tbody>

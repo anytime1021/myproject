@@ -204,13 +204,40 @@
 		select * from sowMonthWorkLog where login_work_area_total = #{searchArea} and work_date_total like concat('%',#{searchDate},'%');
 	</select>
 	
-	<!-- sow 월별 추가(정보저장) -->
+	<!-- sow 일별 추가 (정보저장) - 게시판 없을 시 추가 -->
+	<insert id="insertSowDailyWorkLogList" parameterType="reportVO">
+		<foreach collection="sowDailyWorkLogList" item="item">
+			insert into sowDailyWorkLog(sowDWL_name, sowDWL_work_name, sowDWL_shift, sowDWL_hours, sowDWL_overtime, work_date, login_work_area)
+			values (#{item.sowDWL_name}, #{item.sowDWL_work_name}, #{item.sowDWL_shift}, #{item.sowDWL_hours}, #{item.sowDWL_overtime}, #{item.work_date}, #{searchArea});
+		</foreach>
+	</insert>
+	
+	<select id="countBoard" parameterType="String" resultType="int">
+		select count(*) from sowDailyWorkLog where work_date = #{work_date} and login_work_area = #{searchArea};
+	</select>
+	
+	<insert id="insertSowDailyWorkLogBoard" parameterType="String">
+		insert into sowDailyWorkLog_board(board_title, board_date, board_area)
+		values(concat(#{work_date},'보고서'), #{work_date}, #{searchArea});
+	</insert>
+	
+	<!-- sow 일별 보기 -->
+	<select id="selectViewList" parameterType="String" resultType="reportVO">
+		select * from sowDailyWorkLog where login_work_area = #{searchArea} and work_date = #{work_date}
+	</select>
+	
+	<select id="selectSumOverTime" parameterType="String" resultType="reportVO">
+		select sum(sowDWL_overtime) as dummyInt from sowDailyWorkLog where login_work_area = #{searchArea}
+		and work_date between #{searchDate} and #{work_date} group by sowDWL_name;
+	</select>
+	
+	<!-- sow 월별 추가(정보저장) -->	
 	<insert id="insertSowTotal" parameterType="String">
-		insert into sowmonthworklog(sowDML_name, work_date_total, login_work_area_total) values (#{sowDML_name}, #{work_date}, #{searchArea});
+		insert into sowmonthworklog(sowMWL_name, work_date_total, login_work_area_total) values (#{sowMWL_name}, #{work_date}, #{searchArea});
 	</insert>
 
 	<!-- sow 월별 이름 가져오기 -->
 	<select id="selectAddTotal" parameterType="String" resultType="reportVO">
-		select sowDML_name from sowmonthworklog where work_date_total like concat('%',#{searchDate},'%') and login_work_area_total = #{searchArea};
+		select sowMWL_name from sowmonthworklog where work_date_total like concat('%',#{searchDate},'%') and login_work_area_total = #{searchArea};
 	</select>
 </mapper>

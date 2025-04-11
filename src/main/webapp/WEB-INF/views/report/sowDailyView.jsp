@@ -35,7 +35,7 @@
 				</div>
 			</section>
 			<section class="section-flex">
-					<c:forEach var="i" begin="0" end="1">
+					<c:forEach var="i" begin="0" end="3">
 						<div class="table-structure">
 							<table>
 								<thead>
@@ -50,6 +50,18 @@
 									</tr>
 								</thead>
 								<c:forEach var="j" begin="0" end="26" varStatus="status">
+									<c:choose>
+										<c:when test="${i == 0}">
+											<c:set var="sowView" value="${sowViewList[status.index]}" />
+											<c:set var="overTime" value="${sumOverTime[status.index]}" />
+										</c:when>
+										<c:when test="${i == 1}">
+											<c:set var="sowView" value="${sowViewList[status.index + (i * 27)]}" />
+										</c:when>
+										<c:when test="${i == 2}">
+											<c:set var="sowView" value="${sowViewList[status.index + (i * 27)]}" />
+										</c:when>
+									</c:choose>
 									<tbody>
 										<tr>
 											<td style="width:3%">${j+1+(i*27)}</td>

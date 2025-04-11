@@ -45,7 +45,7 @@
 							<c:set var="i" value="${i+1}" />
 							<tr>
 								<td>${i}</td>
-								<td style="width:3%">${sowName.sowDML_name}</td>
+								<td style="width:3%">${sowName.sowMWL_name}</td>
 							</tr>
 							</c:forEach>
 							<form name="addTotalReport" method="post" action="${contextPath}/report/sowAddTotal.do">
@@ -53,7 +53,7 @@
 								</tr>
 								<tr>
 									<td style="width:30%;">+</td>
-									<td style="width:70%;"><input type="text" name="sowDML_name"></td>
+									<td style="width:70%;"><input type="text" name="sowMWL_name"></td>
 									<input type="text" name="searchDate" value="${searchDate}" class="searchDate" hidden>
 								</tr>
 								<tr>
@@ -73,10 +73,10 @@
 	let rowCount = 1;
 	
 	function addRow() {
-		const sowDML_name = document.getElementById("sowDML_name").value;
+		const sowMWL_name = document.getElementById("sowMWL_name").value;
 		const work_date = document.getElementById("work_date").value;
 		
-		if (!sowDML_name) {
+		if (!sowMWL_name) {
 			alert("값을 입력해 주세요.");
 			return;
 		}
@@ -87,7 +87,7 @@
 			contentType: "application/json",
 			dataType: "json",
 			data: JSON.stringify({
-				sowDML_name: sowDML_name,
+				sowMWL_name: sowMWL_name,
 				work_date: work_date
 			}),
 			success: function (list) {
@@ -97,14 +97,14 @@
 					const rowHtml = `
 						<tr>
 							<td>${count}</td>
-							<td>${item.sowDML_name}</td>
+							<td>${item.sowMWL_name}</td>
 						</tr>
 					`;
 					$("#sowTbody").append(rowHtml);
 					count++;
 				});
 				
-				$("#sowDML_name").val("");
+				$("#sowMWL_name").val("");
 				$("#work_date").val("");
 			},
 			error: function(xhr, status, error) {

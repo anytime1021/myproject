@@ -36,9 +36,7 @@
 		        not use video
 		    </video>
 			-->
-			<c:forEach var="test" items="${test}">
-				${test.work_date_total}
-			</c:forEach>
+			<a href="${contextPath}/report/testList.do">클릭</a>
 			<!--유튜브 영상 삽입
 			<div id="player"></div>
 			-->

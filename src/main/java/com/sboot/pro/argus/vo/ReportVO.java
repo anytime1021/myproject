@@ -68,8 +68,12 @@ public class ReportVO {
 	private int sowDWL_overtime;
 	
 	// sow 월별
-	private String sowDML_name;
-
+	private String sowMWL_name;
+	private String sowMWL_work_name;
+	
+	// 필요한 임의 숫자 넣을때 (예를들면 DB에서 AS 사용한 column)
+	private int dummyInt;
+	
 	// 게시판 번호
 	private int row_num;
 
@@ -449,12 +453,31 @@ public class ReportVO {
 		this.sowDWL_overtime = sowDWL_overtime;
 	}
 
-	public String getSowDML_name() {
-		return sowDML_name;
+	public String getSowMWL_name() {
+		return sowMWL_name;
 	}
 
-	public void setSowDML_name(String sowDML_name) {
-		this.sowDML_name = sowDML_name;
+	public void setSowMWL_name(String sowMWL_name) {
+		this.sowMWL_name = sowMWL_name;
 	}
+
+	public String getSowMWL_work_name() {
+		return sowMWL_work_name;
+	}
+
+	public void setSowMWL_work_name(String sowMWL_work_name) {
+		this.sowMWL_work_name = sowMWL_work_name;
+	}
+
+	public int getDummyInt() {
+		return dummyInt;
+	}
+
+	public void setDummyInt(int dummyInt) {
+		this.dummyInt = dummyInt;
+	}
+	
+	
 }
+
 

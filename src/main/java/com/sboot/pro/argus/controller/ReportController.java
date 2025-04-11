@@ -5,6 +5,7 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -89,9 +90,24 @@ public interface ReportController {
 	// sow 일별 추가 폼
 	public ModelAndView sowAddForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
+	// sow 일별 추가 (정보저장)
+	public ModelAndView sowAddDailyWorkLog(@RequestParam(value = "sowDWL_name", required=false) String[] sowDWL_nameArray,
+			@RequestParam(value = "sowDWL_work_name", required=false) String[] sowDWL_work_nameArray,
+			@RequestParam(value = "sowDWL_shift", required=false) String[] sowDWL_shiftArray,
+			@RequestParam(value = "sowDWL_hours", required=false) String[] sowDWL_hoursArray,
+			@RequestParam(value = "sowDWL_overtime", required=false) String[] sowDWL_overtimeArray,
+			@RequestParam("work_date") String work_date, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+	// sow 일별 보기
+	public ModelAndView sowView(@RequestParam("board_date") String board_date, HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+	
 	// sow 월별 게시판 접속
 	public ModelAndView sowBoardTotal(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	// sow 월별 추가 폼
 	public ModelAndView sowAddTotalForm(@RequestParam("board_date") String board_date, HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+	// sow 월별 추가(정보저장)
+	public ModelAndView sowAddTotal(@RequestParam("sowMWL_name") String sowMWL_name, @RequestParam("searchDate") String searchDate, HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

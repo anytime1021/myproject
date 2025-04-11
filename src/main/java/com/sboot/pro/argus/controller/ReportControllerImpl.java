@@ -1,24 +1,24 @@
 package com.sboot.pro.argus.controller;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.sboot.pro.argus.DTO.BoardType;
 import com.sboot.pro.argus.DTO.CombinedReportResponse;
+import com.sboot.pro.argus.DTO.CombinedSowDailyWorkLog;
 import com.sboot.pro.argus.dao.ReportDAO;
 import com.sboot.pro.argus.service.ReportService;
 import com.sboot.pro.argus.vo.LoginVO;
@@ -210,11 +210,7 @@ public class ReportControllerImpl implements ReportController{
 				workReportList.add(reportVO);
 			}
 			reportService.addWorkReportList(searchArea, workReportList, work_date);
-			
-			List<ReportVO> test = new ArrayList<ReportVO>();
-			test = reportService.testForm(searchArea);
-			mav.addObject("testList", test);
-			return mav;	
+			return mav;
 		}
 	
 	// 일일 보고서 수정 폼
@@ -515,18 +511,78 @@ public class ReportControllerImpl implements ReportController{
 		LoginVO login = (LoginVO) session.getAttribute("login");
 		String searchArea = login.getLogin_area();
 		
-		List<ReportVO> sowWorkName = new ArrayList<ReportVO>();
-		
 		SimpleDateFormat date_now = new SimpleDateFormat("yyyy-MM-dd");
         String work_date = date_now.format(new Date());
 		
 		String searchDate = work_date.substring(0,7);
 		
+		List<ReportVO> sowWorkName = new ArrayList<ReportVO>();
 		sowWorkName = reportDAO.selectWorkName(searchArea, searchDate);
+		
 		List<ReportVO> sowMonthList = new ArrayList<ReportVO>();
 		sowMonthList = reportService.selectSowMonthList(searchArea, searchDate);
+		
 		mav.addObject("sowWorkName", sowWorkName); 
+		mav.addObject("sowMonthList", sowMonthList);
 		mav.addObject("searchArea", searchArea);
+		mav.addObject("work_date", work_date);
+		return mav;
+	}
+	
+	// sow 일별 추가 (정보저장)
+	@Override
+	@PostMapping("/report/sowAddDailyWorkLog.do")
+	public ModelAndView sowAddDailyWorkLog(@RequestParam(value = "sowDWL_name", required=false) String[] sowDWL_nameArray,
+			@RequestParam(value = "sowDWL_work_name", required=false) String[] sowDWL_work_nameArray,
+			@RequestParam(value = "sowDWL_shift", required=false) String[] sowDWL_shiftArray,
+			@RequestParam(value = "sowDWL_hours", required=false) String[] sowDWL_hoursArray,
+			@RequestParam(value = "sowDWL_overtime", required=false) String[] sowDWL_overtimeArray,
+			@RequestParam("work_date") String work_date, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView("/report/sowBoard");
+		HttpSession session = request.getSession();
+		LoginVO login = (LoginVO) session.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		
+		List<ReportVO> sowDailyWorkLogList = new ArrayList<>();
+		for (int i = 0; i < sowDWL_nameArray.length; i++) {
+			ReportVO reportVO = new ReportVO();
+			reportVO.setSowDWL_name(sowDWL_nameArray[i]);
+			reportVO.setSowDWL_work_name(sowDWL_work_nameArray[i]);
+			reportVO.setSowDWL_shift(sowDWL_shiftArray[i]);
+			reportVO.setSowDWL_hours(nullReturnZero(sowDWL_hoursArray[i]));
+			reportVO.setSowDWL_overtime(nullReturnZero(sowDWL_overtimeArray[i]));
+			sowDailyWorkLogList.add(reportVO);
+		}
+		reportService.sowAddDailyWorkLogList(searchArea, sowDailyWorkLogList, work_date);
+		
+		return mav;
+	}
+	
+	private int nullReturnZero(String Array) {
+		try {
+			return (Array != null && !Array.trim().isEmpty()) ? Integer.parseInt(Array.trim()) : 0;
+		} catch (NumberFormatException e) {
+			return 0;
+		}
+	}
+	
+	// sow 일별 보기
+	@Override
+	@GetMapping("/report/sowDailyView.do")
+	public ModelAndView sowView(@RequestParam("board_date") String board_date, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView("/report/sowDailyView");
+		HttpSession session = request.getSession();
+		LoginVO login = (LoginVO) session.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		
+		CombinedSowDailyWorkLog data = reportService.getCombinedSowDailyWorkLog(searchArea, board_date);
+		
+		List<ReportVO> sowViewList = data.getSowDailyWorkLog();
+		List<ReportVO> sumOverTime = data.getSumOverTime();
+//		sowViewList = reportService.selectViewList(searchArea, board_date);
+		mav.addObject("sowViewList", sowViewList);
+		mav.addObject("sumOverTime", sumOverTime);
+		mav.addObject("work_date", board_date);
 		return mav;
 	}
 	
@@ -578,9 +634,9 @@ public class ReportControllerImpl implements ReportController{
 	}
 	
 	// sow 월별 추가(정보저장)
-	
+	@Override
 	@PostMapping("/report/sowAddTotal.do")
-	public ModelAndView sowAddTotal(@RequestParam("sowDML_name") String sowDML_name, @RequestParam("searchDate") String searchDate, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView sowAddTotal(@RequestParam("sowMWL_name") String sowMWL_name, @RequestParam("searchDate") String searchDate, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/report/sowAddTotalForm.do?board_date="+searchDate+"-01");
 		HttpSession session = request.getSession();
 		LoginVO login = (LoginVO) session.getAttribute("login");
@@ -590,7 +646,27 @@ public class ReportControllerImpl implements ReportController{
 		System.out.println(work_date);
 		
 		int insert = 0;
-		insert = reportService.sowAddTotal(searchArea, sowDML_name, work_date);
+		insert = reportService.sowAddTotal(searchArea, sowMWL_name, work_date);
+		return mav;
+	}
+	
+	@GetMapping("/report/testList.do")
+	public ModelAndView testList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView("/report/sowDailyView");
+		HttpSession session = request.getSession();
+		LoginVO login = (LoginVO) session.getAttribute("login");
+		String searchArea = login.getLogin_area();
+        
+		String board_date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		System.out.println(board_date);
+		CombinedSowDailyWorkLog data = reportService.getCombinedSowDailyWorkLog(searchArea, board_date);
+		
+		List<ReportVO> sowViewList = data.getSowDailyWorkLog();
+		List<ReportVO> sumOverTime = data.getSumOverTime();
+//		sowViewList = reportService.selectViewList(searchArea, board_date);
+		mav.addObject("sowViewList", sowViewList);
+		mav.addObject("sumOverTime", sumOverTime);
+		mav.addObject("work_date", board_date);
 		return mav;
 	}
 }

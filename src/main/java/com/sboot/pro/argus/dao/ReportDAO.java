@@ -72,8 +72,17 @@ public interface ReportDAO {
 	// sow 일별 추가 폼
 	public List<ReportVO> selectSowMonthList(@Param("searchArea") String searchArea, @Param("searchDate") String searchDate) throws Exception;
 	
+	// sow 일별 추가 (정보저장) - 게시판 없을시 추가
+	public void insertSowDailyWorkLogList(@Param("searchArea") String searchArea, @Param("sowDailyWorkLogList") List<ReportVO> sowDailyWorkLogList, @Param("work_date") String work_date) throws Exception;
+	public int countBoard(@Param("searchArea") String searchArea, @Param("work_date") String work_date);
+	public void insertSowDailyWorkLogBoard(@Param("searchArea") String searchArea, @Param("work_date") String work_date);
+
+	// sow 일별 보기
+	public List<ReportVO> selectViewList(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
+	public List<ReportVO> selectSumOverTime(@Param("searchArea") String searchArea, @Param("work_date") String work_date, @Param("searchDate") String searchDate) throws Exception;
+	
 	// sow 월별 추가(정보저장)
-	public int insertSowTotal(@Param("searchArea") String searchArea, @Param("sowDML_name") String sowDML_name, @Param("work_date") String work_date) throws Exception;
+	public int insertSowTotal(@Param("searchArea") String searchArea, @Param("sowMWL_name") String sowMWL_name, @Param("work_date") String work_date) throws Exception;
 	
 	// sow 월별 정보 가져오기
 	public List<ReportVO> selectAddTotal(@Param("searchArea") String searchArea, @Param("searchDate") String searchDate) throws Exception;

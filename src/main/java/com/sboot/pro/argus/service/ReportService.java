@@ -1,9 +1,9 @@
 package com.sboot.pro.argus.service;
 
-import java.util.Date;
 import java.util.List;
 
 import com.sboot.pro.argus.DTO.CombinedReportResponse;
+import com.sboot.pro.argus.DTO.CombinedSowDailyWorkLog;
 import com.sboot.pro.argus.vo.ReportVO;
 
 public interface ReportService {
@@ -54,8 +54,16 @@ public interface ReportService {
 	// sow 일별 추가 폼
 	public List<ReportVO> selectSowMonthList(String searchArea, String searchDate) throws Exception;
 	
-	// sow 월별 추가(정보저장)
-	public int sowAddTotal(String searchArea, String sowDML_name, String work_date) throws Exception;
+	// sow 일별 추가 (정보저장)
+	public void sowAddDailyWorkLogList(String searchArea, List<ReportVO> sowDailyWorkLogList, String work_date) throws Exception;
+	
+	// sow 일별 보기
+	public List<ReportVO> selectViewList(String searchArea, String work_date) throws Exception;
+	
+	public CombinedSowDailyWorkLog getCombinedSowDailyWorkLog(String searchArea, String work_date) throws Exception;
+	
+	// sow 월별 추가 (정보저장)
+	public int sowAddTotal(String searchArea, String sowMWL_name, String work_date) throws Exception;
 	
 	// sow 월별 이름 가져오기
 	public List<ReportVO> selectAddTotal(String searchArea, String searchDate) throws Exception;
