@@ -36,6 +36,7 @@
 		        not use video
 		    </video>
 			-->
+			<h1><b>자격증 필기 신청하기 2025-04-14 ~ 2025-04-18</b></h1>
 			<a href="${contextPath}/report/testList.do">클릭</a>
 			<!--유튜브 영상 삽입
 			<div id="player"></div>

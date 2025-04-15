@@ -1,6 +1,17 @@
+html {height: 100%; margin: 0; padding: 0;}
+
+/*공통 css*/
+*{margin: 0; padding: 0; box-sizing: border-box; font-family: "vitoPrice", sans-serif; border-spacing: 0;}
+li{list-style: none;}
+a{text-decoration: none; color: #333;}
+input, button, a, label{border: 0; box-shadow: none; background: transparent;}
+body{background-color: #ebebeb; height: 100%; margin: 0; padding: 0;}
+.color-orange{color: #4B89DC;}
+button{cursor: pointer;}
+/*공통 css*/
 
 /* 레포트 게시판 */
-.first-container {width: 100%; height: 100%; background-color: white;}
+.first-container {width: 100%; height: auto; background-color: white;}
 .first-container .image-container {width: 100%; height: 250px; background-size:cover; position:relative;}
 .first-container .report-menu {width: 100%; height: 50px; font-family: sans-serif;}
 .first-container .report-menu .ul-wrap {list-style: none; padding: 0px; margin: 0px; display: flex; gap: 12px;}
@@ -13,8 +24,8 @@
 .first-container .report-menu .ul-wrap .li-wrap.dropdown:hover .dropdown-menu {display: block;}
 .first-container .report-menu-banner {width: 100%; height: 150px; display:flex; justify-content: center; align-items: center;}
 .first-container .report-menu-banner .text-control {font-size: 50px;}
-.first-container .report-container {padding: 20px; width: 100%; height: 100%;}
-.first-container .report-container .report-list {width: 100%; height: 100%; overflow-x: auto;}
+.first-container .report-container {padding: 20px; width: 100%; height: auto;}
+.first-container .report-container .report-list {width: 100%; height: auto; overflow-x: auto; overflow-y: visible;}
 .first-container .report-container .report-list .table-control {width: 100%; border-collapse: collapse; text-align: center;}
 
 /* 레포트 게시판 테이블 */

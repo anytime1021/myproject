@@ -383,12 +383,12 @@ public class ReportControllerImpl implements ReportController{
 	// 월별 보고서 현장 추가
 	@Override
 	@PostMapping("/report/addTotalReport.do")
-	public ModelAndView addTotalReport(@ModelAttribute("addTotalReport") ReportVO addTotal, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("redirect:/report/addTotalReportForm.do?board_date="+addTotal.getWork_date_total());
+	public ModelAndView addTotalReport(@ModelAttribute("addTotalReport") ReportVO addTotalReport, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView("redirect:/report/addTotalReportForm.do?board_date="+addTotalReport.getWork_date_total());
 		HttpSession session = request.getSession();
 		LoginVO login = (LoginVO) session.getAttribute("login");
 		String searchArea = login.getLogin_area();
-		reportService.addTotalReport(addTotal, searchArea);
+		reportService.addTotalReport(addTotalReport, searchArea);
 		return mav;
 	}
 	
@@ -652,7 +652,7 @@ public class ReportControllerImpl implements ReportController{
 	
 	@GetMapping("/report/testList.do")
 	public ModelAndView testList(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("/report/sowDailyView");
+		ModelAndView mav = new ModelAndView("/report/testList");
 		HttpSession session = request.getSession();
 		LoginVO login = (LoginVO) session.getAttribute("login");
 		String searchArea = login.getLogin_area();
@@ -667,6 +667,29 @@ public class ReportControllerImpl implements ReportController{
 		mav.addObject("sowViewList", sowViewList);
 		mav.addObject("sumOverTime", sumOverTime);
 		mav.addObject("work_date", board_date);
+		return mav;
+	}
+	
+	@GetMapping("/report/testList3.do")
+	public ModelAndView testList2(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView("/report/testList3");
+
+		String searchArea="울산";
+		String board_date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		System.out.println(board_date);
+		CombinedSowDailyWorkLog data = reportService.getCombinedSowDailyWorkLog(searchArea, board_date);
+		
+		List testList2 = new ArrayList<>();
+		testList2 = reportDAO.selectTestList2();
+		List ulsan = new ArrayList<>();
+		String sUlsan = "울산";
+		ulsan = reportDAO.selectTestList3(sUlsan);
+		List yeosu = new ArrayList<>();
+		String sYeosu = "여수";
+		yeosu = reportDAO.selectTestList3(sYeosu);
+		mav.addObject("testList2", testList2);
+		mav.addObject("ulsan", ulsan);
+		mav.addObject("yeosu", yeosu);
 		return mav;
 	}
 }

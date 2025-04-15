@@ -91,4 +91,10 @@ public interface ReportDAO {
 	
 	// 테스트
 	public List<ReportVO> selectTest() throws Exception;
+	
+	// 테스트2
+	public List<ReportVO> selectTestList2()  throws Exception;
+	
+	// 테스트3
+	public List<ReportVO> selectTestList3(String s) throws Exception;
 }

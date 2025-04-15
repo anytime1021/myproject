@@ -26,6 +26,7 @@ public class ReportVO {
 	private String work_date;
 	private String login_work_area;
 	private String work_title;
+	private long work_price;
 	
 	// 변수 배열
 	private int work_amount_RTArray;
@@ -475,6 +476,14 @@ public class ReportVO {
 
 	public void setDummyInt(int dummyInt) {
 		this.dummyInt = dummyInt;
+	}
+
+	public long getWork_price() {
+		return work_price;
+	}
+
+	public void setWork_price(long work_price) {
+		this.work_price = work_price;
 	}
 	
 	

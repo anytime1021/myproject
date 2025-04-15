@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -23,14 +22,8 @@
 	<link rel="stylesheet" href="${contextPath}/resources/css/styles2.css">
 </head>
 <style>
-	th, td {
-		border: 1px solid black;
-		padding: 10px;
-	}
-	
-	thead {
-		background-color: white;
-	}
+
+
 </style>
 <body>
 	<%@ include file="../include/header.jsp"%>
@@ -53,34 +46,47 @@
 					<li class="li-wrap"> 보고서 4 </li>
 				</ul>
 			</div>
-			<div class="report-menu-banner">
-				<p class="text-control">작업현황</p>
+			<div class="report-name">
+				<p>작    업    일    보(Rev.3)</p>
 			</div>
-			<div class="report-container">
-				<div class="report-list">
-					<table class="table-control">
-						<thead>
+			<article>
+				<h3><b> 3. 실적(5일간)</b></h3>
+				<section>
+					<div class="work-rate">
+						<table class="table-control-work">
 							<tr>
-								<th style="width:10%;">NO</th>
-								<th style="width:80%;">제 목</th>
-								<th style="width:10%;">작성일</th>
+								<td style="width:5%;"><b>No</b></td>
+								<td style="width:17%;"><b>현 장</b></td>
+								<td style="width:17%;"><b>금월예상금액</b></td>
+								<td style="width:17%;"><b>금 희</b></td>
+								<td style="width:17%;"><b>누 계 (1일~30일)</b></td>
+								<td style="width:12%;"><b>달성도(%)</b></td>
+								<td style="width:15%;"><b>비고</b></td>
 							</tr>
-						</thead>
-						<tbody>
-						<c:forEach var="reportListJsp" items="${reportListJsp}">
-						<c:set var="i" value="${i+1}" />
+							<!-- c:forEach문 적용 예정-->
+							<c:forEach var="item" items="${mergedList}" varStatus="status">
+								<tr>
+									<td style="width:5%;"><b>No</b></td>
+									<td style="width:17%;"><b>현 장</b></td>
+									<td style="width:17%;"><b>금월예상금액</b></td>
+									<td style="width:17%;"><b>금 희</b></td>
+									<td style="width:17%;"><b>누 계 (1일~30일)</b></td>
+									<td style="width:12%;"><b>달성도(%)</b></td>
+									<td style="width:15%;"><b>비고</b></td>
+								</tr>
+							</c:forEach>
 							<tr>
-								<td>${reportListJsp.row_num}</td>
-								<td><a href="${contextPath}/report/reportView.do?board_date=${reportListJsp.board_date}">${reportListJsp.board_title}</a></td>
-								<td>${reportListJsp.board_date}</td>
+								<td colspan="2" style="width:22%;"><b>계</b></td>
+								<td style="width:17%;"><b></b></td>
+								<td style="width:17%;"><b></b></td>
+								<td style="width:17%;"><b></b></td>
+								<td style="width:12%;"><b></b></td>
+								<td style="width:15%;"><b></b></td>
 							</tr>
-						</c:forEach>
-						</tbody>
-						<c:set var="getBoard_date" value="${reportListJsp[0].board_date}" />
-					</table>
-				</div>
-				<a class="btn" href="${contextPath}/report/addDailyReportForm.do">작성하기</a>
-			</div>
+						</table>
+					</div>
+				</section>
+			</article>
     	</main>
     <%@ include file="../include/footer.jsp"%>	
 </body>

@@ -240,4 +240,16 @@
 	<select id="selectAddTotal" parameterType="String" resultType="reportVO">
 		select sowMWL_name from sowmonthworklog where work_date_total like concat('%',#{searchDate},'%') and login_work_area_total = #{searchArea};
 	</select>
+	
+	<!-- selectTestList2 -->
+	<select id="selectTestList2" resultType="reportVO">
+		select work_name_total, sum(work_amount_RT_total) as work_amount_RT_total, sum(work_amount_PAUT_total) as work_amount_PAUT_total, sum(work_amount_TOFD_total) as work_amount_TOFD_total
+		,sum(work_amount_UT_total) as work_amount_UT_total from workrate_total where work_date_total like '%2025-03%' group by work_name_total;
+	</select>
+	
+	<!-- selectTestList3 -->
+	<select id="selectTestList3" resultType="reportVO">
+		select work_name_total, sum(work_amount_RT_total) as work_amount_RT_total, sum(work_amount_PAUT_total) as work_amount_PAUT_total, sum(work_amount_TOFD_total) as work_amount_TOFD_total
+		,sum(work_amount_UT_total) as work_amount_UT_total from workrate_total where work_date_total like '%2025-03%' and login_work_area_total = #{s} group by work_name_total;
+	</select>
 </mapper>
