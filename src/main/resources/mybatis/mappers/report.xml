@@ -14,18 +14,9 @@
 	) as t2 order by board_date desc;
 	</select>
 	
-	<!-- 일별 보고서 보기 -->
-	<select id="selectDailyReport" parameterType="Map" resultType="reportVO">
-		select * from workrate where login_work_area = #{searchArea} and work_date like concat('%',#{work_date},'%');
-	</select>
+
 	
-	<!-- 일별 전체량 합 -->
-	<select id="selectAddDailyReportSumForm" parameterType="String" resultType="reportVO">
-		select sum(work_amount_RT) as work_amount_RT, sum(work_amount_PAUT) as work_amount_PAUT,
-		sum(work_amount_TOFD) as work_amount_TOFD, sum(work_amount_UT) as work_amount_UT,
-		sum(work_amount_MPT) as work_amount_MPT, sum(work_manpower) as work_manpower
-		from workrate where work_date like concat('%',#{work_date},'%') and login_work_area = #{searchArea};
-	</select>
+
 	
 	<!-- 월별 보고서 게시판 접속 -->
 	<select id="selectTotalReportList" parameterType="String" resultType="reportVO">
@@ -35,156 +26,18 @@
 					${tableName} where board_area = #{searchArea}
 		) as t1
 	) as t2 order by board_date desc;
-<!--		<choose>-->
-<!--			<when test="searchArea == '울산'">-->
-<!--				SELECT * FROM (-->
-<!--    SELECT work_date_total, work_title_total, ROW_NUMBER() OVER (ORDER BY work_date_total) AS row_num -->
-<!--    FROM (-->
-<!--        SELECT DISTINCT CAST(work_date_total AS DATE) AS work_date_total, work_title_total -->
-<!--        FROM ulsan_workrate_total-->
-<!--    ) AS t1-->
-<!--) AS t2 -->
-<!--ORDER BY row_num DESC;-->
-<!--			</when>-->
-<!--			<when test="searchArea == '여수'">-->
-<!--SELECT * FROM (-->
-<!--    SELECT work_date_total, work_title_total, ROW_NUMBER() OVER (ORDER BY work_date_total) AS row_num -->
-<!--    FROM (-->
-<!--        SELECT DISTINCT CAST(work_date_total AS DATE) AS work_date_total, work_title_total -->
-<!--        FROM yeosu_workrate_total-->
-<!--    ) AS t1-->
-<!--) AS t2 -->
-<!--ORDER BY row_num DESC;-->
-<!--			</when>-->
-<!--		</choose>-->
 	</select>
 	
-	<!-- 일일 보고서 글쓰기 양식 -->
-	<select id="selectAddReportForm" parameterType="String" resultType="reportVO">
-		select * from workrate_total where work_date_total like concat('%',#{work_date_total},'%') and login_work_area_total = #{searchArea};
-<!--		<choose>-->
-<!--			<when test="searchArea == '울산'">-->
-<!--				select * from ulsan_workRate_total where login_work_area_total = #{searchArea} and work_date_total like concat('%',#{work_date_total},'%');-->
-<!--			</when>-->
-<!--			<when test="searchArea == '여수'">-->
-<!--				select * from yeosu_workRate_total where login_work_area_total = #{searchArea} and work_date_total like concat('%',#{work_date_total},'%');-->
-<!--			</when>-->
-<!--		</choose>-->
-	</select>
+
 	
-	<insert id="insertWorkrate_board" parameterType="String">
-		insert into workrate_board(board_title, board_date, board_area)
-		values(#{board_title},#{work_date},#{searchArea});
-	</insert>
-	
-	<!-- 일일 보고서 글쓰기(정보저장) -->
-	<insert id="insertAddWorkReportList" parameterType="reportVO">
-		<foreach collection="workReportList" item="item">
-		insert into workrate(work_name, work_amount_RT, work_amount_PAUT, work_amount_TOFD,	work_amount_UT, work_amount_MPT, work_manpower, work_date, login_work_area)	values 
-		(#{item.work_name}, #{item.work_amount_RT},#{item.work_amount_PAUT},#{item.work_amount_TOFD},#{item.work_amount_UT},#{item.work_amount_MPT},#{item.work_manpower},#{item.work_date},#{searchArea});
-		</foreach>
-<!--		<choose>-->
-<!--			<when test="searchArea == '울산'">-->
-<!--				insert into ulsan_workRate(work_amount_RT, work_amount_PAUT, work_amount_TOFD,-->
-<!--				work_amount_UT, work_amount_MPT, work_manpower, work_xray, work_PAUT, work_charyang)-->
-<!--				values-->
-<!--				<foreach collection="workReportList" item="item" separator=",">-->
-<!--				(#{item.work_amount_RT},#{item.work_amount_PAUT},#{item.work_amount_TOFD},#{item.work_amount_UT},-->
-<!--				#{item.work_amount_MPT},#{item.work_manpower},#{item.work_xray},#{item.work_PAUT},#{item.work_charyang})-->
-<!--				</foreach>-->
-<!--			</when>-->
-<!--		</choose>-->
-	</insert>
-	
-	<!-- 일일 보고서 수정(정보저장) -->
-	<update id="updateWorkReport" parameterType="Map">
-		<foreach collection="modWorkReportList" item="item" separator=";">
-		update workrate
-		set work_amount_RT = #{item.work_amount_RT},
-		work_amount_PAUT = #{item.work_amount_PAUT},
-		work_amount_TOFD = #{item.work_amount_TOFD},
-		work_amount_UT = #{item.work_amount_UT},
-		work_amount_MPT = #{item.work_amount_MPT},
-		work_manpower = #{item.work_manpower}
-		where work_name = #{item.work_name} and work_date = #{work_date} and login_work_area = #{searchArea}
-		</foreach>
-	</update>
-	
-	<!-- 일일 보고서 삭제 -->
-	<delete id="deleteDailyReport" parameterType="String">
-		delete from workrate where work_date = #{work_date} and login_work_area = #{searchArea};
-	</delete>
-	
-	<!-- 일일 보고서 게시판 일일 보고서 제목 삭제 판단 -->
-	<select id="existDailyReport" parameterType="String" resultType="int">
-		select count(*) as row_num from workrate where work_date = #{work_date} and login_work_area = #{searchArea};
-	</select>
-	
-	<delete id="deleteDailyReportBoard" parameterType="String">
-		delete from workrate_board where board_date = #{work_date} and board_area = #{searchArea}
-	</delete>
-	
-	<!-- 월별 보고서 현장 추가 -->
-	<insert id="insertTotalReport" parameterType="reportVO">
-		insert into workrate_total(work_name_total, work_amount_RT_total, work_amount_PAUT_total, work_amount_TOFD_total,
-				work_amount_UT_total, work_amount_MPT_total, work_manpower_total, work_xray_total, work_PAUT_total, work_charyang_total, work_date_total, login_work_area_total)
-				values(#{addTotal.work_name_total}, #{addTotal.work_amount_RT_total}, #{addTotal.work_amount_PAUT_total}, #{addTotal.work_amount_TOFD_total},
-				#{addTotal.work_amount_UT_total}, #{addTotal.work_amount_MPT_total}, #{addTotal.work_manpower_total}, #{addTotal.work_xray_total}, #{addTotal.work_PAUT_total}, #{addTotal.work_charyang_total}, #{addTotal.work_date_total}, #{searchArea}) 
-<!--		<choose>-->
-<!--			<when test="searchArea == '울산'">-->
-<!--				insert into ulsan_workRate_total(work_name_total, work_amount_RT_total, work_amount_PAUT_total, work_amount_TOFD_total,-->
-<!--				work_amount_UT_total, work_amount_MPT_total, work_manpower_total, work_xray_total, work_PAUT_total, work_charyang_total, work_date_total)-->
-<!--				values(#{addTotal.work_name_total}, #{addTotal.work_amount_RT_total}, #{addTotal.work_amount_PAUT_total}, #{addTotal.work_amount_TOFD_total},-->
-<!--				#{addTotal.work_amount_UT_total}, #{addTotal.work_amount_MPT_total}, #{addTotal.work_manpower_total}, #{addTotal.work_xray_total}, #{addTotal.work_PAUT_total}, #{addTotal.work_charyang_total}-->
-<!--				,(ifnull(null,current_date)))-->
-<!--			</when>-->
-<!--			<when test="searchArea == '여수'">-->
-<!--				insert into yeosu_workRate_total(work_name_total, work_amount_RT_total, work_amount_PAUT_total, work_amount_TOFD_total,-->
-<!--				work_amount_UT_total, work_amount_MPT_total, work_manpower_total, work_xray_total, work_PAUT_total, work_charyang_total)-->
-<!--				values(#{addTotal.work_name_total}, #{addTotal.work_amount_RT_total}, #{addTotal.work_amount_PAUT_total}, #{addTotal.work_amount_TOFD_total},-->
-<!--				#{addTotal.work_amount_UT_total}, #{addTotal.work_amount_MPT_total}, #{addTotal.work_manpower_total}, #{addTotal.work_xray_total}, #{addTotal.work_PAUT_total}, #{addTotal.work_charyang_total}-->
-<!--				,(ifnull(null,current_date))))-->
-<!--			</when>-->
-<!--		</choose>-->
-	</insert>
-	
-	<!-- 월별 전체량 합 -->
-	<select id="selectAddReportSumForm" parameterType="String" resultType="reportVO">
-		select sum(work_amount_RT_total) as work_amount_RT_total, sum(work_amount_PAUT_total) as work_amount_PAUT_total,
-		sum(work_amount_TOFD_total) as work_amount_TOFD_total, sum(work_amount_UT_total) as work_amount_UT_total,
-		sum(work_amount_MPT_total) as work_amount_MPT_total, sum(work_manpower_total) as work_manpower_total
-		from workrate_total where work_date_total like concat('%',#{work_date_total},'%') and login_work_area_total = #{searchArea};
-	</select>
-		
-	<!-- 월별 보고서 수정 -->
-	<update id="updateTotalReportList" parameterType="Map">
-		<foreach collection="modTotalReportList" item="item" separator=";">
-		update workrate_total
-		set work_name_total = #{item.work_name_total},
-		work_amount_RT_total = #{item.work_amount_RT_total},
-		work_amount_PAUT_total = #{item.work_amount_PAUT_total},
-		work_amount_TOFD_total = #{item.work_amount_TOFD_total},
-		work_amount_UT_total = #{item.work_amount_UT_total},
-		work_amount_MPT_total = #{item.work_amount_MPT_total},
-		work_manpower_total = #{item.work_manpower_total},
-		work_xray_total = #{item.work_xray_total},
-		work_PAUT_total = #{item.work_PAUT_total},
-		work_charyang_total = #{item.work_charyang_total}
-		where work_name_total = #{item.work_name_total} and work_date_total like concat('%',#{searchDate},'%') and login_work_area_total = #{searchArea}
-		</foreach>
-	</update>
-	
-	<!-- 월별 보고서 행 삭제 -->
-	<delete id="deleteTotalReportRow" parameterType="String">
-		delete from workrate_total where login_work_area_total = #{searchArea} and 
-		work_name_total = #{work_name_total} and work_date_total like concat('%',#{searchDate},'%');
-	</delete>
+
+
+
 	
 	<select id="selectReportForm" parameterType="String" resultType="reportVO">
 		select * from ulsan_workRate where login_work_area = #{searchArea} and work_name is null;
 	</select>
 	
-	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- sow 게시판 접속 -->
 	<select id="selectSowBoardList" parameterType="String" resultType="reportVO">
 		select * from
@@ -194,10 +47,7 @@
 	) as t2 order by board_date desc;
 	</select>
 	
-	<!-- sow 일별 추가 폼 (작업목록 가져오기)-->
-	<select id="selectWorkName" parameterType="String" resultType="reportVO">
-		select work_name_total from workrate_total where login_work_area_total = #{searchArea} and work_date_total like concat('%',#{searchDate},'%');
-	</select>
+
 	
 	<!-- sow 일별 추가 폼 -->
 	<select id="selectSowMonthList" parameterType="String" resultType="reportVO">
@@ -237,7 +87,7 @@
 	</insert>
 
 	<!-- sow 월별 이름 가져오기 -->
-	<select id="selectAddTotal" parameterType="String" resultType="reportVO">
+	<select id="selectAddSowTotal" parameterType="String" resultType="reportVO">
 		select sowMWL_name from sowmonthworklog where work_date_total like concat('%',#{searchDate},'%') and login_work_area_total = #{searchArea};
 	</select>
 	
@@ -251,5 +101,168 @@
 	<select id="selectTestList3" resultType="reportVO">
 		select work_name_total, sum(work_amount_RT_total) as work_amount_RT_total, sum(work_amount_PAUT_total) as work_amount_PAUT_total, sum(work_amount_TOFD_total) as work_amount_TOFD_total
 		,sum(work_amount_UT_total) as work_amount_UT_total from workrate_total where work_date_total like '%2025-03%' and login_work_area_total = #{s} group by work_name_total;
+	</select>
+	
+	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+	<!-- 2025-04-17 전체 수정 후 -->
+	<!-- 작업현황 현장 추가 폼 -->
+	<select id="selectWorkTotal" resultType="reportVO">
+		select * from workrate_total where login_work_area_total = #{searchArea} and YN = 'Y';
+	</select>
+	
+	<!-- 작업현황 현장 추가 -->
+	<insert id="insertTotalReport" parameterType="reportVO">
+		insert into workrate_total(work_name_total, work_xray_total, work_PAUT_total, work_charyang_total, login_work_area_total)
+				values(#{addTotal.work_name_total}, #{addTotal.work_xray_total}, #{addTotal.work_PAUT_total}, #{addTotal.work_charyang_total}, #{searchArea}) 
+	</insert>
+	
+	<!-- 작업현황 현장 수정폼 -->
+	<update id="updateTotalReportList" parameterType="Map">
+		<foreach collection="modTotalReportList" item="item" separator=";">
+		update workrate_total
+		set work_name_total = #{item.work_name_total},
+		work_xray_total = #{item.work_xray_total},
+		work_PAUT_total = #{item.work_PAUT_total},
+		work_charyang_total = #{item.work_charyang_total}
+		where work_num_total = #{item.work_num_total}
+		</foreach>
+	</update>
+	
+	<!-- 작업현황 행 삭제 -->
+	<delete id="deleteTotalReportRow" parameterType="int">
+		update workrate_total
+		set YN = 'N'
+		where work_num_total = #{work_num_total}
+	</delete>
+	
+<!--	 일일 보고서 글쓰기 양식 -->
+<!--	<select id="selectAddReportForm" parameterType="String" resultType="reportVO">-->
+<!--		select * from workrate_total where login_work_area_total = #{searchArea}-->
+<!--	</select>-->
+
+	<!-- 일일 보고서 게시판 글쓰기 -->
+	<insert id="insertWorkrate_board" parameterType="String">
+		insert into workrate_board(board_title, board_date, board_area)
+		values(#{board_title},#{work_date},#{searchArea});
+	</insert>
+	
+	<!-- 일일 보고서 글쓰기(정보저장) -->
+	<insert id="insertAddWorkReportList" parameterType="reportVO">
+		<foreach collection="workReportList" item="item">
+		insert into workrate(work_name, work_amount_RT, work_amount_PAUT, work_amount_TOFD,	work_amount_UT, work_amount_MPT, work_manpower, work_xray, work_PAUT, work_charyang, work_date, login_work_area, work_num_total)
+		values 
+		(#{item.work_name}, #{item.work_amount_RT},#{item.work_amount_PAUT},#{item.work_amount_TOFD},#{item.work_amount_UT},#{item.work_amount_MPT},#{item.work_manpower},#{item.work_xray},#{item.work_PAUT},#{item.work_charyang},#{item.work_date},#{searchArea},#{item.work_num_total});
+		</foreach>
+	</insert>
+	
+	<!-- 일일 보고서 보기 -->
+	<!-- 일일 보고서 보기 - 기본키 추출 -->
+	<select id="selectWork_num_total" parameterType="String">
+		select work_num_total from workrate where work_date = #{board_date} and login_work_area = #{searchArea} and YN = 'Y'
+	</select>
+	
+	<!-- 일일 보고서 보기 - 값 가져오기 -->
+	<select id="selectDailyReportView" parameterType="Map" resultType="reportVO">
+		select * from workrate A inner join (
+			select sum(work_amount_RT) as work_amount_RT_total,
+			sum(work_amount_PAUT) as work_amount_PAUT_total,
+		 	sum(work_amount_TOFD) as work_amount_TOFD_total,
+			sum(work_amount_UT) as work_amount_UT_total, 
+			sum(work_amount_MPT) as work_amount_MPT_total,
+			sum(work_manpower) as work_manpower_total,
+			work_num_total from workrate where YN = 'Y' and work_date between #{start_date} and #{board_date} group by work_num_total
+			) B USING(work_num_total) where work_date = #{board_date} and YN = 'Y'
+			<if test="work_num_total != null and work_num_total.size() > 0">
+				and work_num_total in
+				<foreach collection="work_num_total" item="workNum" open="(" separator="," close=")">
+					#{workNum}
+				</foreach>
+			</if>
+	</select>
+	
+	<!-- 일일 보고서 합계 -->
+	<select id="selectTotalSum" resultType="ReportVO">
+		select sum(work_amount_RT) as work_amount_RT_total,
+		sum(work_amount_PAUT) as work_amount_PAUT_total, sum(work_amount_TOFD) as work_amount_TOFD_total,
+		sum(work_amount_UT) as work_amount_UT_total, sum(work_amount_MPT) as work_amount_MPT_total,
+		sum(work_manpower) as work_manpower_total from workrate where work_date between #{start_date}
+		and #{board_date} and login_work_area=#{searchArea} and YN = 'Y'
+	</select>
+	
+	<select id="selectDailySum" resultType="ReportVO">
+		select sum(work_amount_RT) as work_amount_RT_total,
+		sum(work_amount_PAUT) as work_amount_PAUT_total, sum(work_amount_TOFD) as work_amount_TOFD_total,
+		sum(work_amount_UT) as work_amount_UT_total, sum(work_amount_MPT) as work_amount_MPT_total,
+		sum(work_manpower) as work_manpower_total from workrate where work_date = #{board_date}
+		and login_work_area = #{searchArea} and YN = 'Y'
+	</select>
+	
+	<!-- 일일 전체량 합 -->
+	<select id="selectAddDailyReportSumForm" resultType="reportVO">
+		select sum(work_amount_RT) as work_amount_RT, sum(work_amount_PAUT) as work_amount_PAUT,
+		sum(work_amount_TOFD) as work_amount_TOFD, sum(work_amount_UT) as work_amount_UT,
+		sum(work_amount_MPT) as work_amount_MPT, sum(work_manpower) as work_manpower
+		from workrate where work_date like concat('%',#{work_date},'%') and login_work_area = #{searchArea} and YN = 'Y'
+	</select>
+	
+	<!-- 일일 보고서 수정(정보저장) -->
+	
+	<!-- 보고서 수정시 수정 전 데이터와 수정id / 수정 날짜 -->
+	<insert id="insertWorkReportUpdateLog" parameterType="String">
+		insert into workrate_updatelog(work_name, work_amount_RT, work_amount_PAUT, work_amount_TOFD, work_amount_UT, work_amount_MPT, work_manpower, work_xray, work_PAUT, work_charyang, work_date, login_work_area, work_num_total, login_id)
+		select work_name, work_amount_RT, work_amount_PAUT, work_amount_TOFD, work_amount_UT, work_amount_MPT, work_manpower, work_xray, work_PAUT, work_charyang, work_date, login_work_area, work_num_total, #{login_id}
+		from workrate
+		where work_date = #{board_date} and login_work_area = #{searchArea}
+	</insert>
+	
+	<!-- 일일 보고서 수정 데이터 저장 -->
+	<update id="updateWorkReport" parameterType="Map">
+		<foreach collection="modWorkReportList" item="item" separator=";">
+		update workrate
+		set work_amount_RT = #{item.work_amount_RT},
+		work_amount_PAUT = #{item.work_amount_PAUT},
+		work_amount_TOFD = #{item.work_amount_TOFD},
+		work_amount_UT = #{item.work_amount_UT},
+		work_amount_MPT = #{item.work_amount_MPT},
+		work_manpower = #{item.work_manpower}
+		where work_name = #{item.work_name} and work_date = #{work_date} and login_work_area = #{searchArea}
+		</foreach>
+	</update>
+	
+	<!-- 일일 보고서 수정 - 수정횟수 카운트 -->
+	<select id="getCountModLog" parameterType="String" resultType="int">
+		select count(*) from workrate_updatelog where login_work_area = #{searchArea} and work_date = #{board_date}
+	</select>
+	
+	<select id="selectModLog" parameterType="String">
+		select * from workrate_updatelog where login_work_area = #{searchArea} and work_date = #{board_date}
+	</select>
+	
+	<!-- 일일 보고서 수정 - 날짜 가져오기 -->
+	<select id="getModDate" parameterType="String">
+		select distinct update_date, login_id from workrate_updatelog where login_work_area = #{searchArea} and work_date=#{board_date}
+	</select>
+	
+	<!-- 일일 보고서 삭제 -->
+	<delete id="deleteDailyReport" parameterType="String">
+		update workrate
+		set YN = 'N' 
+		where work_date = #{work_date} and login_work_area = #{searchArea};
+	</delete>
+	
+	<!-- 일일 보고서 게시판 일일 보고서 제목 삭제 판단 -->
+	<select id="existDailyReport" parameterType="String" resultType="int">
+		select count(*) as row_num from workrate where work_date = #{work_date} and login_work_area = #{searchArea} and YN = 'Y'
+	</select>
+	
+	<delete id="deleteDailyReportBoard" parameterType="String">
+		delete from workrate_board where board_date = #{work_date} and board_area = #{searchArea}
+	</delete>
+	
+	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+	<!-- sow 일별 추가 폼 (작업목록 가져오기)-->
+	<select id="selectWorkName" parameterType="String" resultType="reportVO">
+		select work_name_total from workrate_total where login_work_area_total = #{searchArea} and work_date_total like concat('%',#{searchDate},'%');
 	</select>
 </mapper>

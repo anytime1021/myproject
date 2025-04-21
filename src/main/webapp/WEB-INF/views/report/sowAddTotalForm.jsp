@@ -28,7 +28,7 @@
 		<article>
 			<section class="section-flex">
 				<div class="sow-title-nameList">
-					<h4>${searchDate}월 근무자 목록</h4>
+					<h4>근무자 목록</h4>
 				</div>
 			</section>
 			<section class="section-flex">
@@ -41,20 +41,17 @@
 							</tr>
 						</thead>
 						<tbody id="sowTbody">
-							<c:forEach var="sowName" items="${sowName}" varStatus="status">
 							<c:set var="i" value="${i+1}" />
 							<tr>
 								<td>${i}</td>
-								<td style="width:3%">${sowName.sowMWL_name}</td>
+								<td style="width:3%"></td>
 							</tr>
-							</c:forEach>
 							<form name="addTotalReport" method="post" action="${contextPath}/report/sowAddTotal.do">
 								<tr style="height: 20px;">
 								</tr>
 								<tr>
 									<td style="width:30%;">+</td>
 									<td style="width:70%;"><input type="text" name="sowMWL_name"></td>
-									<input type="text" name="searchDate" value="${searchDate}" class="searchDate" hidden>
 								</tr>
 								<tr>
 							        <td colspan="2" style="text-align: right;">

@@ -45,6 +45,7 @@
 					<li class="li-wrap"> 보고서 4 </li>
 				</ul>
 			</div>
+			<a href="${contextPath}/report/addTotalReportForm.do">기본설정하기</a>
 			<div class="report-name">
 				<p>작    업    일    보(Rev.3)</p>
 			</div>
@@ -92,70 +93,57 @@
 						</table>
 					</div>
 				</section>
-				<h3><b> 1. 작업현황</b></h3>
 				<section>
-					<div class="work-rate">
-						<table class="table-control-work">
-							<tr>
-								<td rowspan="2" style="width:4%;"><b>No</b></td>
-								<td rowspan="2" style="width:14%;"><b>현 장</b></td>
-								<td colspan="5"><b>작 업 량(완료 / 전체)</b></td>
-								<td rowspan="2" style="width:14%;"><b>투입인원</b></td>
-								<td colspan="3"><b>보 유 장 비 (수량)</b></td>
-							</tr>
-							<tr>
-								<td style="width:7%;">RT</td>
-								<td style="width:7%;">PA-UT</td>
-								<td style="width:7%;">TOFD</td>
-								<td style="width:7%;">UT</td>
-								<td style="width:7%;">M/PT</td>
-								<td style="width:7%;">γ-ray</td>
-								<td style="width:7%;">PA-UT</td>
-								<td style="width:19%;">차 량</td>
-							</tr>
-							<!-- c:forEach문 적용 예정-->
-							<form name="addDailyReport" method="post" action="${contextPath}/report/addDailyReport.do">
+					<form name="addDailyReport" method="post" action="${contextPath}/report/addDailyReport.do">
+						<h3><b> 1. 작업현황</b></h3>
+						<label style="text-align:center;">날 짜 : </label><input type="date" name="work_date" placeholder="날짜를 입력해 주세요" style="text-align: center; border:1px solid black;"> 
+						<br>
+						<label style="text-align:center;">제 목 : </label><input type="text" name="board_title" placeholder="제목을 입력해 주세요" style="text-align: center; border:1px solid black; width:500px;">
+						<div class="work-rate">
+							<table class="table-control-work">
+								<tr>
+									<td rowspan="2" style="width:4%;"><b>No</b></td>
+									<td rowspan="2" style="width:14%;"><b>현 장</b></td>
+									<td colspan="5"><b>작 업 량(완료 / 전체)</b></td>
+									<td rowspan="2" style="width:14%;"><b>투입인원</b></td>
+									<td colspan="3"><b>보 유 장 비 (수량)</b></td>
+								</tr>
+								<tr>
+									<td style="width:7%;">RT</td>
+									<td style="width:7%;">PA-UT</td>
+									<td style="width:7%;">TOFD</td>
+									<td style="width:7%;">UT</td>
+									<td style="width:7%;">M/PT</td>
+									<td style="width:7%;">γ-ray</td>
+									<td style="width:7%;">PA-UT</td>
+									<td style="width:19%;">차 량</td>
+								</tr>
+								<!-- c:forEach문 적용 예정-->
 								<c:forEach var="addReport_total" items="${addReport_total}">
 								<c:set var="i" value="${i+1}" />
 									<tr>
 										<td style="width:4%;">${i}</td>
 										<td style="width:14%;"><input type="text" name="work_name" value="${addReport_total.work_name_total}" hidden> ${addReport_total.work_name_total}</td>
-										<td style="width:7%;"><input type="text" name="work_amount_RT"> / ${addReport_total.work_amount_RT_total}</td>
-										<td style="width:7%;"><input type="text" name="work_amount_PAUT"> / ${addReport_total.work_amount_PAUT_total}</td>
-										<td style="width:7%;"><input type="text" name="work_amount_TOFD"> / ${addReport_total.work_amount_TOFD_total}</td>
-										<td style="width:7%;"><input type="text" name="work_amount_UT"> / ${addReport_total.work_amount_UT_total}</td>
-										<td style="width:7%;"><input type="text" name="work_amount_MPT"> / ${addReport_total.work_amount_MPT_total}</td>
-										<td style="width:14%;"><input type="text" name="work_manpower"> / ${addReport_total.work_manpower_total}</td>
-										<td style="width:7%;">${addReport_total.work_xray_total}</td>
-										<td style="width:7%;">${addReport_total.work_PAUT_total}</td>
-										<td style="width:19%;">${addReport_total.work_charyang_total}</td>
+										<td style="width:7%;"><input type="text" name="work_amount_RT"></td>
+										<td style="width:7%;"><input type="text" name="work_amount_PAUT"></td>
+										<td style="width:7%;"><input type="text" name="work_amount_TOFD"></td>
+										<td style="width:7%;"><input type="text" name="work_amount_UT"></td>
+										<td style="width:7%;"><input type="text" name="work_amount_MPT"></td>
+										<td style="width:14%;"><input type="text" name="work_manpower"></td>
+										<td style="width:7%;"><input type="text" name="work_xray_total" value="${addReport_total.work_xray_total}" readonly></td>
+										<td style="width:7%;"><input type="text" name="work_PAUT_total" value="${addReport_total.work_PAUT_total}" readonly></td>
+										<td style="width:19%;"><input type="text" name="work_charyang_total" value="${addReport_total.work_charyang_total}" readonly></td>
+										<input type="hidden" name="work_num_total" value="${addReport_total.work_num_total}">
 									</tr>
 								</c:forEach>
 								<tr>
 								<td colspan="11" style="text-align: right;">
 									<button type="submit">전송</button>
 								</td>
-							</form>
-<!--							<form name="addWorkReport" method="post" action="${contextPath}/report/addWorkReport.do">-->
-<!--								<c:forEach var="addReport_total" items="${addReport_total}">-->
-<!--									<tr>-->
-<!--										<td style="width:4%;">${addReport_total.work_num_total}</td>-->
-<!--										<td style="width:14%;">${addReport_total.work_name_total}</td>-->
-<!--										<td style="width:7%;"><input type="text" name="work_amount_RT"> / ${addReport_total.work_amount_RT_total}</td>-->
-<!--										<td style="width:7%;"><input type="text" name="work_amount_PAUT"> / ${addReport_total.work_amount_PAUT_total}</td>-->
-<!--										<td style="width:7%;"><input type="text" name="work_amount_TOFD"> / ${addReport_total.work_amount_TOFD_total}</td>-->
-<!--										<td style="width:7%;"><input type="text" name="work_amount_UT"> / ${addReport_total.work_amount_UT_total}</td>-->
-<!--										<td style="width:7%;"><input type="text" name="work_amount_MPT"> / ${addReport_total.work_amount_MPT_total}</td>-->
-<!--										<td style="width:14%;"><input type="text" name="work_manpower"> / ${addReport_total.work_manpower_total}</td>-->
-<!--										<td style="width:7%;"><input type="text" name="work_xray"> / ${addReport_total.work_xray_total}</td>-->
-<!--										<td style="width:7%;"><input type="text" name="work_PAUT"> / ${addReport_total.work_PAUT_total}</td>-->
-<!--										<td style="width:19%;"><input type="text" name="work_charyang"> / ${addReport_total.work_charyang_total}</td>-->
-<!--									</tr>-->
-<!--								</c:forEach>-->
-<!--								<button type="submit">전송</button>-->
-<!--							</form>-->
-						</table>
-					</div>
+								</tr>
+							</table>
+						</div>
+					</form>
 				</section>
 			</article>
     	</main>

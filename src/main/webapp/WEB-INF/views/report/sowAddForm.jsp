@@ -74,6 +74,8 @@
 														<c:forEach var="sowWorkName" items="${sowWorkName}">
 															<li onclick="selectWorkname(this)">${sowWorkName.work_name_total}</li>
 														</c:forEach>
+															<li onclick="selectWorkname(this)">사무실</li>
+															<li onclick="selectWorkname(this)">외주</li>
 													</ul>
 												</td>
 												<td style="width:3%"><input type="text" name="sowDWL_shift"></td>

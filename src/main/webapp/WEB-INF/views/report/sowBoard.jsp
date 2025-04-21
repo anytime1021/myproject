@@ -53,12 +53,12 @@
 					<li class="li-wrap"> 보고서 4 </li>
 				</ul>
 			</div>
+			<a href="${contextPath}/report/sowAddTotalForm.do">기본설정하기</a>
 			<div class="report-menu-banner">
 				<p class="text-control">근무현황</p>
 			</div>
 			<div class="report-container">
 				<div class="report-list">
-					<p>게시판</p>
 					<table class="table-control">
 						<thead>
 							<tr>

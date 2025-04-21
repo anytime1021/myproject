@@ -100,7 +100,7 @@
 							<tr>
 								<td rowspan="2" style="width:4%;"><b>No</b></td>
 								<td rowspan="2" style="width:14%;"><b>현 장</b></td>
-								<td colspan="5"><b>작 업 량(완료 / 전체)</b></td>
+								<td colspan="5"><b>작 업 량(완료 / 누계)</b></td>
 								<td rowspan="2" style="width:14%;"><b>투입인원</b></td>
 								<td colspan="4"><b>보 유 장 비 (수량)</b></td>
 							</tr>
@@ -115,29 +115,30 @@
 								<td colspan="2" style="width:19%;">차 량</td>
 							</tr>
 							<!-- c:forEach문 적용 예정-->
-							<c:forEach var="item" items="${mergedList}" varStatus="status">
+							<c:forEach var="dailyReportViewMerged" items="${dailyReportViewMerged}" varStatus="status">
 								<tr>
+									<input type="hidden" name="work_num_total" value="${dailyReportViewMerged.work_num_total}">
 									<td style="width:4%;">${status.count}</td>
-									<td style="width:14%;">${item.work_name}</td>
-									<td style="width:7%;">${item.work_amount_RT} / ${item.work_amount_RT_total}</td>
-									<td style="width:7%;">${item.work_amount_PAUT} / ${item.work_amount_PAUT_total}</td>
-									<td style="width:7%;">${item.work_amount_TOFD} / ${item.work_amount_TOFD_total}</td>
-									<td style="width:7%;">${item.work_amount_UT} / ${item.work_amount_UT_total}</td>
-									<td style="width:7%;">${item.work_amount_MPT} / ${item.work_amount_MPT_total}</td>
-									<td style="width:14%;">${item.work_manpower} / ${item.work_manpower_total}</td>
-									<td style="width:7%;">${item.work_xray_total}</td>
-									<td style="width:7%;">${item.work_PAUT_total}</td>
-									<td colspan="2" style="width:19%;">${item.work_charyang_total}</td>
+									<td style="width:14%;">${dailyReportViewMerged.work_name}</td>
+									<td style="width:7%;">${dailyReportViewMerged.work_amount_RT} / ${dailyReportViewMerged.work_amount_RT_total}</td>
+									<td style="width:7%;">${dailyReportViewMerged.work_amount_PAUT} / ${dailyReportViewMerged.work_amount_PAUT_total}</td>
+									<td style="width:7%;">${dailyReportViewMerged.work_amount_TOFD} / ${dailyReportViewMerged.work_amount_TOFD_total}</td>
+									<td style="width:7%;">${dailyReportViewMerged.work_amount_UT} / ${dailyReportViewMerged.work_amount_UT_total}</td>
+									<td style="width:7%;">${dailyReportViewMerged.work_amount_MPT} / ${dailyReportViewMerged.work_amount_MPT_total}</td>
+									<td style="width:14%;">${dailyReportViewMerged.work_manpower} / ${dailyReportViewMerged.work_manpower_total}</td>
+									<td style="width:7%;">${dailyReportViewMerged.work_xray_total}</td>
+									<td style="width:7%;">${dailyReportViewMerged.work_PAUT_total}</td>
+									<td colspan="2" style="width:19%;">${dailyReportViewMerged.work_charyang_total}</td>
 								</tr>
 							</c:forEach>
 							<tr>
 								<td colspan="2" style="width:18%; text-align:center;">합 계</td>
-								<td style="width:7%;">${addReport_sum.work_amount_RT} / ${addReport_total_sum.work_amount_RT_total}</td>
-								<td style="width:7%;">${addReport_sum.work_amount_PAUT} / ${addReport_total_sum.work_amount_PAUT_total}</td>
-								<td style="width:7%;">${addReport_sum.work_amount_TOFD} / ${addReport_total_sum.work_amount_TOFD_total}</td>
-								<td style="width:7%;">${addReport_sum.work_amount_UT} / ${addReport_total_sum.work_amount_UT_total}</td>
-								<td style="width:7%;">${addReport_sum.work_amount_MPT} / ${addReport_total_sum.work_amount_MPT_total}</td>
-								<td style="width:14%;">${addReport_sum.work_manpower} / ${addReport_total_sum.work_manpower_total}</td>
+								<td style="width:7%;">${dailySum.work_amount_RT_total} / ${totalSum.work_amount_RT_total}</td>
+								<td style="width:7%;">${dailySum.work_amount_PAUT_total} / ${totalSum.work_amount_PAUT_total}</td>
+								<td style="width:7%;">${dailySum.work_amount_TOFD_total} / ${totalSum.work_amount_TOFD_total}</td>
+								<td style="width:7%;">${dailySum.work_amount_UT_total} / ${totalSum.work_amount_UT_total}</td>
+								<td style="width:7%;">${dailySum.work_amount_MPT_total} / ${totalSum.work_amount_MPT_total}</td>
+								<td style="width:14%;">${dailySum.work_manpower_total} / ${totalSum.work_manpower_total}</td>
 								<td style="width:7%;"></td>
 								<td style="width:7%;"></td>
 								<td style="width:10%;">추가시간 총계</td>
@@ -146,11 +147,29 @@
 						</table>
 					</div>
 				</section>
-				<a href="${contextPath}/report/modDailyReportForm.do?board_date=${work_date}">수정하기</a>
-				<a href="${contextPath}/report/removeDailyReport.do?board_date=${work_date}">삭제하기</a>
+				<a href="${contextPath}/report/modDailyReportForm.do?board_date=${board_date}">수정하기</a>
+				<a href="${contextPath}/report/removeDailyReport.do?board_date=${board_date}">삭제하기</a>
+				<div style="display:flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+				<c:if test="${getCountModLog != 0}">
+					<c:forEach var="getModDate" items="${getModDate}">
+						<div>
+							<label> 수정날짜 : ${getModDate.update_date} / 수정자 : ${getModDate.login_id}</label>
+						</div>
+					</c:forEach>
+					<div>
+						<a href="#"> 수정내역 보러가기 </a>
+					</div>
+				</c:if>
+				</div>
 			</article>
     	</main>
     <%@ include file="../include/footer.jsp"%>	
 </body>
 <script src="${contextPath}/resources/js/script.js"></script>
+<script>
+	$(document).ready(function() {
+		var table = document.getElementById('.table-control-work');
+		var colList = table.cols;
+	})
+</script>
 </html>

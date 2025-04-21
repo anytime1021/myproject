@@ -10,7 +10,11 @@ import lombok.Data;
 @Component("reportVO")
 @Data
 public class ReportVO {
-
+	
+	//로그인
+	private LoginVO loginVO;
+	private String login_id;
+	
 	// 변수
 	private int work_num;
 	private String work_name;
@@ -27,6 +31,7 @@ public class ReportVO {
 	private String login_work_area;
 	private String work_title;
 	private long work_price;
+	private String update_date;
 	
 	// 변수 배열
 	private int work_amount_RTArray;
@@ -41,19 +46,27 @@ public class ReportVO {
 	
 	// 전체 고정값
 	private int work_num_total;
-	private String work_name_total;
 	private int work_amount_RT_total;
 	private int work_amount_PAUT_total;
 	private int work_amount_TOFD_total;
 	private int work_amount_UT_total;
 	private int work_amount_MPT_total;
 	private int work_manpower_total;
+	public int getWork_manpower_total() {
+		return work_manpower_total;
+	}
+
+	public void setWork_manpower_total(int work_manpower_total) {
+		this.work_manpower_total = work_manpower_total;
+	}
+
+	private String work_name_total;
 	private String work_xray_total;
 	private String work_PAUT_total;
 	private String work_charyang_total;
-	private String work_date_total;
 	private String login_work_area_total;
 	private String work_title_total;
+
 	
 	// 월별 게시판
 	private int board_num;
@@ -74,6 +87,11 @@ public class ReportVO {
 	
 	// 필요한 임의 숫자 넣을때 (예를들면 DB에서 AS 사용한 column)
 	private int dummyInt;
+	
+	// 공통 변수
+	private String delete_date;
+	private String YN;
+	private String work_date_total;
 	
 	// 게시판 번호
 	private int row_num;
@@ -190,6 +208,14 @@ public class ReportVO {
 		this.work_title = work_title;
 	}
 
+	public long getWork_price() {
+		return work_price;
+	}
+
+	public void setWork_price(long work_price) {
+		this.work_price = work_price;
+	}
+
 	public int getWork_amount_RTArray() {
 		return work_amount_RTArray;
 	}
@@ -278,54 +304,6 @@ public class ReportVO {
 		this.work_name_total = work_name_total;
 	}
 
-	public int getWork_amount_RT_total() {
-		return work_amount_RT_total;
-	}
-
-	public void setWork_amount_RT_total(int work_amount_RT_total) {
-		this.work_amount_RT_total = work_amount_RT_total;
-	}
-
-	public int getWork_amount_PAUT_total() {
-		return work_amount_PAUT_total;
-	}
-
-	public void setWork_amount_PAUT_total(int work_amount_PAUT_total) {
-		this.work_amount_PAUT_total = work_amount_PAUT_total;
-	}
-
-	public int getWork_amount_TOFD_total() {
-		return work_amount_TOFD_total;
-	}
-
-	public void setWork_amount_TOFD_total(int work_amount_TOFD_total) {
-		this.work_amount_TOFD_total = work_amount_TOFD_total;
-	}
-
-	public int getWork_amount_UT_total() {
-		return work_amount_UT_total;
-	}
-
-	public void setWork_amount_UT_total(int work_amount_UT_total) {
-		this.work_amount_UT_total = work_amount_UT_total;
-	}
-
-	public int getWork_amount_MPT_total() {
-		return work_amount_MPT_total;
-	}
-
-	public void setWork_amount_MPT_total(int work_amount_MPT_total) {
-		this.work_amount_MPT_total = work_amount_MPT_total;
-	}
-
-	public int getWork_manpower_total() {
-		return work_manpower_total;
-	}
-
-	public void setWork_manpower_total(int work_manpower_total) {
-		this.work_manpower_total = work_manpower_total;
-	}
-
 	public String getWork_xray_total() {
 		return work_xray_total;
 	}
@@ -348,14 +326,6 @@ public class ReportVO {
 
 	public void setWork_charyang_total(String work_charyang_total) {
 		this.work_charyang_total = work_charyang_total;
-	}
-
-	public String getWork_date_total() {
-		return work_date_total;
-	}
-
-	public void setWork_date_total(String work_date_total) {
-		this.work_date_total = work_date_total;
 	}
 
 	public String getLogin_work_area_total() {
@@ -404,14 +374,6 @@ public class ReportVO {
 
 	public void setBoard_area(String board_area) {
 		this.board_area = board_area;
-	}
-
-	public int getRow_num() {
-		return row_num;
-	}
-
-	public void setRow_num(int row_num) {
-		this.row_num = row_num;
 	}
 
 	public String getSowDWL_name() {
@@ -478,15 +440,103 @@ public class ReportVO {
 		this.dummyInt = dummyInt;
 	}
 
-	public long getWork_price() {
-		return work_price;
+	public String getDelete_date() {
+		return delete_date;
 	}
 
-	public void setWork_price(long work_price) {
-		this.work_price = work_price;
+	public void setDelete_date(String delete_date) {
+		this.delete_date = delete_date;
 	}
-	
-	
+
+	public String getYN() {
+		return YN;
+	}
+
+	public void setYN(String yN) {
+		YN = yN;
+	}
+
+	public int getRow_num() {
+		return row_num;
+	}
+
+	public void setRow_num(int row_num) {
+		this.row_num = row_num;
+	}
+
+	public String getWork_date_total() {
+		return work_date_total;
+	}
+
+	public void setWork_date_total(String work_date_total) {
+		this.work_date_total = work_date_total;
+	}
+
+	public int getWork_amount_RT_total() {
+		return work_amount_RT_total;
+	}
+
+	public void setWork_amount_RT_total(int work_amount_RT_total) {
+		this.work_amount_RT_total = work_amount_RT_total;
+	}
+
+	public int getWork_amount_PAUT_total() {
+		return work_amount_PAUT_total;
+	}
+
+	public void setWork_amount_PAUT_total(int work_amount_PAUT_total) {
+		this.work_amount_PAUT_total = work_amount_PAUT_total;
+	}
+
+	public int getWork_amount_TOFD_total() {
+		return work_amount_TOFD_total;
+	}
+
+	public void setWork_amount_TOFD_total(int work_amount_TOFD_total) {
+		this.work_amount_TOFD_total = work_amount_TOFD_total;
+	}
+
+	public int getWork_amount_UT_total() {
+		return work_amount_UT_total;
+	}
+
+	public void setWork_amount_UT_total(int work_amount_UT_total) {
+		this.work_amount_UT_total = work_amount_UT_total;
+	}
+
+	public int getWork_amount_MPT_total() {
+		return work_amount_MPT_total;
+	}
+
+	public void setWork_amount_MPT_total(int work_amount_MPT_total) {
+		this.work_amount_MPT_total = work_amount_MPT_total;
+	}
+
+	public String getUpdate_date() {
+		return update_date;
+	}
+
+	public void setUpdate_date(String update_date) {
+		this.update_date = update_date;
+	}
+
+	public LoginVO getLoginVO() {
+		return loginVO;
+	}
+
+	public void setLoginVO(LoginVO loginVO) {
+		this.loginVO = loginVO;
+	}
+
+	public String getLogin_id() {
+		return login_id;
+	}
+
+	public void setLogin_id(String login_id) {
+		this.login_id = login_id;
+	}
+
+
 }
 
 

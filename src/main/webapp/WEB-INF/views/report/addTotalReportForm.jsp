@@ -77,97 +77,86 @@
 					<li class="li-wrap"> 보고서 4 </li>
 				</ul>
 			</div>
+			<a href="${contextPath}/report/addDailyReportForm.do">돌아가기</a>
 			<div class="report-name">
 				<p>작    업    일    보(Rev.3)</p>
 			</div>
 			<article>
 				<h3><b> 1. 작업현황</b></h3>
-				<section>
-					<div class="work-rate">
-						<table id="table-control-work" class="table-control-work">
-							<tr>
-								<td rowspan="2" style="width:4%;"><b>No</b></td>
-								<td rowspan="2" style="width:14%;"><b>현 장</b></td>
-								<td colspan="5"><b>작 업 량(완료 / 전체)</b></td>
-								<td rowspan="2" style="width:14%;"><b>투입인원</b></td>
-								<td colspan="4"><b>보 유 장 비 (수량)</b></td>
-							</tr>
-							<tr>
-								<td style="width:7%;">RT</td>
-								<td style="width:7%;">PA-UT</td>
-								<td style="width:7%;">TOFD</td>
-								<td style="width:7%;">UT</td>
-								<td style="width:7%;">M/PT</td>
-								<td style="width:7%;">γ-ray</td>
-								<td style="width:7%;">PA-UT</td>
-								<td colspan="2" style="width:19%;">차 량</td>
-							</tr>
-							<!-- c:forEach문 적용 예정-->
-							<c:forEach var="addReport_total" items="${addReport_total}" varStatus="status">
-							<c:set var="i" value="${i+1}" />
-								<tr data-id="${status.index}">
-									<td style="width:4%;" class="row-no${status.index}">${i}</td>
-									<td style="width:14%;" class="work_name_total${status.index}">${addReport_total.work_name_total}</td>
-									<td style="width:7%;">${addReport_total.work_amount_RT_total}</td>
-									<td style="width:7%;">${addReport_total.work_amount_PAUT_total}</td>
-									<td style="width:7%;">${addReport_total.work_amount_TOFD_total}</td>
-									<td style="width:7%;">${addReport_total.work_amount_UT_total}</td>
-									<td style="width:7%;">${addReport_total.work_amount_MPT_total}</td>
-									<td style="width:14%;">${addReport_total.work_manpower_total}</td>
-									<td style="width:7%;">${addReport_total.work_xray_total}</td>
-									<td style="width:7%;">${addReport_total.work_PAUT_total}</td>
-									<td colspan="2" style="width:19%;">${addReport_total.work_charyang_total}</td>
-								</tr>
-							</c:forEach>
-							<!-- 여기까지 적용 예정-->
+				<div class="section-flex-wrap">
+					<section class="section-half">
+						<div class="work-rate">
+							<table id="table-control-work" class="table-control-work">
 								<tr>
-									<td colspan="2" style="width:18%; text-align:center;">합 계</td>
-									<td style="width:7%;" id="sum_RT">${addReport_total_sum.work_amount_RT_total}</td>
-									<td style="width:7%;" id="sum_PAUT">${addReport_total_sum.work_amount_PAUT_total}</td>
-									<td style="width:7%;" id="sum_TOFD">${addReport_total_sum.work_amount_TOFD_total}</td>
-									<td style="width:7%;" id="sum_UT">${addReport_total_sum.work_amount_UT_total}</td>
-									<td style="width:7%;" id="sum_MPT">${addReport_total_sum.work_amount_MPT_total}</td>
-									<td style="width:14%;" id="sum_manpower">${addReport_total_sum.work_manpower_total}</td>
-									<td style="width:7%;"></td>
-									<td style="width:7%;"></td>
-									<td style="width:10%;">추가시간 총계</td>
-									<td style="width:9%;"></td>
-								</tr>
-							<tr style="height: 20px;"></tr>
-							<form name="addTotalReport" method="post" action="${contextPath}/report/addTotalReport.do">
-								<tr>
-									<td style="width:4%;">+</td>
-									<td style="width:14%;"><input type="text" name="work_name_total"></td>
-									<td style="width:7%;"><input type="text" name="work_amount_RT_total"></td>
-									<td style="width:7%;"><input type="text" name="work_amount_PAUT_total"></td>
-									<td style="width:7%;"><input type="text" name="work_amount_TOFD_total"></td>
-									<td style="width:7%;"><input type="text" name="work_amount_UT_total"></td>
-									<td style="width:7%;"><input type="text" name="work_amount_MPT_total"></td>
-									<td style="width:14%;"><input type="text" name="work_manpower_total"></td>
-									<td style="width:7%;"><input type="text" name="work_xray_total"></td>
-									<td style="width:7%;"><input type="text" name="work_PAUT_total"></td>
-									<td colspan="2" style="width:19%;"><input type="text" name="work_charyang_total"></td>
-									<input type="text" name="work_date_total" value="${board_date}" class="work_date_total" hidden>
+									<td rowspan="2" style="width:4%;"><b>No</b></td>
+									<td rowspan="2" style="width:14%;"><b>현 장</b></td>
+									<td colspan="4"><b>보 유 장 비 (수량)</b></td>
 								</tr>
 								<tr>
-						            <td colspan="12" style="text-align: right;">
-						                <button type="submit">추가하기</button>
-						            </td>
-						        </tr>
-							</form>
-							<tr>
-								<td colspan="12" style="text-align: left;">
-									<a href="${contextPath}/report/modTotalReportForm.do?work_date=${board_date}">수정하기</a>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="12" style="text-align: left;">
-									<button id="deleteMode"> 삭제하기 </button>
-								</td>
-							</tr> 
-						</table>
-					</div>
-				</section>
+									<td style="width:7%;">γ-ray</td>
+									<td style="width:7%;">PA-UT</td>
+									<td colspan="2" style="width:19%;">차 량</td>
+								</tr>
+								<tr style="height: 20px;"></tr>
+									<form name="addTotalReport" method="post" action="${contextPath}/report/addTotalReport.do">
+										<tr>
+											<td style="width:4%;">+</td>
+											<td style="width:14%;"><input type="text" name="work_name_total"></td>
+											<td style="width:7%;"><input type="text" name="work_xray_total"></td>
+											<td style="width:7%;"><input type="text" name="work_PAUT_total"></td>
+											<td colspan="2" style="width:19%;"><input type="text" name="work_charyang_total"></td>
+											<input type="text" name="work_date_total" value="${board_date}" class="work_date_total" hidden>
+										</tr>
+										<tr>
+								            <td colspan="12" style="text-align: right;">
+								                <button type="submit">추가하기</button>
+								            </td>
+								        </tr>
+									</form>
+								</tr>
+							</table>
+						</div>
+					</section>
+					<section class="section-half">
+						<div class="work-rate">
+							<table id="table-control-work" class="table-control-work">
+								<tr>
+									<td rowspan="2" style="width:4%;"><b>No</b></td>
+									<td rowspan="2" style="width:14%;"><b>현 장</b></td>
+									<td colspan="4"><b>보 유 장 비 (수량)</b></td>
+								</tr>
+								<tr>
+									<td style="width:7%;">γ-ray</td>
+									<td style="width:7%;">PA-UT</td>
+									<td colspan="2" style="width:19%;">차 량</td>
+								</tr>
+								<!-- c:forEach문 적용 예정-->
+								<c:forEach var="addReport_total" items="${addReport_total}" varStatus="status">
+								<c:set var="i" value="${i+1}" />
+									<tr data-id="${status.index}">
+										<input type="hidden" name="work_num_total" class="work_num_total" value="${addReport_total.work_num_total}">
+										<td style="width:4%;" class="row-no${status.index}">${i}</td>
+										<td style="width:14%;" class="work_name_total${status.index}">${addReport_total.work_name_total}</td>
+										<td style="width:7%;">${addReport_total.work_xray_total}</td>
+										<td style="width:7%;">${addReport_total.work_PAUT_total}</td>
+										<td colspan="2" style="width:19%;">${addReport_total.work_charyang_total}</td>
+									</tr>
+								</c:forEach>
+								<tr style="height: 20px;"></tr>
+								<tr>
+									<td colspan="12" style="text-align: right;">
+										<a href="${contextPath}/report/modTotalReportForm.do">수정하기</a>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="12" style="text-align: right;">
+										<button id="deleteMode"> 삭제하기 </button>
+									</td>
+								</tr> 
+							</table>
+						</div>
+					</section>
+				</div>
 			</article>
     	</main>
     <%@ include file="../include/footer.jsp"%>	
@@ -221,7 +210,7 @@ $("#deleteMode").click(function () {
 		
 		 
 	  		const workName = $(".work_name_total" + rowIndex).text().trim();
-			const work_date_total = $(".work_date_total").val()
+			const work_num_total = $row.find(".work_num_total").val();
 	
 	  		if (!workName) {
 	   	 		alert("작업명이 없습니다.");
@@ -234,17 +223,11 @@ $("#deleteMode").click(function () {
 	    		type: "POST",
 			    url: "/report/removeTotalReportRow.do",
 			    data: {
-			      	work_name_total: workName,
-			      	work_date_total: work_date_total
+			      	work_num_total: work_num_total,
 			    },
+				dataType: "json",
 	    		success: function (res) {
 	      			$row.remove();
-					$("#sum_RT").text(res.work_amount_RT_total);
-					$("#sum_PAUT").text(res.work_amount_PAUT_total);
-					$("#sum_TOFD").text(res.work_amount_TOFD_total);
-					$("#sum_UT").text(res.work_amount_UT_total);
-					$("#sum_MPT").text(res.work_amount_MPT_total);
-					$("#sum_manpower").text(res.work_manpower_total);
 	    		},
 	    		error: function () {
 	      			alert("삭제 실패!");

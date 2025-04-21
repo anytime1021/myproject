@@ -20,7 +20,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="${contextPath}/resources/css/styles.css">
 	<link rel="stylesheet" href="${contextPath}/resources/css/styles2.css">
-	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <style>
 	.table-control-report {
@@ -77,48 +76,56 @@
 					<li class="li-wrap"> 보고서 4 </li>
 				</ul>
 			</div>
-			<a href="${contextPath}/report/addTotalReportForm.do">돌아가기</a>
 			<div class="report-name">
 				<p>작    업    일    보(Rev.3)</p>
 			</div>
 			<article>
 				<h3><b> 1. 작업현황</b></h3>
-				<div class="section-flex-wrap">
-					<section class="section-half">
-					</section>
-					<section class="section-half">
-						<div class="work-rate">
-							<table id="table-control-work" class="table-control-work">
-								<tr>
-									<td rowspan="2" style="width:4%;"><b>No</b></td>
-									<td rowspan="2" style="width:14%;"><b>현 장</b></td>
-									<td colspan="4"><b>보 유 장 비 (수량)</b></td>
-								</tr>
-								<tr>
-									<td style="width:7%;">γ-ray</td>
-									<td style="width:7%;">PA-UT</td>
-									<td colspan="2" style="width:19%;">차 량</td>
-								</tr>
-								<form name="modTotalReport" method="post" action="${contextPath}/report/modTotalReport.do">
-									<c:forEach var="addReport_total" items="${addReport_total}">
-										<c:set var="i" value="${i+1}" />
-										<tr>
-											<input type="hidden" name="work_num_total" value="${addReport_total.work_num_total}">
-											<td style="width:4%;">${i}</td>
-											<td style="width:14%;"><input type="text" name="work_name_total" value="${addReport_total.work_name_total}"></td>
-											<td style="width:7%;"><input type="text" name="work_xray_total" value="${addReport_total.work_xray_total}"></td>
-											<td style="width:7%;"><input type="text" name="work_PAUT_total" value="${addReport_total.work_PAUT_total}"></td>
-											<td style="width:19%;"><input type="text" name="work_charyang_total" value="${addReport_total.work_charyang_total}"></td>
-										</tr>
-									</c:forEach>
-									<td colspan="11" style="text-align: right;">
-										<button type="submit">수정하기</button>
-									</td>
-								</form>
-							</table>
-						</div>
-					</section>
-				</div>
+				<section>
+					<div class="work-rate">
+						<table class="table-control-work">
+							<tr>
+								<td rowspan="2" style="width:4%;"><b>No</b></td>
+								<td rowspan="2" style="width:14%;"><b>현 장</b></td>
+								<td colspan="5"><b>작 업 량(완료 / 전체)</b></td>
+								<td rowspan="2" style="width:14%;"><b>투입인원</b></td>
+								<td colspan="3"><b>보 유 장 비 (수량)</b></td>
+							</tr>
+							<tr>
+								<td style="width:7%;">RT</td>
+								<td style="width:7%;">PA-UT</td>
+								<td style="width:7%;">TOFD</td>
+								<td style="width:7%;">UT</td>
+								<td style="width:7%;">M/PT</td>
+								<td style="width:7%;">γ-ray</td>
+								<td style="width:7%;">PA-UT</td>
+								<td style="width:19%;">차 량</td>
+							</tr>
+							<!-- c:forEach문 적용 예정-->
+							<form name="modTotalReport" method="post" action="${contextPath}/report/modTotalReport.do?work_date=${board_date}">
+								<c:forEach var="addReport_total" items="${addReport_total}">
+									<c:set var="i" value="${i+1}" />
+									<tr>
+										<td style="width:4%;">${i}</td>
+										<td style="width:14%;"><input type="text" name="work_name_total" value="${addReport_total.work_name_total}"></td>
+										<td style="width:7%;"><input type="text" name="work_amount_RT_total" value="${addReport_total.work_amount_RT_total}"></td>
+										<td style="width:7%;"><input type="text" name="work_amount_PAUT_total" value="${addReport_total.work_amount_PAUT_total}"></td>
+										<td style="width:7%;"><input type="text" name="work_amount_TOFD_total" value="${addReport_total.work_amount_TOFD_total}"></td>
+										<td style="width:7%;"><input type="text" name="work_amount_UT_total" value="${addReport_total.work_amount_UT_total}"></td>
+										<td style="width:7%;"><input type="text" name="work_amount_MPT_total" value="${addReport_total.work_amount_MPT_total}"></td>
+										<td style="width:14%;"><input type="text" name="work_manpower_total" value="${addReport_total.work_manpower_total}"></td>
+										<td style="width:7%;"><input type="text" name="work_xray_total" value="${addReport_total.work_xray_total}"></td>
+										<td style="width:7%;"><input type="text" name="work_PAUT_total" value="${addReport_total.work_PAUT_total}"></td>
+										<td style="width:19%;"><input type="text" name="work_charyang_total" value="${addReport_total.work_charyang_total}"></td>
+									</tr>
+								</c:forEach>
+								<td colspan="11" style="text-align: left;">
+									<button type="submit">수정하기</button>
+								</td>
+							</form>
+						</table>
+					</div>
+				</section>
 			</article>
     	</main>
     <%@ include file="../include/footer.jsp"%>	

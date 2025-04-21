@@ -1,7 +1,5 @@
 package com.sboot.pro.argus.service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sboot.pro.argus.DTO.CombinedReportResponse;
 import com.sboot.pro.argus.DTO.CombinedSowDailyWorkLog;
+import com.sboot.pro.argus.DTO.DailyReportWorkrate;
 import com.sboot.pro.argus.dao.ReportDAO;
 import com.sboot.pro.argus.vo.ReportVO;
 
@@ -27,24 +26,10 @@ public class ReportServiceImpl implements ReportService{
 		return reportDAO.selectReportList(searchArea);
 	}
 	
-	// 일별 보고서 보기
-	public List<ReportVO> dailyReportInfo(String searchArea, String board_date) throws Exception {
-		return reportDAO.selectDailyReport(searchArea, board_date);
-	}
+
 	
-	// 일일 보고서 글쓰기(정보저장)
-	@Override
-	public void addWorkReportList(String searchArea, List<ReportVO> workReportList, String work_date) throws Exception {
-		String board_title = work_date + " 보고서";
-		reportDAO.insertWorkrate_board(board_title, work_date, searchArea);
-		reportDAO.insertAddWorkReportList(searchArea, workReportList, work_date);
-	}
-	
-	// 일일 보고서 수정
-	@Override
-	public void modWorkReportList(String searchArea, List<ReportVO> modWorkReportList, String work_date) throws Exception {
-		reportDAO.updateWorkReport(searchArea, modWorkReportList, work_date);
-	}
+
+
 	
 	// 일일 보고서 삭제
 	@Override
@@ -71,17 +56,9 @@ public class ReportServiceImpl implements ReportService{
 			return reportDAO.selectTotalReportList(searchArea, tableName);
 	}
 	
-	// 월별 보고서 현장 추가
-	@Override
-	public void addTotalReport(ReportVO addTotal, String searchArea) throws Exception{
-		reportDAO.insertTotalReport(addTotal, searchArea);
-	}
+
 	
-//	// 월별 전체량
-	@Override
-	public List<ReportVO> addReportForm(String searchArea, String work_date_total) throws Exception {
-		return reportDAO.selectAddReportForm(searchArea, work_date_total);
-	}
+
 //	
 //	// 월별 전체량 합
 //	@Override
@@ -89,39 +66,11 @@ public class ReportServiceImpl implements ReportService{
 //		return reportDAO.selectAddReortSumForm(searchArea, work_date_total);
 //	}
 	
-	// 보고서 일별 / 월별 한번에 가져오기
-	@Override
-	public CombinedReportResponse getCombinedReport(String searchArea, String searchDate) throws Exception {
-	    List<ReportVO> addReport = new ArrayList<ReportVO>();
-	    ReportVO addReport_sum = new ReportVO();
-	    if(searchDate.length() == 7) {
-	    	addReport = reportDAO.selectAddReportForm(searchArea, searchDate);
-	    	addReport_sum = reportDAO.selectAddReportSumForm(searchArea, searchDate);
-	    } else if (searchDate.length() == 10) {
-	    	addReport = reportDAO.selectDailyReport(searchArea, searchDate);
-	    	addReport_sum = reportDAO.selectAddDailyReportSumForm(searchArea, searchDate);
-	    } else {
 
-	    }
-	    CombinedReportResponse response = new CombinedReportResponse();
-	    response.setReportList(addReport);
-	    response.setSingleReport(addReport_sum);
+	
 
-	    return response;
-	}
 	
-	// 월별 보고서 수정
-	@Override
-	public void modTotalReportList(String searchArea, List<ReportVO> modTotalReportList, String searchDate) throws Exception {
-		reportDAO.updateTotalReportList(searchArea, modTotalReportList, searchDate);
-	}
-	
-	// 월별 보고서 행 삭제
-	@Override
-	public int removeTotalReportRow(String searchArea, String work_name_total, String searchDate) throws Exception {
-		reportDAO.deleteTotalReportRow(searchArea, work_name_total, searchDate);
-		return 1;
-	}
+
 	
 	// -------------------------------------------------------------------------------------------------------------------
 	
@@ -176,8 +125,8 @@ public class ReportServiceImpl implements ReportService{
 	
 	// sow 월별 이름 가져오기
 	@Override
-	public List<ReportVO> selectAddTotal(String searchArea, String searchDate) throws Exception {
-		return reportDAO.selectAddTotal(searchArea, searchDate);
+	public List<ReportVO> selectAddSowTotal(String searchArea, String searchDate) throws Exception {
+		return reportDAO.selectAddSowTotal(searchArea, searchDate);
 	}
 	
 	
@@ -190,4 +139,130 @@ public class ReportServiceImpl implements ReportService{
 	public List<ReportVO> selectTest() throws Exception{
 		return reportDAO.selectTest();
 	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// 2025-04-17 전체 수정 후
+	
+	// 작업현황 현장 추가 폼
+	public List<ReportVO> selectWorkTotal(String searchArea) throws Exception {
+		return reportDAO.selectWorkTotal(searchArea);
+	}
+	
+	// 작업현황 현장 추가
+	@Override
+	public void addTotalReport(ReportVO addTotal, String searchArea) throws Exception{
+		reportDAO.insertTotalReport(addTotal, searchArea);
+	}
+	
+	// 작업현황 현장 수정폼
+	@Override
+	public void modTotalReportList(String searchArea, List<ReportVO> modTotalReportList) throws Exception {
+		reportDAO.updateTotalReportList(searchArea, modTotalReportList);
+	}
+	
+	// 작업현황 행 삭제
+	@Override
+	public int removeTotalReportRow(int work_num_total) throws Exception {
+		reportDAO.deleteTotalReportRow(work_num_total);
+		return 1;
+	}
+//	// 일일 보고서 글쓰기 양식
+//	@Override
+//	public List<ReportVO> addReportForm(String searchArea) throws Exception {
+//		return reportDAO.selectAddReportForm(searchArea);
+//	}
+	
+	// 일일 보고서 글쓰기(정보저장)
+	@Override
+	public void addWorkReportList(String searchArea, List<ReportVO> workReportList, String board_title) throws Exception {
+		reportDAO.insertWorkrate_board(searchArea, workReportList.get(0).getWork_date(), board_title);
+		reportDAO.insertAddWorkReportList(searchArea, workReportList);
+	}
+	
+	// 일일 보고서 보기 - 1
+	@Override
+	public List<ReportVO> dailyReportView(String searchArea, String board_date) throws Exception {
+		String start_date = board_date.substring(0,7) + "-01";
+		// 일일보고서 기본키 추출
+		List<Integer> work_num_total = reportDAO.selectWork_num_total(searchArea, board_date);
+		// 일일보고서 값 가져오기
+		return reportDAO.selectDailyReportView(board_date, start_date, work_num_total);
+	}
+	
+	// 일일 보고서 보기 - 2 (1과 동시 존재해야 함)
+	@Override
+	public DailyReportWorkrate dailyReportWorkrate(String searchArea, String board_date) throws Exception {
+		List<ReportVO> dailyReportView = new ArrayList<ReportVO>();
+		dailyReportView = this.dailyReportView(searchArea, board_date);
+		
+		// 일일 보고서 합계
+		CombinedReportResponse result = this.sumDailyMonth(searchArea, board_date);
+		ReportVO totalSum = result.getTotalSum();
+		ReportVO dailySum = result.getDailySum();
+		
+		// xray, paut, 차량 가져오기
+		List<ReportVO> dailyWorkTotalView = this.selectWorkTotal(searchArea);
+		
+		List<ReportVO> dailyReportViewMerged = new ArrayList<>();
+		for (ReportVO dailyView : dailyReportView) {
+		    for (ReportVO workTotal : dailyWorkTotalView) {
+		        if (dailyView.getWork_num_total() == workTotal.getWork_num_total()) {
+	
+		            ReportVO merged = new ReportVO();
+	
+		            // 기본키 통합
+		            merged.setWork_num_total(dailyView.getWork_num_total());
+	
+		            // 각각의 데이터를 매칭하여 set
+		            merged.setWork_name(dailyView.getWork_name());
+		            merged.setWork_amount_RT(dailyView.getWork_amount_RT());
+		            merged.setWork_amount_RT_total(dailyView.getWork_amount_RT_total());
+		            merged.setWork_amount_PAUT(dailyView.getWork_amount_PAUT());
+		            merged.setWork_amount_PAUT_total(dailyView.getWork_amount_PAUT_total());
+		            merged.setWork_amount_TOFD(dailyView.getWork_amount_TOFD());
+		            merged.setWork_amount_TOFD_total(dailyView.getWork_amount_TOFD_total());
+		            merged.setWork_amount_UT(dailyView.getWork_amount_UT());
+		            merged.setWork_amount_UT_total(dailyView.getWork_amount_UT_total());
+		            merged.setWork_amount_MPT(dailyView.getWork_amount_MPT());
+		            merged.setWork_amount_MPT_total(dailyView.getWork_amount_MPT_total());
+		            merged.setWork_manpower(dailyView.getWork_manpower());
+		            merged.setWork_manpower_total(dailyView.getWork_manpower_total());
+		            
+		            merged.setWork_xray_total(workTotal.getWork_xray_total());
+		            merged.setWork_PAUT_total(workTotal.getWork_PAUT_total());
+		            merged.setWork_charyang_total(workTotal.getWork_charyang_total());
+	
+		            dailyReportViewMerged.add(merged);
+		            break; // 중복 방지용
+		        }
+		    }
+		}
+		
+		return new DailyReportWorkrate(dailyReportViewMerged, totalSum, dailySum);
+	}
+	
+	// 일일 보고서 합계
+	@Override
+	public CombinedReportResponse sumDailyMonth(String searchArea, String board_date) throws Exception {
+		String start_date = board_date.substring(0,7) + "-01";
+		ReportVO totalSum = reportDAO.selectTotalSum(searchArea, start_date, board_date);
+		ReportVO dailySum = reportDAO.selectDailySum(searchArea, board_date);
+		CombinedReportResponse result = new CombinedReportResponse();
+		result.setTotalSum(totalSum);
+		result.setDailySum(dailySum);
+		
+		return result;
+	}
+	
+	// 일일 보고서 수정
+	@Override
+	public void modWorkReportList(String searchArea, List<ReportVO> modWorkReportList, String board_date, String login_id) throws Exception {
+		reportDAO.insertWorkReportUpdateLog(searchArea, board_date, login_id);
+		reportDAO.updateWorkReport(searchArea, modWorkReportList, board_date);
+	}
+	
+	public List<ReportVO> selectModLog(String searchArea, String board_date) throws Exception {
+		return reportDAO.selectModLog(searchArea, board_date);
+	}
 }
+

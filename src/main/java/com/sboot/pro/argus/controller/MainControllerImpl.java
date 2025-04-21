@@ -1,7 +1,5 @@
 package com.sboot.pro.argus.controller;
 
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.sboot.pro.argus.AccessLogUtil;
 import com.sboot.pro.argus.dao.LoginDAO;
 import com.sboot.pro.argus.dao.ReportDAO;
 import com.sboot.pro.argus.service.LoginService;
@@ -78,6 +77,10 @@ public class MainControllerImpl implements MainController {
 			session.setAttribute("logOn", true);
 			String action = (String) session.getAttribute("action");
 			session.removeAttribute("action");
+	        String ip = request.getRemoteAddr();
+
+	        // 로그 저장
+	        AccessLogUtil.write(login_id, ip);
 			if(action != null) {
 				mav.setViewName("redirect:"+action);
 			} else {
@@ -103,4 +106,16 @@ public class MainControllerImpl implements MainController {
 		return mav;
 	}
 
+	
+	
+	@GetMapping("/login")
+    public String testLog(HttpServletRequest request) {
+        String userId = "guest"; // 로그인 안 됐으면 임시값
+        String ip = request.getRemoteAddr();
+
+        // 로그 저장
+        AccessLogUtil.write(userId, ip);
+
+        return "test"; // test.html로 이동 (없어도 일단 동작함)
+    }
 }

@@ -100,9 +100,9 @@
 							<tr>
 								<td rowspan="2" style="width:4%;"><b>No</b></td>
 								<td rowspan="2" style="width:14%;"><b>현 장</b></td>
-								<td colspan="5"><b>작 업 량(완료 / 전체)</b></td>
+								<td colspan="5"><b>작 업 량(완료 / 누계)</b></td>
 								<td rowspan="2" style="width:14%;"><b>투입인원</b></td>
-								<td colspan="3"><b>보 유 장 비 (수량)</b></td>
+								<td colspan="4"><b>보 유 장 비 (수량)</b></td>
 							</tr>
 							<tr>
 								<td style="width:7%;">RT</td>
@@ -112,23 +112,24 @@
 								<td style="width:7%;">M/PT</td>
 								<td style="width:7%;">γ-ray</td>
 								<td style="width:7%;">PA-UT</td>
-								<td style="width:19%;">차 량</td>
+								<td colspan="2" style="width:19%;">차 량</td>
 							</tr>
 							<!-- c:forEach문 적용 예정-->
-							<form name="modDailyReport" method="post" action="${contextPath}/report/modDailyReport.do?work_date=${work_date}">
-								<c:forEach var="item" items="${mergedList}" varStatus="status">
+							<form name="modDailyReport" method="post" action="${contextPath}/report/modDailyReport.do?board_date=${board_date}">
+								<c:forEach var="dailyReportViewMerged" items="${dailyReportViewMerged}" varStatus="status">
 									<tr>
+										<input type="hidden" name="work_num_total" value="${dailyReportViewMerged.work_num_total}">
 										<td style="width:4%;">${status.count}</td>
-										<td style="width:14%;"><input type="text" name="work_name" value="${item.work_name}"></td>
-										<td style="width:7%;"><input type="text" name="work_amount_RT" value="${item.work_amount_RT}"> / ${item.work_amount_RT_total}</td>
-										<td style="width:7%;"><input type="text" name="work_amount_PAUT" value="${item.work_amount_PAUT}"> / ${item.work_amount_PAUT_total}</td>
-										<td style="width:7%;"><input type="text" name="work_amount_TOFD" value="${item.work_amount_TOFD}"> / ${item.work_amount_TOFD_total}</td>
-										<td style="width:7%;"><input type="text" name="work_amount_UT" value="${item.work_amount_UT}"> / ${item.work_amount_UT_total}</td>
-										<td style="width:7%;"><input type="text" name="work_amount_MPT" value="${item.work_amount_MPT}"> / ${item.work_amount_MPT_total}</td>
-										<td style="width:14%;"><input type="text" name="work_manpower" value="${item.work_manpower}"> / ${item.work_manpower_total}</td>
-										<td style="width:7%;">${item.work_xray}</td>
-										<td style="width:7%;">${item.work_PAUT}</td>
-										<td style="width:19%;">${item.work_charyang}</td>
+										<td style="width:14%;"><input type="text" name="work_name" value="${dailyReportViewMerged.work_name}" readonly></td>
+										<td style="width:7%;"><input type="text" name="work_amount_RT" value="${dailyReportViewMerged.work_amount_RT}"> / ${dailyReportViewMerged.work_amount_RT_total}</td>
+										<td style="width:7%;"><input type="text" name="work_amount_PAUT" value="${dailyReportViewMerged.work_amount_PAUT}"> / ${dailyReportViewMerged.work_amount_PAUT_total}</td>
+										<td style="width:7%;"><input type="text" name="work_amount_TOFD" value="${dailyReportViewMerged.work_amount_TOFD}"> / ${dailyReportViewMerged.work_amount_TOFD_total}</td>
+										<td style="width:7%;"><input type="text" name="work_amount_UT" value="${dailyReportViewMerged.work_amount_UT}"> / ${dailyReportViewMerged.work_amount_UT_total}</td>
+										<td style="width:7%;"><input type="text" name="work_amount_MPT" value="${dailyReportViewMerged.work_amount_MPT}"> / ${dailyReportViewMerged.work_amount_MPT_total}</td>
+										<td style="width:14%;"><input type="text" name="work_manpower" value="${dailyReportViewMerged.work_manpower}"> / ${dailyReportViewMerged.work_manpower_total}</td>
+										<td style="width:7%;">${dailyReportViewMerged.work_xray_total}</td>
+										<td style="width:7%;">${dailyReportViewMerged.work_PAUT_total}</td>
+										<td colspan="2" style="width:19%;">${dailyReportViewMerged.work_charyang_total}</td>
 									</tr>
 								</c:forEach>
 								<td colspan="11" style="text-align: right;">
@@ -138,9 +139,17 @@
 						</table>
 					</div>
 				</section>
+				<a href="${contextPath}/report/modDailyReportForm.do?board_date=${board_date}">수정하기</a>
+				<a href="${contextPath}/report/removeDailyReport.do?board_date=${board_date}">삭제하기</a>
 			</article>
     	</main>
     <%@ include file="../include/footer.jsp"%>	
 </body>
 <script src="${contextPath}/resources/js/script.js"></script>
+<script>
+	$(document).ready(function() {
+		var table = document.getElementById('.table-control-work');
+		var colList = table.cols;
+	})
+</script>
 </html>

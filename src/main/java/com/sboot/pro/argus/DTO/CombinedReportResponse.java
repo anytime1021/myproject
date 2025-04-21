@@ -5,21 +5,19 @@ import java.util.List;
 import com.sboot.pro.argus.vo.ReportVO;
 
 public class CombinedReportResponse {
-	private List<ReportVO> reportList;
-    private ReportVO singleReport;
-    
-	public List<ReportVO> getReportList() {
-		return reportList;
+	private ReportVO totalSum;
+    private ReportVO dailySum;
+	public ReportVO getTotalSum() {
+		return totalSum;
 	}
-	public void setReportList(List<ReportVO> reportList) {
-		this.reportList = reportList;
+	public void setTotalSum(ReportVO totalSum) {
+		this.totalSum = totalSum;
 	}
-	public ReportVO getSingleReport() {
-		return singleReport;
+	public ReportVO getDailySum() {
+		return dailySum;
 	}
-	public void setSingleReport(ReportVO singleReport) {
-		this.singleReport = singleReport;
+	public void setDailySum(ReportVO dailySum) {
+		this.dailySum = dailySum;
 	}
-    
-    
+
 }
