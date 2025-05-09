@@ -113,8 +113,12 @@
 								<c:if test="${i eq 3}">
 									<td style="width:5%; height:40px; min-height:40px;">야 추가 계</td>
 								</c:if>
-								<c:forEach var="sowWorkName" items="${sowWorkName}">
+								<c:forEach var="sowWorkName" items="${sowWorkName}" varStatus="status">
+									<c:forEach var="Overtime" value="${dayNightOvertime[status.index]}" />
+									<if test=${}>
+									</if>
 									<td></td>
+									</c:forEach>
 								</c:forEach>
 								<td></td>
 								<td></td>
