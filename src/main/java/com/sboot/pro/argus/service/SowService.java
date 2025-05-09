@@ -15,6 +15,7 @@ public interface SowService {
 	// sow 일일 보기
 	public List<SowVO> selectViewList(String searchArea, String work_date) throws Exception;
 	
+	public List<SowVO> selectDayNightOvertime(String searchArea, String work_date) throws Exception;
 	// 직원 등록 (정보저장)
 	public int sowAddEmployee(String searchArea, String emp_name, String emp_position) throws Exception;
 	// 직원 목록

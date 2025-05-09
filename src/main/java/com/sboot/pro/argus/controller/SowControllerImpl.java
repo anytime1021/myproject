@@ -144,18 +144,21 @@ public class SowControllerImpl implements SowController {
 		mav.addObject("sowViewList", sowViewList);
 		mav.addObject("sumOverTime", sumOverTime);
 		mav.addObject("work_date", work_date);
-		ObjectMapper objectMapper = new ObjectMapper();
-		Iterator<SowVO> iterator = sowWorkName.iterator();
-
-		while (iterator.hasNext()) {
-			SowVO vo = iterator.next();
-		    try {
-		        String json = objectMapper.writeValueAsString(vo);
-		        System.out.println(json);
-		    } catch (Exception e) {
-		        e.printStackTrace();
-		    }
-		}
+//		ObjectMapper objectMapper = new ObjectMapper();
+//		Iterator<SowVO> iterator = sowWorkName.iterator();
+//
+//		while (iterator.hasNext()) {
+//			SowVO vo = iterator.next();
+//		    try {
+//		        String json = objectMapper.writeValueAsString(vo);
+//		        System.out.println(json);
+//		    } catch (Exception e) {
+//		        e.printStackTrace();
+//		    }
+//		}
+		List<SowVO> dayNightOvertime = new ArrayList<SowVO>();
+		dayNightOvertime = sowService.selectDayNightOvertime(searchArea, work_date);
+		mav.addObject("dayNightOvertime", dayNightOvertime);
 		return mav;
 	}
 	

@@ -54,6 +54,12 @@
 		and work_date between #{searchDate} and #{work_date} group by sowDWL_name;
 	</select>
 	
+	<!-- sow 주야구분 추가시간 계산 -->
+	<select id="selectDayNightOvertime">
+		select sowDWL_shift, sowDWL_work_name, sum(sowDWL_overtime), sum(sowDWL_hours) from sowdailyworklog where login_area = #{searchArea} and work_date between #{start_date} and #{work_date}
+		group by sowDWL_shift, sowDWL_work_name having sowDWL_shift='주' or sowDWL_shift='야';
+	</select>
+
 	<!-- sow 정보저장 이름있는 form만 length만큼 반복문 돌리기 위한 count -->
 	<select id="countNameLength" parameterType="String" resultType="int">
 		select count(*) from employee where login_area = #{searchArea}

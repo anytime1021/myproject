@@ -56,6 +56,12 @@ public class SowServiceImpl implements SowService {
 		return response;
 	}
 	
+	@Override
+	public List<SowVO> selectDayNightOvertime(String searchArea, String work_date) throws Exception {
+		String start_date = work_date.substring(0,7) + "-01";
+		return sowDAO.selectDayNightOvertime(searchArea, start_date, work_date);
+	}
+	
 	// 직원 등록(정보저장)
 	@Override
 	public int sowAddEmployee(String searchArea, String emp_name, String emp_position) throws Exception {
