@@ -85,34 +85,56 @@
 					<table>
 						<thead>
 							<tr>
-								<td style="width:5%;">구분</td>
+								<td style="width:5%; height:30px;">구분</td>
 								<td>사무실</td>
 								<c:forEach var="sowWorkName" items="${sowWorkName}">
-									<td>${sowWorkName.work_name_total}</td>
+									<td>${sowWorkName.fmonth_name}</td>
 								</c:forEach>
-								<td>외주/ect</td>
 								<td>합계</td>
-								<td style="width:4%;">교육</td>
-								<td style="width:4%;">훈련</td>
-								<td style="width:4%;">시험</td>
-								<td style="width:4%;">경조</td>
-								<td style="width:4%;">병가</td>
-								<td style="width:4%;">육아휴직</td>
-								<td style="width:4%;">퇴사</td>
-								<td style="width:6%;">비고</td>
+								<td style="width:4%; height:30px;">교육</td>
+								<td style="width:4%; height:30px;">훈련</td>
+								<td style="width:4%; height:30px;">시험</td>
+								<td style="width:4%; height:30px;">경조</td>
+								<td style="width:4%; height:30px;">병가</td>
+								<td style="width:4%; height:30px;">육아휴직</td>
+								<td style="width:4%; height:30px;">퇴사</td>
+								<td style="width:6%; height:30px;">비고</td>
 							</tr>
 						</thead>
 						<tbody>
+							<c:forEach var="i" begin="1" end="3">
 							<tr>
-								<td style="width:5%;">주 추가 계</td>
-								<!-- foreach 예정 -->
+								<c:if test="${i eq 1}">
+									<td style="width:5%; height:40px; min-height:40px;">주 추가 계</td>
+								</c:if>
+								<c:if test="${i eq 2}">
+									<td style="width:5%; height:40px; min-height:40px;">야 고정 계</td>
+								</c:if>
+								<c:if test="${i eq 3}">
+									<td style="width:5%; height:40px; min-height:40px;">야 추가 계</td>
+								</c:if>
+								<c:forEach var="sowWorkName" items="${sowWorkName}">
+									<td></td>
+								</c:forEach>
 								<td></td>
+								<td></td>
+								<c:if test="${i eq 1}">
+									<td style="width:4%;" rowspan="3"></td>
+									<td style="width:4%;" rowspan="3"></td>
+									<td style="width:4%;" rowspan="3"></td>
+									<td style="width:4%;" rowspan="3"></td>
+									<td style="width:4%;" rowspan="3"></td>
+									<td style="width:4%;" rowspan="3"></td>
+									<td style="width:4%;" rowspan="3"></td>
+									<td style="width:6%;" rowspan="3"></td>
+								</c:if>
+							</tr>
+							</c:forEach>
 						</tbody>
 					</table>
 				</div>
 			</section>
 		</article>
-		<a href="${contextPath}/report/sowModDailyForm.do?=work_date=${work_date}">수정하기</a>
 	</main>
 </body>
 <script src="${contextPath}/resources/js/script.js"></script>

@@ -1,6 +1,7 @@
 package com.sboot.pro.argus.controller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sboot.pro.argus.DTO.BoardType;
 import com.sboot.pro.argus.DTO.CombinedSowDailyWorkLog;
 import com.sboot.pro.argus.dao.CommonDAO;
@@ -135,10 +137,6 @@ public class SowControllerImpl implements SowController {
 		
 		List<SowVO> sowViewList = data.getSowDailyWorkLog();
 		List<SowVO> sumOverTime = data.getSumOverTime();
-//			sowViewList = sowService.selectViewList(searchArea, work_date);
-		List<SowVO> workNameList = new ArrayList<SowVO>();
-		
-		String searchDate = work_date.substring(0,7);
 		
 		List<SowVO> sowWorkName = new ArrayList<SowVO>();
 		sowWorkName = sowDAO.selectWorkName(searchArea);
@@ -146,6 +144,18 @@ public class SowControllerImpl implements SowController {
 		mav.addObject("sowViewList", sowViewList);
 		mav.addObject("sumOverTime", sumOverTime);
 		mav.addObject("work_date", work_date);
+		ObjectMapper objectMapper = new ObjectMapper();
+		Iterator<SowVO> iterator = sowWorkName.iterator();
+
+		while (iterator.hasNext()) {
+			SowVO vo = iterator.next();
+		    try {
+		        String json = objectMapper.writeValueAsString(vo);
+		        System.out.println(json);
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+		}
 		return mav;
 	}
 	
