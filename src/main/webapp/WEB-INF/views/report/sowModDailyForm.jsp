@@ -27,7 +27,7 @@
 	<main class="first-container">
 		<article>
 			<form name="sowAddDailyWorkLog" method="post" action="${contextPath}/report/sowAddDailyWorkLog.do">
-			<label style="text-align:center;">날 짜 : </label><input type="date" name="work_date" placeholder="날짜를 입력해 주세요" style="text-align: center; border:1px solid black;">
+			<label style="text-align:center;">날 짜 : </label><input type="text" name="work_date" value=${work_date}>
 				<section class="section-flex"> 
 					<div class="sow-title">
 						<h3><b> 2. 근무현황 </b></h3>
@@ -55,12 +55,18 @@
 											<c:choose>
 												<c:when test="${i == 0}">
 													<c:set var="employeeList" value="${empList[status.index]}" />
+													<c:set var="sowView" value="${sowViewList[status.index]}" />
+													<c:set var="overTime" value="${sumOverTime[status.index]}" />
 												</c:when>
 												<c:when test="${i == 1}">
 													<c:set var="employeeList" value="${empList[status.index + (i * 27)]}" />
+													<c:set var="sowView" value="${sowViewList[status.index + (i * 27)]}" />
+													<c:set var="overTime" value="${sumOverTime[status.index + (i * 27)]}" />
 												</c:when>
 												<c:when test="${i == 2}">
 													<c:set var="employeeList" value="${empList[status.index + (i * 27)]}" />
+													<c:set var="sowView" value="${sowViewList[status.index + (i * 27)]}" />
+													<c:set var="overTime" value="${sumOverTime[status.index + (i * 27)]}" />
 												</c:when>
 											</c:choose>
 											<tbody>
@@ -68,8 +74,8 @@
 													<td style="width:3%">${j+1+(i*27)}</td>
 													<td style="width:5%"><input type="text" name="sowDWL_name" value="${employeeList.emp_name}" readonly></td>
 													<td class="dropdown" style="width:4%" onclick="worknameDropdown(this)">
-														<span class="selected"></span>
-														<input type="hidden" name="sowDWL_work_name" class="sowDWL_work_name">
+														<span class="selected">${sowView.sowDWL_work_name}</span>
+														<input type="hidden" name="sowDWL_work_name" class="sowDWL_work_name" value="${sowView.sowDWL_work_name}">
 														<ul class="dropdown-menu">
 															<c:forEach var="fmonth_name" items="${fmonthName}">
 																<li onclick="selectWorkname(this)">${fmonth_name.fmonth_name}</li>
@@ -78,8 +84,8 @@
 														</ul>
 													</td>
 													<td class="dropdown" style="width:3%" onclick="worknameDropdown(this)">
-														<span class="shiftSelected"></span>
-														<input type="hidden" name="sowDWL_shift" class="sowDWL_shift">
+														<span class="shiftSelected">${sowView.sowDWL_shift}</span>
+														<input type="hidden" name="sowDWL_shift" class="sowDWL_shift" value="${sowView.sowDWL_shift}">
 														<ul class="dropdown-menu">
 															<li onclick="selectWorkname(this)">주</li>
 															<li onclick="selectWorkname(this)">야</li>
@@ -95,9 +101,10 @@
 															<li onclick="selectWorkname(this)">비고</li>
 														</ul>
 													</td>
-													<td style="width:3%"><input type="text" name="sowDWL_hours" value="8"></td>
-													<td style="width:3%"><input type="text" name="sowDWL_overtime"></td>
+													<td style="width:3%"><input type="text" name="sowDWL_hours" value="${sowView.sowDWL_hours}"></td>
+													<td style="width:3%"><input type="text" name="sowDWL_overtime" value="${sowView.sowDWL_overtime}"></td>
 													<td style="width:4%"><input type="text" value="" readonly></td>
+													<input type="hidden" name="sowDWL_num" value="${sowView.sowDWL_num}">
 												</tr>
 											</tbody>
 										</c:forEach>

@@ -115,17 +115,17 @@
 								<td colspan="2" style="width:19%;">차 량</td>
 							</tr>
 							<!-- c:forEach문 적용 예정-->
-							<form name="modDailyReport" method="post" action="${contextPath}/report/modDailyReport.do?board_date=${board_date}">
+							<form name="modDailyReport" method="post" action="${contextPath}/report/modDailyReport.do?work_date=${work_date}">
 								<c:forEach var="dailyReportViewMerged" items="${dailyReportViewMerged}" varStatus="status">
 									<tr>
 										<input type="hidden" name="work_num_total" value="${dailyReportViewMerged.work_num_total}">
 										<td style="width:4%;">${status.count}</td>
 										<td style="width:14%;"><input type="text" name="work_name" value="${dailyReportViewMerged.work_name}" readonly></td>
-										<td style="width:7%;"><input type="text" name="work_amount_RT" value="${dailyReportViewMerged.work_amount_RT}"> / ${dailyReportViewMerged.work_amount_RT_total}</td>
-										<td style="width:7%;"><input type="text" name="work_amount_PAUT" value="${dailyReportViewMerged.work_amount_PAUT}"> / ${dailyReportViewMerged.work_amount_PAUT_total}</td>
-										<td style="width:7%;"><input type="text" name="work_amount_TOFD" value="${dailyReportViewMerged.work_amount_TOFD}"> / ${dailyReportViewMerged.work_amount_TOFD_total}</td>
-										<td style="width:7%;"><input type="text" name="work_amount_UT" value="${dailyReportViewMerged.work_amount_UT}"> / ${dailyReportViewMerged.work_amount_UT_total}</td>
-										<td style="width:7%;"><input type="text" name="work_amount_MPT" value="${dailyReportViewMerged.work_amount_MPT}"> / ${dailyReportViewMerged.work_amount_MPT_total}</td>
+										<td style="width:7%;"><input type="text" name="work_amount_HTW1" value="${dailyReportViewMerged.work_amount_HTW1}"> / ${dailyReportViewMerged.work_amount_HTW1_total}</td>
+										<td style="width:7%;"><input type="text" name="work_amount_HTW2" value="${dailyReportViewMerged.work_amount_HTW2}"> / ${dailyReportViewMerged.work_amount_HTW2_total}</td>
+										<td style="width:7%;"><input type="text" name="work_amount_HTW3" value="${dailyReportViewMerged.work_amount_HTW3}"> / ${dailyReportViewMerged.work_amount_HTW3_total}</td>
+										<td style="width:7%;"><input type="text" name="work_amount_HTW4" value="${dailyReportViewMerged.work_amount_HTW4}"> / ${dailyReportViewMerged.work_amount_HTW4_total}</td>
+										<td style="width:7%;"><input type="text" name="work_amount_HTW5" value="${dailyReportViewMerged.work_amount_HTW5}"> / ${dailyReportViewMerged.work_amount_HTW5_total}</td>
 										<td style="width:14%;"><input type="text" name="work_manpower" value="${dailyReportViewMerged.work_manpower}"> / ${dailyReportViewMerged.work_manpower_total}</td>
 										<td style="width:7%;">${dailyReportViewMerged.work_xray_total}</td>
 										<td style="width:7%;">${dailyReportViewMerged.work_PAUT_total}</td>
@@ -139,8 +139,7 @@
 						</table>
 					</div>
 				</section>
-				<a href="${contextPath}/report/modDailyReportForm.do?board_date=${board_date}">수정하기</a>
-				<a href="${contextPath}/report/removeDailyReport.do?board_date=${board_date}">삭제하기</a>
+				<a href="${contextPath}/report/removeDailyReport.do?work_date=${work_date}">삭제하기</a>
 			</article>
     	</main>
     <%@ include file="../include/footer.jsp"%>	

@@ -1,11 +1,5 @@
 package com.sboot.pro.argus.controller;
 
-import java.util.Date;
-
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -15,89 +9,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 public interface ReportController {
-	// 일별 보고서 게시판 접속
+	// 일일 보고서 게시판 접속
 	public ModelAndView reportArea(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
-
-	// 일일 보고서 수정 폼
-	public ModelAndView modDailyReport(@RequestParam("board_date") String work_date, HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
-	// 일일 보고서 수정
-	public ModelAndView modReport(@RequestParam(value = "work_name", required =false) String[] work_nameArray,
-			@RequestParam(value = "work_amount_RT", required = false) String[] work_amount_RTArray,
-			@RequestParam(value = "work_amount_PAUT", required = false) String[] work_amount_PAUTArray,
-			@RequestParam(value = "work_amount_TOFD", required = false) String[] work_amount_TOFDArray,
-			@RequestParam(value = "work_amount_UT", required = false) String[] work_amount_UTArray,
-			@RequestParam(value = "work_amount_MPT", required = false) String[] work_amount_MPTArray,
-			@RequestParam(value = "work_manpower", required = false) String[] work_manpowerArray,
-			@RequestParam("work_date") String work_date,
-			HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
-	// 일일 보고서 삭제
-	public ModelAndView removeDailyReport(@RequestParam("board_date") String work_dat, HttpServletResponse response, HttpServletRequest request) throws Exception;
-	
-	// 월별 보고서 게시판 접속
-	public ModelAndView reportAreaTotal(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
-	
-
-
-	
-
-	
-	// -------------------------------------------------------------------------------------------------------------------
-	
-	// sow 일별 게시판 접속
-	public ModelAndView sowBoard(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
-	// sow 일별 추가 폼
-	public ModelAndView sowAddForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
-	// sow 일별 추가 (정보저장)
-	public ModelAndView sowAddDailyWorkLog(@RequestParam(value = "sowDWL_name", required=false) String[] sowDWL_nameArray,
-			@RequestParam(value = "sowDWL_work_name", required=false) String[] sowDWL_work_nameArray,
-			@RequestParam(value = "sowDWL_shift", required=false) String[] sowDWL_shiftArray,
-			@RequestParam(value = "sowDWL_hours", required=false) String[] sowDWL_hoursArray,
-			@RequestParam(value = "sowDWL_overtime", required=false) String[] sowDWL_overtimeArray,
-			@RequestParam("work_date") String work_date, HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
-	// sow 일별 보기
-	public ModelAndView sowView(@RequestParam("board_date") String board_date, HttpServletRequest request, HttpServletResponse response) throws Exception;
-
-	
-	// sow 월별 게시판 접속
-	public ModelAndView sowBoardTotal(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
-
-	// sow 월별 추가(정보저장)
-	public ModelAndView sowAddTotal(@RequestParam("sowMWL_name") String sowMWL_name, @RequestParam("searchDate") String searchDate, HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	// 2025-04-17 전체 수정 후
-	
-	// 작업현황 현장 추가 폼
-	public ModelAndView addTotalReportForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
-
-	// 작업현황 현장 추가
-	public ModelAndView addTotalReport(@ModelAttribute("addTotalReport") ReportVO addTotal, HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
-	// 작업현황 현장 수정 폼
-	public ModelAndView modTotalReportForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
-	// 작업현황 현장 수정(정보저장)
-	public ModelAndView modTotalReport(@RequestParam(value = "work_num_total", required = false) String[] work_num_total,
-			@RequestParam(value = "work_name_total", required = false) String[] work_name_totalArray,
-			@RequestParam(value = "work_xray_total", required = false) String[] work_xray_totalArray,
-			@RequestParam(value = "work_PAUT_total", required = false) String[] work_PAUT_totalArray,
-			@RequestParam(value = "work_charyang_total", required = false) String[] work_charyang_totalArray,
-			HttpServletRequest request, HttpServletResponse response) throws Exception;
-
-	// 작업현황 행 삭제
-	public ReportVO removeTotalReportRow(@RequestParam("work_num_total") int work_num_total,
-			HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	// 일일 보고서 글쓰기 양식
 	public ModelAndView addDailyReportForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+	// 일일 보고서 글쓰기(게시판)
+	public ModelAndView addDailyReportBoard(@RequestParam("work_date") String work_date, @RequestParam("board_title") String board_title,
+			HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	// 일일 보고서 글쓰기(정보저장)
 	public ModelAndView addReport(@RequestParam(value = "work_name", required =false) String[] work_nameArray,
@@ -115,9 +35,66 @@ public interface ReportController {
 			HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 	// 일일 보고서 보기
-	public ModelAndView reportView(@RequestParam("board_date") String board_date, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView reportView(@RequestParam("work_date") String work_date, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
-	// sow 기본설정 폼
-	public ModelAndView sowAddTotalForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	// 일일 보고서 수정 폼
+	public ModelAndView modDailyReport(@RequestParam("work_date") String work_date, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+	// 일일 보고서 수정(정보저장)
+	public ModelAndView modReport(@RequestParam(value = "work_name", required =false) String[] work_nameArray,
+			@RequestParam(value = "work_amount_RT", required = false) String[] work_amount_RTArray,
+			@RequestParam(value = "work_amount_PAUT", required = false) String[] work_amount_PAUTArray,
+			@RequestParam(value = "work_amount_TOFD", required = false) String[] work_amount_TOFDArray,
+			@RequestParam(value = "work_amount_UT", required = false) String[] work_amount_UTArray,
+			@RequestParam(value = "work_amount_MPT", required = false) String[] work_amount_MPTArray,
+			@RequestParam(value = "work_manpower", required = false) String[] work_manpowerArray,
+			@RequestParam("work_date") String work_date,
+			HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+	// 일일 보고서 삭제
+	public ModelAndView removeDailyReport(@RequestParam("work_date") String work_dat, HttpServletResponse response, HttpServletRequest request) throws Exception;
+
+	// 월별 보고서 게시판 접속
+	public ModelAndView reportAreaTotal(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+	
+
+
+	
+
+	
+	// -------------------------------------------------------------------------------------------------------------------
+	
+
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// 2025-04-17 전체 수정 후
+	
+	// 작업현황 현장 추가 폼
+	public ModelAndView addTotalReportForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+	// 작업현황 현장 추가
+	public ModelAndView addTotalReport(@RequestParam(value = "work_name_total", required = false) String[] work_name_totalArray,
+			@RequestParam(value = "work_xray_total", required = false) String[] work_xray_totalArray,
+			@RequestParam(value = "work_PAUT_total", required = false) String[] work_PAUT_totalArray,
+			@RequestParam(value = "work_charyang_total", required = false) String[] work_charyang_totalArray,
+			HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+	// 작업현황 현장 수정 폼
+	public ModelAndView modTotalReportForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+	// 작업현황 현장 수정(정보저장)
+	public ModelAndView modTotalReport(@RequestParam(value = "work_num_total", required = false) String[] work_num_total,
+			@RequestParam(value = "work_name_total", required = false) String[] work_name_totalArray,
+			@RequestParam(value = "work_xray_total", required = false) String[] work_xray_totalArray,
+			@RequestParam(value = "work_PAUT_total", required = false) String[] work_PAUT_totalArray,
+			@RequestParam(value = "work_charyang_total", required = false) String[] work_charyang_totalArray,
+			HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+	// 작업현황 행 삭제
+	public ReportVO removeTotalReportRow(@RequestParam("work_num_total") int work_num_total,
+			HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+	
 
 }

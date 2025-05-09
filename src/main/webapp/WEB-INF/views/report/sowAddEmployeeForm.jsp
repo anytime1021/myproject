@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <%
     request.setCharacterEncoding("UTF-8");
@@ -15,7 +14,7 @@
 </head>
 <body>
 
-<h3>익월 용역 예상 보고(미완 - 추후 진행 예정)</h3>
+<h3>직원 등록</h3>
 <span id="amountText" style="margin-left:10px; color:gray;"></span>
 
 <!-- 현장 선택 -->
@@ -23,9 +22,9 @@
 	<div class="divLeft">
 		<!-- 입력 폼 -->
 		<div>
-		    <form id="addFollowingMonth" action="${contextPath}/report/addFollowingMonth.do" method="post">
-			    <input type="text" name="fmonth_name" placeholder="거래처">
-			    <input type="number" name="fmonth_profits" id="amountInput" placeholder="공사금액">
+		    <form id="addFollowingMonth" action="${contextPath}/report/sowAddEmployee.do" method="post">
+			    <input type="text" name="emp_name" placeholder="이름" autofocus>
+			    <input type="text" name="emp_position" placeholder="직위">
 				<button type="submit">전송</button>
 			</form>
 		</div>
@@ -37,8 +36,8 @@
 	            <table>
 	                <thead>
 	                    <tr>
-							<th>거래처</th>
-	                        <th>공사금액</th>
+							<th>이름</th>
+	                        <th>직위</th>
 	                    </tr>
 	                </thead>
 					<tbody>
@@ -86,7 +85,7 @@ $(function() {
     // 저장하기 클릭 시
     $('.save-btn').on('click', function() {
         const $row = $(this).closest('tr');
-        const position = $row.find('input[name="emp_position"]');
+        const position = $row.find('input[name="emp_position"]').val();
         const name = $row.find('input[name="emp_name"]').val();
         const login_area = $row.find('input[name="login_area"]').val();
         const dummyInt = $row.find('input[name="dummyInt"]').val();

@@ -2,21 +2,21 @@ package com.sboot.pro.argus.DTO;
 
 import java.util.List;
 
-import com.sboot.pro.argus.vo.ReportVO;
+import com.sboot.pro.argus.vo.SowVO;
 
 public class CombinedSowDailyWorkLog {
-	private List<ReportVO> sowDailyWorkLog;
-	private List<ReportVO> sumOverTime;
-	public List<ReportVO> getSowDailyWorkLog() {
+	private List<SowVO> sowDailyWorkLog;
+	private List<SowVO> sumOverTime;
+	public List<SowVO> getSowDailyWorkLog() {
 		return sowDailyWorkLog;
 	}
-	public void setSowDailyWorkLog(List<ReportVO> sowDailyWorkLog) {
+	public void setSowDailyWorkLog(List<SowVO> sowDailyWorkLog) {
 		this.sowDailyWorkLog = sowDailyWorkLog;
 	}
-	public List<ReportVO> getSumOverTime() {
+	public List<SowVO> getSumOverTime() {
 		return sumOverTime;
 	}
-	public void setSumOverTime(List<ReportVO> sumOverTime) {
+	public void setSumOverTime(List<SowVO> sumOverTime) {
 		this.sumOverTime = sumOverTime;
 	}
 }

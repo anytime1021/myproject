@@ -99,14 +99,16 @@
 								</tr>
 								<tr style="height: 20px;"></tr>
 									<form name="addTotalReport" method="post" action="${contextPath}/report/addTotalReport.do">
-										<tr>
-											<td style="width:4%;">+</td>
-											<td style="width:14%;"><input type="text" name="work_name_total"></td>
-											<td style="width:7%;"><input type="text" name="work_xray_total"></td>
-											<td style="width:7%;"><input type="text" name="work_PAUT_total"></td>
-											<td colspan="2" style="width:19%;"><input type="text" name="work_charyang_total"></td>
-											<input type="text" name="work_date_total" value="${board_date}" class="work_date_total" hidden>
-										</tr>
+										<c:forEach var="fmonth_list" items="${fmonth_list}">
+											<tr>
+												<td style="width:4%;">+</td>
+													<td style="width:14%;"><input type="text" name="work_name_total" value="${fmonth_list.fmonth_name}"></td>
+													<td style="width:7%;"><input type="text" name="work_xray_total"></td>
+													<td style="width:7%;"><input type="text" name="work_PAUT_total"></td>
+												<td colspan="2" style="width:19%;"><input type="text" name="work_charyang_total"></td>
+											<input type="text" name="work_date_total" value="${work_date}" class="work_date_total" hidden>
+											</tr>
+										</c:forEach>
 										<tr>
 								            <td colspan="12" style="text-align: right;">
 								                <button type="submit">추가하기</button>

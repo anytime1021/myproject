@@ -72,12 +72,12 @@
 						<tbody>
 							<tr>
 								<td>${sowBoardList.row_num}</td>
-								<td><a href="${contextPath}/report/sowDailyView.do?board_date=${sowBoardList.board_date}">${sowBoardList.board_title}</a></td>
-								<td>${sowBoardList.board_date}</td>
+								<td><a href="${contextPath}/report/sowDailyView.do?work_date=${sowBoardList.work_date}">${sowBoardList.board_title}</a></td>
+								<td>${sowBoardList.work_date}</td>
 							</tr>
 						</tbody>
 						</c:forEach>
-						<c:set var="getBoard_date" value="${sowBoardList[0].board_date}" />
+						<c:set var="getwork_date" value="${sowBoardList[0].work_date}" />
 						<a class="btn" href="${contextPath}/report/sowAddForm.do">작성하기</a>
 					</table>
 				</div>

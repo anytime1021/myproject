@@ -41,8 +41,8 @@
 							<thead>
 								<tr>
 									<td style="width:3%">No</td>
-									<td style="width:5%">성명</td>
-									<td style="width:4%">현장</td>
+									<td style="width:4%">성명</td>
+									<td style="width:5%">현장</td>
 									<td style="width:3%">근무</td>
 									<td style="width:3%">고정</td>
 									<td style="width:3%">추가</td>
@@ -79,6 +79,7 @@
 					</div>
 				</c:forEach>
 			</section>
+			<a href="${contextPath}/report/sowModDailyForm.do?work_date=${work_date}">수정하기</a>
 			<section class="section-flex" style="margin-top:15px;">
 				<div class="table-structure">
 					<table>
@@ -105,10 +106,13 @@
 							<tr>
 								<td style="width:5%;">주 추가 계</td>
 								<!-- foreach 예정 -->
-								<td
+								<td></td>
 						</tbody>
 					</table>
+				</div>
+			</section>
 		</article>
+		<a href="${contextPath}/report/sowModDailyForm.do?=work_date=${work_date}">수정하기</a>
 	</main>
 </body>
 <script src="${contextPath}/resources/js/script.js"></script>

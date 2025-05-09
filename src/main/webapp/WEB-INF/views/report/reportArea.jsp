@@ -71,12 +71,12 @@
 						<c:set var="i" value="${i+1}" />
 							<tr>
 								<td>${reportListJsp.row_num}</td>
-								<td><a href="${contextPath}/report/reportView.do?board_date=${reportListJsp.board_date}">${reportListJsp.board_title}</a></td>
-								<td>${reportListJsp.board_date}</td>
+								<td><a href="${contextPath}/report/reportView.do?work_date=${reportListJsp.work_date}">${reportListJsp.board_title}</a></td>
+								<td>${reportListJsp.work_date}</td>
 							</tr>
 						</c:forEach>
 						</tbody>
-						<c:set var="getBoard_date" value="${reportListJsp[0].board_date}" />
+						<c:set var="getwork_date" value="${reportListJsp[0].work_date}" />
 					</table>
 				</div>
 				<a class="btn" href="${contextPath}/report/addDailyReportForm.do">작성하기</a>

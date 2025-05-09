@@ -109,11 +109,11 @@
 									<td colspan="3"><b>보 유 장 비 (수량)</b></td>
 								</tr>
 								<tr>
-									<td style="width:7%;">RT</td>
-									<td style="width:7%;">PA-UT</td>
-									<td style="width:7%;">TOFD</td>
-									<td style="width:7%;">UT</td>
-									<td style="width:7%;">M/PT</td>
+									<td style="width:7%;">${HowToWork.htw_htw1}</td>
+									<td style="width:7%;">${HowToWork.htw_htw2}</td>
+									<td style="width:7%;">${HowToWork.htw_htw3}</td>
+									<td style="width:7%;">${HowToWork.htw_htw4}</td>
+									<td style="width:7%;">${HowToWork.htw_htw5}</td>
 									<td style="width:7%;">γ-ray</td>
 									<td style="width:7%;">PA-UT</td>
 									<td style="width:19%;">차 량</td>
@@ -124,11 +124,11 @@
 									<tr>
 										<td style="width:4%;">${i}</td>
 										<td style="width:14%;"><input type="text" name="work_name" value="${addReport_total.work_name_total}" hidden> ${addReport_total.work_name_total}</td>
-										<td style="width:7%;"><input type="text" name="work_amount_RT"></td>
-										<td style="width:7%;"><input type="text" name="work_amount_PAUT"></td>
-										<td style="width:7%;"><input type="text" name="work_amount_TOFD"></td>
-										<td style="width:7%;"><input type="text" name="work_amount_UT"></td>
-										<td style="width:7%;"><input type="text" name="work_amount_MPT"></td>
+										<td style="width:7%;"><input type="text" name="work_amount_HTW1"></td>
+										<td style="width:7%;"><input type="text" name="work_amount_HTW2"></td>
+										<td style="width:7%;"><input type="text" name="work_amount_HTW3"></td>
+										<td style="width:7%;"><input type="text" name="work_amount_HTW4"></td>
+										<td style="width:7%;"><input type="text" name="work_amount_HTW5"></td>
 										<td style="width:14%;"><input type="text" name="work_manpower"></td>
 										<td style="width:7%;"><input type="text" name="work_xray_total" value="${addReport_total.work_xray_total}" readonly></td>
 										<td style="width:7%;"><input type="text" name="work_PAUT_total" value="${addReport_total.work_PAUT_total}" readonly></td>

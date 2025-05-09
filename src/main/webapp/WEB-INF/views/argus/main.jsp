@@ -36,7 +36,9 @@
 		        not use video
 		    </video>
 			-->
-			<a href="${contextPath}/report/testList.do">클릭</a>
+			<a href="${contextPath}/report/testList.do">단가등록</a>
+			<a href="${contextPath}/report/testList2.do">업체등록</a>
+			<a href="${contextPath}/report/sowAddEmployeeForm.do">직원등록</a>
 			<!--유튜브 영상 삽입
 			<div id="player"></div>
 			-->

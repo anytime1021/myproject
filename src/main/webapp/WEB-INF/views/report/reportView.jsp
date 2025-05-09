@@ -105,11 +105,11 @@
 								<td colspan="4"><b>보 유 장 비 (수량)</b></td>
 							</tr>
 							<tr>
-								<td style="width:7%;">RT</td>
-								<td style="width:7%;">PA-UT</td>
-								<td style="width:7%;">TOFD</td>
-								<td style="width:7%;">UT</td>
-								<td style="width:7%;">M/PT</td>
+								<td style="width:7%;">${HowToWork.htw_htw1}</td>
+								<td style="width:7%;">${HowToWork.htw_htw2}</td>
+								<td style="width:7%;">${HowToWork.htw_htw3}</td>
+								<td style="width:7%;">${HowToWork.htw_htw4}</td>
+								<td style="width:7%;">${HowToWork.htw_htw5}</td>
 								<td style="width:7%;">γ-ray</td>
 								<td style="width:7%;">PA-UT</td>
 								<td colspan="2" style="width:19%;">차 량</td>
@@ -120,11 +120,11 @@
 									<input type="hidden" name="work_num_total" value="${dailyReportViewMerged.work_num_total}">
 									<td style="width:4%;">${status.count}</td>
 									<td style="width:14%;">${dailyReportViewMerged.work_name}</td>
-									<td style="width:7%;">${dailyReportViewMerged.work_amount_RT} / ${dailyReportViewMerged.work_amount_RT_total}</td>
-									<td style="width:7%;">${dailyReportViewMerged.work_amount_PAUT} / ${dailyReportViewMerged.work_amount_PAUT_total}</td>
-									<td style="width:7%;">${dailyReportViewMerged.work_amount_TOFD} / ${dailyReportViewMerged.work_amount_TOFD_total}</td>
-									<td style="width:7%;">${dailyReportViewMerged.work_amount_UT} / ${dailyReportViewMerged.work_amount_UT_total}</td>
-									<td style="width:7%;">${dailyReportViewMerged.work_amount_MPT} / ${dailyReportViewMerged.work_amount_MPT_total}</td>
+									<td style="width:7%;">${dailyReportViewMerged.work_amount_HTW1} / ${dailyReportViewMerged.work_amount_HTW1_total}</td>
+									<td style="width:7%;">${dailyReportViewMerged.work_amount_HTW2} / ${dailyReportViewMerged.work_amount_HTW2_total}</td>
+									<td style="width:7%;">${dailyReportViewMerged.work_amount_HTW3} / ${dailyReportViewMerged.work_amount_HTW3_total}</td>
+									<td style="width:7%;">${dailyReportViewMerged.work_amount_HTW4} / ${dailyReportViewMerged.work_amount_HTW4_total}</td>
+									<td style="width:7%;">${dailyReportViewMerged.work_amount_HTW5} / ${dailyReportViewMerged.work_amount_HTW5_total}</td>
 									<td style="width:14%;">${dailyReportViewMerged.work_manpower} / ${dailyReportViewMerged.work_manpower_total}</td>
 									<td style="width:7%;">${dailyReportViewMerged.work_xray_total}</td>
 									<td style="width:7%;">${dailyReportViewMerged.work_PAUT_total}</td>
@@ -133,11 +133,11 @@
 							</c:forEach>
 							<tr>
 								<td colspan="2" style="width:18%; text-align:center;">합 계</td>
-								<td style="width:7%;">${dailySum.work_amount_RT_total} / ${totalSum.work_amount_RT_total}</td>
-								<td style="width:7%;">${dailySum.work_amount_PAUT_total} / ${totalSum.work_amount_PAUT_total}</td>
-								<td style="width:7%;">${dailySum.work_amount_TOFD_total} / ${totalSum.work_amount_TOFD_total}</td>
-								<td style="width:7%;">${dailySum.work_amount_UT_total} / ${totalSum.work_amount_UT_total}</td>
-								<td style="width:7%;">${dailySum.work_amount_MPT_total} / ${totalSum.work_amount_MPT_total}</td>
+								<td style="width:7%;">${dailySum.work_amount_HTW1_total} / ${totalSum.work_amount_HTW1_total}</td>
+								<td style="width:7%;">${dailySum.work_amount_HTW2_total} / ${totalSum.work_amount_HTW2_total}</td>
+								<td style="width:7%;">${dailySum.work_amount_HTW3_total} / ${totalSum.work_amount_HTW3_total}</td>
+								<td style="width:7%;">${dailySum.work_amount_HTW4_total} / ${totalSum.work_amount_HTW4_total}</td>
+								<td style="width:7%;">${dailySum.work_amount_HTW5_total} / ${totalSum.work_amount_HTW5_total}</td>
 								<td style="width:14%;">${dailySum.work_manpower_total} / ${totalSum.work_manpower_total}</td>
 								<td style="width:7%;"></td>
 								<td style="width:7%;"></td>
@@ -147,8 +147,8 @@
 						</table>
 					</div>
 				</section>
-				<a href="${contextPath}/report/modDailyReportForm.do?board_date=${board_date}">수정하기</a>
-				<a href="${contextPath}/report/removeDailyReport.do?board_date=${board_date}">삭제하기</a>
+				<a href="${contextPath}/report/modDailyReportForm.do?work_date=${work_date}">수정하기</a>
+				<a href="${contextPath}/report/removeDailyReport.do?work_date=${work_date}">삭제하기</a>
 				<div style="display:flex; flex-direction: column; align-items: flex-end; gap: 4px;">
 				<c:if test="${getCountModLog != 0}">
 					<c:forEach var="getModDate" items="${getModDate}">

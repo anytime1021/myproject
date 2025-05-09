@@ -118,4 +118,5 @@ public class MainControllerImpl implements MainController {
 
         return "test"; // test.html로 이동 (없어도 일단 동작함)
     }
+	
 }

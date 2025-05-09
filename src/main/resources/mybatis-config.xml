@@ -8,5 +8,7 @@
 	<mappers>
 		<mapper resource="mybatis/mappers/report.xml" />
 		<mapper resource="mybatis/mappers/login.xml" />
+		<mapper resource="mybatis/mappers/sow.xml" />
+		<mapper resource="mybatis/mappers/common.xml" />
 	</mappers>
 </configuration>

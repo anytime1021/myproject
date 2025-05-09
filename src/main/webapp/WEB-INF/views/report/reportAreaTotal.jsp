@@ -73,8 +73,8 @@
 							<tr>
 <!--								<fmt:formatDate var="work_date_total" value="${reportListTotalJsp.work_date_total}" pattern="yyyy-MM"/>-->
 								<td>${reportListTotalJsp.row_num}</td>
-								<td><a href="${contextPath}/report/addTotalReportForm.do?board_date=${reportListTotalJsp.board_date}">${reportListTotalJsp.board_title}</a></td>
-								<td>${reportListTotalJsp.board_date}</td>
+								<td><a href="${contextPath}/report/addTotalReportForm.do?work_date=${reportListTotalJsp.work_date}">${reportListTotalJsp.board_title}</a></td>
+								<td>${reportListTotalJsp.work_date}</td>
 							</tr>
 						</tbody>
 						</c:forEach>
