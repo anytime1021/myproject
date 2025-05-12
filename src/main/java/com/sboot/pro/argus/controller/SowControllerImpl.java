@@ -1,5 +1,7 @@
 package com.sboot.pro.argus.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -7,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,6 +23,7 @@ import com.sboot.pro.argus.dao.SowDAO;
 import com.sboot.pro.argus.service.CommonService;
 import com.sboot.pro.argus.service.SowService;
 import com.sboot.pro.argus.vo.LoginVO;
+import com.sboot.pro.argus.vo.ReportVO;
 import com.sboot.pro.argus.vo.SowVO;
 import com.sboot.pro.argus.vo.WorkingDailyBaseVO;
 
@@ -133,32 +137,36 @@ public class SowControllerImpl implements SowController {
 		LoginVO login = (LoginVO) session.getAttribute("login");
 		String searchArea = login.getLogin_area();
 		
+		// 일일보기 및 추가누계 불러오기
 		CombinedSowDailyWorkLog data = sowService.getCombinedSowDailyWorkLog(searchArea, work_date);
 		
 		List<SowVO> sowViewList = data.getSowDailyWorkLog();
 		List<SowVO> sumOverTime = data.getSumOverTime();
 		
+		mav.addObject("sowViewList", sowViewList);
+		mav.addObject("sumOverTime", sumOverTime);
+		
+		// 작업명 불러오기
 		List<SowVO> sowWorkName = new ArrayList<SowVO>();
 		sowWorkName = sowDAO.selectWorkName(searchArea);
 		mav.addObject("sowWorkName", sowWorkName);
-		mav.addObject("sowViewList", sowViewList);
-		mav.addObject("sumOverTime", sumOverTime);
-		mav.addObject("work_date", work_date);
-//		ObjectMapper objectMapper = new ObjectMapper();
-//		Iterator<SowVO> iterator = sowWorkName.iterator();
-//
-//		while (iterator.hasNext()) {
-//			SowVO vo = iterator.next();
-//		    try {
-//		        String json = objectMapper.writeValueAsString(vo);
-//		        System.out.println(json);
-//		    } catch (Exception e) {
-//		        e.printStackTrace();
-//		    }
-//		}
+
+		// 주간추가 - 야간 - 야간추가 검색
 		List<SowVO> dayNightOvertime = new ArrayList<SowVO>();
 		dayNightOvertime = sowService.selectDayNightOvertime(searchArea, work_date);
 		mav.addObject("dayNightOvertime", dayNightOvertime);
+		
+		// 기타 근무별 데이터 조회
+		List<SowVO> shiftType = new ArrayList<SowVO>();
+		shiftType = sowService.selectShiftType(searchArea, work_date);
+		
+		List<String> shiftNames = List.of("교육", "출장(입)", "출장(출)", "경조", "시험", "연차", "병가", "훈련", "기타", "비고");
+		mav.addObject("shiftNames", shiftNames);
+
+		mav.addObject("shiftType", shiftType);
+		// 날짜
+		mav.addObject("work_date", work_date);
+		
 		return mav;
 	}
 	
@@ -265,4 +273,21 @@ public class SowControllerImpl implements SowController {
 		sowDAO.deleteEmployee(dummyInt);
 		return "ok";
 	}
+	
+	// 일일 보기
+	@Override
+	public CombinedSowDailyWorkLog getCombinedSowDailyWorkLog(String searchArea, String work_date) throws Exception {
+		List<SowVO> selectViewList = new ArrayList<>();
+		selectViewList = sowDAO.selectViewList(searchArea, work_date);
+		String searchDate = work_date.substring(0,7) + "-01";
+		List<SowVO> sumOverTime = new ArrayList<>();
+		sumOverTime = sowDAO.selectSumOverTime(searchArea, work_date, searchDate);
+		CombinedSowDailyWorkLog response = new CombinedSowDailyWorkLog();
+		response.setSowDailyWorkLog(selectViewList);
+		response.setSumOverTime(sumOverTime);
+		
+		return response;
+	}
+	
+
 }

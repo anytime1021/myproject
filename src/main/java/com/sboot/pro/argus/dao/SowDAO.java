@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import com.sboot.pro.argus.vo.ReportVO;
 import com.sboot.pro.argus.vo.SowVO;
 
 @Mapper
@@ -25,6 +26,8 @@ public interface SowDAO {
 	public List<SowVO> selectSumOverTime(@Param("searchArea") String searchArea, @Param("work_date") String work_date, @Param("searchDate") String searchDate) throws Exception;
 	
 	public List<SowVO> selectDayNightOvertime(@Param("searchArea") String searchArea, @Param("start_date") String start_date, @Param("work_date") String work_date) throws Exception;
+	public List<SowVO> selectShiftType(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
+	
 	// sow 일일 추가 폼 (작업목록 가져오기)
 	public List<SowVO> selectWorkName(@Param("searchArea") String searchArea) throws Exception;
 	
@@ -37,5 +40,6 @@ public interface SowDAO {
 	// 직원 수정 및 삭제 ajax
 	public int updateEmployee(SowVO employee) throws Exception;
 	public void deleteEmployee(SowVO dummyInt) throws Exception;
-	
+
+
 }

@@ -15,12 +15,45 @@ public class SowVO extends WorkingDailyBaseVO {
 	private int sowDWL_hours;
 	private int sowDWL_overtime;
 	
+	// 주간추가 - 야간 - 야간추가 변수
+	private int weeklyShiftAdditional;
+	private int nightShift;
+	private int nightShiftAdditional;
+	
+	// sow 추가근무 변수
+	private int overtime0;
+	private int overtime1;
+	private int overtime2;
+	private int overtime3;
+	private int overtime4;
+	private int overtime5;
+	private int overtime6;
+	private int overtime7;
+	private int overtime8;
+	private int overtime_sum;
+	
 	// 직원
 	private int emp_num;
 	private String emp_name;
 	private String emp_position;
 	private String emp_resignation_date;
-
+	
+	// shiftType
+	private boolean showTd;
+	private boolean hasShift;
+	public boolean isShowTd() {
+		return showTd;
+	}
+	public void setShowTd(boolean showTd) {
+		this.showTd = showTd;
+	}
+	public boolean isHasShift() {
+		return hasShift;
+	}
+	public void setHasShift(boolean hasShift) {
+		this.hasShift = hasShift;
+	}
+	
 	
 	public int getSowDWL_num() {
 		return sowDWL_num;
@@ -58,6 +91,85 @@ public class SowVO extends WorkingDailyBaseVO {
 	public void setSowDWL_overtime(int sowDWL_overtime) {
 		this.sowDWL_overtime = sowDWL_overtime;
 	}
+	
+	public int getWeeklyShiftAdditional() {
+		return weeklyShiftAdditional;
+	}
+	public void setWeeklyShiftAdditional(int weeklyShiftAdditional) {
+		this.weeklyShiftAdditional = weeklyShiftAdditional;
+	}
+	public int getNightShift() {
+		return nightShift;
+	}
+	public void setNightShift(int nightShift) {
+		this.nightShift = nightShift;
+	}
+	public int getNightShiftAdditional() {
+		return nightShiftAdditional;
+	}
+	public void setNightShiftAdditional(int nightShiftAdditional) {
+		this.nightShiftAdditional = nightShiftAdditional;
+	}
+	public int getOvertime0() {
+		return overtime0;
+	}
+	public void setOvertime0(int overtime0) {
+		this.overtime0 = overtime0;
+	}
+	public int getOvertime1() {
+		return overtime1;
+	}
+	public void setOvertime1(int overtime1) {
+		this.overtime1 = overtime1;
+	}
+	public int getOvertime2() {
+		return overtime2;
+	}
+	public void setOvertime2(int overtime2) {
+		this.overtime2 = overtime2;
+	}
+	public int getOvertime3() {
+		return overtime3;
+	}
+	public void setOvertime3(int overtime3) {
+		this.overtime3 = overtime3;
+	}
+	public int getOvertime4() {
+		return overtime4;
+	}
+	public void setOvertime4(int overtime4) {
+		this.overtime4 = overtime4;
+	}
+	public int getOvertime5() {
+		return overtime5;
+	}
+	public void setOvertime5(int overtime5) {
+		this.overtime5 = overtime5;
+	}
+	public int getOvertime6() {
+		return overtime6;
+	}
+	public void setOvertime6(int overtime6) {
+		this.overtime6 = overtime6;
+	}
+	public int getOvertime7() {
+		return overtime7;
+	}
+	public void setOvertime7(int overtime7) {
+		this.overtime7 = overtime7;
+	}
+	public int getOvertime8() {
+		return overtime8;
+	}
+	public void setOvertime8(int overtime8) {
+		this.overtime8 = overtime8;
+	}
+	public int getOvertime_sum() {
+		return overtime_sum;
+	}
+	public void setOvertime_sum(int overtime_sum) {
+		this.overtime_sum = overtime_sum;
+	}
 	public int getEmp_num() {
 		return emp_num;
 	}
@@ -85,9 +197,14 @@ public class SowVO extends WorkingDailyBaseVO {
 	
 	@Override
 	public String toString() {
-		return "SowVO [sowDWL_name=" + sowDWL_name + ", sowDWL_work_name=" + sowDWL_work_name + ", sowDWL_shift="
-				+ sowDWL_shift + ", sowDWL_hours=" + sowDWL_hours + ", sowDWL_overtime=" + sowDWL_overtime
-				+ ", emp_num=" + emp_num + ", emp_name=" + emp_name + ", emp_position=" + emp_position
-				+ ", emp_resignation_date=" + emp_resignation_date + "]";
+		return "SowVO [sowDWL_num=" + sowDWL_num + ", sowDWL_name=" + sowDWL_name + ", sowDWL_work_name="
+				+ sowDWL_work_name + ", sowDWL_shift=" + sowDWL_shift + ", sowDWL_hours=" + sowDWL_hours
+				+ ", sowDWL_overtime=" + sowDWL_overtime + ", weeklyShiftAdditional=" + weeklyShiftAdditional
+				+ ", nightShift=" + nightShift + ", nightShiftAdditional=" + nightShiftAdditional + ", overtime0="
+				+ overtime0 + ", overtime1=" + overtime1 + ", overtime2=" + overtime2 + ", overtime3=" + overtime3
+				+ ", overtime4=" + overtime4 + ", overtime5=" + overtime5 + ", overtime6=" + overtime6 + ", overtime7="
+				+ overtime7 + ", overtime8=" + overtime8 + ", overtime_sum=" + overtime_sum + ", emp_num=" + emp_num
+				+ ", emp_name=" + emp_name + ", emp_position=" + emp_position + ", emp_resignation_date="
+				+ emp_resignation_date + "]";
 	}
 }

@@ -85,7 +85,6 @@ public interface ReportDAO {
 	
 	// -------------------------------------------------------------------------------------------------------------------
 
-
 	// 단가 ajax ----------------------------------------------
 	public void insertMethodQuantityCost(ReportVO cost) throws Exception;
 	public List<ReportVO> selectUnitCost(String searchArea) throws Exception;

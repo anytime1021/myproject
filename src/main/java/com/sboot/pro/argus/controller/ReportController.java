@@ -3,6 +3,7 @@ package com.sboot.pro.argus.controller;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.sboot.pro.argus.DTO.CombinedSowDailyWorkLog;
 import com.sboot.pro.argus.vo.ReportVO;
 
 import jakarta.servlet.http.HttpServletRequest;

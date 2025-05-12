@@ -55,9 +55,47 @@
 	</select>
 	
 	<!-- sow 주야구분 추가시간 계산 -->
-	<select id="selectDayNightOvertime">
-		select sowDWL_shift, sowDWL_work_name, sum(sowDWL_overtime), sum(sowDWL_hours) from sowdailyworklog where login_area = #{searchArea} and work_date between #{start_date} and #{work_date}
-		group by sowDWL_shift, sowDWL_work_name having sowDWL_shift='주' or sowDWL_shift='야';
+	<select id="selectDayNightOvertime" parameterType="Map">
+<!--	SELECT-->
+<!--    	CASE -->
+<!--	        WHEN sowDWL_shift = '주' THEN '주'-->
+<!--	        WHEN sowDWL_shift = '야' AND use_overtime = 0 THEN '야'-->
+<!--	        WHEN sowDWL_shift = '야' AND use_overtime = 1 THEN '야간추가'-->
+<!--	    END AS shift_type,-->
+<!--	    <foreach collection="workNameList" item="item" index="index" separator=",">-->
+<!--	    SUM(CASE WHEN sowDWL_work_name = #{item.fmonth_name} THEN time_value ELSE 0 END) AS overtime${index}-->
+<!--	    </foreach>-->
+<!--	    ,SUM(time_value) AS overtime_sum FROM (-->
+<!--		    SELECT sowDWL_shift, sowDWL_work_name, sowDWL_hours AS time_value, login_area, work_date, 0 AS use_overtime-->
+<!--		    FROM sowdailyworklog WHERE sowDWL_shift = '야'-->
+		
+<!--		    UNION ALL-->
+		  
+<!--		    SELECT sowDWL_shift, sowDWL_work_name, sowDWL_overtime AS time_value, login_area, work_date, 1 AS use_overtime-->
+<!--		    FROM sowdailyworklog WHERE sowDWL_shift = '야'-->
+
+<!--		    UNION ALL-->
+			
+<!--			SELECT sowDWL_shift, sowDWL_work_name, sowDWL_overtime AS time_value, login_area, work_date, 0 AS use_overtime-->
+<!--		    FROM sowdailyworklog WHERE sowDWL_shift = '주'-->
+<!--			) AS merged-->
+<!--		WHERE login_area = #{searchArea} -->
+<!--		AND work_date BETWEEN #{start_date} AND #{work_date}-->
+<!--		GROUP BY shift_type-->
+<!--		ORDER BY FIELD(shift_type, '주', '야', '야간추가')-->
+		select distinct b.sowDWL_work_name, ifnull(sum(b.sowDWL_overtime),0) as weeklyShiftAdditional, ifnull(sum(c.sowDWL_hours),0) as nightShift, ifnull(sum(c.sowDWL_overtime),0) as nightShiftAdditional
+		from followingmonth a left outer join (select distinct sowDWL_work_name, sowDWL_overtime, work_date from sowdailyworklog where sowDWL_shift='주') b on a.fmonth_name = b.sowDWL_work_name
+		left outer join (select distinct sowDWL_work_name, sowDWL_overtime, sowDWL_hours, work_date from sowdailyworklog where sowDWL_shift='야') c on a.fmonth_name = c.sowDWL_work_name 
+		where b.work_date between #{start_date} and #{work_date} and login_area=#{searchArea} group by sowDWL_work_name
+		UNION ALL
+		select distinct '합계' as sowDWL_work_name, ifnull(sum(b.sowDWL_overtime),0) as weeklyShiftAdditional, ifnull(sum(c.sowDWL_hours),0) as nightShift, ifnull(sum(c.sowDWL_overtime),0) as nightShiftAdditional
+		from followingmonth a left outer join (select distinct sowDWL_work_name, sowDWL_overtime, work_date from sowdailyworklog where sowDWL_shift='주') b on a.fmonth_name = b.sowDWL_work_name
+		left outer join (select distinct sowDWL_work_name, sowDWL_overtime, sowDWL_hours, work_date from sowdailyworklog where sowDWL_shift='야') c on a.fmonth_name = c.sowDWL_work_name 
+		where b.work_date between #{start_date} and #{work_date} and login_area=#{searchArea}
+	</select>
+	
+	<select id="selectShiftType" parameterType="String">
+		select sowDWL_name, sowDWL_shift from sowdailyworklog where login_area = #{searchArea} and work_date = #{work_date} and sowDWL_shift not in ('주', '야')
 	</select>
 
 	<!-- sow 정보저장 이름있는 form만 length만큼 반복문 돌리기 위한 count -->

@@ -54,11 +54,11 @@
 						            <input type="text" name="emp_position" value="${employeeList.emp_position}" readonly />
 						        </td>
 						        <td>
-						            <button type="button" class="edit-btn">수정하기</button>
-						            <button type="button" class="save-btn" style="display:none;">저장하기</button>
+						            <button type="button" class="edit-btn">수정</button>
+						            <button type="button" class="save-btn" style="display:none;">저장</button>
 						        </td>
 						        <td>
-						            <button type="button" class="delete-btn">삭제하기</button>
+						            <button type="button" class="delete-btn">삭제</button>
 						        </td>
 						    </tr>
 						</c:forEach>

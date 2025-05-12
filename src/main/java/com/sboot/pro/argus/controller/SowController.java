@@ -3,6 +3,8 @@ package com.sboot.pro.argus.controller;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.sboot.pro.argus.DTO.CombinedSowDailyWorkLog;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -36,5 +38,6 @@ public interface SowController {
 
 	// 직원 등록(정보저장)
 	public ModelAndView sowAddEmployee(@RequestParam("sowMWL_name") String sowMWL_name, @RequestParam("searchDate") String searchDate, HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
+
+	public CombinedSowDailyWorkLog getCombinedSowDailyWorkLog(String searchArea, String work_date) throws Exception;
 }

@@ -35,7 +35,7 @@
 				</div>
 			</section>
 			<section class="section-flex">
-				<c:forEach var="i" begin="0" end="3">
+				<c:forEach var="i" begin="0" end="2">
 					<div class="table-structure">
 						<table>
 							<thead>
@@ -49,17 +49,17 @@
 									<td style="width:4%">추가누계</td>
 								</tr>
 							</thead>
-							<c:forEach var="j" begin="0" end="26" varStatus="status">
+							<c:forEach var="j" begin="0" end="29" varStatus="status">
 								<c:choose>
 									<c:when test="${i == 0}">
 										<c:set var="sowView" value="${sowViewList[status.index]}" />
 										<c:set var="overTime" value="${sumOverTime[status.index]}" />
 									</c:when>
 									<c:when test="${i == 1}">
-										<c:set var="sowView" value="${sowViewList[status.index + (i * 27)]}" />
+										<c:set var="sowView" value="${sowViewList[status.index + (i * 30)]}" />
 									</c:when>
 									<c:when test="${i == 2}">
-										<c:set var="sowView" value="${sowViewList[status.index + (i * 27)]}" />
+										<c:set var="sowView" value="${sowViewList[status.index + (i * 30)]}" />
 									</c:when>
 								</c:choose>
 								<tbody>
@@ -78,6 +78,35 @@
 						</table>
 					</div>
 				</c:forEach>
+				<div class="table-structure">
+					<table>
+						<thead>
+							<tr>
+								<td style="width:3%">No</td>
+								<td style="width:4%">성명</td>
+								<td style="width:5%">현장</td>
+								<td style="width:3%">근무</td>
+								<td style="width:3%">고정</td>
+								<td style="width:3%">추가</td>
+								<td style="width:4%">추가누계</td>
+							</tr>
+						</thead>
+						<c:forEach var="j" begin="0" end="29" varStatus="status">
+							<tbody>
+								<tr>
+									<td style="width:3%">${j+1}</td>
+									<td style="width:5%"><input type="text" value="" readonly></td>
+									<td style="width:4%"><input type="text" value="" readonly></td>
+									<td style="width:3%"><input type="text" value="" readonly></td>
+									<td style="width:3%"><input type="text" value="" readonly></td>
+									<td style="width:3%"><input type="text" value="" readonly></td>
+									<td style="width:4%"><input type="text" value="" readonly></td>
+									<input type="hidden" name="work_date" value="${work_Date}">
+								</tr>
+							</tbody>
+						</c:forEach>
+					</table>
+				</div>
 			</section>
 			<a href="${contextPath}/report/sowModDailyForm.do?work_date=${work_date}">수정하기</a>
 			<section class="section-flex" style="margin-top:15px;">
@@ -86,53 +115,111 @@
 						<thead>
 							<tr>
 								<td style="width:5%; height:30px;">구분</td>
-								<td>사무실</td>
 								<c:forEach var="sowWorkName" items="${sowWorkName}">
 									<td>${sowWorkName.fmonth_name}</td>
 								</c:forEach>
 								<td>합계</td>
-								<td style="width:4%; height:30px;">교육</td>
-								<td style="width:4%; height:30px;">훈련</td>
-								<td style="width:4%; height:30px;">시험</td>
-								<td style="width:4%; height:30px;">경조</td>
-								<td style="width:4%; height:30px;">병가</td>
-								<td style="width:4%; height:30px;">육아휴직</td>
-								<td style="width:4%; height:30px;">퇴사</td>
+								<td style="width:6%; height:30px;">교육</td>
+								<td style="width:6%; height:30px;">출장(입)</td>
+								<td style="width:6%; height:30px;">출장(출)</td>
+								<td style="width:6%; height:30px;">경조</td>
+								<td style="width:6%; height:30px;">시험</td>
+								<td style="width:6%; height:30px;">연차</td>
+								<td style="width:6%; height:30px;">병가</td>
+								<td style="width:6%; height:30px;">훈련</td>
+								<td style="width:6%; height:30px;">기타</td>
 								<td style="width:6%; height:30px;">비고</td>
 							</tr>
 						</thead>
 						<tbody>
 							<c:forEach var="i" begin="1" end="3">
-							<tr>
-								<c:if test="${i eq 1}">
-									<td style="width:5%; height:40px; min-height:40px;">주 추가 계</td>
-								</c:if>
-								<c:if test="${i eq 2}">
-									<td style="width:5%; height:40px; min-height:40px;">야 고정 계</td>
-								</c:if>
-								<c:if test="${i eq 3}">
-									<td style="width:5%; height:40px; min-height:40px;">야 추가 계</td>
-								</c:if>
-								<c:forEach var="sowWorkName" items="${sowWorkName}" varStatus="status">
-									<c:forEach var="Overtime" value="${dayNightOvertime[status.index]}" />
-									<if test=${}>
-									</if>
-									<td></td>
-									</c:forEach>
-								</c:forEach>
-								<td></td>
-								<td></td>
-								<c:if test="${i eq 1}">
-									<td style="width:4%;" rowspan="3"></td>
-									<td style="width:4%;" rowspan="3"></td>
-									<td style="width:4%;" rowspan="3"></td>
-									<td style="width:4%;" rowspan="3"></td>
-									<td style="width:4%;" rowspan="3"></td>
-									<td style="width:4%;" rowspan="3"></td>
-									<td style="width:4%;" rowspan="3"></td>
-									<td style="width:6%;" rowspan="3"></td>
-								</c:if>
-							</tr>
+								<tr>
+									<c:if test="${i eq 1}">
+										<td style="width:5%; height:40px; min-height:40px;">주 추가 계</td>
+										<c:forEach var="dayNightOvertime" items="${dayNightOvertime}">
+											<td>${dayNightOvertime.weeklyShiftAdditional}</td>
+										</c:forEach>
+									</c:if>
+									<c:if test="${i eq 2}">
+										<td style="width:5%; height:40px; min-height:40px;">야 고정 계</td>
+										<c:forEach var="dayNightOvertime" items="${dayNightOvertime}">
+											<td>${dayNightOvertime.nightShift}</td>
+										</c:forEach>
+									</c:if>
+									<c:if test="${i eq 3}">
+										<td style="width:5%; height:40px; min-height:40px;">야 추가 계</td>
+										<c:forEach var="dayNightOvertime" items="${dayNightOvertime}">
+											<td>${dayNightOvertime.nightShiftAdditional}</td>
+										</c:forEach>
+									</c:if>
+									<c:if test="${i eq 1}">
+										<td style="width:6%;" rowspan="3">
+											<c:forEach var="shiftType" items="${shiftType}">
+												<c:if test="${shiftType.sowDWL_shift == '교육'}">
+													${shiftType.sowDWL_name}
+												</c:if>
+											</c:forEach>
+										</td>
+										<td style="width:6%;" rowspan="3">
+											<c:forEach var="shiftType" items="${shiftType}">
+												<c:if test="${shiftType.sowDWL_shift == '출장(입)'}">
+													${shiftType.sowDWL_name}
+												</c:if>
+											</c:forEach>
+										</td>
+										<td style="width:6%;" rowspan="3">
+											<c:forEach var="shiftType" items="${shiftType}">
+												<c:if test="${shiftType.sowDWL_shift == '출장(출)'}">
+													${shiftType.sowDWL_name}
+												</c:if>
+											</c:forEach>
+										</td>
+										<td style="width:6%;" rowspan="3">
+											<c:forEach var="shiftType" items="${shiftType}">
+												<c:if test="${shiftType.sowDWL_shift == '경조'}">
+													${shiftType.sowDWL_name}
+												</c:if>
+											</c:forEach>
+										</td>
+										<td style="width:6%;" rowspan="3">
+											<c:forEach var="shiftType" items="${shiftType}">
+												<c:if test="${shiftType.sowDWL_shift == '시험'}">
+													${shiftType.sowDWL_name}
+												</c:if>
+											</c:forEach>
+										</td>
+										<td style="width:6%;" rowspan="3">
+											<c:forEach var="shiftType" items="${shiftType}">
+												<c:if test="${shiftType.sowDWL_shift == '연차'}">
+													${shiftType.sowDWL_name}
+												</c:if>
+											</c:forEach>
+										</td>
+										<td style="width:6%;" rowspan="3">
+											<c:forEach var="shiftType" items="${shiftType}">
+												<c:if test="${shiftType.sowDWL_shift == '병가'}">
+													${shiftType.sowDWL_name}
+												</c:if>
+											</c:forEach>
+										</td>
+										<td style="width:6%;" rowspan="3">
+											<c:forEach var="shiftType" items="${shiftType}">
+												<c:if test="${shiftType.sowDWL_shift == '훈련'}">
+													${shiftType.sowDWL_name}
+												</c:if>
+											</c:forEach>
+										</td>
+										<td style="width:6%;" rowspan="3">
+											<c:forEach var="shiftType" items="${shiftType}">
+												<c:if test="${shiftType.sowDWL_shift == '기타'}">
+													${shiftType.sowDWL_name}
+												</c:if>
+											</c:forEach>
+										</td>
+										<td style="width:6%;" rowspan="3">
+										</td>
+									</c:if>
+								</tr>
 							</c:forEach>
 						</tbody>
 					</table>
