@@ -4,14 +4,21 @@
 	<!-- sow 일일 추가 (정보저장) - 게시판 없을 시 추가 -->
 	<insert id="insertSowDailyWorkLogList" parameterType="sowVO">
 		<foreach collection="sowDailyWorkLogList" item="item">
-			insert into sowDailyWorkLog(sowDWL_name, sowDWL_work_name, sowDWL_shift, sowDWL_hours, sowDWL_overtime, work_date, login_area)
-			values (#{item.sowDWL_name}, #{item.sowDWL_work_name}, #{item.sowDWL_shift}, #{item.sowDWL_hours}, #{item.sowDWL_overtime}, #{work_date}, #{searchArea});
+			insert into sowDailyWorkLog(sowDWL_name, sowDWL_work_name, sowDWL_shift, sowDWL_hours, sowDWL_overtime, work_date, login_area, emp_num)
+			values (#{item.sowDWL_name}, #{item.sowDWL_work_name}, #{item.sowDWL_shift}, #{item.sowDWL_hours}, #{item.sowDWL_overtime}, #{work_date}, #{searchArea}, #{item.emp_num});
 		</foreach>
 	</insert>
 	
 	<insert id="insertSowDailyWorkLogBoard" parameterType="String">
 		insert into sowDailyWorkLog_board(board_title, work_date, board_area)
 		values(concat(#{work_date},'보고서'), #{work_date}, #{searchArea});
+	</insert>
+	
+	<insert id="insertBusinessTrip" parameterType="Map">
+		<foreach collection="sowBusinessTrip" item="item">
+			insert into business_trip(sowDWL_name, sowDWL_work_name, sowDWL_shift, sowDWL_hours, sowDWL_overtime, work_date, login_area, bt_inout, emp_num)
+			values (#{item.sowDWL_name}, #{item.sowDWL_work_name}, #{item.sowDWL_shift}, #{item.sowDWL_hours}, #{item.sowDWL_overtime}, #{work_date}, #{searchArea}, #{item.bt_inout}, #{item.emp_num});
+		</foreach>
 	</insert>
 	
 	<!-- sow 일일 추가 폼 (작업목록 가져오기)-->
@@ -51,7 +58,7 @@
 	<!-- sow 추가시간 계산 -->
 	<select id="selectSumOverTime" parameterType="String" resultType="sowVO">
 		select sum(sowDWL_overtime) as dummyInt from sowDailyWorkLog where login_area = #{searchArea}
-		and work_date between #{searchDate} and #{work_date} group by sowDWL_name;
+		and work_date between #{start_date} and #{work_date} group by sowDWL_name;
 	</select>
 	
 	<!-- sow 주야구분 추가시간 계산 -->
@@ -97,12 +104,24 @@
 	<select id="selectShiftType" parameterType="String">
 		select sowDWL_name, sowDWL_shift from sowdailyworklog where login_area = #{searchArea} and work_date = #{work_date} and sowDWL_shift not in ('주', '야')
 	</select>
-
+	
+	<select id="selectBusinessTrip" parameterType="String">
+		select * from business_trip where login_area = #{searchArea} and bt_inout = #{bt_inout} and work_date = #{work_date}
+	</select>
+	
+	<select id="countBtViewList" parameterType="String">
+		select count(*) from business_trip where login_area = #{searchArea} and bt_inout = #{bt_inout} and work_date = #{work_date}
+	</select>
+	
 	<!-- sow 정보저장 이름있는 form만 length만큼 반복문 돌리기 위한 count -->
 	<select id="countNameLength" parameterType="String" resultType="int">
 		select count(*) from employee where login_area = #{searchArea}
 	</select>
-
+	
+	<select id="countBtNameLength" parameterType="String" resultType="int">
+		select count(*) from business_trip_employee where login_area = #{searchArea} and bt_inout = #{bt_inout}
+	</select>
+	
 	<!-- 출장자 목록 -->
 	<select id="selectBtEmployeeList" parameterType="String">
 		select * from business_trip_employee where login_area = #{searchArea} and bt_inout = #{bt_inout}
@@ -117,4 +136,10 @@
 		insert into business_trip_employee(emp_name, sowDWL_work_name, login_area, bt_inout)
 		values(#{emp_name}, #{sowDWL_work_name}, #{searchArea}, #{bt_inout})
 	</insert>
+	
+	<!-- 출장자 추가누계 -->
+	<select id="selectBtSumOverTime" parameterType="String">
+		select sum(sowDWL_overtime) as dummyInt from business_trip where login_area = #{searchArea}
+		and work_date between #{start_date} and #{work_date} and bt_inout = #{bt_inout} group by emp_num;
+	</select>
 </mapper>

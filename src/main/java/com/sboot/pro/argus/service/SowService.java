@@ -11,6 +11,7 @@ public interface SowService {
 
 	// sow 일일 추가 (정보저장)
 	public void sowAddDailyWorkLogList(String searchArea, List<SowVO> sowDailyWorkLogList, String work_date) throws Exception;
+	public void sowAddBusinessTrip(String searchArea, List<SowVO> sowBusinessTrip, String work_date) throws Exception;
 	
 	// sow 일일 보기
 	public List<SowVO> selectViewList(String searchArea, String work_date) throws Exception;
@@ -18,6 +19,10 @@ public interface SowService {
 	public List<SowVO> selectDayNightOvertime(String searchArea, String work_date) throws Exception;
 	
 	public List<SowVO> selectShiftType(String searchArea, String work_date) throws Exception;
+	
+	public List<SowVO> selectBusinessTrip(String searchArea, String work_date, String bt_inout) throws Exception;
+
+	public int countBtViewList(String searchArea, String bt_inout, String work_date) throws Exception;
 	
 	// 직원 등록 (정보저장)
 	public int sowAddEmployee(String searchArea, String emp_name, String emp_position) throws Exception;
@@ -32,4 +37,7 @@ public interface SowService {
 
 	// 출장자 추가 (정보저장)
 	public int sowAddBtEmployee(String emp_name, String sowDWL_work_name, String bt_inout, String searchArea) throws Exception;
+	
+	// 출장자 추가누계
+	public List<SowVO> btSumOverTime(String searchArea, String bt_inout, String work_date) throws Exception;
 }

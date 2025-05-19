@@ -53,7 +53,6 @@
 								<c:choose>
 									<c:when test="${i == 0}">
 										<c:set var="sowView" value="${sowViewList[status.index]}" />
-										<c:set var="overTime" value="${sumOverTime[status.index]}" />
 									</c:when>
 									<c:when test="${i == 1}">
 										<c:set var="sowView" value="${sowViewList[status.index + (i * 30)]}" />
@@ -78,35 +77,101 @@
 						</table>
 					</div>
 				</c:forEach>
-				<div class="table-structure">
-					<table>
-						<thead>
+			<div class="table-structure">
+				<c:choose>
+					<c:when test="${btInCount >= 11}">
+						<c:set var="btInEnd" value="${btInCount}" />
+						<c:set var="btOutEnd" value="${24 - btInCount}" />
+					</c:when>
+					<c:when test="${btOutCount >= 11}">
+						<c:set var="btInEnd" value="${24 - btOutCount}" />
+						<c:set var="btOutEnd" value="${btOutCount}" />
+					</c:when>
+					<c:otherwise>
+						<c:set var="btInEnd" value="12" />
+						<c:set var="btOutEnd" value="12" />
+					</c:otherwise>
+				</c:choose>
+				<table>
+					<thead>
+						<tr>
+							<td style="width:3%">No</td>
+							<td style="width:4%">성명</td>
+							<td style="width:5%">현장</td>
+							<td style="width:4%">근무</td>
+							<td style="width:2%">고정</td>
+							<td style="width:3%">추가</td>
+							<td style="width:4%">추가누계</td>
+						</tr>
+					</thead>
+					<c:forEach var="j" begin="0" end="${btInEnd - 1}" varStatus="status">
+						<c:set var="btIn" value="${btInList[status.index]}" />
+						<c:set var="overtime_in" value="${btInSumOverTime[status.index]}" />
+						<tbody>
 							<tr>
-								<td style="width:3%">No</td>
-								<td style="width:4%">성명</td>
-								<td style="width:5%">현장</td>
-								<td style="width:3%">근무</td>
-								<td style="width:3%">고정</td>
-								<td style="width:3%">추가</td>
-								<td style="width:4%">추가누계</td>
+								<td style="width:3%">${j+1}</td>
+								<td style="width:5%"><input type="text" name="sowDWL_name_inout" value="${btIn.sowDWL_name}" readonly></td>
+								<td><input type="text" name="sowDWL_work_name_inout" class="sowDWL_work_name" value="${btIn.sowDWL_work_name}" readonly></td>
+								<td><input type="text" name="sowDWL_shift_inout" class="sowDWL_shift" value="${btIn.sowDWL_shift}" readonly></td>
+								<td style="width:3%"><input type="text" name="sowDWL_hours_inout" value="${btIn.sowDWL_hours}" readonly></td>
+								<td style="width:3%"><input type="text" name="sowDWL_overtime_inout" value="${btIn.sowDWL_overtime}" readonly></td>
+								<td style="width:4%"><input type="text" value="${overtime_in.dummyInt}" readonly></td>
 							</tr>
-						</thead>
-						<c:forEach var="j" begin="0" end="29" varStatus="status">
-							<tbody>
-								<tr>
-									<td style="width:3%">${j+1}</td>
-									<td style="width:5%"><input type="text" value="" readonly></td>
-									<td style="width:4%"><input type="text" value="" readonly></td>
-									<td style="width:3%"><input type="text" value="" readonly></td>
-									<td style="width:3%"><input type="text" value="" readonly></td>
-									<td style="width:3%"><input type="text" value="" readonly></td>
-									<td style="width:4%"><input type="text" value="" readonly></td>
-									<input type="hidden" name="work_date" value="${work_Date}">
-								</tr>
-							</tbody>
-						</c:forEach>
-					</table>
-				</div>
+						</tbody>
+					</c:forEach>
+				</table>
+				<table>
+					<thead>
+						<td style="font-size: 10px;"><b> 출장자(출) </b></td>
+					</thead>
+				</table>
+				<table>
+					<thead>
+						<tr>
+							<td style="width:3%">No</td>
+							<td style="width:4%">성명</td>
+							<td style="width:5%">현장</td>
+							<td style="width:4%">근무</td>
+							<td style="width:2%">고정</td>
+							<td style="width:3%">추가</td>
+							<td style="width:4%">추가누계</td>
+						</tr>
+					</thead>
+					<c:forEach var="j" begin="0" end="${btOutEnd - 1}" varStatus="status">
+						<c:set var="btOut" value="${btOutList[status.index]}" />
+						<c:set var="overtime_out" value="${btOutSumOverTime[status.index]}" />
+						<tbody>
+							<tr>
+								<td style="width:3%">${j+1}</td>
+								<td style="width:5%"><input type="text" name="sowDWL_name_inout" value="${btOut.sowDWL_name}" readonly></td>
+								<td><input type="text" name="sowDWL_work_name_inout" class="sowDWL_work_name" value="${btOut.sowDWL_work_name}" readonly></td>
+								<td><input type="text" name="sowDWL_shift_inout" class="sowDWL_shift" value="${btOut.sowDWL_shift}" readonly></td>
+								<td style="width:3%"><input type="text" name="sowDWL_hours_inout" value="${btOut.sowDWL_hours}" readonly></td>
+								<td style="width:3%"><input type="text" name="sowDWL_overtime_inout" value="${btOut.sowDWL_overtime}" readonly></td>
+								<td style="width:4%"><input type="text" value="${overtime_out.dummyInt}" readonly></td>
+							</tr>
+						</tbody>
+					</c:forEach>
+					<tbody>
+						<tr>
+							<td colspan="5"> 총   원 </td>
+							<td colspan="2"><input type="text" value="0"></td>
+						</tr>
+						<tr>
+							<td colspan="5"> 출장(입) </td>
+							<td colspan="2"><input type="text" value="0"></td>
+						</tr>
+						<tr>
+							<td colspan="5"> 출장(출) </td>
+							<td colspan="2"><input type="text" value="0"></td>
+						</tr>
+						<tr>
+							<td colspan="5"> 현 재 원 </td>
+							<td colspan="2"><input type="text" value="0"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 			</section>
 			<a href="${contextPath}/sow/sowModDailyForm.do?work_date=${work_date}">수정하기</a>
 			<section class="section-flex" style="margin-top:15px;">

@@ -114,6 +114,7 @@ public class SowControllerImpl implements SowController {
 		// 출장자 count - 테이블 구조 유지 조건
 		int btInCount = sowDAO.countBtList(searchArea, bt_in);
 		int btOutCount = sowDAO.countBtList(searchArea, bt_out);
+		
 		mav.addObject("fmonthName", fmonthName); 
 		mav.addObject("empList", empList);
 		mav.addObject("searchArea", searchArea);
@@ -123,6 +124,7 @@ public class SowControllerImpl implements SowController {
 		mav.addObject("btInHoursList", btInHoursList);
 		mav.addObject("btOutHoursList", btOutHoursList);
 		mav.addObject("btInCount", btInCount);
+		mav.addObject("btOutCount", btOutCount);
 		return mav;
 	}
 	
@@ -134,25 +136,73 @@ public class SowControllerImpl implements SowController {
 			@RequestParam(value = "sowDWL_shift", required=false) String[] sowDWL_shiftArray,
 			@RequestParam(value = "sowDWL_hours", required=false) String[] sowDWL_hoursArray,
 			@RequestParam(value = "sowDWL_overtime", required=false) String[] sowDWL_overtimeArray,
+			@RequestParam(value = "emp_num", required=false) String[] emp_numArray,
+			@RequestParam(value = "sowDWL_name_in", required=false) String[] sowDWL_name_inArray,
+			@RequestParam(value = "sowDWL_work_name_in", required=false) String[] sowDWL_work_name_inArray,
+			@RequestParam(value = "sowDWL_shift_in", required=false) String[] sowDWL_shift_inArray,
+			@RequestParam(value = "sowDWL_hours_in", required=false) String[] sowDWL_hours_inArray,
+			@RequestParam(value = "sowDWL_overtime_in", required=false) String[] sowDWL_overtime_inArray,
+			@RequestParam(value = "emp_num_in", required=false) String[] emp_num_inArray,
+			@RequestParam(value = "sowDWL_name_out", required=false) String[] sowDWL_name_outArray,
+			@RequestParam(value = "sowDWL_work_name_out", required=false) String[] sowDWL_work_name_outArray,
+			@RequestParam(value = "sowDWL_shift_out", required=false) String[] sowDWL_shift_outArray,
+			@RequestParam(value = "sowDWL_hours_out", required=false) String[] sowDWL_hours_outArray,
+			@RequestParam(value = "sowDWL_overtime_out", required=false) String[] sowDWL_overtime_outArray,
+			@RequestParam(value = "emp_num_out", required=false) String[] emp_num_outArray,
 			@RequestParam("work_date") String work_date, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("redirect:/report/sowBoard.do");
+		ModelAndView mav = new ModelAndView("redirect:/sow/sowBoard.do");
 		HttpSession session = request.getSession();
 		LoginVO login = (LoginVO) session.getAttribute("login");
 		String searchArea = login.getLogin_area();
 		int forCounting = sowDAO.countNameLength(searchArea);
+		
 		List<SowVO> sowDailyWorkLogList = new ArrayList<>();
 		for (int i = 0; i < forCounting-1; i++) {
-			SowVO SowVO = new SowVO();
-			SowVO.setSowDWL_name(sowDWL_nameArray[i]);
-			SowVO.setSowDWL_work_name(sowDWL_work_nameArray[i]);
-			SowVO.setSowDWL_shift(sowDWL_shiftArray[i]);
-			SowVO.setSowDWL_hours(nullReturnZero(sowDWL_hoursArray[i]));
-			SowVO.setSowDWL_overtime(nullReturnZero(sowDWL_overtimeArray[i]));
-			sowDailyWorkLogList.add(SowVO);
+			SowVO sowvo = new SowVO();
+			sowvo.setSowDWL_name(sowDWL_nameArray[i]);
+			sowvo.setSowDWL_work_name(sowDWL_work_nameArray[i]);
+			sowvo.setSowDWL_shift(sowDWL_shiftArray[i]);
+			sowvo.setSowDWL_hours(nullReturnZero(sowDWL_hoursArray[i]));
+			sowvo.setSowDWL_overtime(nullReturnZero(sowDWL_overtimeArray[i]));
+			sowvo.setEmp_num(nullReturnZero(emp_numArray[i]));
+			sowDailyWorkLogList.add(sowvo);
 		}
-		System.out.println(work_date);
 		sowService.sowAddDailyWorkLogList(searchArea, sowDailyWorkLogList, work_date);
 		
+		int inCounting = sowDAO.countBtNameLength(searchArea, "in");
+		int outCounting = sowDAO.countBtNameLength(searchArea, "out");
+		
+		List<SowVO> sowBusinessTripIn = new ArrayList<>();
+		for (int i = 0; i < inCounting-1; i++) {
+			SowVO sowvo = new SowVO();
+			sowvo.setSowDWL_name(sowDWL_name_inArray[i]);
+			sowvo.setSowDWL_work_name(sowDWL_work_name_inArray[i]);
+			sowvo.setSowDWL_shift(sowDWL_shift_inArray[i]);
+			sowvo.setSowDWL_hours(nullReturnZero(sowDWL_hours_inArray[i]));
+			sowvo.setSowDWL_overtime(nullReturnZero(sowDWL_overtime_inArray[i]));
+			sowvo.setBt_inout("in");
+			sowvo.setEmp_num(nullReturnZero(emp_num_inArray[i]));
+			sowBusinessTripIn.add(sowvo);
+		}
+		if (!sowBusinessTripIn.isEmpty()) {
+			sowService.sowAddBusinessTrip(searchArea, sowBusinessTripIn, work_date);
+		}
+		
+		List<SowVO> sowBusinessTripOut = new ArrayList<>();
+		for (int i = 0; i < outCounting-1; i++) {
+			SowVO sowvo = new SowVO();
+			sowvo.setSowDWL_name(sowDWL_name_outArray[i]);
+			sowvo.setSowDWL_work_name(sowDWL_work_name_outArray[i]);
+			sowvo.setSowDWL_shift(sowDWL_shift_outArray[i]);
+			sowvo.setSowDWL_hours(nullReturnZero(sowDWL_hours_outArray[i]));
+			sowvo.setSowDWL_overtime(nullReturnZero(sowDWL_overtime_outArray[i]));
+			sowvo.setBt_inout("out");
+			sowvo.setEmp_num(nullReturnZero(emp_num_outArray[i]));
+			sowBusinessTripOut.add(sowvo);
+		}
+		if (!sowBusinessTripOut.isEmpty()) {
+			sowService.sowAddBusinessTrip(searchArea, sowBusinessTripOut, work_date);
+		}
 		return mav;
 	}
 	
@@ -182,6 +232,32 @@ public class SowControllerImpl implements SowController {
 		mav.addObject("sowViewList", sowViewList);
 		mav.addObject("sumOverTime", sumOverTime);
 		
+		// 출장자 불러오기
+		List<SowVO> btInList = new ArrayList<>();
+		btInList = sowService.selectBusinessTrip(searchArea, "in", work_date);
+		
+		List<SowVO> btOutList = new ArrayList<>();
+		btOutList = sowService.selectBusinessTrip(searchArea, "out", work_date);
+		
+		// 출장자 추가누계
+		List<SowVO> btInSumOverTime = new ArrayList<>();
+		btInSumOverTime = sowService.btSumOverTime(searchArea, "in", work_date);
+		
+		List<SowVO> btOutSumOverTime = new ArrayList<>();
+		btOutSumOverTime = sowService.btSumOverTime(searchArea, "out", work_date);
+		
+		String bt_in = "in";
+		String bt_out = "out";
+		int btInCount = sowService.countBtViewList(searchArea, bt_in, work_date);
+		int btOutCount = sowService.countBtViewList(searchArea, bt_out, work_date);
+		
+		mav.addObject("btInList", btInList);
+		mav.addObject("btOutList", btOutList);
+		mav.addObject("btInCount", btInCount);
+		mav.addObject("btOutCount", btOutCount);
+		mav.addObject("btInSumOverTime", btInSumOverTime);
+		mav.addObject("btOutSumOverTime", btOutSumOverTime);
+		
 		// 작업명 불러오기
 		List<SowVO> sowWorkName = new ArrayList<SowVO>();
 		sowWorkName = sowDAO.selectWorkName(searchArea);
@@ -200,6 +276,7 @@ public class SowControllerImpl implements SowController {
 		mav.addObject("shiftNames", shiftNames);
 
 		mav.addObject("shiftType", shiftType);
+		
 		// 날짜
 		mav.addObject("work_date", work_date);
 		

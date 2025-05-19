@@ -43,6 +43,11 @@ public class SowServiceImpl implements SowService {
 		sowDAO.insertSowDailyWorkLogBoard(searchArea, work_date);
 	}
 	
+	@Override
+	public void sowAddBusinessTrip(String searchArea, List<SowVO> sowBusinessTrip, String work_date) throws Exception {
+		sowDAO.insertBusinessTrip(searchArea, sowBusinessTrip, work_date);
+	}
+	
 	// sow 일일 보기
 	@Override
 	public List<SowVO> selectViewList(String searchArea, String work_date) throws Exception {
@@ -74,6 +79,16 @@ public class SowServiceImpl implements SowService {
 		return sowDAO.selectShiftType(searchArea, work_date);
 	}
 	
+	@Override
+	public List<SowVO> selectBusinessTrip(String searchArea, String bt_inout, String work_date) throws Exception {
+		return sowDAO.selectBusinessTrip(searchArea, bt_inout, work_date);
+	}
+	
+	@Override
+	public int countBtViewList(String searchArea, String bt_inout, String work_date) throws Exception {
+		return sowDAO.countBtViewList(searchArea, bt_inout, work_date);
+	}
+	
 	// 직원 등록(정보저장)
 	@Override
 	public int sowAddEmployee(String searchArea, String emp_name, String emp_position) throws Exception {
@@ -95,6 +110,13 @@ public class SowServiceImpl implements SowService {
 	// 출장자 추가
 	@Override
 	public int sowAddBtEmployee(String emp_name, String sowDWL_work_name, String bt_inout, String searchArea) throws Exception {
-			return sowDAO.insertAddBtEmployee(emp_name, sowDWL_work_name, bt_inout, searchArea);
+		return sowDAO.insertAddBtEmployee(emp_name, sowDWL_work_name, bt_inout, searchArea);
+	}
+	
+	// 출장자 추가누계
+	@Override
+	public List<SowVO> btSumOverTime(String searchArea, String bt_inout, String work_date) throws Exception {
+		String start_date = work_date.substring(0,7) + "-01";
+		return sowDAO.selectBtSumOverTime(searchArea, bt_inout, start_date, work_date);
 	}
 }

@@ -20,13 +20,18 @@ public interface SowDAO {
 	public int countBoard(@Param("searchArea") String searchArea, @Param("work_date") String work_date);
 	public void insertSowDailyWorkLogBoard(@Param("searchArea") String searchArea, @Param("work_date") String work_date);
 	public int countNameLength(String searchArea);
-	
+	public void insertBusinessTrip(@Param("searchArea") String searchArea, @Param("sowBusinessTrip") List<SowVO> sowBusinessTrip, @Param("work_date") String work_date) throws Exception;
+	public int countBtNameLength(@Param("searchArea") String searchArea, @Param("bt_inout") String bt_inout) throws Exception;
+
 	// sow 일일 보기
 	public List<SowVO> selectViewList(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
-	public List<SowVO> selectSumOverTime(@Param("searchArea") String searchArea, @Param("work_date") String work_date, @Param("searchDate") String searchDate) throws Exception;
+	public List<SowVO> selectSumOverTime(@Param("searchArea") String searchArea, @Param("work_date") String work_date, @Param("start_date") String start_date) throws Exception;
 	
 	public List<SowVO> selectDayNightOvertime(@Param("searchArea") String searchArea, @Param("start_date") String start_date, @Param("work_date") String work_date) throws Exception;
 	public List<SowVO> selectShiftType(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
+	
+	public List<SowVO> selectBusinessTrip(@Param("searchArea") String searchArea, @Param("bt_inout") String bt_inout, @Param("work_date") String work_date) throws Exception;
+	public int countBtViewList(@Param("searchArea") String searchArea, @Param("bt_inout") String bt_inout, @Param("work_date") String work_date) throws Exception;
 	
 	// sow 일일 추가 폼 (작업목록 가져오기)
 	public List<SowVO> selectWorkName(@Param("searchArea") String searchArea) throws Exception;
@@ -49,4 +54,7 @@ public interface SowDAO {
 	
 	// 출장자 추가 (정보저장)
 	public int insertAddBtEmployee(@Param("emp_name") String emp_name, @Param("sowDWL_work_name") String sowDWL_work_name, @Param("bt_inout") String bt_inout, @Param("searchArea") String searchArea) throws Exception;
+
+	// 출장자 추가누계
+	public List<SowVO> selectBtSumOverTime(@Param("searchArea") String searchArea, @Param("bt_inout") String bt_inout, @Param("start_date") String start_date, @Param("work_date") String work_date) throws Exception;
 }

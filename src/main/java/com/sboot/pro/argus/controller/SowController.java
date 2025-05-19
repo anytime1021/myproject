@@ -21,6 +21,19 @@ public interface SowController {
 			@RequestParam(value = "sowDWL_shift", required=false) String[] sowDWL_shiftArray,
 			@RequestParam(value = "sowDWL_hours", required=false) String[] sowDWL_hoursArray,
 			@RequestParam(value = "sowDWL_overtime", required=false) String[] sowDWL_overtimeArray,
+			@RequestParam(value = "emp_num", required=false) String[] emp_numArray,
+			@RequestParam(value = "sowDWL_name_in", required=false) String[] sowDWL_name_inArray,
+			@RequestParam(value = "sowDWL_work_name_in", required=false) String[] sowDWL_work_name_inArray,
+			@RequestParam(value = "sowDWL_shift_in", required=false) String[] sowDWL_shift_inArray,
+			@RequestParam(value = "sowDWL_hours_in", required=false) String[] sowDWL_hours_inArray,
+			@RequestParam(value = "sowDWL_overtime_in", required=false) String[] sowDWL_overtime_inArray,
+			@RequestParam(value = "emp_num_in", required=false) String[] emp_num_inArray,
+			@RequestParam(value = "sowDWL_name_out", required=false) String[] sowDWL_name_outArray,
+			@RequestParam(value = "sowDWL_work_name_out", required=false) String[] sowDWL_work_name_outArray,
+			@RequestParam(value = "sowDWL_shift_out", required=false) String[] sowDWL_shift_outArray,
+			@RequestParam(value = "sowDWL_hours_out", required=false) String[] sowDWL_hours_outArray,
+			@RequestParam(value = "sowDWL_overtime_out", required=false) String[] sowDWL_overtime_outArray,
+			@RequestParam(value = "emp_num_out", required=false) String[] emp_num_outArray,
 			@RequestParam("work_date") String work_date, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	// sow 일일 보기

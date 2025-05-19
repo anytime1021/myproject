@@ -10,7 +10,7 @@
 <head>
 	<link rel="stylesheet" href="${contextPath}/resources/css/addFormStyle.css">
     <meta charset="UTF-8">
-    <title>단가 등록</title>
+    <title>출장자 등록</title>
 </head>
 <body>
 
