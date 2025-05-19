@@ -22,7 +22,7 @@
 	<div class="divLeft">
 		<!-- 입력 폼 -->
 		<div>
-		    <form id="addFollowingMonth" action="${contextPath}/report/sowAddEmployee.do" method="post">
+		    <form id="addFollowingMonth" action="${contextPath}/sow/sowAddEmployee.do" method="post">
 			    <input type="text" name="emp_name" placeholder="이름" autofocus>
 			    <input type="text" name="emp_position" placeholder="직위">
 				<button type="submit">전송</button>
@@ -91,7 +91,7 @@ $(function() {
         const dummyInt = $row.find('input[name="dummyInt"]').val();
 
         $.ajax({
-            url: '${contextPath}/report/updateEmployee.do',
+            url: '${contextPath}/sow/updateEmployee.do',
             type: 'POST',
             data: {
                 emp_name: name,
@@ -119,7 +119,7 @@ $(function() {
         const dummyInt = $row.find('input[name="dummyInt"]').val();
 
         $.ajax({
-            url: '${contextPath}/report/deleteEmployee.do',
+            url: '${contextPath}/sow/deleteEmployee.do',
             type: 'POST',
             data: {
                 dummyInt: dummyInt

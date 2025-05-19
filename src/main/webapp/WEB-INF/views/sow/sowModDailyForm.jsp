@@ -26,7 +26,7 @@
 <body>
 	<main class="first-container">
 		<article>
-			<form name="sowAddDailyWorkLog" method="post" action="${contextPath}/report/sowAddDailyWorkLog.do">
+			<form name="sowAddDailyWorkLog" method="post" action="${contextPath}/sow/sowAddDailyWorkLog.do">
 			<label style="text-align:center;">날 짜 : </label><input type="text" name="work_date" value=${work_date}>
 				<section class="section-flex"> 
 					<div class="sow-title">
@@ -225,7 +225,7 @@
 		const workDate = document.querySelector("input[name='work_date']");
 		if (workDate) formData.append("work_date", workDate.value);
 		
-		fetch("/report/sowAddDailyWorkLog.do", {
+		fetch("/sow/sowAddDailyWorkLog.do", {
 			method: "POST",
 			headers: {
 				"Content-type": "application/x-www-form-urlencoded"

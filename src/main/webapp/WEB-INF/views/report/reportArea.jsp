@@ -44,7 +44,7 @@
 						<span class="report-title"> 작업일보 </span>
 						<ul class="dropdown-menu">
 							<li><a href="${contextPath}/report/reportArea.do">작업현황</a></li>
-							<li><a href="${contextPath}/report/sowBoard.do">근무현황</a></li>
+							<li><a href="${contextPath}/sow/sowBoard.do">근무현황</a></li>
 							<li><a href="#">실적</a></li>
 						</ul>
 					</li>

@@ -41,6 +41,10 @@ public class SowVO extends WorkingDailyBaseVO {
 	// shiftType
 	private boolean showTd;
 	private boolean hasShift;
+	
+	// 출장관련
+	private String bt_inout;
+	
 	public boolean isShowTd() {
 		return showTd;
 	}
@@ -193,6 +197,12 @@ public class SowVO extends WorkingDailyBaseVO {
 	}
 	public void setEmp_resignation_date(String emp_resignation_date) {
 		this.emp_resignation_date = emp_resignation_date;
+	}
+	public String getBt_inout() {
+		return bt_inout;
+	}
+	public void setBt_inout(String bt_inout) {
+		this.bt_inout = bt_inout;
 	}
 	
 	@Override

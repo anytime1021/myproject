@@ -43,8 +43,8 @@
 					<li class="li-wrap dropdown">
 						<span class="report-title"> 작업일보 </span>
 						<ul class="dropdown-menu">
-							<li><a href="${contextPath}/report/reportAreaTotal.do">작업현황(월별)</a></li>
-							<li><a href="${contextPath}/report/sowBoardTotal.do">근무현황(월별)</a></li>
+							<li><a href="${contextPath}/sow/reportArea.do">작업현황</a></li>
+							<li><a href="${contextPath}/sow/sowBoard.do">근무현황</a></li>
 							<li><a href="#">실적</a></li>
 						</ul>
 					</li>
@@ -53,12 +53,12 @@
 					<li class="li-wrap"> 보고서 4 </li>
 				</ul>
 			</div>
+			<a href="${contextPath}/sow/sowAddTotalForm.do">기본설정하기</a>
 			<div class="report-menu-banner">
-				<p class="text-control">근무현황(월별)</p>
+				<p class="text-control">근무현황</p>
 			</div>
 			<div class="report-container">
 				<div class="report-list">
-					<p>게시판</p>
 					<table class="table-control">
 						<thead>
 							<tr>
@@ -67,17 +67,18 @@
 								<th style="width:10%;">작성일</th>
 							</tr>
 						</thead>
-						<c:forEach var="sowListTotalJsp" items="${sowListTotalJsp}">
+						<c:forEach var="sowBoardList" items="${sowBoardList}">
 						<c:set var="i" value="${i+1}" />
 						<tbody>
 							<tr>
-<!--								<fmt:formatDate var="work_date_total" value="${reportListTotalJsp.work_date_total}" pattern="yyyy-MM"/>-->
-								<td>${sowListTotalJsp.row_num}</td>
-								<td><a href="${contextPath}/report/sowAddTotalForm.do?work_date=${sowListTotalJsp.work_date}">${sowListTotalJsp.board_title}</a></td>
-								<td>${sowListTotalJsp.work_date}</td>
+								<td>${sowBoardList.row_num}</td>
+								<td><a href="${contextPath}/sow/sowDailyView.do?work_date=${sowBoardList.work_date}">${sowBoardList.board_title}</a></td>
+								<td>${sowBoardList.work_date}</td>
 							</tr>
 						</tbody>
 						</c:forEach>
+						<c:set var="getwork_date" value="${sowBoardList[0].work_date}" />
+						<a class="btn" href="${contextPath}/sow/sowAddForm.do">작성하기</a>
 					</table>
 				</div>
 			</div>

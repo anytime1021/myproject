@@ -40,4 +40,11 @@ public interface SowController {
 	public ModelAndView sowAddEmployee(@RequestParam("sowMWL_name") String sowMWL_name, @RequestParam("searchDate") String searchDate, HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 	public CombinedSowDailyWorkLog getCombinedSowDailyWorkLog(String searchArea, String work_date) throws Exception;
+	
+	// 출장자 추가 폼
+	public ModelAndView sowAddBtEmployeeForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+	// 출장자 추가(정보저장)
+	public ModelAndView sowAddBtEmployee(@RequestParam("emp_name") String emp_name, @RequestParam("sowDWL_work_name") String sowDWL_work_name, 
+			@RequestParam("bt_inout") String bt_inout, HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

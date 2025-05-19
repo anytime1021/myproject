@@ -103,4 +103,18 @@
 		select count(*) from employee where login_area = #{searchArea}
 	</select>
 
+	<!-- 출장자 목록 -->
+	<select id="selectBtEmployeeList" parameterType="String">
+		select * from business_trip_employee where login_area = #{searchArea} and bt_inout = #{bt_inout}
+	</select>
+	
+	<select id="countBtList" parameterType="String" resultType="int">
+		select count(*) from business_trip_employee where login_area = #{searchArea} and bt_inout = #{bt_inout}
+	</select>
+	
+	<!-- 출장자 추가 (정보저장) -->
+	<insert id="insertAddBtEmployee" parameterType="String">
+		insert into business_trip_employee(emp_name, sowDWL_work_name, login_area, bt_inout)
+		values(#{emp_name}, #{sowDWL_work_name}, #{searchArea}, #{bt_inout})
+	</insert>
 </mapper>

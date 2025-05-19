@@ -54,9 +54,9 @@ public class SowControllerImpl implements SowController {
 	
 	// sow 일일 게시판 접속
 	@Override
-	@GetMapping("/report/sowBoard.do")
+	@GetMapping("/sow/sowBoard.do")
 	public ModelAndView sowBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("/report/sowBoard");
+		ModelAndView mav = new ModelAndView("/sow/sowBoard");
 		HttpSession session = request.getSession();
 		LoginVO login = (LoginVO) session.getAttribute("login");
 		String searchArea = login.getLogin_area();
@@ -71,28 +71,64 @@ public class SowControllerImpl implements SowController {
 	
 	// sow 일일 추가 폼
 	@Override
-	@GetMapping("/report/sowAddForm.do")
+	@GetMapping("/sow/sowAddForm.do")
 	public ModelAndView sowAddForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("/report/sowAddForm");
+		ModelAndView mav = new ModelAndView("/sow/sowAddForm");
 		HttpSession session = request.getSession();
 		LoginVO login = (LoginVO) session.getAttribute("login");
 		String searchArea = login.getLogin_area();
-				
+		
+		// 현장명
 		List<SowVO> fmonthName = new ArrayList<SowVO>();
 		fmonthName = sowDAO.selectWorkName(searchArea);
 		
+		// 직원 목록
 		List<SowVO> empList = new ArrayList<SowVO>();
 		empList = sowService.selectEmployeeList(searchArea);
 		
+		// 근무시간
+		List<Integer> hoursList = new ArrayList<>();
+		for (int i=0; i<empList.size(); i++) {
+			hoursList.add(8);
+		}
+		
+		// 출장자 목록
+		List<SowVO> btInList = new ArrayList<SowVO>();
+		String bt_in = "in";
+		btInList = sowService.selectBtEmployeeList(searchArea, bt_in);
+		
+		String bt_out = "out";
+		List<SowVO> btOutList = new ArrayList<SowVO>();
+		btOutList = sowService.selectBtEmployeeList(searchArea, bt_out);
+
+		// 출장자 근무시간
+		List<Integer> btInHoursList = new ArrayList<>();
+		for (int i=0; i<btInList.size(); i++) {
+			btInHoursList.add(8);
+		}
+		List<Integer> btOutHoursList = new ArrayList<>();
+		for (int i=0; i<btOutList.size(); i++) {
+			btOutHoursList.add(8);
+		}
+		
+		// 출장자 count - 테이블 구조 유지 조건
+		int btInCount = sowDAO.countBtList(searchArea, bt_in);
+		int btOutCount = sowDAO.countBtList(searchArea, bt_out);
 		mav.addObject("fmonthName", fmonthName); 
 		mav.addObject("empList", empList);
 		mav.addObject("searchArea", searchArea);
+		mav.addObject("hoursList", hoursList);
+		mav.addObject("btInList", btInList);
+		mav.addObject("btOutList", btOutList);
+		mav.addObject("btInHoursList", btInHoursList);
+		mav.addObject("btOutHoursList", btOutHoursList);
+		mav.addObject("btInCount", btInCount);
 		return mav;
 	}
 	
 	// sow 일일 추가 (정보저장)
 	@Override
-	@PostMapping("/report/sowAddDailyWorkLog.do")
+	@PostMapping("/sow/sowAddDailyWorkLog.do")
 	public ModelAndView sowAddDailyWorkLog(@RequestParam(value = "sowDWL_name", required=false) String[] sowDWL_nameArray,
 			@RequestParam(value = "sowDWL_work_name", required=false) String[] sowDWL_work_nameArray,
 			@RequestParam(value = "sowDWL_shift", required=false) String[] sowDWL_shiftArray,
@@ -130,9 +166,9 @@ public class SowControllerImpl implements SowController {
 	
 	// sow 일일 보기
 	@Override
-	@GetMapping("/report/sowDailyView.do")
+	@GetMapping("/sow/sowDailyView.do")
 	public ModelAndView sowView(@RequestParam("work_date") String work_date, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("/report/sowDailyView");
+		ModelAndView mav = new ModelAndView("/sow/sowDailyView");
 		HttpSession session = request.getSession();
 		LoginVO login = (LoginVO) session.getAttribute("login");
 		String searchArea = login.getLogin_area();
@@ -172,9 +208,9 @@ public class SowControllerImpl implements SowController {
 	
 	// sow 일일 수정 폼
 	@Override
-	@GetMapping("/report/sowModDailyForm.do")
+	@GetMapping("/sow/sowModDailyForm.do")
 	public ModelAndView sowModDailyForm(@RequestParam("work_date") String work_date, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("/report/sowModDailyForm");
+		ModelAndView mav = new ModelAndView("/sow/sowModDailyForm");
 		HttpSession session = request.getSession();
 		LoginVO login = (LoginVO) session.getAttribute("login");
 		String searchArea = login.getLogin_area();
@@ -212,9 +248,9 @@ public class SowControllerImpl implements SowController {
 	
 	// 게시판 접속 공용
 	@Override
-	@GetMapping("/report/sowBoardTotal.do")
+	@GetMapping("/sow/sowBoardTotal.do")
 	public ModelAndView sowBoardTotal(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("/report/sowBoardTotal");
+		ModelAndView mav = new ModelAndView("/sow/sowBoardTotal");
 		HttpSession session = request.getSession();
 		LoginVO login = (LoginVO) session.getAttribute("login");
 		String searchArea = login.getLogin_area();
@@ -234,9 +270,9 @@ public class SowControllerImpl implements SowController {
 	
 	// 직원 목록
 	@Override
-	@GetMapping("/report/sowAddEmployeeForm.do")
+	@GetMapping("/sow/sowAddEmployeeForm.do")
 	public ModelAndView sowAddEmployeeForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("/report/sowAddEmployeeForm");
+		ModelAndView mav = new ModelAndView("/sow/sowAddEmployeeForm");
 		HttpSession session = request.getSession();
 		LoginVO login = (LoginVO) session.getAttribute("login");
 		String searchArea = login.getLogin_area();
@@ -247,7 +283,7 @@ public class SowControllerImpl implements SowController {
 	
 	// 직원 등록 (정보저장)
 	@Override
-	@PostMapping("/report/sowAddEmployee.do")
+	@PostMapping("/sow/sowAddEmployee.do")
 	public ModelAndView sowAddEmployee(@RequestParam("emp_name") String emp_name, @RequestParam("emp_position") String emp_position, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/report/sowAddEmployeeForm.do");
 		HttpSession session = request.getSession();
@@ -260,14 +296,14 @@ public class SowControllerImpl implements SowController {
 	
 	// 직원 수정 및 삭제 ajax
 	
-	@PostMapping("/report/updateEmployee.do")
+	@PostMapping("/sow/updateEmployee.do")
 	@ResponseBody
 	public String updateEmployee(SowVO employee) throws Exception {
 		int result = sowDAO.updateEmployee(employee);
 		return "ok";
 	}
 	
-	@PostMapping("/report/deleteEmployee.do")
+	@PostMapping("/sow/deleteEmployee.do")
 	@ResponseBody
 	public String deleteEmployee(SowVO dummyInt) throws Exception {
 		sowDAO.deleteEmployee(dummyInt);
@@ -289,5 +325,40 @@ public class SowControllerImpl implements SowController {
 		return response;
 	}
 	
+	// 출장자 추가 폼
+	@Override
+	@GetMapping("/sow/sowAddBtEmployeeForm.do")
+	public ModelAndView sowAddBtEmployeeForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		HttpSession session = request.getSession();
+		LoginVO login = (LoginVO) session.getAttribute("login");
+		String searchArea = login.getLogin_area();
 
+		List<SowVO> btInList = new ArrayList<SowVO>();
+		String bt_in = "in";
+		btInList = sowService.selectBtEmployeeList(searchArea, bt_in);
+		
+		String bt_out = "out";
+		List<SowVO> btOutList = new ArrayList<SowVO>();
+		btOutList = sowService.selectBtEmployeeList(searchArea, bt_out);
+		
+		mav.addObject("btInList", btInList);
+		mav.addObject("btOutList", btOutList);
+		return mav;
+	}
+	
+	// 출장자 추가
+	@Override
+	@PostMapping("/sow/sowAddBtEmployee.do")
+	public ModelAndView sowAddBtEmployee(@RequestParam("emp_name") String emp_name, @RequestParam("sowDWL_work_name") String sowDWL_work_name, 
+			@RequestParam("bt_inout") String bt_inout, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView("redirect:/sow/sowAddBtEmployeeForm.do");
+		HttpSession session = request.getSession();
+		LoginVO login = (LoginVO) session.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		
+		int result = sowService.sowAddBtEmployee(emp_name, sowDWL_work_name, bt_inout, searchArea);
+		
+		return mav;
+	}
 }

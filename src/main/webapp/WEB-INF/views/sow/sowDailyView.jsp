@@ -64,7 +64,7 @@
 								</c:choose>
 								<tbody>
 									<tr>
-										<td style="width:3%">${j+1+(i*27)}</td>
+										<td style="width:3%">${j+1+(i*30)}</td>
 										<td style="width:5%"><input type="text" value="${sowView.sowDWL_name}" readonly></td>
 										<td style="width:4%"><input type="text" value="${sowView.sowDWL_work_name}" readonly></td>
 										<td style="width:3%"><input type="text" value="${sowView.sowDWL_shift}" readonly></td>
@@ -108,7 +108,7 @@
 					</table>
 				</div>
 			</section>
-			<a href="${contextPath}/report/sowModDailyForm.do?work_date=${work_date}">수정하기</a>
+			<a href="${contextPath}/sow/sowModDailyForm.do?work_date=${work_date}">수정하기</a>
 			<section class="section-flex" style="margin-top:15px;">
 				<div class="table-structure">
 					<table>

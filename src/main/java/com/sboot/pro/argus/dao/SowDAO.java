@@ -41,5 +41,12 @@ public interface SowDAO {
 	public int updateEmployee(SowVO employee) throws Exception;
 	public void deleteEmployee(SowVO dummyInt) throws Exception;
 
+	// 출장자 목록
+	public List<SowVO> selectBtEmployeeList(@Param("searchArea") String searchArea, @Param("bt_inout") String bt_inout) throws Exception;
 
+	// 출장자 count - 테이블 구조 유지 조건
+	public int countBtList(@Param("searchArea") String searchArea, @Param("bt_inout") String bt_inout) throws Exception;
+	
+	// 출장자 추가 (정보저장)
+	public int insertAddBtEmployee(@Param("emp_name") String emp_name, @Param("sowDWL_work_name") String sowDWL_work_name, @Param("bt_inout") String bt_inout, @Param("searchArea") String searchArea) throws Exception;
 }

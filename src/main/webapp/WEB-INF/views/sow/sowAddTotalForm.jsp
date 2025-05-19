@@ -46,7 +46,7 @@
 								<td>${i}</td>
 								<td style="width:3%"></td>
 							</tr>
-							<form name="addTotalReport" method="post" action="${contextPath}/report/sowAddTotal.do">
+							<form name="addTotalReport" method="post" action="${contextPath}/sow/sowAddTotal.do">
 								<tr style="height: 20px;">
 								</tr>
 								<tr>
@@ -80,7 +80,7 @@
 		
 		$.ajax({
 			type: "POST",
-			url: "/report/sowAddTotal.do",
+			url: "/sow/sowAddTotal.do",
 			contentType: "application/json",
 			dataType: "json",
 			data: JSON.stringify({

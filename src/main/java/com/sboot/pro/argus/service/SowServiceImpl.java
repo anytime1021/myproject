@@ -85,4 +85,16 @@ public class SowServiceImpl implements SowService {
 	public List<SowVO> selectEmployeeList(String searchArea) throws Exception {
 		return sowDAO.selectEmployeeList(searchArea);
 	}
+	
+	// 출장자 목록
+	@Override
+	public List<SowVO> selectBtEmployeeList(String searchArea, String bt_inout) throws Exception {
+			return sowDAO.selectBtEmployeeList(searchArea, bt_inout);
+	}
+	
+	// 출장자 추가
+	@Override
+	public int sowAddBtEmployee(String emp_name, String sowDWL_work_name, String bt_inout, String searchArea) throws Exception {
+			return sowDAO.insertAddBtEmployee(emp_name, sowDWL_work_name, bt_inout, searchArea);
+	}
 }

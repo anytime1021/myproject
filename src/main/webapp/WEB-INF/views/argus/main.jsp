@@ -38,7 +38,7 @@
 			-->
 			<a href="${contextPath}/report/testList.do">단가등록</a>
 			<a href="${contextPath}/report/testList2.do">업체등록</a>
-			<a href="${contextPath}/report/sowAddEmployeeForm.do">직원등록</a>
+			<a href="${contextPath}/sow/sowAddEmployeeForm.do">직원등록</a>
 			<!--유튜브 영상 삽입
 			<div id="player"></div>
 			-->
