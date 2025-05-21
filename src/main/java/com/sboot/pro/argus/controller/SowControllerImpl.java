@@ -280,6 +280,8 @@ public class SowControllerImpl implements SowController {
 		// 날짜
 		mav.addObject("work_date", work_date);
 		
+		int totalEmployee = sumOverTime.size() + btInCount + btOutCount;
+		mav.addObject("totalEmployee", totalEmployee);
 		return mav;
 	}
 	

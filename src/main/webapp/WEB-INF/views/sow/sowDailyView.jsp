@@ -53,23 +53,26 @@
 								<c:choose>
 									<c:when test="${i == 0}">
 										<c:set var="sowView" value="${sowViewList[status.index]}" />
+										<c:set var="overtime" value="${sumOverTime[status.index]}" />
 									</c:when>
 									<c:when test="${i == 1}">
 										<c:set var="sowView" value="${sowViewList[status.index + (i * 30)]}" />
+										<c:set var="overtime" value="${sumOverTime[status.index + (i * 30)]}" />
 									</c:when>
 									<c:when test="${i == 2}">
 										<c:set var="sowView" value="${sowViewList[status.index + (i * 30)]}" />
+										<c:set var="overtime" value="${sumOverTime[status.index + (i * 30)]}" />
 									</c:when>
 								</c:choose>
 								<tbody>
 									<tr>
 										<td style="width:3%">${j+1+(i*30)}</td>
-										<td style="width:5%"><input type="text" value="${sowView.sowDWL_name}" readonly></td>
-										<td style="width:4%"><input type="text" value="${sowView.sowDWL_work_name}" readonly></td>
-										<td style="width:3%"><input type="text" value="${sowView.sowDWL_shift}" readonly></td>
-										<td style="width:3%"><input type="text" value="${sowView.sowDWL_hours}" readonly></td>
+										<td style="width:4%"><input type="text" value="${sowView.sowDWL_name}" readonly></td>
+										<td style="width:5%"><input type="text" value="${sowView.sowDWL_work_name}" readonly></td>
+										<td style="width:4%"><input type="text" value="${sowView.sowDWL_shift}" readonly></td>
+										<td style="width:2%"><input type="text" value="${sowView.sowDWL_hours}" readonly></td>
 										<td style="width:3%"><input type="text" value="${sowView.sowDWL_overtime}" readonly></td>
-										<td style="width:4%"><input type="text" value="${overTime.dummyInt}" readonly></td>
+										<td style="width:4%"><input type="text" value="${overtime.dummyInt}" readonly></td>
 										<input type="hidden" name="work_date" value="${work_Date}">
 									</tr>
 								</tbody>
@@ -110,10 +113,10 @@
 						<tbody>
 							<tr>
 								<td style="width:3%">${j+1}</td>
-								<td style="width:5%"><input type="text" name="sowDWL_name_inout" value="${btIn.sowDWL_name}" readonly></td>
-								<td><input type="text" name="sowDWL_work_name_inout" class="sowDWL_work_name" value="${btIn.sowDWL_work_name}" readonly></td>
-								<td><input type="text" name="sowDWL_shift_inout" class="sowDWL_shift" value="${btIn.sowDWL_shift}" readonly></td>
-								<td style="width:3%"><input type="text" name="sowDWL_hours_inout" value="${btIn.sowDWL_hours}" readonly></td>
+								<td style="width:4%"><input type="text" name="sowDWL_name_inout" value="${btIn.sowDWL_name}" readonly></td>
+								<td style="width:5%"><input type="text" name="sowDWL_work_name_inout" class="sowDWL_work_name" value="${btIn.sowDWL_work_name}" readonly></td>
+								<td style="width:4%"><input type="text" name="sowDWL_shift_inout" class="sowDWL_shift" value="${btIn.sowDWL_shift}" readonly></td>
+								<td style="width:2%"><input type="text" name="sowDWL_hours_inout" value="${btIn.sowDWL_hours}" readonly></td>
 								<td style="width:3%"><input type="text" name="sowDWL_overtime_inout" value="${btIn.sowDWL_overtime}" readonly></td>
 								<td style="width:4%"><input type="text" value="${overtime_in.dummyInt}" readonly></td>
 							</tr>
@@ -143,10 +146,10 @@
 						<tbody>
 							<tr>
 								<td style="width:3%">${j+1}</td>
-								<td style="width:5%"><input type="text" name="sowDWL_name_inout" value="${btOut.sowDWL_name}" readonly></td>
-								<td><input type="text" name="sowDWL_work_name_inout" class="sowDWL_work_name" value="${btOut.sowDWL_work_name}" readonly></td>
-								<td><input type="text" name="sowDWL_shift_inout" class="sowDWL_shift" value="${btOut.sowDWL_shift}" readonly></td>
-								<td style="width:3%"><input type="text" name="sowDWL_hours_inout" value="${btOut.sowDWL_hours}" readonly></td>
+								<td style="width:4%"><input type="text" name="sowDWL_name_inout" value="${btOut.sowDWL_name}" readonly></td>
+								<td style="width:5%"><input type="text" name="sowDWL_work_name_inout" class="sowDWL_work_name" value="${btOut.sowDWL_work_name}" readonly></td>
+								<td style="width:4%"><input type="text" name="sowDWL_shift_inout" class="sowDWL_shift" value="${btOut.sowDWL_shift}" readonly></td>
+								<td style="width:2%"><input type="text" name="sowDWL_hours_inout" value="${btOut.sowDWL_hours}" readonly></td>
 								<td style="width:3%"><input type="text" name="sowDWL_overtime_inout" value="${btOut.sowDWL_overtime}" readonly></td>
 								<td style="width:4%"><input type="text" value="${overtime_out.dummyInt}" readonly></td>
 							</tr>
@@ -155,19 +158,19 @@
 					<tbody>
 						<tr>
 							<td colspan="5"> 총   원 </td>
-							<td colspan="2"><input type="text" value="0"></td>
+							<td colspan="2"><input type="text" value="${totalEmployee}"></td>
 						</tr>
 						<tr>
 							<td colspan="5"> 출장(입) </td>
-							<td colspan="2"><input type="text" value="0"></td>
+							<td colspan="2"><input type="text" value="${btInCount}"></td>
 						</tr>
 						<tr>
 							<td colspan="5"> 출장(출) </td>
-							<td colspan="2"><input type="text" value="0"></td>
+							<td colspan="2"><input type="text" value="${btOutCount}"></td>
 						</tr>
 						<tr>
 							<td colspan="5"> 현 재 원 </td>
-							<td colspan="2"><input type="text" value="0"></td>
+							<td colspan="2"><input type="text" value="${totalEmployee + btInCount - btOutCount}"></td>
 						</tr>
 					</tbody>
 				</table>
@@ -226,17 +229,13 @@
 											</c:forEach>
 										</td>
 										<td style="width:6%;" rowspan="3">
-											<c:forEach var="shiftType" items="${shiftType}">
-												<c:if test="${shiftType.sowDWL_shift == '출장(입)'}">
-													${shiftType.sowDWL_name}
-												</c:if>
+											<c:forEach var="btInList" items="${btInList}">
+												${btInList.sowDWL_name}
 											</c:forEach>
 										</td>
 										<td style="width:6%;" rowspan="3">
-											<c:forEach var="shiftType" items="${shiftType}">
-												<c:if test="${shiftType.sowDWL_shift == '출장(출)'}">
-													${shiftType.sowDWL_name}
-												</c:if>
+											<c:forEach var="btOutList" items="${btOutList}">
+												${btOutList.sowDWL_name}
 											</c:forEach>
 										</td>
 										<td style="width:6%;" rowspan="3">

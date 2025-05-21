@@ -67,8 +67,8 @@
 										<tbody>
 											<tr>
 												<td style="width:3%">${j+1+(i*30)}</td>
-												<td style="width:5%"><input type="text" name="sowDWL_name" value="${employeeList.emp_name}" readonly></td>
-												<td class="dropdown" style="width:4%" onclick="worknameDropdown(this)">
+												<td style="width:4%"><input type="text" name="sowDWL_name" value="${employeeList.emp_name}" readonly></td>
+												<td class="dropdown" style="width:5%" onclick="worknameDropdown(this)">
 													<span class="selected"></span>
 													<input type="hidden" name="sowDWL_work_name" class="sowDWL_work_name">
 													<ul class="dropdown-menu">
@@ -78,7 +78,7 @@
 															<li onclick="selectWorkname(this)">출장</li>
 													</ul>
 												</td>
-												<td class="dropdown" style="width:3%" onclick="worknameDropdown(this)">
+												<td class="dropdown" style="width:4%" onclick="worknameDropdown(this)">
 													<span class="shiftSelected"></span>
 													<input type="hidden" name="sowDWL_shift" class="sowDWL_shift">
 													<ul class="dropdown-menu">
@@ -96,7 +96,7 @@
 														<li onclick="selectWorkname(this)">비고</li>
 													</ul>
 												</td>
-												<td style="width:3%"><input type="text" name="sowDWL_hours" value="${hoursList[status.index]}"></td>
+												<td style="width:2%"><input type="text" name="sowDWL_hours" value="${hoursList[status.index]}"></td>
 												<td style="width:3%"><input type="text" name="sowDWL_overtime"></td>
 												<td style="width:4%"><input type="text" value="" readonly></td>
 												<input type="hidden" name="emp_num" value="${employeeList.emp_num}">
@@ -138,10 +138,10 @@
 									<tbody>
 										<tr>
 											<td style="width:3%">${j+1}</td>
-											<td style="width:5%"><input type="text" name="sowDWL_name_in" value="${btInEmpList.emp_name}" readonly></td>
-											<td><input type="text" name="sowDWL_work_name_in" class="sowDWL_work_name"></td>
-											<td><input type="text" name="sowDWL_shift_in" class="sowDWL_shift"></td>
-											<td style="width:3%"><input type="text" name="sowDWL_hours_in" value="${btInHoursList[status.index]}"></td>
+											<td style="width:4%"><input type="text" name="sowDWL_name_in" value="${btInEmpList.emp_name}" readonly></td>
+											<td style="width:5%"><input type="text" name="sowDWL_work_name_in" class="sowDWL_work_name"></td>
+											<td style="width:4%"><input type="text" name="sowDWL_shift_in" class="sowDWL_shift"></td>
+											<td style="width:2%"><input type="text" name="sowDWL_hours_in" value="${btInHoursList[status.index]}"></td>
 											<td style="width:3%"><input type="text" name="sowDWL_overtime_in"></td>
 											<td style="width:4%"><input type="text" value="" readonly></td>
 											<input type="hidden" name="emp_num_in" value="${btInEmpList.emp_num}">
@@ -171,10 +171,10 @@
 									<tbody>
 										<tr>
 											<td style="width:3%">${j+1}</td>
-											<td style="width:5%"><input type="text" name="sowDWL_name_out" value="${btOutEmpList.emp_name}" readonly></td>
-											<td><input type="text" name="sowDWL_work_name_out" class="sowDWL_work_name"></td>
-											<td><input type="text" name="sowDWL_shift_out" class="sowDWL_shift"></td>
-											<td style="width:3%"><input type="text" name="sowDWL_hours_out" value="${btOutHoursList[status.index]}"></td>
+											<td style="width:4%"><input type="text" name="sowDWL_name_out" value="${btOutEmpList.emp_name}" readonly></td>
+											<td style="width:5%"><input type="text" name="sowDWL_work_name_out" class="sowDWL_work_name"></td>
+											<td style="width:4%"><input type="text" name="sowDWL_shift_out" class="sowDWL_shift"></td>
+											<td style="width:2%"><input type="text" name="sowDWL_hours_out" value="${btOutHoursList[status.index]}"></td>
 											<td style="width:3%"><input type="text" name="sowDWL_overtime_out"></td>
 											<td style="width:4%"><input type="text" value="" readonly></td>
 											<input type="hidden" name="emp_num_out" value="${btOutEmpList.emp_num}">
