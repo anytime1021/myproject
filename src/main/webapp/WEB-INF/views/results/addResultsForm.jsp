@@ -35,7 +35,28 @@
 					</div>
 				</section>
 				<section class="section-flex">
-					<div>
+					<div class="table-structure">
+						<table>
+							<thead>
+								<tr>
+									<td>No</td>
+									<td>현장</td>
+									<td>금월예상금액</td>
+									<td>금희</td>
+									<td>누계(1일~30일)</td>
+									<td>달성도(%)</td>
+									<td>비고</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>${i+1}</td>
+									<td><input type="text" value="" readonly></td>
+									<td><input type="text" value="" readonly></td>
+									<td><input type="text" value="" readonly></td>
+									<td><input type="text" name ="results_profits" value=""></td>
+								</tr>
+						</table>
 					</div>
 				</section>
 				<div style="height:30px;">
