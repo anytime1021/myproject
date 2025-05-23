@@ -77,8 +77,8 @@
 						</tbody>
 						</c:forEach>
 					</table>
-					<a class="btn" href="${contextPath}/results/resultsAddForm.do">작성하기</a>
 				</div>
+				<a class="btn" href="${contextPath}/results/resultsAddForm.do">작성하기</a>
 			</div>
     	</main>
     <%@ include file="../include/footer.jsp"%>	
