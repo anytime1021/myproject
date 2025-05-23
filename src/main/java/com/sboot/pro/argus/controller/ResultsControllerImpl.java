@@ -13,6 +13,7 @@ import com.sboot.pro.argus.dao.ResultsDAO;
 import com.sboot.pro.argus.service.CommonService;
 import com.sboot.pro.argus.service.ResultsService;
 import com.sboot.pro.argus.vo.LoginVO;
+import com.sboot.pro.argus.vo.ResultsVO;
 import com.sboot.pro.argus.vo.WorkingDailyBaseVO;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -47,6 +48,18 @@ public class ResultsControllerImpl implements ResultsController {
 		String tableName = BoardType.fromToken(token).getTableName();
 		List<WorkingDailyBaseVO> resultsBoardList = commonService.reportListTotalJava(searchArea, tableName);
 		mav.addObject("resultsBoardList", resultsBoardList);
+		return mav;
+	}
+	
+	@GetMapping("/results/addResultsForm.do")
+	public ModelAndView addResultsForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView("/results/addResultsForm");
+		HttpSession session = request.getSession();
+		LoginVO login = (LoginVO) session.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		
+		ResultsVO addResultsForm = new ResultsVO();
+//		addResultsForm = resultsService.addResultsForm("searchArea");
 		return mav;
 	}
 }
