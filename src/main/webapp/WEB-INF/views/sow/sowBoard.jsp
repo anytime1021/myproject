@@ -43,9 +43,9 @@
 					<li class="li-wrap dropdown">
 						<span class="report-title"> 작업일보 </span>
 						<ul class="dropdown-menu">
-							<li><a href="${contextPath}/sow/reportArea.do">작업현황</a></li>
+							<li><a href="${contextPath}/report/reportArea.do">작업현황</a></li>
 							<li><a href="${contextPath}/sow/sowBoard.do">근무현황</a></li>
-							<li><a href="#">실적</a></li>
+							<li><a href="${contextPath}/results/resultsBoard.do">실적</a></li>
 						</ul>
 					</li>
 					<li class="li-wrap"> 보고서 2 </li>
@@ -78,9 +78,9 @@
 						</tbody>
 						</c:forEach>
 						<c:set var="getwork_date" value="${sowBoardList[0].work_date}" />
-						<a class="btn" href="${contextPath}/sow/sowAddForm.do">작성하기</a>
 					</table>
 				</div>
+				<a class="btn" href="${contextPath}/sow/sowAddForm.do">작성하기</a>
 			</div>
     	</main>
     <%@ include file="../include/footer.jsp"%>	

@@ -85,7 +85,6 @@
 														<li onclick="selectWorkname(this)">주</li>
 														<li onclick="selectWorkname(this)">야</li>
 														<li onclick="selectWorkname(this)">교육</li>
-														<li onclick="selectWorkname(this)">출장(입)</li>
 														<li onclick="selectWorkname(this)">출장(출)</li>
 														<li onclick="selectWorkname(this)">경조</li>
 														<li onclick="selectWorkname(this)">시험</li>

@@ -54,7 +54,7 @@
 				</ul>
 			</div>
 			<div class="report-menu-banner">
-				<p class="text-control">작업현황</p>
+				<p class="text-control">실적</p>
 			</div>
 			<div class="report-container">
 				<div class="report-list">
@@ -66,20 +66,19 @@
 								<th style="width:10%;">작성일</th>
 							</tr>
 						</thead>
-						<tbody>
-						<c:forEach var="reportListJsp" items="${reportListJsp}">
+						<c:forEach var="resultsBoardList" items="${resultsBoardList}">
 						<c:set var="i" value="${i+1}" />
+						<tbody>
 							<tr>
-								<td>${reportListJsp.row_num}</td>
-								<td><a href="${contextPath}/report/reportView.do?work_date=${reportListJsp.work_date}">${reportListJsp.board_title}</a></td>
-								<td>${reportListJsp.work_date}</td>
+								<td>${resultsBoardList.row_num}</td>
+								<td><a href="${contextPath}/sow/sowDailyView.do?work_date=${resultsBoardList.work_date}">${resultsBoardList.board_title}</a></td>
+								<td>${resultsBoardList.work_date}</td>
 							</tr>
-						</c:forEach>
 						</tbody>
-						<c:set var="getwork_date" value="${reportListJsp[0].work_date}" />
+						</c:forEach>
 					</table>
+					<a class="btn" href="${contextPath}/results/resultsAddForm.do">작성하기</a>
 				</div>
-				<a class="btn" href="${contextPath}/report/addDailyReportForm.do">작성하기</a>
 			</div>
     	</main>
     <%@ include file="../include/footer.jsp"%>	

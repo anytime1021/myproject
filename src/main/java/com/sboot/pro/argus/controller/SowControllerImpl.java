@@ -61,7 +61,7 @@ public class SowControllerImpl implements SowController {
 		LoginVO login = (LoginVO) session.getAttribute("login");
 		String searchArea = login.getLogin_area();
 		
-		int token = 3;
+		int token = 2;
 		
 		String tableName = BoardType.fromToken(token).getTableName();
 		List<WorkingDailyBaseVO> sowBoardList = commonService.reportListTotalJava(searchArea, tableName);

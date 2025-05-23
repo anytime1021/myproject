@@ -2,10 +2,8 @@ package com.sboot.pro.argus.DTO;
 
 public enum BoardType {
 	workrate(1, "workrate_board"),
-	workrate_total(2, "workrate_total_board"),
-	sowDailyWorkLog_board(3, "sowDailyWorkLog_board"),
-	sowMonthWorkLog_board(4, "sowMonthWorkLog_board"),
-	performance(5, "perfomance_board");
+	sowDailyWorkLog_board(2, "sowDailyWorkLog_board"),
+	results_board(3, "results_board");
 	
 	private final int token;
 	private final String tableName;
