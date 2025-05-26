@@ -71,14 +71,14 @@
 						<tbody>
 							<tr>
 								<td>${resultsBoardList.row_num}</td>
-								<td><a href="${contextPath}/sow/sowDailyView.do?work_date=${resultsBoardList.work_date}">${resultsBoardList.board_title}</a></td>
+								<td><a href="${contextPath}/results/resultsView.do?work_date=${resultsBoardList.work_date}">${resultsBoardList.board_title}</a></td>
 								<td>${resultsBoardList.work_date}</td>
 							</tr>
 						</tbody>
 						</c:forEach>
 					</table>
 				</div>
-				<a class="btn" href="${contextPath}/results/resultsAddForm.do">작성하기</a>
+				<a class="btn" href="${contextPath}/results/addResultsForm.do">작성하기</a>
 			</div>
     	</main>
     <%@ include file="../include/footer.jsp"%>	

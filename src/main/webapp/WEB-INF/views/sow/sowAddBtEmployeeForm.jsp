@@ -14,7 +14,7 @@
 </head>
 <body>
 
-<h3>직원 등록</h3>
+<h3>출장자 등록</h3>
 <span id="amountText" style="margin-left:10px; color:gray;"></span>
 
 <!-- 현장 선택 -->

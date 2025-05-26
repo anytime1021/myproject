@@ -26,11 +26,10 @@
 <body>
 	<main class="first-container">
 		<article>
-			<form name="sowAddDailyWorkLog" method="post" action="${contextPath}/sow/sowAddDailyWorkLog.do">
+			<form name="addResults" method="post" action="${contextPath}/results/addResults.do">
 			<label style="text-align:center;">날 짜 : </label><input type="date" name="work_date" placeholder="날짜를 입력해 주세요" style="text-align: center; border:1px solid black;">
-			<a href="${contextPath}/sow/sowAddBtEmployeeForm.do" style="text-align:center;">출장인원설정</a>
 				<section class="section-flex"> 
-					<div class="sow-title">
+					<div>
 						<b> 3. 실 적 </b>
 					</div>
 				</section>
@@ -49,13 +48,17 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>${i+1}</td>
-									<td><input type="text" value="" readonly></td>
-									<td><input type="text" value="" readonly></td>
-									<td><input type="text" value="" readonly></td>
-									<td><input type="text" name ="results_profits" value=""></td>
-								</tr>
+								<c:forEach var="fmonth_list" items="${fmonth_list}" varStatus="status">
+									<tr>
+										<td>${status.count}</td>
+										<td><input type="text" name="fmonth_name" value="${fmonth_list.fmonth_name}" readonly></td>
+										<td><input type="text" name="fmonth_profits" value="${fmonth_list.fmonth_profits}" readonly></td>
+										<td><input type="text" name="results_dailyprofits"></td>
+										<td><input type="text" name="results_sum" placeholder="자동계산" readonly></td>
+										<td><input type="text" name="results_achievement" placeholder="자동계산" readonly></td>
+										<td><input type="text" name="note"></td>
+									</tr>
+								</c:forEach>
 						</table>
 					</div>
 				</section>

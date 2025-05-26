@@ -153,7 +153,11 @@ public class ReportControllerImpl implements ReportController{
 		if (str == null || str.trim().equals("")) {
 			return 0;
 		}
-		return Integer.parseInt(str);
+		try {
+			return Integer.parseInt(str);
+		} catch (NumberFormatException e) {
+			return 0;
+		}
 	}
 	
 	// 일일 보고서 보기

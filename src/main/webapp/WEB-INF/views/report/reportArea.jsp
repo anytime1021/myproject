@@ -46,6 +46,7 @@
 							<li><a href="${contextPath}/report/reportArea.do">작업현황</a></li>
 							<li><a href="${contextPath}/sow/sowBoard.do">근무현황</a></li>
 							<li><a href="${contextPath}/results/resultsBoard.do">실적</a></li>
+							<li><a href="${contextPath}/report/mixReportTest.do">보고서통합</a></li>
 						</ul>
 					</li>
 					<li class="li-wrap"> 보고서 2 </li>
