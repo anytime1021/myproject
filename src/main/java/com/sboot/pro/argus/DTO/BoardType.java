@@ -3,7 +3,8 @@ package com.sboot.pro.argus.DTO;
 public enum BoardType {
 	workrate(1, "workrate_board"),
 	sowDailyWorkLog_board(2, "sowDailyWorkLog_board"),
-	results_board(3, "results_board");
+	results_board(3, "results_board"),
+	reportmixed_board(4, "reportmixed_board");
 	
 	private final int token;
 	private final String tableName;

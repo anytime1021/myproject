@@ -1,4 +1,4 @@
-html {height: 100%; margin: 0; padding: 0;}
+@charset "utf-8";
 
 /*공통 css*/
 *{margin: 0; padding: 0; box-sizing: border-box; font-family: "vitoPrice", sans-serif; border-spacing: 0;}
@@ -11,7 +11,7 @@ button{cursor: pointer;}
 /*공통 css*/
 
 /* 레포트 게시판 */
-.first-container {width: 100%; height: auto; background-color: white;}
+.first-container {width: 100%; height: auto; background-color: white; margin: 0; padding: 0px;}
 .first-container .image-container {width: 100%; height: 250px; background-size:cover; position:relative;}
 .first-container .report-menu {width: 100%; height: 50px; font-family: sans-serif;}
 .first-container .report-menu .ul-wrap {list-style: none; padding: 0px; margin: 0px; display: flex; gap: 12px;}
@@ -46,7 +46,7 @@ button{cursor: pointer;}
 .first-container .report-date-sign .report-sign .table-control-report {width: 100%; height: 130px; border-collapse: collapse; text-align: center;}
 
 /* 작업 현황(report) */
-.first-container .work-rate {width: 100%; height: 100%; border: 1px solid black;}
+.first-container .work-rate {width: 100%; height: 100%; border: 1px solid black; font-size: 12px;}
 .first-container .work-rate th, td {border: 1px solid black; padding: 0px;}
 .first-container .work-rate .table-control-work {width: 100%; height: 50px; border-collapse: collapse; text-align:center;}
 .first-container .work-rate .table-control-work input[type="text"] {width: 100%; text-align: center;}
@@ -57,8 +57,8 @@ button{cursor: pointer;}
 
 /* 근무현황(sow) */
 .first-container .section-flex {display: flex; overflow-x: auto;}
-.first-container .section-flex .sow-title {width: 75%; height: 100%; border: 1px solid black; display: flex; font-size: 10px;}
-.first-container .section-flex .sow-title2 {width: 25%; height: 100%; border: 1px solid black; display: flex;	align-items: center; background-color: #cccccc; justify-content: center; font-size: 10px;}
+.first-container .section-flex .sow-title {width: 75%; height: 100%; display: flex;}
+.first-container .section-flex .sow-title2 {width: 25%; height: 100%; border: 1px solid black; display: flex;	align-items: center; background-color: #cccccc; justify-content: center;}
 .first-container .section-flex .sow-title-nameList {width: 75%; height: 100%; border: 1px solid black; display: flex; justify-content: center; align-items: center; margin: 0 auto;}
 .first-container .section-flex .table-structure {width: 100%; height: 100%; margin:0 auto;}
 .first-container .section-flex .table-structure table {table-layout: fixed;	font-size: 10px; width: 100%; border-collapse: collapse; text-align: center; align-items: center;}

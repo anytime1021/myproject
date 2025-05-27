@@ -222,4 +222,13 @@
 	</delete>
 	
 	
+	
+	
+	
+	
+	
+	
+	<insert id="insertReportMixed" parameterType="Map">
+		insert into reportMixed_board(board_title, work_date, board_area) values (#{board_title}, #{work_date}, #{searchArea})
+	</insert>
 </mapper>

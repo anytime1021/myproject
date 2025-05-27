@@ -67,4 +67,8 @@ public interface ReportService {
 //	public List<ReportVO> addReportForm(String searchArea) throws Exception;
 	
 	
+	
+	
+	
+	public int addReportMixed(String searchArea, String board_title, String work_date) throws Exception;
 }

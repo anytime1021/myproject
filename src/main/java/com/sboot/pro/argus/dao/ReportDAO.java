@@ -95,4 +95,7 @@ public interface ReportDAO {
 	
 	public int updateFmonth(ReportVO vo) throws Exception;
 	public void deleteFmonth(ReportVO vo) throws Exception;
+	
+	
+	public int insertReportMixed(@Param("searchArea") String searchArea, @Param("board_title") String board_title, @Param("work_date") String work_date) throws Exception;
 }

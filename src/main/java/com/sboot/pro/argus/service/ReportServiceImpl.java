@@ -31,7 +31,7 @@ public class ReportServiceImpl implements ReportService{
 	// 일일 보고서 글쓰기(정보저장)
 	@Override
 	public void addWorkReportList(String searchArea, List<ReportVO> workReportList, String board_title) throws Exception {
-		reportDAO.insertWorkrate_board(searchArea, workReportList.get(0).getWork_date(), board_title);
+//		reportDAO.insertWorkrate_board(searchArea, workReportList.get(0).getWork_date(), board_title);
 		reportDAO.insertAddWorkReportList(searchArea, workReportList);
 	}
 	
@@ -188,5 +188,9 @@ public class ReportServiceImpl implements ReportService{
 //	public List<ReportVO> addReportForm(String searchArea) throws Exception {
 //		return reportDAO.selectAddReportForm(searchArea);
 //	}
+	
+	public int addReportMixed(String searchArea, String board_title, String work_date) throws Exception {
+		return reportDAO.insertReportMixed(searchArea, board_title, work_date);
+	}
 }
 
