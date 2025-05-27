@@ -26,7 +26,17 @@
 		<article>
 			<section>
 				<form name="addDailyReportMixed" method="post" action="${contextPath}/report/addDailyReportMixed.do">
-					<h3><b> 1. 작업현황</b></h3>
+					<section class="work-rate-flex"> 
+						<div class="work-basic">
+							<b> 1. 작업현황 </b>
+						</div>
+						<div class="work-basic2">
+							<a href="${contextPath}/sow/sowAddEmployeeForm.do" class="btn-style">근무인원설정</a>
+						</div>
+						<div class="work-basic2">
+							<a href="${contextPath}/sow/sowAddBtEmployeeForm.do" class="btn-style">출장인원설정</a>
+						</div>
+					</section>
 					<label style="text-align:center;">날 짜 : </label><input type="date" name="work_date" placeholder="날짜를 입력해 주세요" style="text-align: center; border:1px solid black;"> 
 					<br>
 					<label style="text-align:center;">제 목 : </label><input type="text" name="board_title" placeholder="제목을 입력해 주세요" style="text-align: center; border:1px solid black; width:500px;">
@@ -50,26 +60,26 @@
 								<td style="width:19%;">차 량</td>
 							</tr>
 							<!-- c:forEach문 적용 예정-->
-							<c:forEach var="addReport_total" items="${addReport_total}" varStatus="status">
+							<c:forEach var="selectFmonth" items="${selectFmonth}" varStatus="status">
+								<c:set var="workrateBefore" value="${workrateFormBefore[status.index]}" />
 								<tr>
 									<td style="width:4%;">${status.index + 1}</td>
-									<td style="width:14%;"><input type="text" name="work_name" value="${addReport_total.work_name_total}" hidden> ${addReport_total.work_name_total}</td>
+									<td style="width:14%;"><input type="text" name="work_name" value="${selectFmonth.fmonth_name}" hidden> ${selectFmonth.fmonth_name}</td>
 									<td style="width:7%;"><input type="text" name="work_amount_HTW1"></td>
 									<td style="width:7%;"><input type="text" name="work_amount_HTW2"></td>
 									<td style="width:7%;"><input type="text" name="work_amount_HTW3"></td>
 									<td style="width:7%;"><input type="text" name="work_amount_HTW4"></td>
 									<td style="width:7%;"><input type="text" name="work_amount_HTW5"></td>
 									<td style="width:14%;"><input type="text" name="work_manpower"></td>
-									<td style="width:7%;"><input type="text" name="work_xray_total" value="${addReport_total.work_xray_total}" readonly></td>
-									<td style="width:7%;"><input type="text" name="work_PAUT_total" value="${addReport_total.work_PAUT_total}" readonly></td>
-									<td style="width:19%;"><input type="text" name="work_charyang_total" value="${addReport_total.work_charyang_total}" readonly></td>
-									<input type="hidden" name="work_num_total" value="${addReport_total.work_num_total}">
+									<td style="width:7%;"><input type="text" name="work_xray" value="${workrateBefore.work_xray}"></td>
+									<td style="width:7%;"><input type="text" name="work_PAUT" value="${workrateBefore.work_PAUT}"></td>
+									<td style="width:19%;"><input type="text" name="work_charyang" value="${workrateBefore.work_charyang}"></td>
+									<input type="hidden" name="fmonth_num" value="${workrateBefore.fmonth_num}">
 								</tr>
 							</c:forEach>
 						</table>
 					</div>
 				</section>
-				<a href="${contextPath}/sow/sowAddBtEmployeeForm.do" style="text-align:center;">출장인원설정</a>
 				<section class="section-flex"> 
 					<div class="sow-title">
 						<b> 2. 근무현황 </b>

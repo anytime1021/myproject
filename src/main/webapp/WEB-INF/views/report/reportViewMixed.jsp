@@ -100,7 +100,7 @@
 						<!-- c:forEach문 적용 예정-->
 						<c:forEach var="dailyReportViewMerged" items="${dailyReportViewMerged}" varStatus="status">
 							<tr>
-								<input type="hidden" name="work_num_total" value="${dailyReportViewMerged.work_num_total}">
+								<input type="hidden" name="fmonth_num" value="${dailyReportViewMerged.fmonth_num}">
 								<td style="width:4%;">${status.count}</td>
 								<td style="width:14%;">${dailyReportViewMerged.work_name}</td>
 								<td style="width:7%;">${dailyReportViewMerged.work_amount_HTW1} / ${dailyReportViewMerged.work_amount_HTW1_total}</td>

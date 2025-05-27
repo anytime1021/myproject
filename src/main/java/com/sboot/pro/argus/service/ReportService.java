@@ -71,4 +71,6 @@ public interface ReportService {
 	
 	
 	public int addReportMixed(String searchArea, String board_title, String work_date) throws Exception;
+
+	public List<ReportVO> workrateFormBefore(String searchArea, String work_date) throws Exception;
 }

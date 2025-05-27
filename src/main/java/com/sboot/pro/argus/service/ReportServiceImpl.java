@@ -40,9 +40,9 @@ public class ReportServiceImpl implements ReportService{
 	public List<ReportVO> dailyReportView(String searchArea, String work_date) throws Exception {
 		String start_date = work_date.substring(0,7) + "-01";
 		// 일일보고서 기본키 추출
-		List<Integer> work_num_total = reportDAO.selectWork_num_total(searchArea, work_date);
+		List<Integer> fmonth_num = reportDAO.selectPrimaryKey(searchArea, work_date);
 		// 일일보고서 값 가져오기
-		return reportDAO.selectDailyReportView(work_date, start_date, work_num_total);
+		return reportDAO.selectDailyReportView(work_date, start_date, fmonth_num);
 	}
 	
 	// 일일 보고서 보기 - 2 (1과 동시 존재해야 함)
@@ -74,12 +74,12 @@ public class ReportServiceImpl implements ReportService{
 		List<ReportVO> dailyReportViewMerged = new ArrayList<>();
 		for (ReportVO dailyView : dailyReportView) {
 		    for (ReportVO workTotal : dailyWorkTotalView) {
-		        if (dailyView.getWork_num_total() == workTotal.getWork_num_total()) {
+		        if (dailyView.getFmonth_num() == workTotal.getFmonth_num()) {
 	
 		            ReportVO merged = new ReportVO();
 	
 		            // 기본키 통합
-		            merged.setWork_num_total(dailyView.getWork_num_total());
+		            merged.setFmonth_num(dailyView.getFmonth_num());
 	
 		            // 각각의 데이터를 매칭하여 set
 		            merged.setWork_name(dailyView.getWork_name());
@@ -191,6 +191,10 @@ public class ReportServiceImpl implements ReportService{
 	
 	public int addReportMixed(String searchArea, String board_title, String work_date) throws Exception {
 		return reportDAO.insertReportMixed(searchArea, board_title, work_date);
+	}
+	
+	public List<ReportVO> workrateFormBefore(String searchArea, String work_date) throws Exception {
+		return reportDAO.selectWorkrateFormBefore(searchArea, work_date);
 	}
 }
 

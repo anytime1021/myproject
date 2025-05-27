@@ -62,10 +62,10 @@ public interface ReportDAO {
 	public void insertAddWorkReportList(@Param("searchArea") String searchArea, @Param("workReportList") List<ReportVO> workReportList) throws Exception;
 	// 일일 보고서 보기
 	// 일일 보고서 보기 - 기본키 추출
-	public List<Integer> selectWork_num_total(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
+	public List<Integer> selectPrimaryKey(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
 	public ReportVO selectHTW(String searchArea);
 	// 일일 보고서 보기 - 값 가져오기
-	public List<ReportVO> selectDailyReportView(@Param("work_date") String work_date, @Param("start_date") String start_date, @Param("work_num_total") List<Integer> work_num_total) throws Exception;
+	public List<ReportVO> selectDailyReportView(@Param("work_date") String work_date, @Param("start_date") String start_date, @Param("fmonth_num") List<Integer> fmonth_num) throws Exception;
 	public List<ReportVO> selectWorkTotalByView(String searchArea) throws Exception;
 	// 일일 보고서 합계
 	public ReportVO selectTotalSum(@Param("searchArea") String searchArea, @Param("start_date") String start_date, @Param("work_date") String work_date) throws Exception;
@@ -101,4 +101,7 @@ public interface ReportDAO {
 
 	// 날짜 검색
 	public String selectWorkdate(String searchArea);
+	
+	
+	public List<ReportVO> selectWorkrateFormBefore(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
 }

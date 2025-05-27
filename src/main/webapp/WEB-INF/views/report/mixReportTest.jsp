@@ -55,7 +55,7 @@
 				</ul>
 			</div>
 			<div class="report-menu-banner">
-				<p class="text-control">작업현황</p>
+				<p class="text-control">작업일보</p>
 			</div>
 			<div class="report-container">
 				<div class="report-list">

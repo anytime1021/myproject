@@ -45,7 +45,7 @@
 		work_xray_total = #{item.work_xray_total},
 		work_PAUT_total = #{item.work_PAUT_total},
 		work_charyang_total = #{item.work_charyang_total}
-		where work_num_total = #{item.work_num_total}
+		where fmonth_num = #{item.fmonth_num}
 		</foreach>
 	</update>
 	
@@ -53,7 +53,7 @@
 	<delete id="deleteTotalReportRow" parameterType="int">
 		update workrate_total
 		set YN = 'N'
-		where work_num_total = #{work_num_total}
+		where fmonth_num = #{fmonth_num}
 	</delete>
 	
 <!--	 일일 보고서 글쓰기 양식 -->
@@ -70,16 +70,16 @@
 	<!-- 일일 보고서 글쓰기(정보저장) -->
 	<insert id="insertAddWorkReportList" parameterType="reportVO">
 		<foreach collection="workReportList" item="item">
-		insert into workrate(work_name, work_amount_HTW1, work_amount_HTW2, work_amount_HTW3,	work_amount_HTW4, work_amount_HTW5, work_manpower, work_xray, work_PAUT, work_charyang, work_date, login_area, work_num_total)
+		insert into workrate(work_name, work_amount_HTW1, work_amount_HTW2, work_amount_HTW3,	work_amount_HTW4, work_amount_HTW5, work_manpower, work_xray, work_PAUT, work_charyang, work_date, login_area, fmonth_num)
 		values 
-		(#{item.work_name}, #{item.work_amount_HTW1},#{item.work_amount_HTW2},#{item.work_amount_HTW3},#{item.work_amount_HTW4},#{item.work_amount_HTW5},#{item.work_manpower},#{item.work_xray},#{item.work_PAUT},#{item.work_charyang},#{item.work_date},#{searchArea},#{item.work_num_total});
+		(#{item.work_name}, #{item.work_amount_HTW1},#{item.work_amount_HTW2},#{item.work_amount_HTW3},#{item.work_amount_HTW4},#{item.work_amount_HTW5},#{item.work_manpower},#{item.work_xray},#{item.work_PAUT},#{item.work_charyang},#{item.work_date},#{searchArea},#{item.fmonth_num});
 		</foreach>
 	</insert>
 	
 	<!-- 일일 보고서 보기 -->
 	<!-- 일일 보고서 보기 - 기본키 추출 -->
-	<select id="selectWork_num_total" parameterType="String">
-		select work_num_total from workrate where work_date = #{work_date} and login_area = #{searchArea}
+	<select id="selectPrimaryKey" parameterType="String">
+		select fmonth_num from workrate where work_date = #{work_date} and login_area = #{searchArea}
 	</select>
 	
 	<!-- 일일 보고서 보기 - 값 가져오기 -->
@@ -91,11 +91,11 @@
 			sum(work_amount_HTW4) as work_amount_HTW4_total, 
 			sum(work_amount_HTW5) as work_amount_HTW5_total,
 			sum(work_manpower) as work_manpower_total,
-			work_num_total from workrate where work_date between #{start_date} and #{work_date} group by work_num_total
-			) B USING(work_num_total) where work_date = #{work_date}
-			<if test="work_num_total != null and work_num_total.size() > 0">
-				and work_num_total in
-				<foreach collection="work_num_total" item="workNum" open="(" separator="," close=")">
+			fmonth_num from workrate where work_date between #{start_date} and #{work_date} group by fmonth_num
+			) B USING(fmonth_num) where work_date = #{work_date}
+			<if test="fmonth_num != null and fmonth_num.size() > 0">
+				and fmonth_num in
+				<foreach collection="fmonth_num" item="workNum" open="(" separator="," close=")">
 					#{workNum}
 				</foreach>
 			</if>
@@ -137,8 +137,8 @@
 	<!-- 일일 보고서 수정(정보저장) -->
 	<!-- 보고서 수정시 수정 전 데이터와 수정id / 수정 날짜 -->
 	<insert id="insertWorkReportUpdateLog" parameterType="String">
-		insert into workrate_updatelog(work_name, work_amount_HTW1, work_amount_HTW2, work_amount_HTW3, work_amount_HTW4, work_amount_HTW5, work_manpower, work_xray, work_PAUT, work_charyang, work_date, login_area, work_num_total, login_id)
-		select work_name, work_amount_HTW1, work_amount_HTW2, work_amount_HTW3, work_amount_HTW4, work_amount_HTW5, work_manpower, work_xray, work_PAUT, work_charyang, work_date, login_area, work_num_total, #{login_id}
+		insert into workrate_updatelog(work_name, work_amount_HTW1, work_amount_HTW2, work_amount_HTW3, work_amount_HTW4, work_amount_HTW5, work_manpower, work_xray, work_PAUT, work_charyang, work_date, login_area, fmonth_num, login_id)
+		select work_name, work_amount_HTW1, work_amount_HTW2, work_amount_HTW3, work_amount_HTW4, work_amount_HTW5, work_manpower, work_xray, work_PAUT, work_charyang, work_date, login_area, fmonth_num, #{login_id}
 		from workrate
 		where work_date = #{work_date} and login_area = #{searchArea}
 	</insert>
@@ -235,5 +235,9 @@
 	<!-- 날짜 검색 -->
 	<select id="selectWorkdate" resultType="String">
 		select distinct max(work_date) from reportmixed_board where board_area = #{searchArea};
+	</select>
+	
+	<select id="selectWorkrateFormBefore" parameterType="Map">
+		select * from workrate where login_area = #{searchArea} and work_date = #{work_date}
 	</select>
 </mapper>

@@ -36,8 +36,8 @@
 						<li>
 							<a href="${contextPath}/report/reportArea.do">게시판</a>
 							<ul class="sub-menu">
-								<li><a href="${contextPath}/report/reportArea.do">일일 보고서 작성</a></li>
-								<li><a href="${contextPath}/report/reportAreaTotal.do">월별 보고서 작성</a></li>							
+								<li><a href="${contextPath}/report/reportArea.do">작업일보</a></li>
+								<li><a href="${contextPath}/report/followingMonth.do">익월 용역 예상 보고서</a></li>							
 							</ul>
 						</li>
 						<li class="area-menu">						

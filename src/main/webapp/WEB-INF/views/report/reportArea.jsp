@@ -49,7 +49,7 @@
 							<li><a href="${contextPath}/report/mixReportTest.do">보고서통합</a></li>
 						</ul>
 					</li>
-					<li class="li-wrap"> 보고서 2 </li>
+					<li class="li-wrap"><a href="${contextPath}/report/followingMonth.do"> 익월 예상 보고서 </a></li>
 					<li class="li-wrap"> 보고서 3 </li>
 					<li class="li-wrap"> 보고서 4 </li>
 				</ul>

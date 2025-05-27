@@ -456,7 +456,7 @@ public class ReportControllerImpl implements ReportController{
 	}
 	
 	// testList2 이하 업체등록 및 익월예상보고
-	@GetMapping("/report/testList2.do")
+	@GetMapping("/report/followingMonth.do")
 	public ModelAndView testList2(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("/report/testList2");
 		HttpSession session = request.getSession();
@@ -511,7 +511,7 @@ public class ReportControllerImpl implements ReportController{
 	@PostMapping("/report/addFollowingMonth.do")
 	public ModelAndView addFollowingMonth(@RequestParam("fmonth_name") String fmonth_name, @RequestParam("fmonth_profits") BigDecimal fmonth_profits,
 			HttpServletRequest request) throws Exception {
-		ModelAndView mav = new ModelAndView("redirect:/report/testList2.do");
+		ModelAndView mav = new ModelAndView("redirect:/report/followingMonth.do");
 		HttpSession session = request.getSession();
 		LoginVO login = (LoginVO) session.getAttribute("login");
 		String searchArea = login.getLogin_area();
@@ -574,6 +574,10 @@ public class ReportControllerImpl implements ReportController{
 		
 		// 마지막 작성 날짜 검색
 		String work_date_before = reportDAO.selectWorkdate(searchArea);
+		if (work_date_before == null) {
+			LocalDate today = LocalDate.now();
+			work_date_before = today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		}
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate date = LocalDate.parse(work_date_before, formatter);
 		LocalDate previousDate = date.minusDays(1);
@@ -583,9 +587,11 @@ public class ReportControllerImpl implements ReportController{
 		ReportVO HowToWork = reportDAO.selectHTW(searchArea);
 	    mav.addObject("HowToWork", HowToWork);
 		
-		List<ReportVO> addReport_total = new ArrayList<ReportVO>();
-		addReport_total = reportService.selectWorkTotal(searchArea);
-		mav.addObject("addReport_total", addReport_total);
+	    List<ReportVO> workrateFormBefore = reportService.workrateFormBefore(searchArea, work_date);
+		mav.addObject("workrateFormBefore", workrateFormBefore);
+		
+		List<ReportVO> selectFmonth = reportDAO.selectFmonth(searchArea);
+		mav.addObject("selectFmonth", selectFmonth);
 		
 		// 2. 근무 현황
 		CombinedSowDailyWorkLog data = sowService.getCombinedSowDailyWorkLog(searchArea, work_date);
@@ -631,8 +637,8 @@ public class ReportControllerImpl implements ReportController{
 		int btInCount = sowService.countBtViewList(searchArea, bt_in, work_date);
 		int btOutCount = sowService.countBtViewList(searchArea, bt_out, work_date);
 		
-		mav.addObject("btInListData", btInList);
-		mav.addObject("btOutListData", btOutList);
+		mav.addObject("btInListData", btInListData);
+		mav.addObject("btOutListData", btOutListData);
 		mav.addObject("btInCount", btInCount);
 		mav.addObject("btOutCount", btOutCount);
 		
