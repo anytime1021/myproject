@@ -98,4 +98,7 @@ public interface ReportDAO {
 	
 	
 	public int insertReportMixed(@Param("searchArea") String searchArea, @Param("board_title") String board_title, @Param("work_date") String work_date) throws Exception;
+
+	// 날짜 검색
+	public String selectWorkdate(String searchArea);
 }

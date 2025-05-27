@@ -33,7 +33,6 @@ import com.sboot.pro.argus.vo.ReportVO;
 import com.sboot.pro.argus.vo.ResultsVO;
 import com.sboot.pro.argus.vo.SowVO;
 import com.sboot.pro.argus.vo.WorkingDailyBaseVO;
-import com.sboot.pro.argus.DTO.DailyReportListDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -557,7 +556,7 @@ public class ReportControllerImpl implements ReportController{
 		HttpSession session = request.getSession();
 		LoginVO login = (LoginVO) session.getAttribute("login");
 		String searchArea = login.getLogin_area();
-		
+				
 		int token = 4;
 		
 		String tableName = BoardType.fromToken(token).getTableName();
@@ -573,7 +572,14 @@ public class ReportControllerImpl implements ReportController{
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
 		
-		// 1. 작업 현황
+		// 마지막 작성 날짜 검색
+		String work_date_before = reportDAO.selectWorkdate(searchArea);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate date = LocalDate.parse(work_date_before, formatter);
+		LocalDate previousDate = date.minusDays(1);
+		String work_date = previousDate.format(formatter);
+		
+		// 1. 작업 현황	    
 		ReportVO HowToWork = reportDAO.selectHTW(searchArea);
 	    mav.addObject("HowToWork", HowToWork);
 		
@@ -582,6 +588,53 @@ public class ReportControllerImpl implements ReportController{
 		mav.addObject("addReport_total", addReport_total);
 		
 		// 2. 근무 현황
+		CombinedSowDailyWorkLog data = sowService.getCombinedSowDailyWorkLog(searchArea, work_date);
+		
+		List<SowVO> sowViewList = data.getSowDailyWorkLog();
+		List<SowVO> sumOverTime = data.getSumOverTime();
+		
+		mav.addObject("sowViewList", sowViewList);
+		mav.addObject("sumOverTime", sumOverTime);
+		
+		// 출장자 목록
+		List<SowVO> btInList = new ArrayList<SowVO>();
+		String bt_in = "in";
+		btInList = sowService.selectBtEmployeeList(searchArea, bt_in);
+		
+		String bt_out = "out";
+		List<SowVO> btOutList = new ArrayList<SowVO>();
+		btOutList = sowService.selectBtEmployeeList(searchArea, bt_out);
+		
+		mav.addObject("btInList", btInList);
+		mav.addObject("btOutList", btOutList);
+		
+		// 출장자 근무시간
+		List<Integer> btInHoursList = new ArrayList<>();
+		for (int i=0; i<btInList.size(); i++) {
+			btInHoursList.add(8);
+		}
+		List<Integer> btOutHoursList = new ArrayList<>();
+		for (int i=0; i<btOutList.size(); i++) {
+			btOutHoursList.add(8);
+		}
+		
+		mav.addObject("btInHoursList", btInHoursList);
+		mav.addObject("btOutHoursList", btOutHoursList);
+		
+		// 출장자 전날 데이터
+		List<SowVO> btInListData = new ArrayList<>();
+		btInList = sowService.selectBusinessTrip(searchArea, "in", work_date);
+		
+		List<SowVO> btOutListData = new ArrayList<>();
+		btOutList = sowService.selectBusinessTrip(searchArea, "out", work_date);
+		
+		int btInCount = sowService.countBtViewList(searchArea, bt_in, work_date);
+		int btOutCount = sowService.countBtViewList(searchArea, bt_out, work_date);
+		
+		mav.addObject("btInListData", btInList);
+		mav.addObject("btOutListData", btOutList);
+		mav.addObject("btInCount", btInCount);
+		mav.addObject("btOutCount", btOutCount);
 		
 		// 현장명
 		List<SowVO> fmonthName = new ArrayList<SowVO>();
@@ -596,41 +649,11 @@ public class ReportControllerImpl implements ReportController{
 		for (int i=0; i<empList.size(); i++) {
 			hoursList.add(8);
 		}
-		
-		// 출장자 목록
-		List<SowVO> btInList = new ArrayList<SowVO>();
-		String bt_in = "in";
-		btInList = sowService.selectBtEmployeeList(searchArea, bt_in);
-		
-		String bt_out = "out";
-		List<SowVO> btOutList = new ArrayList<SowVO>();
-		btOutList = sowService.selectBtEmployeeList(searchArea, bt_out);
-
-		// 출장자 근무시간
-		List<Integer> btInHoursList = new ArrayList<>();
-		for (int i=0; i<btInList.size(); i++) {
-			btInHoursList.add(8);
-		}
-		
-		List<Integer> btOutHoursList = new ArrayList<>();
-		for (int i=0; i<btOutList.size(); i++) {
-			btOutHoursList.add(8);
-		}
-		
-		// 출장자 count - 테이블 구조 유지 조건
-		int btInCount = sowDAO.countBtList(searchArea, bt_in);
-		int btOutCount = sowDAO.countBtList(searchArea, bt_out);
-		
+			
 		mav.addObject("fmonthName", fmonthName); 
 		mav.addObject("empList", empList);
 		mav.addObject("searchArea", searchArea);
 		mav.addObject("hoursList", hoursList);
-		mav.addObject("btInList", btInList);
-		mav.addObject("btOutList", btOutList);
-		mav.addObject("btInHoursList", btInHoursList);
-		mav.addObject("btOutHoursList", btOutHoursList);
-		mav.addObject("btInCount", btInCount);
-		mav.addObject("btOutCount", btOutCount);
 		
 		// 3. 실적
 		List<ReportVO> fmonth_list = reportDAO.selectFmonth(searchArea);

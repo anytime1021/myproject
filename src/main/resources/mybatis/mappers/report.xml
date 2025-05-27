@@ -231,4 +231,9 @@
 	<insert id="insertReportMixed" parameterType="Map">
 		insert into reportMixed_board(board_title, work_date, board_area) values (#{board_title}, #{work_date}, #{searchArea})
 	</insert>
+	
+	<!-- 날짜 검색 -->
+	<select id="selectWorkdate" resultType="String">
+		select distinct max(work_date) from reportmixed_board where board_area = #{searchArea};
+	</select>
 </mapper>

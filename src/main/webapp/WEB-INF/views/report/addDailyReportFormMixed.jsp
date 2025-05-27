@@ -35,7 +35,7 @@
 							<tr>
 								<td rowspan="2" style="width:4%;"><b>No</b></td>
 								<td rowspan="2" style="width:14%;"><b>현 장</b></td>
-								<td colspan="5"><b>작 업 량(완료 / 전체)</b></td>
+								<td colspan="5"><b>작 업 량</b></td>
 								<td rowspan="2" style="width:14%;"><b>투입인원</b></td>
 								<td colspan="3"><b>보 유 장 비 (수량)</b></td>
 							</tr>
@@ -98,14 +98,17 @@
 										<c:when test="${i == 0}">
 											<c:set var="employeeList" value="${empList[status.index]}" />
 											<c:set var="countIndex" value="${status.index}" />
+											<c:set var="sowView" value="${sowViewList[status.index]}" />
 										</c:when>
 										<c:when test="${i == 1}">
 											<c:set var="employeeList" value="${empList[status.index + (i * 30)]}" />
 											<c:set var="countIndex" value="${status.index + (i * 30)}" />
+											<c:set var="sowView" value="${sowViewList[status.index + (i * 30)]}" />
 										</c:when>
 										<c:when test="${i == 2}">
 											<c:set var="employeeList" value="${empList[status.index + (i * 60)]}" />
 											<c:set var="countIndex" value="${status.index + (i * 30)}" />
+											<c:set var="sowView" value="${sowViewList[status.index + (i * 60)]}" />
 										</c:when>
 									</c:choose>
 									<tbody>
@@ -113,7 +116,7 @@
 											<td style="width:3%">${j+1+(i*30)}</td>
 											<td style="width:4%"><input type="text" name="sowDWL_name" value="${employeeList.emp_name}" readonly></td>
 											<td class="dropdown" style="width:5%" onclick="worknameDropdown(this)">
-												<span class="selected"></span>
+												<span class="selected">${sowView.sowDWL_work_name}</span>
 												<input type="hidden" name="sowDWL_work_name" class="sowDWL_work_name">
 												<ul class="dropdown-menu">
 													<c:forEach var="fmonth_name" items="${fmonthName}">
@@ -127,7 +130,7 @@
 												</ul>
 											</td>
 											<td class="dropdown" style="width:4%" onclick="worknameDropdown(this)">
-												<span class="shiftSelected"></span>
+												<span class="shiftSelected">${sowView.sowDWL_shift}</span>
 												<input type="hidden" name="sowDWL_shift" class="sowDWL_shift">
 												<ul class="dropdown-menu">
 													<li onclick="selectWorkname(this)">주</li>
@@ -144,7 +147,7 @@
 												</ul>
 											</td>
 											<td style="width:2%"><input type="text" name="sowDWL_hours" value="${hoursList[countIndex]}"></td>
-											<td style="width:3%"><input type="text" name="sowDWL_overtime"></td>
+											<td style="width:3%"><input type="text" name="sowDWL_overtime" readonly></td>
 											<td style="width:4%"><input type="text" value="" readonly></td>
 											<input type="hidden" name="emp_num" value="${employeeList.emp_num}">
 										</tr>
@@ -182,12 +185,13 @@
 							</thead>
 							<c:forEach var="j" begin="0" end="${btInEnd - 1}" varStatus="status">
 								<c:set var="btInEmpList" value="${btInList[status.index]}" />
+								<c:set var="btInData" value="${btInListData[status.index]}" />
 								<tbody>
 									<tr>
 										<td style="width:3%">${j+1}</td>
 										<td style="width:4%"><input type="text" name="sowDWL_name_in" value="${btInEmpList.emp_name}" readonly></td>
-										<td style="width:5%"><input type="text" name="sowDWL_work_name_in" class="sowDWL_work_name"></td>
-										<td style="width:4%"><input type="text" name="sowDWL_shift_in" class="sowDWL_shift"></td>
+										<td style="width:5%"><input type="text" name="sowDWL_work_name_in" class="sowDWL_work_name" value="${btInData.sowDWL_work_name}"></td>
+										<td style="width:4%"><input type="text" name="sowDWL_shift_in" class="sowDWL_shift" value="${btInData.sowDWL_shift}"></td>
 										<td style="width:2%"><input type="text" name="sowDWL_hours_in" value="${btInHoursList[status.index]}"></td>
 										<td style="width:3%"><input type="text" name="sowDWL_overtime_in"></td>
 										<td style="width:4%"><input type="text" value="" readonly></td>
@@ -215,12 +219,13 @@
 							</thead>
 							<c:forEach var="j" begin="0" end="${btOutEnd - 1}" varStatus="status">
 								<c:set var="btOutEmpList" value="${btOutList[status.index]}" />
+								<c:set var="btOutData" value="${btOutListData[status.index]}" />
 								<tbody>
 									<tr>
 										<td style="width:3%">${j+1}</td>
 										<td style="width:4%"><input type="text" name="sowDWL_name_out" value="${btOutEmpList.emp_name}" readonly></td>
-										<td style="width:5%"><input type="text" name="sowDWL_work_name_out" class="sowDWL_work_name"></td>
-										<td style="width:4%"><input type="text" name="sowDWL_shift_out" class="sowDWL_shift"></td>
+										<td style="width:5%"><input type="text" name="sowDWL_work_name_out" class="sowDWL_work_name" value="${btOutData.sowDWL_work_name}"></td>
+										<td style="width:4%"><input type="text" name="sowDWL_shift_out" class="sowDWL_shift" value="${btOutData.sowDWL_shift}"></td>
 										<td style="width:2%"><input type="text" name="sowDWL_hours_out" value="${btOutHoursList[status.index]}"></td>
 										<td style="width:3%"><input type="text" name="sowDWL_overtime_out"></td>
 										<td style="width:4%"><input type="text" value="" readonly></td>
