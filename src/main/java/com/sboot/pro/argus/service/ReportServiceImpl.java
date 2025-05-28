@@ -68,8 +68,8 @@ public class ReportServiceImpl implements ReportService{
 		ReportVO totalSum = result.getTotalSum();
 		ReportVO dailySum = result.getDailySum();
 		
-		// xray, paut, 차량 가져오기
-		List<ReportVO> dailyWorkTotalView = reportDAO.selectWorkTotalByView(searchArea);
+		// PrimaryKey 기준 Merged 작업
+		List<ReportVO> dailyWorkTotalView = reportDAO.selectFmonth(searchArea);
 		
 		List<ReportVO> dailyReportViewMerged = new ArrayList<>();
 		for (ReportVO dailyView : dailyReportView) {
@@ -96,15 +96,28 @@ public class ReportServiceImpl implements ReportService{
 		            merged.setWork_manpower(dailyView.getWork_manpower());
 		            merged.setWork_manpower_total(dailyView.getWork_manpower_total());
 		            
-		            merged.setWork_xray_total(workTotal.getWork_xray_total());
-		            merged.setWork_PAUT_total(workTotal.getWork_PAUT_total());
-		            merged.setWork_charyang_total(workTotal.getWork_charyang_total());
+		            merged.setWork_xray(dailyView.getWork_xray());
+		            merged.setWork_PAUT(dailyView.getWork_PAUT());
+		            merged.setWork_charyang(dailyView.getWork_charyang());
 	
 		            dailyReportViewMerged.add(merged);
 		            break; // 중복 방지용
 		        }
 		    }
 		}
+
+//		ObjectMapper objectMapper = new ObjectMapper();
+//		Iterator<ReportVO> iterator = dailyReportViewMerged.iterator();
+//		
+//		while(iterator.hasNext()) {
+//			ReportVO vo = iterator.next();
+//			try {
+//				String json = objectMapper.writeValueAsString(vo);
+//				System.out.println(json);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
 		return new DailyReportWorkrate(dailyReportViewMerged, totalSum, dailySum);
 	}
 		

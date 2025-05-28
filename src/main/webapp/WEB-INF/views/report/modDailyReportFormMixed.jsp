@@ -37,9 +37,9 @@
 							<a href="${contextPath}/sow/sowAddBtEmployeeForm.do" class="btn-style">출장인원설정</a>
 						</div>
 					</section>
-					<label style="text-align:center;">날 짜 : </label><input type="date" name="work_date" placeholder="날짜를 입력해 주세요" style="text-align: center; border:1px solid black;"> 
+					<label style="text-align:center;">날 짜 : </label><input type="date" name="work_date" value="${work_date}" placeholder="날짜를 입력해 주세요" style="text-align: center; border:1px solid black;"> 
 					<br>
-					<label style="text-align:center;">제 목 : </label><input type="text" name="board_title" placeholder="제목을 입력해 주세요" style="text-align: center; border:1px solid black; width:500px;">
+					<label style="text-align:center;">제 목 : </label><input type="text" name="board_title" value="${board_title}" placeholder="제목을 입력해 주세요" style="text-align: center; border:1px solid black; width:500px;">
 					<div class="work-rate">
 						<table class="table-control-work">
 							<tr>
@@ -65,12 +65,12 @@
 								<tr>
 									<td style="width:4%;">${status.index + 1}</td>
 									<td style="width:14%;"><input type="text" name="work_name" value="${selectFmonth.fmonth_name}" hidden> ${selectFmonth.fmonth_name}</td>
-									<td style="width:7%;"><input type="text" name="work_amount_HTW1"></td>
-									<td style="width:7%;"><input type="text" name="work_amount_HTW2"></td>
-									<td style="width:7%;"><input type="text" name="work_amount_HTW3"></td>
-									<td style="width:7%;"><input type="text" name="work_amount_HTW4"></td>
-									<td style="width:7%;"><input type="text" name="work_amount_HTW5"></td>
-									<td style="width:14%;"><input type="text" name="work_manpower"></td>
+									<td style="width:7%;"><input type="text" name="work_amount_HTW1" value="${workrateBefore.work_amount_HTW1}"></td>
+									<td style="width:7%;"><input type="text" name="work_amount_HTW2" value="${workrateBefore.work_amount_HTW2}"></td>
+									<td style="width:7%;"><input type="text" name="work_amount_HTW3" value="${workrateBefore.work_amount_HTW3}"></td>
+									<td style="width:7%;"><input type="text" name="work_amount_HTW4" value="${workrateBefore.work_amount_HTW4}"></td>
+									<td style="width:7%;"><input type="text" name="work_amount_HTW5" value="${workrateBefore.work_amount_HTW5}"></td>
+									<td style="width:14%;"><input type="text" name="work_manpower" value="${workrateBefore.work_manpower}"></td>
 									<td style="width:7%;"><input type="text" name="work_xray" value="${workrateBefore.work_xray}"></td>
 									<td style="width:7%;"><input type="text" name="work_PAUT" value="${workrateBefore.work_PAUT}"></td>
 									<td style="width:19%;"><input type="text" name="work_charyang" value="${workrateBefore.work_charyang}"></td>
@@ -156,7 +156,7 @@
 												</ul>
 											</td>
 											<td style="width:2%"><input type="text" name="sowDWL_hours" value="${hoursList[countIndex]}"></td>
-											<td style="width:3%"><input type="text" name="sowDWL_overtime"></td>
+											<td style="width:3%"><input type="text" name="sowDWL_overtime" value="${sowView.sowDWL_overtime}"></td>
 											<td style="width:4%"><input type="text" value="" readonly></td>
 											<input type="hidden" name="emp_num" value="${employeeList.emp_num}">
 										</tr>
@@ -202,7 +202,7 @@
 										<td style="width:5%"><input type="text" name="sowDWL_work_name_in" class="sowDWL_work_name" value="${btInData.sowDWL_work_name}"></td>
 										<td style="width:4%"><input type="text" name="sowDWL_shift_in" class="sowDWL_shift" value="${btInData.sowDWL_shift}"></td>
 										<td style="width:2%"><input type="text" name="sowDWL_hours_in" value="${btInHoursList[status.index]}"></td>
-										<td style="width:3%"><input type="text" name="sowDWL_overtime_in"></td>
+										<td style="width:3%"><input type="text" name="sowDWL_overtime_in" value="${btInData.sowDWL_overtime}"></td>
 										<td style="width:4%"><input type="text" value="" readonly></td>
 										<input type="hidden" name="emp_num_in" value="${btInEmpList.emp_num}">
 									</tr>
@@ -236,7 +236,7 @@
 										<td style="width:5%"><input type="text" name="sowDWL_work_name_out" class="sowDWL_work_name" value="${btOutData.sowDWL_work_name}"></td>
 										<td style="width:4%"><input type="text" name="sowDWL_shift_out" class="sowDWL_shift" value="${btOutData.sowDWL_shift}"></td>
 										<td style="width:2%"><input type="text" name="sowDWL_hours_out" value="${btOutHoursList[status.index]}"></td>
-										<td style="width:3%"><input type="text" name="sowDWL_overtime_out"></td>
+										<td style="width:3%"><input type="text" name="sowDWL_overtime_out" value="${btOutData.sowDWL_overtime}"></td>
 										<td style="width:4%"><input type="text" value="" readonly></td>
 										<input type="hidden" name="emp_num_out" value="${btOutEmpList.emp_num}">
 									</tr>
@@ -284,14 +284,15 @@
 							</thead>
 							<tbody>
 								<c:forEach var="fmonth_list" items="${fmonth_list}" varStatus="status">
+									<c:set var="resultsList" value="${results_list[status.index]}" />
 									<tr>
 										<td>${status.count}</td>
 										<td><input type="text" name="fmonth_name" value="${fmonth_list.fmonth_name}" readonly></td>
 										<td><input type="text" name="fmonth_profits" value="${fmonth_list.fmonth_profits}" readonly></td>
-										<td><input type="text" name="results_dailyprofits"></td>
-										<td><input type="text" name="results_sum" placeholder="-" readonly></td>
-										<td><input type="text" name="results_achievement" placeholder="-" readonly></td>
-										<td><input type="text" name="note"></td>
+										<td><input type="text" name="results_dailyprofits" value="${resultsList.results_dailyprofits}"></td>
+										<td><input type="text" name="results_sum" value="${resultsList.results_sum}" placeholder="-" readonly></td>
+										<td><input type="text" name="results_achievement" value="${resultsList.results_achievement}" placeholder="-" readonly></td>
+										<td><input type="text" name="note" value="${resultsList.note}"></td>
 									</tr>
 								</c:forEach>
 						</table>

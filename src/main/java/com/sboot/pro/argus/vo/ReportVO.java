@@ -38,15 +38,15 @@ public class ReportVO extends WorkingDailyBaseVO {
 	private String work_date_total;
 	
 	// 변수 배열
-	private int work_amount_HTW1Array;
-	private int work_amount_HTW2Array;
-	private int work_amount_HTW3rray;
-	private int work_amount_HTW4Array;
-	private int work_amount_HTW5Array;
-	private int work_manpowerArray;
-	private String work_xrayArray;
-	private String work_PAUTArray;
-	private String work_charyangArray;
+//	private int work_amount_HTW1Array;
+//	private int work_amount_HTW2Array;
+//	private int work_amount_HTW3rray;
+//	private int work_amount_HTW4Array;
+//	private int work_amount_HTW5Array;
+//	private int work_manpowerArray;
+//	private String work_xrayArray;
+//	private String work_PAUTArray;
+//	private String work_charyangArray;
 	
 	// 전체 고정값
 	private int work_num_total;
@@ -197,60 +197,60 @@ public class ReportVO extends WorkingDailyBaseVO {
 	public void setWork_date_total(String work_date_total) {
 		this.work_date_total = work_date_total;
 	}
-	public int getWork_amount_HTW1Array() {
-		return work_amount_HTW1Array;
-	}
-	public void setWork_amount_HTW1Array(int work_amount_HTW1Array) {
-		this.work_amount_HTW1Array = work_amount_HTW1Array;
-	}
-	public int getWork_amount_HTW2Array() {
-		return work_amount_HTW2Array;
-	}
-	public void setWork_amount_HTW2Array(int work_amount_HTW2Array) {
-		this.work_amount_HTW2Array = work_amount_HTW2Array;
-	}
-	public int getWork_amount_HTW3rray() {
-		return work_amount_HTW3rray;
-	}
-	public void setWork_amount_HTW3rray(int work_amount_HTW3rray) {
-		this.work_amount_HTW3rray = work_amount_HTW3rray;
-	}
-	public int getWork_amount_HTW4Array() {
-		return work_amount_HTW4Array;
-	}
-	public void setWork_amount_HTW4Array(int work_amount_HTW4Array) {
-		this.work_amount_HTW4Array = work_amount_HTW4Array;
-	}
-	public int getWork_amount_HTW5Array() {
-		return work_amount_HTW5Array;
-	}
-	public void setWork_amount_HTW5Array(int work_amount_HTW5Array) {
-		this.work_amount_HTW5Array = work_amount_HTW5Array;
-	}
-	public int getWork_manpowerArray() {
-		return work_manpowerArray;
-	}
-	public void setWork_manpowerArray(int work_manpowerArray) {
-		this.work_manpowerArray = work_manpowerArray;
-	}
-	public String getWork_xrayArray() {
-		return work_xrayArray;
-	}
-	public void setWork_xrayArray(String work_xrayArray) {
-		this.work_xrayArray = work_xrayArray;
-	}
-	public String getWork_PAUTArray() {
-		return work_PAUTArray;
-	}
-	public void setWork_PAUTArray(String work_PAUTArray) {
-		this.work_PAUTArray = work_PAUTArray;
-	}
-	public String getWork_charyangArray() {
-		return work_charyangArray;
-	}
-	public void setWork_charyangArray(String work_charyangArray) {
-		this.work_charyangArray = work_charyangArray;
-	}
+//	public int getWork_amount_HTW1Array() {
+//		return work_amount_HTW1Array;
+//	}
+//	public void setWork_amount_HTW1Array(int work_amount_HTW1Array) {
+//		this.work_amount_HTW1Array = work_amount_HTW1Array;
+//	}
+//	public int getWork_amount_HTW2Array() {
+//		return work_amount_HTW2Array;
+//	}
+//	public void setWork_amount_HTW2Array(int work_amount_HTW2Array) {
+//		this.work_amount_HTW2Array = work_amount_HTW2Array;
+//	}
+//	public int getWork_amount_HTW3rray() {
+//		return work_amount_HTW3rray;
+//	}
+//	public void setWork_amount_HTW3rray(int work_amount_HTW3rray) {
+//		this.work_amount_HTW3rray = work_amount_HTW3rray;
+//	}
+//	public int getWork_amount_HTW4Array() {
+//		return work_amount_HTW4Array;
+//	}
+//	public void setWork_amount_HTW4Array(int work_amount_HTW4Array) {
+//		this.work_amount_HTW4Array = work_amount_HTW4Array;
+//	}
+//	public int getWork_amount_HTW5Array() {
+//		return work_amount_HTW5Array;
+//	}
+//	public void setWork_amount_HTW5Array(int work_amount_HTW5Array) {
+//		this.work_amount_HTW5Array = work_amount_HTW5Array;
+//	}
+//	public int getWork_manpowerArray() {
+//		return work_manpowerArray;
+//	}
+//	public void setWork_manpowerArray(int work_manpowerArray) {
+//		this.work_manpowerArray = work_manpowerArray;
+//	}
+//	public String getWork_xrayArray() {
+//		return work_xrayArray;
+//	}
+//	public void setWork_xrayArray(String work_xrayArray) {
+//		this.work_xrayArray = work_xrayArray;
+//	}
+//	public String getWork_PAUTArray() {
+//		return work_PAUTArray;
+//	}
+//	public void setWork_PAUTArray(String work_PAUTArray) {
+//		this.work_PAUTArray = work_PAUTArray;
+//	}
+//	public String getWork_charyangArray() {
+//		return work_charyangArray;
+//	}
+//	public void setWork_charyangArray(String work_charyangArray) {
+//		this.work_charyangArray = work_charyangArray;
+//	}
 	public int getWork_num_total() {
 		return work_num_total;
 	}
@@ -352,31 +352,6 @@ public class ReportVO extends WorkingDailyBaseVO {
 	}
 	public void setHtw_htw5(String htw_htw5) {
 		this.htw_htw5 = htw_htw5;
-	}
-	
-	@Override
-	public String toString() {
-		return "ReportVO [work_num=" + work_num + ", work_name=" + work_name + ", work_amount_HTW1=" + work_amount_HTW1
-				+ ", work_amount_HTW2=" + work_amount_HTW2 + ", work_amount_HTW3=" + work_amount_HTW3
-				+ ", work_amount_HTW4=" + work_amount_HTW4 + ", work_amount_HTW5=" + work_amount_HTW5
-				+ ", work_manpower=" + work_manpower + ", work_xray=" + work_xray + ", work_PAUT=" + work_PAUT
-				+ ", work_charyang=" + work_charyang + ", work_title=" + work_title + ", work_price=" + work_price
-				+ ", update_date=" + update_date + ", work_name_total=" + work_name_total + ", work_xray_total="
-				+ work_xray_total + ", work_PAUT_total=" + work_PAUT_total + ", work_charyang_total="
-				+ work_charyang_total + ", login_work_area_total=" + login_work_area_total + ", work_title_total="
-				+ work_title_total + ", work_date_total=" + work_date_total + ", work_amount_HTW1Array="
-				+ work_amount_HTW1Array + ", work_amount_HTW2Array=" + work_amount_HTW2Array + ", work_amount_HTW3rray="
-				+ work_amount_HTW3rray + ", work_amount_HTW4Array=" + work_amount_HTW4Array + ", work_amount_HTW5Array="
-				+ work_amount_HTW5Array + ", work_manpowerArray=" + work_manpowerArray + ", work_xrayArray="
-				+ work_xrayArray + ", work_PAUTArray=" + work_PAUTArray + ", work_charyangArray=" + work_charyangArray
-				+ ", work_num_total=" + work_num_total + ", work_amount_HTW1_total=" + work_amount_HTW1_total
-				+ ", work_amount_HTW2_total=" + work_amount_HTW2_total + ", work_amount_HTW3_total="
-				+ work_amount_HTW3_total + ", work_amount_HTW4_total=" + work_amount_HTW4_total
-				+ ", work_amount_HTW5_total=" + work_amount_HTW5_total + ", work_manpower_total=" + work_manpower_total
-				+ ", unitcost_num=" + unitcost_num + ", unitcost_method=" + unitcost_method + ", unitcost_unitQuantity="
-				+ unitcost_unitQuantity + ", unitcost_cost=" + unitcost_cost + ", htw_num=" + htw_num + ", htw_htw1="
-				+ htw_htw1 + ", htw_htw2=" + htw_htw2 + ", htw_htw3=" + htw_htw3 + ", htw_htw4=" + htw_htw4
-				+ ", htw_htw5=" + htw_htw5 + "]";
 	}
 }
 

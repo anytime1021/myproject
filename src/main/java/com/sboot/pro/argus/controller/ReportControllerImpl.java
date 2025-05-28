@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sboot.pro.argus.DTO.BoardType;
 import com.sboot.pro.argus.DTO.CombinedSowDailyWorkLog;
 import com.sboot.pro.argus.DTO.DailyReportWorkrate;
@@ -458,7 +460,7 @@ public class ReportControllerImpl implements ReportController{
 	// testList2 이하 업체등록 및 익월예상보고
 	@GetMapping("/report/followingMonth.do")
 	public ModelAndView testList2(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("/report/testList2");
+		ModelAndView mav = new ModelAndView("/report/followingMonth");
 		HttpSession session = request.getSession();
 		LoginVO login = (LoginVO) session.getAttribute("login");
 		String searchArea = login.getLogin_area();
@@ -577,13 +579,15 @@ public class ReportControllerImpl implements ReportController{
 		if (work_date_before == null) {
 			LocalDate today = LocalDate.now();
 			work_date_before = today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			LocalDate date = LocalDate.parse(work_date_before, formatter);
+			LocalDate previousDate = date.minusDays(1);
+			work_date_before = previousDate.format(formatter);
 		}
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		LocalDate date = LocalDate.parse(work_date_before, formatter);
-		LocalDate previousDate = date.minusDays(1);
-		String work_date = previousDate.format(formatter);
 		
-		// 1. 작업 현황	    
+		String work_date = work_date_before;
+
+		// 1. 작업 현황
 		ReportVO HowToWork = reportDAO.selectHTW(searchArea);
 	    mav.addObject("HowToWork", HowToWork);
 		
@@ -626,17 +630,20 @@ public class ReportControllerImpl implements ReportController{
 		
 		mav.addObject("btInHoursList", btInHoursList);
 		mav.addObject("btOutHoursList", btOutHoursList);
-		
+
 		// 출장자 전날 데이터
 		List<SowVO> btInListData = new ArrayList<>();
-		btInList = sowService.selectBusinessTrip(searchArea, "in", work_date);
+		btInListData = sowService.selectBusinessTrip(searchArea, "in", work_date);
 		
 		List<SowVO> btOutListData = new ArrayList<>();
-		btOutList = sowService.selectBusinessTrip(searchArea, "out", work_date);
+		btOutListData = sowService.selectBusinessTrip(searchArea, "out", work_date);
 		
+		ObjectMapper objectMapper = new ObjectMapper();
+		Iterator<SowVO> iterator = btInListData.iterator();
+
 		int btInCount = sowService.countBtViewList(searchArea, bt_in, work_date);
 		int btOutCount = sowService.countBtViewList(searchArea, bt_out, work_date);
-		
+
 		mav.addObject("btInListData", btInListData);
 		mav.addObject("btOutListData", btOutListData);
 		mav.addObject("btInCount", btInCount);
@@ -676,10 +683,10 @@ public class ReportControllerImpl implements ReportController{
 		@RequestParam(value = "work_amount_HTW4", required = false) String[] work_amount_HTW4Array,
 		@RequestParam(value = "work_amount_HTW5", required = false) String[] work_amount_HTW5Array,
 		@RequestParam(value = "work_manpower", required = false) String[] work_manpowerArray,
-		@RequestParam(value = "work_xray_total", required = false) String[] work_xray_totalArray,
-		@RequestParam(value = "work_PAUT_total", required = false) String[] work_PAUT_totalArray,
-		@RequestParam(value = "work_charyang_total", required = false) String[] work_charyang_totalArray,
-		@RequestParam(value = "work_num_total", required = false) int[] work_num_totalArray,
+		@RequestParam(value = "work_xray", required = false) String[] work_xrayArray,
+		@RequestParam(value = "work_PAUT", required = false) String[] work_PAUTArray,
+		@RequestParam(value = "work_charyang", required = false) String[] work_charyangArray,
+		@RequestParam(value = "fmonth_num", required = false) int[] fmonth_numArray,
 		@RequestParam(value = "sowDWL_name", required=false) String[] sowDWL_nameArray,
 		@RequestParam(value = "sowDWL_work_name", required=false) String[] sowDWL_work_nameArray,
 		@RequestParam(value = "sowDWL_shift", required=false) String[] sowDWL_shiftArray,
@@ -719,22 +726,22 @@ public class ReportControllerImpl implements ReportController{
 			reportVO.setWork_amount_HTW4(safeParseInt(work_amount_HTW4Array[i]));
 			reportVO.setWork_amount_HTW5(safeParseInt(work_amount_HTW5Array[i]));
 			reportVO.setWork_manpower(safeParseInt(work_manpowerArray[i]));
-			reportVO.setWork_xray(work_xray_totalArray[i]);
-			reportVO.setWork_PAUT(work_PAUT_totalArray[i]);
-			reportVO.setWork_charyang(work_charyang_totalArray[i]);
+			reportVO.setWork_xray(work_xrayArray[i]);
+			reportVO.setWork_PAUT(work_PAUTArray[i]);
+			reportVO.setWork_charyang(work_charyangArray[i]);
 			reportVO.setWork_date(work_date);
-			reportVO.setWork_num_total(work_num_totalArray[i]);
+			reportVO.setFmonth_num(fmonth_numArray[i]);
 			workReportList.add(reportVO);
 		}
 		reportService.addWorkReportList(searchArea, workReportList, board_title);
 		
 		int result = reportService.addReportMixed(searchArea, board_title, work_date);
-		
+
 		// 2. 근무현황
 		int forCounting = sowDAO.countNameLength(searchArea);
 		
 		List<SowVO> sowDailyWorkLogList = new ArrayList<>();
-		for (int i = 0; i < forCounting-1; i++) {
+		for (int i = 0; i < forCounting; i++) {
 			SowVO sowvo = new SowVO();
 			sowvo.setSowDWL_name(sowDWL_nameArray[i]);
 			sowvo.setSowDWL_work_name(sowDWL_work_nameArray[i]);
@@ -745,12 +752,13 @@ public class ReportControllerImpl implements ReportController{
 			sowDailyWorkLogList.add(sowvo);
 		}
 		sowService.sowAddDailyWorkLogList(searchArea, sowDailyWorkLogList, work_date);
-		
+
 		int inCounting = sowDAO.countBtNameLength(searchArea, "in");
 		int outCounting = sowDAO.countBtNameLength(searchArea, "out");
 		
 		List<SowVO> sowBusinessTripIn = new ArrayList<>();
-		for (int i = 0; i < inCounting-1; i++) {
+
+		for (int i = 0; i < inCounting; i++) {
 			SowVO sowvo = new SowVO();
 			sowvo.setSowDWL_name(sowDWL_name_inArray[i]);
 			sowvo.setSowDWL_work_name(sowDWL_work_name_inArray[i]);
@@ -764,7 +772,7 @@ public class ReportControllerImpl implements ReportController{
 		if (!sowBusinessTripIn.isEmpty()) {
 			sowService.sowAddBusinessTrip(searchArea, sowBusinessTripIn, work_date);
 		}
-		
+
 		List<SowVO> sowBusinessTripOut = new ArrayList<>();
 		for (int i = 0; i < outCounting-1; i++) {
 			SowVO sowvo = new SowVO();
@@ -930,6 +938,241 @@ public class ReportControllerImpl implements ReportController{
 		
 		mav.addObject("resultsSum", resultsSum);
 		mav.addObject("work_date", work_date);
+		return mav;
+	}
+	
+	@GetMapping("/report/modDailyReportFormMixed.do")
+	public ModelAndView modDailyReportFormMixed(@RequestParam("work_date") String work_date, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/report/modDailyReportFormMixed");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		
+		// 1. 작업 현황
+		ReportVO HowToWork = reportDAO.selectHTW(searchArea);
+	    mav.addObject("HowToWork", HowToWork);
+		
+	    List<ReportVO> workrateFormBefore = reportService.workrateFormBefore(searchArea, work_date);
+		mav.addObject("workrateFormBefore", workrateFormBefore);
+		
+		List<ReportVO> selectFmonth = reportDAO.selectFmonth(searchArea);
+		mav.addObject("selectFmonth", selectFmonth);
+		
+		// 2. 근무 현황
+		CombinedSowDailyWorkLog data = sowService.getCombinedSowDailyWorkLog(searchArea, work_date);
+		
+		List<SowVO> sowViewList = data.getSowDailyWorkLog();
+		List<SowVO> sumOverTime = data.getSumOverTime();
+		
+		mav.addObject("sowViewList", sowViewList);
+		mav.addObject("sumOverTime", sumOverTime);
+		
+		// 출장자 목록
+		List<SowVO> btInList = new ArrayList<SowVO>();
+		String bt_in = "in";
+		btInList = sowService.selectBtEmployeeList(searchArea, bt_in);
+		
+		String bt_out = "out";
+		List<SowVO> btOutList = new ArrayList<SowVO>();
+		btOutList = sowService.selectBtEmployeeList(searchArea, bt_out);
+		
+		mav.addObject("btInList", btInList);
+		mav.addObject("btOutList", btOutList);
+		
+		// 출장자 근무시간
+		List<Integer> btInHoursList = new ArrayList<>();
+		for (int i=0; i<btInList.size(); i++) {
+			btInHoursList.add(8);
+		}
+		List<Integer> btOutHoursList = new ArrayList<>();
+		for (int i=0; i<btOutList.size(); i++) {
+			btOutHoursList.add(8);
+		}
+		
+		mav.addObject("btInHoursList", btInHoursList);
+		mav.addObject("btOutHoursList", btOutHoursList);
+
+		// 출장자 전날 데이터
+		List<SowVO> btInListData = new ArrayList<>();
+		btInListData = sowService.selectBusinessTrip(searchArea, "in", work_date);
+		
+		List<SowVO> btOutListData = new ArrayList<>();
+		btOutListData = sowService.selectBusinessTrip(searchArea, "out", work_date);
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		Iterator<SowVO> iterator = btInListData.iterator();
+
+		int btInCount = sowService.countBtViewList(searchArea, bt_in, work_date);
+		int btOutCount = sowService.countBtViewList(searchArea, bt_out, work_date);
+
+		mav.addObject("btInListData", btInListData);
+		mav.addObject("btOutListData", btOutListData);
+		mav.addObject("btInCount", btInCount);
+		mav.addObject("btOutCount", btOutCount);
+		
+		// 현장명
+		List<SowVO> fmonthName = new ArrayList<SowVO>();
+		fmonthName = sowDAO.selectWorkName(searchArea);
+		
+		// 직원 목록
+		List<SowVO> empList = new ArrayList<SowVO>();
+		empList = sowService.selectEmployeeList(searchArea);
+		
+		// 근무시간
+		List<Integer> hoursList = new ArrayList<>();
+		for (int i=0; i<empList.size(); i++) {
+			hoursList.add(8);
+		}
+			
+		mav.addObject("fmonthName", fmonthName); 
+		mav.addObject("empList", empList);
+		mav.addObject("searchArea", searchArea);
+		mav.addObject("hoursList", hoursList);
+		
+		// 3. 실적
+		List<ReportVO> fmonth_list = reportDAO.selectFmonth(searchArea);
+		mav.addObject("fmonth_list", fmonth_list);
+		
+		List<ResultsVO> results_list = resultsService.selectResultsList(searchArea, work_date);
+		mav.addObject("results_list", results_list);
+		
+		// 날짜 및 기타 수정폼 기능 - DAO직행
+		mav.addObject("work_date", work_date);
+		
+		String board_title = reportDAO.selectBoardTitle(searchArea, work_date);
+		mav.addObject("board_title", board_title);
+		
+		return mav;
+	}
+	
+	@PostMapping("/report/modDailyReportMixed.do")
+	public ModelAndView modDailyReportMixed(@RequestParam("work_date") String work_date, @RequestParam("board_title") String board_title,
+		@RequestParam(value = "work_name", required =false) String[] work_nameArray,
+		@RequestParam(value = "work_amount_HTW1", required = false) String[] work_amount_HTW1Array,
+		@RequestParam(value = "work_amount_HTW2", required = false) String[] work_amount_HTW2Array,
+		@RequestParam(value = "work_amount_HTW3", required = false) String[] work_amount_HTW3Array,
+		@RequestParam(value = "work_amount_HTW4", required = false) String[] work_amount_HTW4Array,
+		@RequestParam(value = "work_amount_HTW5", required = false) String[] work_amount_HTW5Array,
+		@RequestParam(value = "work_manpower", required = false) String[] work_manpowerArray,
+		@RequestParam(value = "work_xray", required = false) String[] work_xrayArray,
+		@RequestParam(value = "work_PAUT", required = false) String[] work_PAUTArray,
+		@RequestParam(value = "work_charyang", required = false) String[] work_charyangArray,
+		@RequestParam(value = "fmonth_num", required = false) int[] fmonth_numArray,
+		@RequestParam(value = "sowDWL_name", required=false) String[] sowDWL_nameArray,
+		@RequestParam(value = "sowDWL_work_name", required=false) String[] sowDWL_work_nameArray,
+		@RequestParam(value = "sowDWL_shift", required=false) String[] sowDWL_shiftArray,
+		@RequestParam(value = "sowDWL_hours", required=false) String[] sowDWL_hoursArray,
+		@RequestParam(value = "sowDWL_overtime", required=false) String[] sowDWL_overtimeArray,
+		@RequestParam(value = "emp_num", required=false) String[] emp_numArray,
+		@RequestParam(value = "sowDWL_name_in", required=false) String[] sowDWL_name_inArray,
+		@RequestParam(value = "sowDWL_work_name_in", required=false) String[] sowDWL_work_name_inArray,
+		@RequestParam(value = "sowDWL_shift_in", required=false) String[] sowDWL_shift_inArray,
+		@RequestParam(value = "sowDWL_hours_in", required=false) String[] sowDWL_hours_inArray,
+		@RequestParam(value = "sowDWL_overtime_in", required=false) String[] sowDWL_overtime_inArray,
+		@RequestParam(value = "emp_num_in", required=false) String[] emp_num_inArray,
+		@RequestParam(value = "sowDWL_name_out", required=false) String[] sowDWL_name_outArray,
+		@RequestParam(value = "sowDWL_work_name_out", required=false) String[] sowDWL_work_name_outArray,
+		@RequestParam(value = "sowDWL_shift_out", required=false) String[] sowDWL_shift_outArray,
+		@RequestParam(value = "sowDWL_hours_out", required=false) String[] sowDWL_hours_outArray,
+		@RequestParam(value = "sowDWL_overtime_out", required=false) String[] sowDWL_overtime_outArray,
+		@RequestParam(value = "emp_num_out", required=false) String[] emp_num_outArray,
+		@RequestParam(value = "fmonth_name", required = false) String[] fmonth_nameArray,
+		@RequestParam(value = "fmonth_profits", required = false) String[] fmonth_profitsArray,
+		@RequestParam(value = "results_dailyprofits", required = false) String[] results_dailyprofitsArray,
+		@RequestParam(value = "note", required = false) String[] noteArray,
+		HttpServletRequest request) throws Exception {
+		// 세션값받기
+		ModelAndView mav = new ModelAndView("redirect:/report/reportViewMixed.do?work_date="+work_date);
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		
+		// 1. 작업현황
+		List<ReportVO> workReportList = new ArrayList<>();
+		for (int i = 0; i < work_amount_HTW1Array.length; i++) {
+			ReportVO reportVO = new ReportVO();
+			reportVO.setWork_name(work_nameArray[i]);
+			reportVO.setWork_amount_HTW1(safeParseInt(work_amount_HTW1Array[i]));
+			reportVO.setWork_amount_HTW2(safeParseInt(work_amount_HTW2Array[i]));
+			reportVO.setWork_amount_HTW3(safeParseInt(work_amount_HTW3Array[i]));
+			reportVO.setWork_amount_HTW4(safeParseInt(work_amount_HTW4Array[i]));
+			reportVO.setWork_amount_HTW5(safeParseInt(work_amount_HTW5Array[i]));
+			reportVO.setWork_manpower(safeParseInt(work_manpowerArray[i]));
+			reportVO.setWork_xray(work_xrayArray[i]);
+			reportVO.setWork_PAUT(work_PAUTArray[i]);
+			reportVO.setWork_charyang(work_charyangArray[i]);
+			reportVO.setWork_date(work_date);
+			reportVO.setFmonth_num(fmonth_numArray[i]);
+			workReportList.add(reportVO);
+		}
+		reportService.addWorkReportList(searchArea, workReportList, board_title);
+		
+		int result = reportService.addReportMixed(searchArea, board_title, work_date);
+
+		// 2. 근무현황
+		int forCounting = sowDAO.countNameLength(searchArea);
+		
+		List<SowVO> sowDailyWorkLogList = new ArrayList<>();
+		for (int i = 0; i < forCounting; i++) {
+			SowVO sowvo = new SowVO();
+			sowvo.setSowDWL_name(sowDWL_nameArray[i]);
+			sowvo.setSowDWL_work_name(sowDWL_work_nameArray[i]);
+			sowvo.setSowDWL_shift(sowDWL_shiftArray[i]);
+			sowvo.setSowDWL_hours(nullReturnZero(sowDWL_hoursArray[i]));
+			sowvo.setSowDWL_overtime(nullReturnZero(sowDWL_overtimeArray[i]));
+			sowvo.setEmp_num(nullReturnZero(emp_numArray[i]));
+			sowDailyWorkLogList.add(sowvo);
+		}
+		sowService.sowAddDailyWorkLogList(searchArea, sowDailyWorkLogList, work_date);
+
+		int inCounting = sowDAO.countBtNameLength(searchArea, "in");
+		int outCounting = sowDAO.countBtNameLength(searchArea, "out");
+		
+		List<SowVO> sowBusinessTripIn = new ArrayList<>();
+
+		for (int i = 0; i < inCounting; i++) {
+			SowVO sowvo = new SowVO();
+			sowvo.setSowDWL_name(sowDWL_name_inArray[i]);
+			sowvo.setSowDWL_work_name(sowDWL_work_name_inArray[i]);
+			sowvo.setSowDWL_shift(sowDWL_shift_inArray[i]);
+			sowvo.setSowDWL_hours(nullReturnZero(sowDWL_hours_inArray[i]));
+			sowvo.setSowDWL_overtime(nullReturnZero(sowDWL_overtime_inArray[i]));
+			sowvo.setBt_inout("in");
+			sowvo.setEmp_num(nullReturnZero(emp_num_inArray[i]));
+			sowBusinessTripIn.add(sowvo);
+		}
+		if (!sowBusinessTripIn.isEmpty()) {
+			sowService.sowAddBusinessTrip(searchArea, sowBusinessTripIn, work_date);
+		}
+
+		List<SowVO> sowBusinessTripOut = new ArrayList<>();
+		for (int i = 0; i < outCounting-1; i++) {
+			SowVO sowvo = new SowVO();
+			sowvo.setSowDWL_name(sowDWL_name_outArray[i]);
+			sowvo.setSowDWL_work_name(sowDWL_work_name_outArray[i]);
+			sowvo.setSowDWL_shift(sowDWL_shift_outArray[i]);
+			sowvo.setSowDWL_hours(nullReturnZero(sowDWL_hours_outArray[i]));
+			sowvo.setSowDWL_overtime(nullReturnZero(sowDWL_overtime_outArray[i]));
+			sowvo.setBt_inout("out");
+			sowvo.setEmp_num(nullReturnZero(emp_num_outArray[i]));
+			sowBusinessTripOut.add(sowvo);
+		}
+		if (!sowBusinessTripOut.isEmpty()) {
+			sowService.sowAddBusinessTrip(searchArea, sowBusinessTripOut, work_date);
+		}
+		
+		// 3. 실적
+		List<ResultsVO> addResultsList = new ArrayList<>();
+		for (int i = 0; i < fmonth_nameArray.length; i++) {
+			ResultsVO resultsVO = new ResultsVO();
+			resultsVO.setFmonth_name(fmonth_nameArray[i]);
+			resultsVO.setFmonth_profits(new BigDecimal(fmonth_profitsArray[i]));
+			resultsVO.setResults_dailyprofits(safeParseDecimal(results_dailyprofitsArray[i]));
+			resultsVO.setNote(noteArray[i]);
+			addResultsList.add(resultsVO);
+		}
+		
+		int boardResult = resultsService.addResultsBoard(searchArea, work_date);
+		int listResult = resultsService.addResultsList(searchArea, work_date, addResultsList);
+		
 		return mav;
 	}
 }

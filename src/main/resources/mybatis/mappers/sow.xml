@@ -90,15 +90,15 @@
 <!--		AND work_date BETWEEN #{start_date} AND #{work_date}-->
 <!--		GROUP BY shift_type-->
 <!--		ORDER BY FIELD(shift_type, '주', '야', '야간추가')-->
-		select distinct b.sowDWL_work_name, ifnull(sum(b.sowDWL_overtime),0) as weeklyShiftAdditional, ifnull(sum(c.sowDWL_hours),0) as nightShift, ifnull(sum(c.sowDWL_overtime),0) as nightShiftAdditional
-		from followingmonth a left outer join (select distinct sowDWL_work_name, sowDWL_overtime, work_date from sowdailyworklog where sowDWL_shift='주') b on a.fmonth_name = b.sowDWL_work_name
-		left outer join (select distinct sowDWL_work_name, sowDWL_overtime, sowDWL_hours, work_date from sowdailyworklog where sowDWL_shift='야') c on a.fmonth_name = c.sowDWL_work_name 
-		where b.work_date between #{start_date} and #{work_date} and login_area=#{searchArea} group by sowDWL_work_name
-		UNION ALL
-		select distinct '합계' as sowDWL_work_name, ifnull(sum(b.sowDWL_overtime),0) as weeklyShiftAdditional, ifnull(sum(c.sowDWL_hours),0) as nightShift, ifnull(sum(c.sowDWL_overtime),0) as nightShiftAdditional
-		from followingmonth a left outer join (select distinct sowDWL_work_name, sowDWL_overtime, work_date from sowdailyworklog where sowDWL_shift='주') b on a.fmonth_name = b.sowDWL_work_name
-		left outer join (select distinct sowDWL_work_name, sowDWL_overtime, sowDWL_hours, work_date from sowdailyworklog where sowDWL_shift='야') c on a.fmonth_name = c.sowDWL_work_name 
-		where b.work_date between #{start_date} and #{work_date} and login_area=#{searchArea}
+		select distinct a.fmonth_name, ifnull(sum(b.sowDWL_overtime), 0) as weeklyShiftAdditional, ifnull(sum(c.sowDWL_hours), 0) as nightShift, ifnull(sum(c.sowDWL_overtime), 0) as nightShiftAdditional
+    	from followingmonth a left outer join (select sowDWL_work_name, sowDWL_overtime, work_date from sowdailyworklog where sowDWL_shift = '주') b ON a.fmonth_name = b.sowDWL_work_name and b.work_date between #{start_date} and #{work_date}
+		left outer join (select sowDWL_work_name, sowDWL_overtime, sowDWL_hours, work_date from sowdailyworklog where sowDWL_shift = '야') c on a.fmonth_name = c.sowDWL_work_name and c.work_date between #{start_date} and #{work_date}
+		where a.login_area = #{searchArea} group by a.fmonth_name
+		union all
+		select distinct '합계' as fmonth_name, ifnull(sum(b.sowDWL_overtime),0) as weeklyShiftAdditional, ifnull(sum(c.sowDWL_hours),0) as nightShift, ifnull(sum(c.sowDWL_overtime),0) as nightShiftAdditional
+		from followingmonth a left outer join (select distinct sowDWL_work_name, sowDWL_overtime, work_date from sowdailyworklog where sowDWL_shift='주') b on a.fmonth_name = b.sowDWL_work_name and b.work_date between #{start_date} and #{work_date}
+		left outer join (select distinct sowDWL_work_name, sowDWL_overtime, sowDWL_hours, work_date from sowdailyworklog where sowDWL_shift='야') c on a.fmonth_name = c.sowDWL_work_name and c.work_date between #{start_date} and #{work_date}
+		where login_area=#{searchArea};
 	</select>
 	
 	<select id="selectShiftType" parameterType="String">

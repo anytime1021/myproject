@@ -5,56 +5,56 @@
 	
 	
 	<!-- selectTestList2 -->
-	<select id="selectTestList2" resultType="reportVO">
-		select work_name_total, sum(work_amount_HTW1_total) as work_amount_HTW1_total, sum(work_amount_HTW2_total) as work_amount_HTW2_total, sum(work_amount_HTW3_total) as work_amount_HTW3_total
-		,sum(work_amount_HTW4_total) as work_amount_HTW4_total from workrate_total where work_date_total like '%2025-03%' group by work_name_total;
-	</select>
+<!--	<select id="selectTestList2" resultType="reportVO">-->
+<!--		select work_name_total, sum(work_amount_HTW1_total) as work_amount_HTW1_total, sum(work_amount_HTW2_total) as work_amount_HTW2_total, sum(work_amount_HTW3_total) as work_amount_HTW3_total-->
+<!--		,sum(work_amount_HTW4_total) as work_amount_HTW4_total from workrate_total where work_date_total like '%2025-03%' group by work_name_total;-->
+<!--	</select>-->
 	
 	<!-- selectTestList3 -->
-	<select id="selectTestList3" resultType="reportVO">
-		select work_name_total, sum(work_amount_HTW1_total) as work_amount_HTW1_total, sum(work_amount_HTW2_total) as work_amount_HTW2_total, sum(work_amount_HTW3_total) as work_amount_HTW3_total
-		,sum(work_amount_HTW4_total) as work_amount_HTW4_total from workrate_total where work_date_total like '%2025-03%' and login_area = #{s} group by work_name_total;
-	</select>
+<!--	<select id="selectTestList3" resultType="reportVO">-->
+<!--		select work_name_total, sum(work_amount_HTW1_total) as work_amount_HTW1_total, sum(work_amount_HTW2_total) as work_amount_HTW2_total, sum(work_amount_HTW3_total) as work_amount_HTW3_total-->
+<!--		,sum(work_amount_HTW4_total) as work_amount_HTW4_total from workrate_total where work_date_total like '%2025-03%' and login_area = #{s} group by work_name_total;-->
+<!--	</select>-->
 	
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- 2025-04-17 전체 수정 후 -->
 	<!-- 작업현황 현장 추가 폼 -->
-	<select id="selectWorkTotal" resultType="reportVO">
-		select * from workrate_total where login_area = #{searchArea} and YN = 'Y'
-	</select>
+<!--	<select id="selectWorkTotal" resultType="reportVO">-->
+<!--		select * from workrate_total where login_area = #{searchArea} and YN = 'Y'-->
+<!--	</select>-->
 	
-	<!-- 작업현황 현장 추가 -->
-	<insert id="insertTotalReport" parameterType="reportVO">
-		insert into workrate_total(work_name_total, work_xray_total, work_PAUT_total, work_charyang_total, login_area)
-		values
-		<foreach collection="addTotal" item="item" separator=",">
-			(#{item.work_name_total}, #{item.work_xray_total}, #{item.work_PAUT_total}, #{item.work_charyang_total}, #{searchArea}) 
-		</foreach>
-	</insert>
+<!--	 작업현황 현장 추가 -->
+<!--	<insert id="insertTotalReport" parameterType="reportVO">-->
+<!--		insert into workrate_total(work_name_total, work_xray_total, work_PAUT_total, work_charyang_total, login_area)-->
+<!--		values-->
+<!--		<foreach collection="addTotal" item="item" separator=",">-->
+<!--			(#{item.work_name_total}, #{item.work_xray_total}, #{item.work_PAUT_total}, #{item.work_charyang_total}, #{searchArea}) -->
+<!--		</foreach>-->
+<!--	</insert>-->
 	
 <!--	<insert id="insertTotalReport" parameterType="reportVO">-->
 <!--		insert into workrate_total(work_name_total, login_area)-->
 <!--				values(#{work_name_total}, #{searchArea}) -->
 <!--	</insert>-->
 	
-	<!-- 작업현황 현장 수정폼 -->
-	<update id="updateTotalReportList" parameterType="Map">
-		<foreach collection="modTotalReportList" item="item" separator=";">
-		update workrate_total
-		set work_name_total = #{item.work_name_total},
-		work_xray_total = #{item.work_xray_total},
-		work_PAUT_total = #{item.work_PAUT_total},
-		work_charyang_total = #{item.work_charyang_total}
-		where fmonth_num = #{item.fmonth_num}
-		</foreach>
-	</update>
+<!--	 작업현황 현장 수정폼 -->
+<!--	<update id="updateTotalReportList" parameterType="Map">-->
+<!--		<foreach collection="modTotalReportList" item="item" separator=";">-->
+<!--		update workrate_total-->
+<!--		set work_name_total = #{item.work_name_total},-->
+<!--		work_xray_total = #{item.work_xray_total},-->
+<!--		work_PAUT_total = #{item.work_PAUT_total},-->
+<!--		work_charyang_total = #{item.work_charyang_total}-->
+<!--		where fmonth_num = #{item.fmonth_num}-->
+<!--		</foreach>-->
+<!--	</update>-->
 	
 	<!-- 작업현황 행 삭제 -->
-	<delete id="deleteTotalReportRow" parameterType="int">
-		update workrate_total
-		set YN = 'N'
-		where fmonth_num = #{fmonth_num}
-	</delete>
+<!--	<delete id="deleteTotalReportRow" parameterType="int">-->
+<!--		update workrate_total-->
+<!--		set YN = 'N'-->
+<!--		where fmonth_num = #{fmonth_num}-->
+<!--	</delete>-->
 	
 <!--	 일일 보고서 글쓰기 양식 -->
 <!--	<select id="selectAddReportForm" parameterType="String" resultType="reportVO">-->
@@ -105,9 +105,9 @@
 		select * from HowToWork where login_area = #{searchArea}
 	</select>
 	
-	<select id="selectWorkTotalByView" resultType="reportVO">
-		select * from workrate_total where login_area = #{searchArea}
-	</select>
+<!--	<select id="selectWorkTotalByView" resultType="reportVO">-->
+<!--		select * from workrate_total where login_area = #{searchArea}-->
+<!--	</select>-->
 	
 	<!-- 일일 보고서 합계 -->
 	<select id="selectTotalSum" resultType="ReportVO">
@@ -239,5 +239,9 @@
 	
 	<select id="selectWorkrateFormBefore" parameterType="Map">
 		select * from workrate where login_area = #{searchArea} and work_date = #{work_date}
+	</select>
+	
+	<select id="selectBoardTitle" parameterType="Map">
+		select board_title from reportmixed_board where board_area = #{searchArea} and work_date = #{work_date}
 	</select>
 </mapper>

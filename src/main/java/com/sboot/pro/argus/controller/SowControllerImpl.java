@@ -364,7 +364,7 @@ public class SowControllerImpl implements SowController {
 	@Override
 	@PostMapping("/sow/sowAddEmployee.do")
 	public ModelAndView sowAddEmployee(@RequestParam("emp_name") String emp_name, @RequestParam("emp_position") String emp_position, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("redirect:/report/sowAddEmployeeForm.do");
+		ModelAndView mav = new ModelAndView("redirect:/sow/sowAddEmployeeForm.do");
 		HttpSession session = request.getSession();
 		LoginVO login = (LoginVO) session.getAttribute("login");
 		String searchArea = login.getLogin_area();

@@ -16,7 +16,7 @@
 
 <h3>직원 등록</h3>
 <span id="amountText" style="margin-left:10px; color:gray;"></span>
-
+<a href="${contextPath}/report/addDailyReportFormMixed.do">돌아가기</a>
 <!-- 현장 선택 -->
 <div class="addForm">
 	<div class="divLeft">

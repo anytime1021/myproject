@@ -15,7 +15,8 @@
 </head>
 <body>
 
-<h3>익월 용역 예상 보고(미완 - 추후 진행 예정)</h3>
+<h3>익월 용역 예상 보고(미완 - 추후 진행 예정) 11111</h3>
+<a href="${contextPath}/report/reportArea.do">돌아가기</a>
 <span id="amountText" style="margin-left:10px; color:gray;"></span>
 
 <!-- 현장 선택 -->
@@ -72,7 +73,6 @@
 			</div>
 	    </div>
 	</div>
-	<a href="${contextPath}/report/reportArea.do">돌아가기</a>
 </div>
 <!-- jQuery + JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -83,7 +83,7 @@ $(function() {
         return x.replace(/[^0-9]/g, '') // 숫자만 남김
                 .replace(/\B(?=(\d{3})+(?!\d))/g, ','); // 쉼표 삽입
     }
-
+	
     // 수정하기 클릭 시
     $('.edit-btn').on('click', function() {
         const $row = $(this).closest('tr');

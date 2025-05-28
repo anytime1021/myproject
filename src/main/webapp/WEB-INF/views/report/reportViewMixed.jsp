@@ -109,9 +109,9 @@
 								<td style="width:7%;">${dailyReportViewMerged.work_amount_HTW4} / ${dailyReportViewMerged.work_amount_HTW4_total}</td>
 								<td style="width:7%;">${dailyReportViewMerged.work_amount_HTW5} / ${dailyReportViewMerged.work_amount_HTW5_total}</td>
 								<td style="width:14%;">${dailyReportViewMerged.work_manpower} / ${dailyReportViewMerged.work_manpower_total}</td>
-								<td style="width:7%;">${dailyReportViewMerged.work_xray_total}</td>
-								<td style="width:7%;">${dailyReportViewMerged.work_PAUT_total}</td>
-								<td colspan="2" style="width:19%;">${dailyReportViewMerged.work_charyang_total}</td>
+								<td style="width:7%;">${dailyReportViewMerged.work_xray}</td>
+								<td style="width:7%;">${dailyReportViewMerged.work_PAUT}</td>
+								<td colspan="2" style="width:19%;">${dailyReportViewMerged.work_charyang}</td>
 							</tr>
 						</c:forEach>
 						<tr>
@@ -315,8 +315,7 @@
 								<td style="width:6%; height:30px;">연차</td>
 								<td style="width:6%; height:30px;">병가</td>
 								<td style="width:6%; height:30px;">훈련</td>
-								<td style="width:6%; height:30px;">기타</td>
-								<td style="width:6%; height:30px;">비고</td>
+								<td colspan="2" style="width:12%; height:30px;">비고</td>
 							</tr>
 						</thead>
 						<tbody>
@@ -393,14 +392,14 @@
 												</c:if>
 											</c:forEach>
 										</td>
-										<td style="width:6%;" rowspan="3">
-											<c:forEach var="shiftType" items="${shiftType}">
-												<c:if test="${shiftType.sowDWL_shift == '기타'}">
-													${shiftType.sowDWL_name}
-												</c:if>
-											</c:forEach>
-										</td>
-										<td style="width:6%;" rowspan="3">
+<!--										<td style="width:6%;" rowspan="3">-->
+<!--											<c:forEach var="shiftType" items="${shiftType}">-->
+<!--												<c:if test="${shiftType.sowDWL_shift == '기타'}">-->
+<!--													${shiftType.sowDWL_name}-->
+<!--												</c:if>-->
+<!--											</c:forEach>-->
+<!--										</td>-->
+										<td style="width:6%;" colspan="2" rowspan="3">
 										</td>
 									</c:if>
 								</tr>
@@ -457,6 +456,17 @@
 							</tr>
 						</tbody>
 					</table>
+					<br>
+				</div>
+			</section>
+			<section class="work-rate-flex">
+				<div class="work-basic">
+				</div>
+				<div class="work-basic2">
+					<a href="${contextPath}/report/modDailyReportFormMixed.do?work_date=${work_date}">수정하기</a>
+				</div>
+				<div class="work-basic2">
+					<a href="${contextPath}/report/deleteDailyReportMixed.do?work_date=${work_date}">삭제하기</a>
 				</div>
 			</section>
 		</article>

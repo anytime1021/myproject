@@ -14,4 +14,5 @@ public interface ResultsService {
 	// 실적 보기
 	public List<ResultsVO> selectResultsList(String searchArea, String work_date) throws Exception;
 	public ResultsVO selectResultsSum(String searchArea, String work_date) throws Exception;
+	
 }
