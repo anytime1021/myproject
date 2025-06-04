@@ -76,7 +76,7 @@ public interface ReportDAO {
 	
 	// 일일 보고서 수정
 	public void insertWorkReportUpdateLog(@Param("searchArea") String searchArea, @Param("work_date") String work_date, @Param("login_id") String login_id) throws Exception;
-	public void updateWorkReport(@Param("searchArea") String searchArea, @Param("modWorkReportList") List<ReportVO> modWorkReportList, @Param("work_date") String work_date) throws Exception;
+	public void updateWorkReportList(@Param("searchArea") String searchArea, @Param("modWorkReportList") List<ReportVO> modWorkReportList, @Param("work_date") String work_date) throws Exception;
 	// 일일 보고서 수정 - 수정횟수 카운트
 	public int getCountModLog(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
 	public List<ReportVO> selectModLog(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
@@ -96,14 +96,20 @@ public interface ReportDAO {
 	public int updateFmonth(ReportVO vo) throws Exception;
 	public void deleteFmonth(ReportVO vo) throws Exception;
 	
-	
+	// 추가
 	public int insertReportMixed(@Param("searchArea") String searchArea, @Param("board_title") String board_title, @Param("work_date") String work_date) throws Exception;
 
 	// 날짜 검색
 	public String selectWorkdate(String searchArea);
 	
-	
+	// 이전날 정보 가져오기
 	public List<ReportVO> selectWorkrateFormBefore(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
 	
-	public String selectBoardTitle(@Param("searchArea") String searchArea, @Param("work_date") String work_date);
+	// 게시글 생성
+	public String selectBoardTitle(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
+
+	// 게시글 수정
+	public int updateReportMixed(@Param("searchArea") String searchArea, @Param("board_title") String board_title, @Param("work_date") String work_date) throws Exception;
+
+	//	public int countBoardList(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
 }

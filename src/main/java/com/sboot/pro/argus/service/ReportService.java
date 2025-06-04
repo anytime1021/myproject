@@ -69,8 +69,12 @@ public interface ReportService {
 	
 	
 	
-	
+	// 추가
 	public int addReportMixed(String searchArea, String board_title, String work_date) throws Exception;
 
+	// 전날 정보 불러오기
 	public List<ReportVO> workrateFormBefore(String searchArea, String work_date) throws Exception;
+	
+	// 수정
+	public int modReportMixed(String searchArea, String board_title, String work_date) throws Exception;
 }

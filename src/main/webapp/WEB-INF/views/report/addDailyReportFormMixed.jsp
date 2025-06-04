@@ -383,6 +383,7 @@
 			}
 		});
 	});
+	
 	const allInputs = document.querySelectorAll("input[name='empName']");
 	allInputs.forEach(input => {
 	  console.log("empName:", input.value);

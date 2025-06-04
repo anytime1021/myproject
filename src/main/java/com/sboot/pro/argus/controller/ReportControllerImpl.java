@@ -733,6 +733,7 @@ public class ReportControllerImpl implements ReportController{
 			reportVO.setFmonth_num(fmonth_numArray[i]);
 			workReportList.add(reportVO);
 		}
+
 		reportService.addWorkReportList(searchArea, workReportList, board_title);
 		
 		int result = reportService.addReportMixed(searchArea, board_title, work_date);
@@ -867,6 +868,11 @@ public class ReportControllerImpl implements ReportController{
 	    ReportVO HowToWork = reportDAO.selectHTW(searchArea);
 	    mav.addObject("HowToWork", HowToWork);
 	    
+		// 추가시간 총합 return
+		String start_date = work_date.substring(0,7) + "-01";
+		int sumOvertime = sowDAO.sumOvertime(searchArea, start_date, work_date);
+		mav.addObject("sumOvertime", sumOvertime);
+	    
 	    // 2. 근무현황
 	    CombinedSowDailyWorkLog data = sowService.getCombinedSowDailyWorkLog(searchArea, work_date);
 		
@@ -916,8 +922,8 @@ public class ReportControllerImpl implements ReportController{
 		List<SowVO> shiftType = new ArrayList<SowVO>();
 		shiftType = sowService.selectShiftType(searchArea, work_date);
 		
-		List<String> shiftNames = List.of("교육", "출장(입)", "출장(출)", "경조", "시험", "연차", "병가", "훈련", "기타", "비고");
-		mav.addObject("shiftNames", shiftNames);
+//		List<String> shiftNames = List.of("교육", "출장(입)", "출장(출)", "경조", "시험", "연차", "병가", "훈련", "기타", "비고");
+//		mav.addObject("shiftNames", shiftNames);
 
 		mav.addObject("shiftType", shiftType);
 		
@@ -997,9 +1003,6 @@ public class ReportControllerImpl implements ReportController{
 		
 		List<SowVO> btOutListData = new ArrayList<>();
 		btOutListData = sowService.selectBusinessTrip(searchArea, "out", work_date);
-		
-		ObjectMapper objectMapper = new ObjectMapper();
-		Iterator<SowVO> iterator = btInListData.iterator();
 
 		int btInCount = sowService.countBtViewList(searchArea, bt_in, work_date);
 		int btOutCount = sowService.countBtViewList(searchArea, bt_out, work_date);
@@ -1045,8 +1048,8 @@ public class ReportControllerImpl implements ReportController{
 	}
 	
 	@PostMapping("/report/modDailyReportMixed.do")
-	public ModelAndView modDailyReportMixed(@RequestParam("work_date") String work_date, @RequestParam("board_title") String board_title,
-		@RequestParam(value = "work_name", required =false) String[] work_nameArray,
+	public ModelAndView modDailyReportMixed(@RequestParam(value = "work_date") String work_date, @RequestParam("board_title") String board_title,
+		@RequestParam(value = "work_name", required = false) String[] work_nameArray,
 		@RequestParam(value = "work_amount_HTW1", required = false) String[] work_amount_HTW1Array,
 		@RequestParam(value = "work_amount_HTW2", required = false) String[] work_amount_HTW2Array,
 		@RequestParam(value = "work_amount_HTW3", required = false) String[] work_amount_HTW3Array,
@@ -1081,12 +1084,13 @@ public class ReportControllerImpl implements ReportController{
 		@RequestParam(value = "note", required = false) String[] noteArray,
 		HttpServletRequest request) throws Exception {
 		// 세션값받기
-		ModelAndView mav = new ModelAndView("redirect:/report/reportViewMixed.do?work_date="+work_date);
+		ModelAndView mav = new ModelAndView("redirect:/report/reportViewMixed.do?work_date=" + work_date);
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
+		String login_id = login.getLogin_id();
 		
 		// 1. 작업현황
-		List<ReportVO> workReportList = new ArrayList<>();
+		List<ReportVO> modReportList = new ArrayList<>();
 		for (int i = 0; i < work_amount_HTW1Array.length; i++) {
 			ReportVO reportVO = new ReportVO();
 			reportVO.setWork_name(work_nameArray[i]);
@@ -1101,12 +1105,12 @@ public class ReportControllerImpl implements ReportController{
 			reportVO.setWork_charyang(work_charyangArray[i]);
 			reportVO.setWork_date(work_date);
 			reportVO.setFmonth_num(fmonth_numArray[i]);
-			workReportList.add(reportVO);
+			modReportList.add(reportVO);
 		}
-		reportService.addWorkReportList(searchArea, workReportList, board_title);
+		reportService.modWorkReportList(searchArea, modReportList, work_date, login_id);
 		
-		int result = reportService.addReportMixed(searchArea, board_title, work_date);
-
+		int result = reportService.modReportMixed(searchArea, board_title, work_date);
+				
 		// 2. 근무현황
 		int forCounting = sowDAO.countNameLength(searchArea);
 		
@@ -1121,7 +1125,7 @@ public class ReportControllerImpl implements ReportController{
 			sowvo.setEmp_num(nullReturnZero(emp_numArray[i]));
 			sowDailyWorkLogList.add(sowvo);
 		}
-		sowService.sowAddDailyWorkLogList(searchArea, sowDailyWorkLogList, work_date);
+		sowService.sowModDailyWorkLogList(sowDailyWorkLogList, searchArea, login_id, work_date);
 
 		int inCounting = sowDAO.countBtNameLength(searchArea, "in");
 		int outCounting = sowDAO.countBtNameLength(searchArea, "out");
@@ -1140,7 +1144,7 @@ public class ReportControllerImpl implements ReportController{
 			sowBusinessTripIn.add(sowvo);
 		}
 		if (!sowBusinessTripIn.isEmpty()) {
-			sowService.sowAddBusinessTrip(searchArea, sowBusinessTripIn, work_date);
+			result = sowService.sowModBusinessTrip(sowBusinessTripIn, searchArea, login_id, work_date);
 		}
 
 		List<SowVO> sowBusinessTripOut = new ArrayList<>();
@@ -1156,23 +1160,23 @@ public class ReportControllerImpl implements ReportController{
 			sowBusinessTripOut.add(sowvo);
 		}
 		if (!sowBusinessTripOut.isEmpty()) {
-			sowService.sowAddBusinessTrip(searchArea, sowBusinessTripOut, work_date);
+			result = sowService.sowModBusinessTrip(sowBusinessTripOut, searchArea, login_id, work_date);
 		}
 		
-		// 3. 실적
-		List<ResultsVO> addResultsList = new ArrayList<>();
-		for (int i = 0; i < fmonth_nameArray.length; i++) {
-			ResultsVO resultsVO = new ResultsVO();
-			resultsVO.setFmonth_name(fmonth_nameArray[i]);
-			resultsVO.setFmonth_profits(new BigDecimal(fmonth_profitsArray[i]));
-			resultsVO.setResults_dailyprofits(safeParseDecimal(results_dailyprofitsArray[i]));
-			resultsVO.setNote(noteArray[i]);
-			addResultsList.add(resultsVO);
-		}
-		
-		int boardResult = resultsService.addResultsBoard(searchArea, work_date);
-		int listResult = resultsService.addResultsList(searchArea, work_date, addResultsList);
-		
+//		// 3. 실적
+//		List<ResultsVO> addResultsList = new ArrayList<>();
+//		for (int i = 0; i < fmonth_nameArray.length; i++) {
+//			ResultsVO resultsVO = new ResultsVO();
+//			resultsVO.setFmonth_name(fmonth_nameArray[i]);
+//			resultsVO.setFmonth_profits(new BigDecimal(fmonth_profitsArray[i]));
+//			resultsVO.setResults_dailyprofits(safeParseDecimal(results_dailyprofitsArray[i]));
+//			resultsVO.setNote(noteArray[i]);
+//			addResultsList.add(resultsVO);
+//		}
+//		
+//		int boardResult = resultsService.addResultsBoard(searchArea, work_date);
+//		int listResult = resultsService.addResultsList(searchArea, work_date, addResultsList);
+//		
 		return mav;
 	}
 }

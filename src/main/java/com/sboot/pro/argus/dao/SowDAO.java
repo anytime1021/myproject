@@ -36,6 +36,12 @@ public interface SowDAO {
 	// sow 일일 추가 폼 (작업목록 가져오기)
 	public List<SowVO> selectWorkName(@Param("searchArea") String searchArea) throws Exception;
 	
+	// sow 수정 로그
+	public void insertSowDailyWorkLogUpdateLog(@Param("searchArea") String searchArea, @Param("login_id") String login_id, @Param("work_date") String work_date) throws Exception;
+
+	// sow 일일 수정
+	public int sowUpdateDailyWorkLogList(@Param("sowDailyWorkLogList") List<SowVO> sowDailyWorkLogList, @Param("work_date") String work_date) throws Exception;
+		
 	// 직원 목록
 	public List<SowVO> selectEmployeeList(String searchArea) throws Exception;
 	
@@ -57,4 +63,14 @@ public interface SowDAO {
 
 	// 출장자 추가누계
 	public List<SowVO> selectBtSumOverTime(@Param("searchArea") String searchArea, @Param("bt_inout") String bt_inout, @Param("start_date") String start_date, @Param("work_date") String work_date) throws Exception;
+
+	// 출장자 수정 로그
+	public void insertBusinessTripUpdateLog(@Param("searchArea") String searchArea, @Param("login_id") String login_id, @Param("work_date") String work_date) throws Exception;
+
+	// 출장자 수정
+	public int sowUpdateBusinessTrip(@Param("sowBusinessTrip") List<SowVO> sowBusinessTrip, @Param("work_date") String work_date) throws Exception;
+	
+	//  추가시간 총합 return - mixed
+	public int sumOvertime(@Param("searchArea") String searchArea, @Param("start_date") String start_date, @Param("work_date") String work_date) throws Exception;
+
 }

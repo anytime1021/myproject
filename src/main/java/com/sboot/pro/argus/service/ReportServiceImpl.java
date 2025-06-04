@@ -138,7 +138,7 @@ public class ReportServiceImpl implements ReportService{
 	@Override
 	public void modWorkReportList(String searchArea, List<ReportVO> modWorkReportList, String work_date, String login_id) throws Exception {
 		reportDAO.insertWorkReportUpdateLog(searchArea, work_date, login_id);
-		reportDAO.updateWorkReport(searchArea, modWorkReportList, work_date);
+		reportDAO.updateWorkReportList(searchArea, modWorkReportList, work_date);
 	}
 	
 	public List<ReportVO> selectModLog(String searchArea, String work_date) throws Exception {
@@ -202,12 +202,19 @@ public class ReportServiceImpl implements ReportService{
 //		return reportDAO.selectAddReportForm(searchArea);
 //	}
 	
+	// 추가
 	public int addReportMixed(String searchArea, String board_title, String work_date) throws Exception {
 		return reportDAO.insertReportMixed(searchArea, board_title, work_date);
 	}
 	
+	// 이전날 정보 불러오기
 	public List<ReportVO> workrateFormBefore(String searchArea, String work_date) throws Exception {
 		return reportDAO.selectWorkrateFormBefore(searchArea, work_date);
+	}
+	
+	// 수정
+	public int modReportMixed(String searchArea, String board_title, String work_date) throws Exception {
+		return reportDAO.updateReportMixed(searchArea, board_title, work_date);
 	}
 }
 

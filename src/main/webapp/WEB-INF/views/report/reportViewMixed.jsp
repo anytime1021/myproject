@@ -125,7 +125,7 @@
 							<td style="width:7%;"></td>
 							<td style="width:7%;"></td>
 							<td style="width:10%;">추가시간 총계</td>
-							<td style="width:9%;"></td>
+							<td style="width:9%;">${sumOvertime}</td>
 						</tr>
 					</table>
 				</div>

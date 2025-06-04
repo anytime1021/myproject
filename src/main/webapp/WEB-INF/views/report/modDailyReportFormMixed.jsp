@@ -25,16 +25,10 @@
 	<main class="first-container">
 		<article>
 			<section>
-				<form name="addDailyReportMixed" method="post" action="${contextPath}/report/addDailyReportMixed.do">
+				<form name="modDailyReportMixed" method="post" action="${contextPath}/report/modDailyReportMixed.do">
 					<section class="work-rate-flex"> 
 						<div class="work-basic">
 							<b> 1. 작업현황 </b>
-						</div>
-						<div class="work-basic2">
-							<a href="${contextPath}/sow/sowAddEmployeeForm.do" class="btn-style">근무인원설정</a>
-						</div>
-						<div class="work-basic2">
-							<a href="${contextPath}/sow/sowAddBtEmployeeForm.do" class="btn-style">출장인원설정</a>
 						</div>
 					</section>
 					<label style="text-align:center;">날 짜 : </label><input type="date" name="work_date" value="${work_date}" placeholder="날짜를 입력해 주세요" style="text-align: center; border:1px solid black;"> 
@@ -384,6 +378,7 @@
 			}
 		});
 	});
+	
 	const allInputs = document.querySelectorAll("input[name='empName']");
 	allInputs.forEach(input => {
 	  console.log("empName:", input.value);
@@ -391,7 +386,7 @@
 	
 	function submitAllForms() {
 		const formParams = new URLSearchParams();
-		const allForms = document.querySelectorAll('form[name="sowAddDailyWorkLog"]');
+		const allForms = document.querySelectorAll('form[name="modDailyReportMixed"]');
 		
 		allForms.forEach(form => {
 			const inputs = form.querySelectorAll("input, select, textarea");
@@ -404,18 +399,18 @@
 		
 		const workDate = document.querySelector("input[name='work_date']");
 		if (workDate) formData.append("work_date", workDate.value);
-		
-		fetch("/sow/sowAddDailyWorkLog.do", {
-			method: "POST",
-			headers: {
-				"Content-type": "application/x-www-form-urlencoded"
-			},
-			body: formData
+
+		fetch("/report/modDailyReportMixed.do", {
+		   method: "POST",
+		   headers: {
+		      "Content-type": "application/x-www-form-urlencoded"
+		   },
+		   body: formData
 		})
 		.then(res => res.text())
 		.then(result => {
-			alert("전송 완료!");
-			console.log(result);
+		   alert("전송 완료!");
+		   console.log(result);
 		});
 	}		
 </script>

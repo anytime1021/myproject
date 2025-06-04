@@ -144,7 +144,7 @@
 	</insert>
 	
 	<!-- 일일 보고서 수정 데이터 저장 -->
-	<update id="updateWorkReport" parameterType="Map">
+	<update id="updateWorkReportList" parameterType="Map">
 		<foreach collection="modWorkReportList" item="item" separator=";">
 		update workrate
 		set work_amount_HTW1 = #{item.work_amount_HTW1},
@@ -152,7 +152,10 @@
 		work_amount_HTW3 = #{item.work_amount_HTW3},
 		work_amount_HTW4 = #{item.work_amount_HTW4},
 		work_amount_HTW5 = #{item.work_amount_HTW5},
-		work_manpower = #{item.work_manpower}
+		work_manpower = #{item.work_manpower},
+		work_xray = #{item.work_xray},
+		work_PAUT = #{item.work_PAUT},
+		work_charyang = #{item.work_charyang}
 		where work_name = #{item.work_name} and work_date = #{work_date} and login_area = #{searchArea}
 		</foreach>
 	</update>
@@ -228,6 +231,7 @@
 	
 	
 	
+	
 	<insert id="insertReportMixed" parameterType="Map">
 		insert into reportMixed_board(board_title, work_date, board_area) values (#{board_title}, #{work_date}, #{searchArea})
 	</insert>
@@ -244,4 +248,12 @@
 	<select id="selectBoardTitle" parameterType="Map">
 		select board_title from reportmixed_board where board_area = #{searchArea} and work_date = #{work_date}
 	</select>
+	
+	<update id="updateReportMixed" parameterType="Map">
+		update reportmixed_board
+		set board_title = #{board_title}
+		where board_area = #{searchArea} and work_date = #{work_date}
+	</update>
+	
+
 </mapper>
