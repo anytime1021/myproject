@@ -17,7 +17,7 @@
 	
 	<!-- 실적 보기 -->
 	<select id="selectResultsList" parameterType="Map">
-		SELECT a.fmonth_name, a.fmonth_profits, a.results_dailyprofits, a.note, a.login_area, a.work_date, b.results_sum, ROUND((b.results_sum / a.fmonth_profits) * 100, 2) AS results_achievement
+		SELECT a.fmonth_num, a.fmonth_name, a.fmonth_profits, a.results_dailyprofits, a.note, a.login_area, a.work_date, b.results_sum, ROUND((b.results_sum / a.fmonth_profits) * 100, 2) AS results_achievement
 		FROM results a INNER JOIN (
     		SELECT fmonth_name, login_area, SUM(results_dailyprofits) AS results_sum FROM results WHERE login_area = #{searchArea} AND work_date BETWEEN #{start_date} AND #{work_date}
 		    GROUP BY fmonth_name, login_area ) b
@@ -41,7 +41,7 @@
 	<update id="updateResultsList" parameterType="Map">
 		<foreach collection="modResultsList" item="item" separator=";">
 		update results
-		set results_dailyprofits = #{item.dailyprofits},
+		set results_dailyprofits = #{item.results_dailyprofits},
 		note = #{item.note}
 		where fmonth_num=#{item.fmonth_num} and work_date = #{work_date}
 		</foreach>

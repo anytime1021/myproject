@@ -438,7 +438,7 @@
 									<td>${status.count}</td>
 									<td><input type="text" name="fmonth_name" value="${resultsList.fmonth_name}" readonly></td>
 									<td><input type="text" name="fmonth_profits" value="${resultsList.fmonth_profits}" readonly></td>
-									<td><input type="text" name="results_dailyprofits" value="${resultsList.results_dailyprofits}"></td>
+									<td><input type="text" name="results_dailyprofits" value="${resultsList.results_dailyprofits}" readonly></td>
 									<td><input type="text" name="results_sum" value="${resultsList.results_sum}" readonly></td>
 									<td><input type="text" name="results_achievement" value="${resultsList.results_achievement}" readonly></td>
 									<td><input type="text" name="note" value="${resultsList.note}" readonly></td>

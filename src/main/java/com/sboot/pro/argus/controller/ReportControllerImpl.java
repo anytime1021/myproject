@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.sboot.pro.argus.DTO.BoardType;
 import com.sboot.pro.argus.DTO.CombinedSowDailyWorkLog;
 import com.sboot.pro.argus.DTO.DailyReportWorkrate;
@@ -637,9 +640,6 @@ public class ReportControllerImpl implements ReportController{
 		
 		List<SowVO> btOutListData = new ArrayList<>();
 		btOutListData = sowService.selectBusinessTrip(searchArea, "out", work_date);
-		
-		ObjectMapper objectMapper = new ObjectMapper();
-		Iterator<SowVO> iterator = btInListData.iterator();
 
 		int btInCount = sowService.countBtViewList(searchArea, bt_in, work_date);
 		int btOutCount = sowService.countBtViewList(searchArea, bt_out, work_date);
@@ -1147,7 +1147,7 @@ public class ReportControllerImpl implements ReportController{
 		if (!sowBusinessTripIn.isEmpty()) {
 			result = sowService.sowModBusinessTrip(sowBusinessTripIn, searchArea, login_id, work_date);
 		}
-
+		        
 		List<SowVO> sowBusinessTripOut = new ArrayList<>();
 		for (int i = 0; i < outCounting-1; i++) {
 			SowVO sowvo = new SowVO();
@@ -1169,14 +1169,13 @@ public class ReportControllerImpl implements ReportController{
 		for (int i = 0; i < fmonth_nameArray.length; i++) {
 			ResultsVO resultsVO = new ResultsVO();
 			resultsVO.setFmonth_name(fmonth_nameArray[i]);
-//			resultsVO.setFmonth_profits(new BigDecimal(fmonth_profitsArray[i]));
 			resultsVO.setResults_dailyprofits(safeParseDecimal(results_dailyprofitsArray[i]));
 			resultsVO.setNote(noteArray[i]);
 			resultsVO.setFmonth_num(nullReturnZero(results_fmonth_numArray[i]));
 			modResultsList.add(resultsVO);
 		}
-		
-		int listResult = resultsService.modResultsList(searchArea, login_id, work_date, modResultsList);
+				        
+		int listResults = resultsService.modResultsList(searchArea, login_id, work_date, modResultsList);
 		
 		return mav;
 	}

@@ -38,4 +38,11 @@ public class ResultsVO extends WorkingDailyBaseVO {
 	public void setNote(String note) {
 		this.note = note;
 	}
+	@Override
+	public String toString() {
+		return "ResultsVO [results_dailyprofits=" + results_dailyprofits + ", results_sum=" + results_sum
+				+ ", results_achievement=" + results_achievement + ", note=" + note + "]" + super.toString();
+	}
+	
+	
 }

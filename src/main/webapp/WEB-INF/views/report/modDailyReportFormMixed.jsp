@@ -287,7 +287,7 @@
 										<td><input type="text" name="results_sum" value="${resultsList.results_sum}" placeholder="-" readonly></td>
 										<td><input type="text" name="results_achievement" value="${resultsList.results_achievement}" placeholder="-" readonly></td>
 										<td><input type="text" name="note" value="${resultsList.note}"></td>
-										<input type="hidden" name="results_fmonth_num" value="${resultsList.fmonth_num}"></td>
+										<input type="hidden" name="results_fmonth_num" value="${resultsList.fmonth_num}">
 									</tr>
 								</c:forEach>
 						</table>
