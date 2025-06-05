@@ -9,11 +9,6 @@
 		</foreach>
 	</insert>
 	
-	<insert id="insertSowDailyWorkLogBoard" parameterType="String">
-		insert into sowDailyWorkLog_board(board_title, work_date, board_area)
-		values(concat(#{work_date},'보고서'), #{work_date}, #{searchArea});
-	</insert>
-	
 	<insert id="insertBusinessTrip" parameterType="Map">
 		<foreach collection="sowBusinessTrip" item="item">
 			insert into business_trip(sowDWL_name, sowDWL_work_name, sowDWL_shift, sowDWL_hours, sowDWL_overtime, work_date, login_area, bt_inout, emp_num)
@@ -23,7 +18,7 @@
 	
 	<!-- sow 일일 추가 폼 (작업목록 가져오기)-->
 	<select id="selectWorkName" parameterType="String" resultType="sowVO">
-		select fmonth_name from followingMonth where login_area = #{searchArea}
+		select fmonth_name from followingMonth where login_area = #{searchArea} and YN = 'Y'
 	</select>
 	
 	<!-- 직원 목록 -->
@@ -41,24 +36,25 @@
 		update employee
 		set emp_name = #{emp_name},
 		emp_position = #{emp_position}
-		where emp_num = #{dummyInt}
+		where emp_num = #{dummyInt} and YN = 'Y'
 	</update>
 	
+	<!-- 직원 삭제 -->
 	<update id="deleteEmployee" parameterType="int">
 		update employee
 		set YN = 'N'
-		where emp_num = #{dummyInt}
+		where emp_num = #{dummyInt} and YN = 'Y'
 	</update>
 	
 	<!-- sow 일일 보기 -->
 	<select id="selectViewList" parameterType="String" resultType="sowVO">
-		select * from sowDailyWorkLog where login_area = #{searchArea} and work_date = #{work_date}
+		select * from sowDailyWorkLog where login_area = #{searchArea} and work_date = #{work_date} and YN = 'Y'
 	</select>
 	
 	<!-- sow 추가시간 계산 -->
 	<select id="selectSumOverTime" parameterType="String" resultType="sowVO">
 		select sum(sowDWL_overtime) as dummyInt from sowDailyWorkLog where login_area = #{searchArea}
-		and work_date between #{start_date} and #{work_date} group by emp_num;
+		and YN = 'Y'and work_date between #{start_date} and #{work_date} group by emp_num;
 	</select>
 	
 	<!-- sow 주야구분 추가시간 계산 -->
@@ -90,36 +86,77 @@
 <!--		AND work_date BETWEEN #{start_date} AND #{work_date}-->
 <!--		GROUP BY shift_type-->
 <!--		ORDER BY FIELD(shift_type, '주', '야', '야간추가')-->
-		select distinct a.fmonth_name, ifnull(sum(b.sowDWL_overtime), 0) as weeklyShiftAdditional, ifnull(sum(c.sowDWL_hours), 0) as nightShift, ifnull(sum(c.sowDWL_overtime), 0) as nightShiftAdditional
-    	from followingmonth a left outer join (select sowDWL_work_name, sowDWL_overtime, work_date from sowdailyworklog where sowDWL_shift = '주') b ON a.fmonth_name = b.sowDWL_work_name and b.work_date between #{start_date} and #{work_date}
-		left outer join (select sowDWL_work_name, sowDWL_overtime, sowDWL_hours, work_date from sowdailyworklog where sowDWL_shift = '야') c on a.fmonth_name = c.sowDWL_work_name and c.work_date between #{start_date} and #{work_date}
-		where a.login_area = #{searchArea} group by a.fmonth_name
+
+
+<!--		select distinct a.fmonth_name, ifnull(sum(b.sowDWL_overtime), 0) as weeklyShiftAdditional, ifnull(sum(c.sowDWL_hours), 0) as nightShift, ifnull(sum(c.sowDWL_overtime), 0) as nightShiftAdditional-->
+<!--    	from followingmonth a left outer join (select sowDWL_work_name, sowDWL_overtime, work_date from sowdailyworklog where sowDWL_shift = '주' and YN = 'Y') b ON a.fmonth_name = b.sowDWL_work_name and b.work_date between #{start_date} and #{work_date}-->
+<!--		left outer join (select sowDWL_work_name, sowDWL_overtime, sowDWL_hours, work_date from sowdailyworklog where sowDWL_shift = '야' and YN = 'Y') c on a.fmonth_name = c.sowDWL_work_name and c.work_date between #{start_date} and #{work_date}-->
+<!--		where a.login_area = #{searchArea} and YN = 'Y' group by a.fmonth_name-->
+<!--		union all-->
+<!--		select distinct '합계' as fmonth_name, ifnull(sum(b.sowDWL_overtime),0) as weeklyShiftAdditional, ifnull(sum(c.sowDWL_hours),0) as nightShift, ifnull(sum(c.sowDWL_overtime),0) as nightShiftAdditional-->
+<!--		from followingmonth a left outer join (select distinct sowDWL_work_name, sowDWL_overtime, work_date from sowdailyworklog where sowDWL_shift='주' and YN = 'Y') b on a.fmonth_name = b.sowDWL_work_name and b.work_date between #{start_date} and #{work_date}-->
+<!--		left outer join (select distinct sowDWL_work_name, sowDWL_overtime, sowDWL_hours, work_date from sowdailyworklog where sowDWL_shift='야' and YN = 'Y') c on a.fmonth_name = c.sowDWL_work_name and c.work_date between #{start_date} and #{work_date}-->
+<!--		where login_area=#{searchArea} and YN = 'Y'-->
+		select
+			a.fmonth_name,
+			ifnull(b.total_overtime, 0) as weeklyShiftAdditional,
+			ifnull(c.total_hours, 0) as nightShift,
+			ifnull(c.total_overtime, 0) as nightShiftAdditional
+		from followingmonth a
+			left join (
+				select sowDWL_work_name, sum(sowDWL_overtime) as total_overtime
+				from sowdailyworklog
+				where sowDWL_shift = '주' and YN = 'Y' and work_date between #{start_date} and #{work_date}
+				group by sowDWL_work_name
+			) b on a.fmonth_name = b.sowDWL_work_name
+			left join (
+				select sowDWL_work_name, sum(sowDWL_hours) as total_hours,	sum(sowDWL_overtime) as total_overtime
+				from sowdailyworklog
+				where sowDWL_shift = '야' and YN = 'Y' and work_date between #{start_date} and #{work_date}
+				group by sowDWL_work_name
+			) c on a.fmonth_name = c.sowDWL_work_name
+				where a.login_area = #{searchArea}
 		union all
-		select distinct '합계' as fmonth_name, ifnull(sum(b.sowDWL_overtime),0) as weeklyShiftAdditional, ifnull(sum(c.sowDWL_hours),0) as nightShift, ifnull(sum(c.sowDWL_overtime),0) as nightShiftAdditional
-		from followingmonth a left outer join (select distinct sowDWL_work_name, sowDWL_overtime, work_date from sowdailyworklog where sowDWL_shift='주') b on a.fmonth_name = b.sowDWL_work_name and b.work_date between #{start_date} and #{work_date}
-		left outer join (select distinct sowDWL_work_name, sowDWL_overtime, sowDWL_hours, work_date from sowdailyworklog where sowDWL_shift='야') c on a.fmonth_name = c.sowDWL_work_name and c.work_date between #{start_date} and #{work_date}
-		where login_area=#{searchArea}
+		select
+		'합계' as fmonth_name,
+			ifnull(sum(b.total_overtime), 0) as weeklyShiftAdditional,
+			ifnull(sum(c.total_hours), 0) as nightShift,
+			ifnull(sum(c.total_overtime), 0) as nightShiftAdditional
+			from followingmonth a
+				left join (
+					select sowDWL_work_name, sum(sowDWL_overtime) as total_overtime
+					from sowdailyworklog
+					where sowDWL_shift = '주' and YN = 'Y' and work_date between #{start_date} and #{work_date}
+					group by sowDWL_work_name
+			) b on a.fmonth_name = b.sowDWL_work_name
+				left join (
+					select sowDWL_work_name, sum(sowDWL_hours) as total_hours, sum(sowDWL_overtime) as total_overtime
+					from sowdailyworklog
+					where sowDWL_shift = '야' and YN = 'Y' and work_date between #{start_date} and #{work_date}
+					group by sowDWL_work_name
+			) c on a.fmonth_name = c.sowDWL_work_name
+			where a.login_area = #{searchArea};
 	</select>
 	
 	<select id="selectShiftType" parameterType="String">
-		select sowDWL_name, sowDWL_shift from sowdailyworklog where login_area = #{searchArea} and work_date = #{work_date} and sowDWL_shift not in ('주', '야')
+		select sowDWL_name, sowDWL_shift from sowdailyworklog where login_area = #{searchArea} and work_date = #{work_date} and sowDWL_shift not in ('주', '야') and YN = 'Y'
 	</select>
 	
 	<select id="selectBusinessTrip" parameterType="String">
-		select * from business_trip where login_area = #{searchArea} and bt_inout = #{bt_inout} and work_date = #{work_date}
+		select * from business_trip where login_area = #{searchArea} and bt_inout = #{bt_inout} and work_date = #{work_date} and YN = 'Y'
 	</select>
 	
 	<select id="countBtViewList" parameterType="String">
-		select count(*) from business_trip where login_area = #{searchArea} and bt_inout = #{bt_inout} and work_date = #{work_date}
+		select count(*) from business_trip where login_area = #{searchArea} and bt_inout = #{bt_inout} and work_date = #{work_date} and YN = 'Y'
 	</select>
 	
 	<!-- sow 정보저장 이름있는 form만 length만큼 반복문 돌리기 위한 count -->
 	<select id="countNameLength" parameterType="String" resultType="int">
-		select count(*) from employee where login_area = #{searchArea}
+		select count(*) from employee where login_area = #{searchArea} and YN = 'Y'
 	</select>
 	
 	<select id="countBtNameLength" parameterType="String" resultType="int">
-		select count(*) from business_trip_employee where login_area = #{searchArea} and bt_inout = #{bt_inout}
+		select count(*) from business_trip_employee where login_area = #{searchArea} and bt_inout = #{bt_inout} and YN = 'Y'
 	</select>
 	
 	<!-- sow 수정로그 -->
@@ -138,17 +175,17 @@
 		sowDWL_shift = #{item.sowDWL_shift},
 		sowDWL_hours = #{item.sowDWL_hours},
 		sowDWL_overtime = #{item.sowDWL_overtime}
-		where emp_num = #{item.emp_num} and work_date = #{work_date}
+		where emp_num = #{item.emp_num} and work_date = #{work_date} and YN = 'Y'
 		</foreach>
 	</update>
 	
 	<!-- 출장자 목록 -->
 	<select id="selectBtEmployeeList" parameterType="String">
-		select * from business_trip_employee where login_area = #{searchArea} and bt_inout = #{bt_inout}
+		select * from business_trip_employee where login_area = #{searchArea} and bt_inout = #{bt_inout} and YN = 'Y'
 	</select>
 	
 	<select id="countBtList" parameterType="String" resultType="int">
-		select count(*) from business_trip_employee where login_area = #{searchArea} and bt_inout = #{bt_inout}
+		select count(*) from business_trip_employee where login_area = #{searchArea} and bt_inout = #{bt_inout} and YN = 'Y'
 	</select>
 	
 	<!-- 출장자 추가 (정보저장) -->
@@ -159,7 +196,7 @@
 	
 	<!-- 출장자 추가누계 -->
 	<select id="selectBtSumOverTime" parameterType="String">
-		select sum(sowDWL_overtime) as dummyInt from business_trip where login_area = #{searchArea}
+		select sum(sowDWL_overtime) as dummyInt from business_trip where login_area = #{searchArea} and YN = 'Y'
 		and work_date between #{start_date} and #{work_date} and bt_inout = #{bt_inout} group by emp_num;
 	</select>
 	
@@ -180,12 +217,39 @@
 		sowDWL_shift = #{item.sowDWL_shift},
 		sowDWL_hours = #{item.sowDWL_hours},
 		sowDWL_overtime = #{item.sowDWL_overtime}
-		where emp_num = #{item.emp_num} and work_date = #{work_date}
+		where emp_num = #{item.emp_num} and work_date = #{work_date} and YN = 'Y'
 		</foreach>
 	</update>
 	
 	<!-- 추가시간 총합 return -->
 	<select id="sumOvertime" parameterType="Map" resultType="int">
-		select sum(sowDWL_overtime) as dummyInt from sowdailyworklog where login_area=#{searchArea} and work_date between #{start_date} and #{work_date}
+		select sum(sowDWL_overtime) as dummyInt from sowdailyworklog where login_area=#{searchArea} and work_date between #{start_date} and #{work_date} and YN = 'Y'
 	</select>
+	
+	<!-- sow 삭제 -->
+	<delete id="deleteSow" parameterType="Map">
+		update sowdailyworklog
+		set YN = 'N'
+		where login_area=#{searchArea} and work_date=#{work_date};
+		
+		update business_trip
+		set YN= 'N'
+		where login_area=#{searchArea} and work_date=#{work_date}
+	</delete>
+	
+	
+	<!-- 출장자 수정 - 출장자 추가 폼 -->
+	<update id="updateBtEmployee" parameterType="Map">
+		update business_trip_employee
+		set emp_name = #{emp_name},
+		sowDWL_work_name = #{sowDWL_work_name}
+		where login_area = #{login_area} and emp_num = #{dummyInt} and YN='Y'
+	</update>
+	
+	<!-- 출장자 삭제 - 출장자 추가 폼 -->
+	<delete id="deleteBtEmployee" parameterType="int">
+		update business_trip_employee
+		set YN='N'
+		where emp_num = #{dummyInt}
+	</delete>
 </mapper>

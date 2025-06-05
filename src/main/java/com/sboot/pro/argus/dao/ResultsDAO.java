@@ -13,8 +13,6 @@ import com.sboot.pro.argus.vo.ResultsVO;
 public interface ResultsDAO {
 	
 	// 실적 추가 (정보저장)
-	public int insertResultsBoard(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
-	
 	public int insertResultsList(@Param("searchArea") String searchArea, @Param("work_date") String work_date, @Param("addResultsList") List<ResultsVO> addResultsList) throws Exception;
 
 	// 실적 보기
@@ -24,4 +22,7 @@ public interface ResultsDAO {
 	// mixed
 	public int insertResultsUpdateLog(@Param("searchArea") String searchArea, @Param("login_id") String login_id, @Param("work_date") String work_date) throws Exception;
 	public int updateResultsList(@Param("searchArea") String searchArea, @Param("work_date") String work_date, @Param("modResultsList") List<ResultsVO> modResultsList) throws Exception;
+
+	// 삭제
+	public int deleteResults(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
 }

@@ -2,12 +2,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sboot.pro.argus.dao.ResultsDAO">
 
-	<!-- 실적 추가 (정보저장) -->
-	<insert id="insertResultsBoard" parameterType="Map">
-		insert into results_board(board_title, work_date, board_area)
-		values (concat(#{work_date},'게시글'), #{work_date}, #{searchArea})
-	</insert>
-	
+	<!-- 실적 추가 (정보저장) -->	
 	<insert id="insertResultsList" parameterType="Map">
 		<foreach collection="addResultsList" item="item" separator=";">
 		insert into results(fmonth_name, fmonth_profits, results_dailyprofits, note, login_area, work_date)
@@ -19,16 +14,16 @@
 	<select id="selectResultsList" parameterType="Map">
 		SELECT a.fmonth_num, a.fmonth_name, a.fmonth_profits, a.results_dailyprofits, a.note, a.login_area, a.work_date, b.results_sum, ROUND((b.results_sum / a.fmonth_profits) * 100, 2) AS results_achievement
 		FROM results a INNER JOIN (
-    		SELECT fmonth_name, login_area, SUM(results_dailyprofits) AS results_sum FROM results WHERE login_area = #{searchArea} AND work_date BETWEEN #{start_date} AND #{work_date}
+    		SELECT fmonth_name, login_area, SUM(results_dailyprofits) AS results_sum FROM results WHERE login_area = #{searchArea} AND YN = 'Y' AND work_date BETWEEN #{start_date} AND #{work_date}
 		    GROUP BY fmonth_name, login_area ) b
 		    ON a.fmonth_name = b.fmonth_name AND a.login_area = b.login_area
-			WHERE a.login_area = #{searchArea} AND a.work_date = #{work_date};
+			WHERE a.login_area = #{searchArea} AND a.work_date = #{work_date} and YN = 'Y';
 	</select>
 	
 	<select id="selectResultsSum" parameterType="Map">
 		select fmonth_profits, results_dailyprofits, results_sum, round((results_sum / fmonth_profits) * 100,2) as results_achievement
-		from (select sum(fmonth_profits) as fmonth_profits, sum(results_dailyprofits) as results_dailyprofits, (select sum(results_dailyprofits) from results where login_area=#{searchArea} and work_date between #{start_date} and #{work_date}) as results_sum
-		from results where login_area = #{searchArea} and work_date = #{work_date}) as b;
+		from (select sum(fmonth_profits) as fmonth_profits, sum(results_dailyprofits) as results_dailyprofits, (select sum(results_dailyprofits) from results where login_area=#{searchArea} and YN = 'Y' and work_date between #{start_date} and #{work_date}) as results_sum
+		from results where login_area = #{searchArea} and YN = 'Y'and work_date = #{work_date}) as b;
 	</select>
 	
 	<!-- mixed -->
@@ -43,7 +38,14 @@
 		update results
 		set results_dailyprofits = #{item.results_dailyprofits},
 		note = #{item.note}
-		where fmonth_num=#{item.fmonth_num} and work_date = #{work_date}
+		where fmonth_num=#{item.fmonth_num} and work_date = #{work_date} and YN = 'Y'
 		</foreach>
 	</update>
+	
+	<!-- 실적 삭제 -->
+	<delete id="deleteResults" parameterType="Map">
+		update results
+		set YN = 'N'
+		where login_area=#{searchArea} and work_date=#{work_date}
+	</delete>
 </mapper>

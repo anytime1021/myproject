@@ -30,17 +30,10 @@ public class SowServiceImpl implements SowService {
 	@Autowired
 	private ReportDAO reportDAO;
 	
-	// sow 게시판 접속
-	@Override
-	public SowVO sowBoardList(String searchArea) throws Exception {
-		return sowDAO.selectSowBoardList(searchArea);
-	}
-
 	// sow 일일 추가 (정보저장) - 게시판 없을시 추가
 	@Override
 	public void sowAddDailyWorkLogList(String searchArea, List<SowVO> sowDailyWorkLogList, String work_date) throws Exception {
 		sowDAO.insertSowDailyWorkLogList(searchArea, sowDailyWorkLogList, work_date);
-		sowDAO.insertSowDailyWorkLogBoard(searchArea, work_date);
 	}
 	
 	@Override
@@ -126,10 +119,23 @@ public class SowServiceImpl implements SowService {
 		return sowDAO.selectBtSumOverTime(searchArea, bt_inout, start_date, work_date);
 	}
 	
-	// 출장자 수정
+	// 출장자 수정 - 전체폼
 	@Override
 	public int sowModBusinessTrip(List<SowVO> sowBusinessTripIn, String searchArea, String login_id, String work_date) throws Exception {
 		sowDAO.insertBusinessTripUpdateLog(searchArea, login_id, work_date);
 		return sowDAO.sowUpdateBusinessTrip(sowBusinessTripIn, work_date);
+	}
+	
+	// 출장자 수정 - 출장자 추가 폼
+	@Override
+	public int modBtEmployee(String emp_name, String sowDWL_work_name, String login_area, int dummyInt) throws Exception {
+		int result = sowDAO.updateBtEmployee(emp_name, sowDWL_work_name, login_area, dummyInt);
+		return result;
+	}
+	
+	@Override
+	public int removeBtEmployee(int dummyInt) throws Exception {
+		int result = sowDAO.deleteBtEmployee(dummyInt);
+		return result;
 	}
 }

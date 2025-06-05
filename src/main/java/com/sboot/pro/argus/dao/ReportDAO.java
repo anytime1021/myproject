@@ -12,21 +12,9 @@ import com.sboot.pro.argus.vo.ReportVO;
 @Mapper
 @Repository("reportDAO")
 public interface ReportDAO {
-	// 일일 보고서 게시판 접속
-	public List<ReportVO> selectReportList(String searchArea) throws Exception;
-	
 	// 일일 보고서 삭제
 	public int deleteDailyReport(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
 	
-	// 일일 보고서 게시판 일일 보고서 제목 삭제 판단
-	public int existDailyReport(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
-	
-	// 일일 보고서 게시판 일일 보고서 제목 삭제
-	public void deleteDailyReportBoard(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
-	
-//	// 월별 보고서 게시판 접속
-//	public List<ReportVO> selectTotalReportList(@Param("searchArea") String searchArea, @Param("token") int token) throws Exception;
-
 	// 테스트
 	public List<ReportVO> selectTest() throws Exception;
 	
@@ -39,24 +27,14 @@ public interface ReportDAO {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// 2025-04-17 전체 수정 후
 	
-	// 작업현황 현장 추가 폼
-	public List<ReportVO> selectWorkTotal(String searchArea) throws Exception;
-	
-	// 작업현황 현장 추가
-//	public void insertTotalReport(@Param("addTotal") ReportVO addTotal, @Param("searchArea") String searchArea) throws Exception;
-	public void insertTotalReport(@Param("addTotal") List<ReportVO> addTotal, @Param("searchArea") String searchArea) throws Exception;
-
-	// 작업현황 현장 수정폼
-	public void updateTotalReportList(@Param("searchArea") String searchArea, @Param("modTotalReportList") List<ReportVO> modTotalReportList) throws Exception;
-	
 	// 작업현황 행 삭제
 	public int deleteTotalReportRow(@Param("work_num_total") int work_num_total) throws Exception;
 	
-//	// 일일 보고서 글쓰기 양식
-//	public List<ReportVO> selectAddReportForm(String searchArea) throws Exception;
-	
 	// 일일 보고서 게시판 글 추가
 	public void insertWorkrate_board(@Param("searchArea") String searchArea, @Param("work_date") String work_date, @Param("board_title") String board_title) throws Exception;
+	
+	// 일일 보고서 게시판 삭제
+	public int deleteDailyReportBoard(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
 	
 	// 일일 보고서 글쓰기(정보저장)
 	public void insertAddWorkReportList(@Param("searchArea") String searchArea, @Param("workReportList") List<ReportVO> workReportList) throws Exception;
@@ -66,7 +44,7 @@ public interface ReportDAO {
 	public ReportVO selectHTW(String searchArea);
 	// 일일 보고서 보기 - 값 가져오기
 	public List<ReportVO> selectDailyReportView(@Param("work_date") String work_date, @Param("start_date") String start_date, @Param("fmonth_num") List<Integer> fmonth_num) throws Exception;
-//	public List<ReportVO> selectWorkTotalByView(String searchArea) throws Exception;
+
 	// 일일 보고서 합계
 	public ReportVO selectTotalSum(@Param("searchArea") String searchArea, @Param("start_date") String start_date, @Param("work_date") String work_date) throws Exception;
 	public ReportVO selectDailySum(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
@@ -97,7 +75,7 @@ public interface ReportDAO {
 	public void deleteFmonth(ReportVO vo) throws Exception;
 	
 	// 추가
-	public int insertReportMixed(@Param("searchArea") String searchArea, @Param("board_title") String board_title, @Param("work_date") String work_date) throws Exception;
+	public int insertReport(@Param("searchArea") String searchArea, @Param("board_title") String board_title, @Param("work_date") String work_date) throws Exception;
 
 	// 날짜 검색
 	public String selectWorkdate(String searchArea);
@@ -109,7 +87,7 @@ public interface ReportDAO {
 	public String selectBoardTitle(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
 
 	// 게시글 수정
-	public int updateReportMixed(@Param("searchArea") String searchArea, @Param("board_title") String board_title, @Param("work_date") String work_date) throws Exception;
+	public int updateReport(@Param("searchArea") String searchArea, @Param("board_title") String board_title, @Param("work_date") String work_date) throws Exception;
 
 	//	public int countBoardList(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
 }

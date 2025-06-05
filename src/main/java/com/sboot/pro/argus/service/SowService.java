@@ -6,8 +6,6 @@ import com.sboot.pro.argus.DTO.CombinedSowDailyWorkLog;
 import com.sboot.pro.argus.vo.SowVO;
 
 public interface SowService {
-	// sow 게시판 접속
-	public SowVO sowBoardList(String searchArea) throws Exception;
 
 	// sow 일일 추가 (정보저장)
 	public void sowAddDailyWorkLogList(String searchArea, List<SowVO> sowDailyWorkLogList, String work_date) throws Exception;
@@ -46,4 +44,10 @@ public interface SowService {
 	
 	// 출장자 수정
 	public int sowModBusinessTrip(List<SowVO> sowBusinessTrip, String searchArea, String login_id, String work_date) throws Exception;
+
+	// 출장자 수정 - 출장자 추가 폼
+	public int modBtEmployee(String emp_name, String sowDWL_work_name, String login_area, int dummyInt) throws Exception;
+	
+	// 출장자 삭제 - 출장자 추가 폼
+	public int removeBtEmployee(int dummyInt) throws Exception;
 }

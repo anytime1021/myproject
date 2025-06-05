@@ -99,7 +99,6 @@ public class ResultsControllerImpl implements ResultsController {
 			addResultsList.add(resultsVO);
 		}
 		
-		int boardResult = resultsService.addResultsBoard(searchArea, work_date);
 		int listResult = resultsService.addResultsList(searchArea, work_date, addResultsList);
 		return mav;
 	}

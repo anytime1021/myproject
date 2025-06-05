@@ -1,21 +1,18 @@
 package com.sboot.pro.argus.controller;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sboot.pro.argus.DTO.BoardType;
 import com.sboot.pro.argus.DTO.CombinedSowDailyWorkLog;
 import com.sboot.pro.argus.dao.CommonDAO;
@@ -23,7 +20,6 @@ import com.sboot.pro.argus.dao.SowDAO;
 import com.sboot.pro.argus.service.CommonService;
 import com.sboot.pro.argus.service.SowService;
 import com.sboot.pro.argus.vo.LoginVO;
-import com.sboot.pro.argus.vo.ReportVO;
 import com.sboot.pro.argus.vo.SowVO;
 import com.sboot.pro.argus.vo.WorkingDailyBaseVO;
 
@@ -439,5 +435,36 @@ public class SowControllerImpl implements SowController {
 		int result = sowService.sowAddBtEmployee(emp_name, sowDWL_work_name, bt_inout, searchArea);
 		
 		return mav;
+	}
+	
+	@PostMapping("/sow/modBtEmployee.do")
+	@ResponseBody
+	public Map<String, Object> modBtEmployee(@RequestParam("emp_name") String emp_name, @RequestParam("sowDWL_work_name") String sowDWL_work_name,
+			@RequestParam("login_area") String login_area, @RequestParam("dummyInt") int dummyInt, HttpServletRequest request) throws Exception {
+		Map<String, Object> result = new HashMap<>();
+		
+		try {
+			sowService.modBtEmployee(emp_name, sowDWL_work_name, login_area, dummyInt);
+			result.put("result", "success");
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("result", "error");
+		}
+		return result;
+	}
+	
+	@PostMapping("/sow/removeBtEmployee.do")
+	@ResponseBody
+	public Map<String, Object> removeBtEmployee(@RequestParam("dummyInt") int dummyInt) throws Exception {
+		Map<String, Object> result = new HashMap<>();
+		
+		try {
+			sowService.removeBtEmployee(dummyInt);
+			result.put("result", "success");
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("result", "error");
+		}
+		return result;
 	}
 }

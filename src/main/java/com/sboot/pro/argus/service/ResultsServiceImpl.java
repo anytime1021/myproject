@@ -17,11 +17,6 @@ public class ResultsServiceImpl implements ResultsService {
 	@Autowired
 	ResultsDAO resultsDAO;
 	
-	// 실적 추가 (정보저장)
-	public int addResultsBoard(String searchArea, String work_date) throws Exception {
-		return resultsDAO.insertResultsBoard(searchArea, work_date);
-	}
-	
 	public int addResultsList(String searchArea, String work_date, List<ResultsVO> addResultsList) throws Exception {
 		return resultsDAO.insertResultsList(searchArea, work_date, addResultsList);
 	}

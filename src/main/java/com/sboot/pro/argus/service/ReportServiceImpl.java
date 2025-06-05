@@ -2,7 +2,6 @@ package com.sboot.pro.argus.service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,24 +9,26 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sboot.pro.argus.DTO.CombinedReportResponse;
 import com.sboot.pro.argus.DTO.DailyReportWorkrate;
 import com.sboot.pro.argus.dao.ReportDAO;
+import com.sboot.pro.argus.dao.ResultsDAO;
+import com.sboot.pro.argus.dao.SowDAO;
 import com.sboot.pro.argus.vo.ReportVO;
 
 @Service("reportService")
 @Transactional(propagation = Propagation.REQUIRED)
-public class ReportServiceImpl implements ReportService{
+public class ReportServiceImpl implements ReportService {
+
 	@Autowired
 	private ReportDAO reportDAO;
 	
-	// 일일 보고서 게시판 접속
-	@Override
-	public List<ReportVO> reportListJava(String searchArea) throws Exception {
-		return reportDAO.selectReportList(searchArea);
-	}
+	@Autowired
+	private SowDAO sowDAO;
 	
+	@Autowired
+	private ResultsDAO resultsDAO;
+		
 	// 일일 보고서 글쓰기(정보저장)
 	@Override
 	public void addWorkReportList(String searchArea, List<ReportVO> workReportList, String board_title) throws Exception {
@@ -155,13 +156,9 @@ public class ReportServiceImpl implements ReportService{
 	@Override
 	public int removeDailyReport(String searchArea, String work_date) throws Exception {
 		int result = reportDAO.deleteDailyReport(searchArea, work_date);
-		int result1 = reportDAO.existDailyReport(searchArea, work_date);
-		// result2, 3 추가 예정
-		int result2 = 0;
-		int result3 = 0;
-		if (result1 == 0 && result2 == 0 && result3 == 0) {
-			reportDAO.deleteDailyReportBoard(searchArea, work_date);
-		}
+		result = sowDAO.deleteSow(searchArea, work_date);
+		result = resultsDAO.deleteResults(searchArea, work_date);
+		result = reportDAO.deleteDailyReportBoard(searchArea, work_date);
 		return result;
 	}
 	
@@ -172,39 +169,11 @@ public class ReportServiceImpl implements ReportService{
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// 2025-04-17 전체 수정 후
-	
-	// 작업현황 현장 추가 폼
-	public List<ReportVO> selectWorkTotal(String searchArea) throws Exception {
-		return reportDAO.selectWorkTotal(searchArea);
-	}
-	
-	// 작업현황 현장 추가
-	@Override
-	public void addTotalReport(List<ReportVO> addTotal, String searchArea) throws Exception{
-		reportDAO.insertTotalReport(addTotal, searchArea);
-	}
-	
-	// 작업현황 현장 수정폼
-	@Override
-	public void modTotalReportList(String searchArea, List<ReportVO> modTotalReportList) throws Exception {
-		reportDAO.updateTotalReportList(searchArea, modTotalReportList);
-	}
-	
-	// 작업현황 행 삭제
-	@Override
-	public int removeTotalReportRow(int work_num_total) throws Exception {
-		reportDAO.deleteTotalReportRow(work_num_total);
-		return 1;
-	}
-//	// 일일 보고서 글쓰기 양식
-//	@Override
-//	public List<ReportVO> addReportForm(String searchArea) throws Exception {
-//		return reportDAO.selectAddReportForm(searchArea);
-//	}
+
 	
 	// 추가
-	public int addReportMixed(String searchArea, String board_title, String work_date) throws Exception {
-		return reportDAO.insertReportMixed(searchArea, board_title, work_date);
+	public int addReport(String searchArea, String board_title, String work_date) throws Exception {
+		return reportDAO.insertReport(searchArea, board_title, work_date);
 	}
 	
 	// 이전날 정보 불러오기
@@ -213,8 +182,8 @@ public class ReportServiceImpl implements ReportService{
 	}
 	
 	// 수정
-	public int modReportMixed(String searchArea, String board_title, String work_date) throws Exception {
-		return reportDAO.updateReportMixed(searchArea, board_title, work_date);
+	public int modReport(String searchArea, String board_title, String work_date) throws Exception {
+		return reportDAO.updateReport(searchArea, board_title, work_date);
 	}
 }
 

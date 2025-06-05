@@ -41,21 +41,15 @@
 			<div class="report-menu">
 				<ul class="ul-wrap">
 					<li class="li-wrap dropdown">
-						<span class="report-title"> 작업일보 </span>
-						<ul class="dropdown-menu">
-							<li><a href="${contextPath}/report/reportArea.do">작업현황</a></li>
-							<li><a href="${contextPath}/sow/sowBoard.do">근무현황</a></li>
-							<li><a href="${contextPath}/results/resultsBoard.do">실적</a></li>
-							<li><a href="${contextPath}/report/mixReportTest.do">보고서통합</a></li>
-						</ul>
+						<a href="${contextPath}/report/reportArea.do">작업일보</a>
 					</li>
-					<li class="li-wrap"><a href="${contextPath}/report/followingMonth.do"> 익월 예상 보고서 </a></li>
+					<li class="li-wrap"> 보고서 2 </li>
 					<li class="li-wrap"> 보고서 3 </li>
 					<li class="li-wrap"> 보고서 4 </li>
 				</ul>
 			</div>
 			<div class="report-menu-banner">
-				<p class="text-control">작업현황</p>
+				<p class="text-control">작업일보</p>
 			</div>
 			<div class="report-container">
 				<div class="report-list">
@@ -68,22 +62,21 @@
 							</tr>
 						</thead>
 						<tbody>
-						<c:forEach var="reportListJsp" items="${reportListJsp}">
-						<c:set var="i" value="${i+1}" />
-							<tr>
-								<td>${reportListJsp.row_num}</td>
-								<td><a href="${contextPath}/report/reportView.do?work_date=${reportListJsp.work_date}">${reportListJsp.board_title}</a></td>
-								<td>${reportListJsp.work_date}</td>
-							</tr>
-						</c:forEach>
+							<c:forEach var="reportListJsp" items="${reportListJsp}">
+							<c:set var="i" value="${i+1}" />
+								<tr>
+									<td>${reportListJsp.row_num}</td>
+									<td><a href="${contextPath}/report/reportView.do?work_date=${reportListJsp.work_date}">${reportListJsp.board_title}</a></td>
+									<td>${reportListJsp.work_date}</td>
+								</tr>
+							</c:forEach>
 						</tbody>
-						<c:set var="getwork_date" value="${reportListJsp[0].work_date}" />
 					</table>
 				</div>
 				<a class="btn" href="${contextPath}/report/addDailyReportForm.do">작성하기</a>
 			</div>
     	</main>
-    <%@ include file="../include/footer.jsp"%>	
+    <%@ include file="../include/footer.jsp"%>
 </body>
 <script src="${contextPath}/resources/js/script.js"></script>
 </html>

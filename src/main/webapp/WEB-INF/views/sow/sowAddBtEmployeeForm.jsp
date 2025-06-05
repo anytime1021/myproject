@@ -30,8 +30,6 @@
 					<div>
 						<input type="radio" name="bt_inout" value="in" checked>
 						<label for="in">출장(입)</label>
-						<input type="radio" name="bt_inout" value="out">
-						<label for="out">출장(출)</label>
 					</div>
 				</fieldset>
 				<button type="submit">전송</button>
@@ -75,41 +73,41 @@
 					</tbody>
 	            </table>
 			</div>
-			<hr>
-			<div>
-				<h3><b> 출장자(출) </b></h3>
-	            <table>
-	                <thead>
-	                    <tr>
-							<th>이름</th>
-	                        <th>현장</th>
-	                    </tr>
-	                </thead>
-					<tbody>
-						<c:forEach var="btOutList" items="${btOutList}">
-						    <tr data-name="${btOutList.emp_name}">
-						        <td>
-						            <input type="text" name="emp_name" value="${btOutList.emp_name}" readonly />
-						        </td>
-								<td style="display:none;">
-									<input type="text" name="dummyInt" value="${btOutList.emp_num}" />
-								    <input type="text" name="login_area" value="${btOutList.login_area}" />
-								</td>
-						        <td>
-						            <input type="text" name="sowDWL_work_name" value="${btOutList.sowDWL_work_name}" readonly />
-						        </td>
-						        <td>
-						            <button type="button" class="edit-btn">수정</button>
-						            <button type="button" class="save-btn" style="display:none;">저장</button>
-						        </td>
-						        <td>
-						            <button type="button" class="delete-btn">삭제</button>
-						        </td>
-						    </tr>
-						</c:forEach>
-					</tbody>
-	            </table>
-			</div>
+<!--			<hr>-->
+<!--			<div>-->
+<!--				<h3><b> 출장자(출) </b></h3>-->
+<!--	            <table>-->
+<!--	                <thead>-->
+<!--	                    <tr>-->
+<!--							<th>이름</th>-->
+<!--	                        <th>현장</th>-->
+<!--	                    </tr>-->
+<!--	                </thead>-->
+<!--					<tbody>-->
+<!--						<c:forEach var="btOutList" items="${btOutList}">-->
+<!--						    <tr data-name="${btOutList.emp_name}">-->
+<!--						        <td>-->
+<!--						            <input type="text" name="emp_name" value="${btOutList.emp_name}" readonly />-->
+<!--						        </td>-->
+<!--								<td style="display:none;">-->
+<!--									<input type="text" name="dummyInt" value="${btOutList.emp_num}" />-->
+<!--								    <input type="text" name="login_area" value="${btOutList.login_area}" />-->
+<!--								</td>-->
+<!--						        <td>-->
+<!--						            <input type="text" name="sowDWL_work_name" value="${btOutList.sowDWL_work_name}" readonly />-->
+<!--						        </td>-->
+<!--						        <td>-->
+<!--						            <button type="button" class="edit-btn">수정</button>-->
+<!--						            <button type="button" class="save-btn" style="display:none;">저장</button>-->
+<!--						        </td>-->
+<!--						        <td>-->
+<!--						            <button type="button" class="delete-btn">삭제</button>-->
+<!--						        </td>-->
+<!--						    </tr>-->
+<!--						</c:forEach>-->
+<!--					</tbody>-->
+<!--	            </table>-->
+<!--			</div>-->
 	    </div>
 	</div>
 </div>
@@ -136,7 +134,7 @@ $(function() {
         const dummyInt = $row.find('input[name="dummyInt"]').val();
 
         $.ajax({
-            url: '${contextPath}/sow/updateBtEmployee.do',
+            url: '${contextPath}/sow/modBtEmployee.do',
             type: 'POST',
             data: {
                 emp_name: name,
@@ -164,7 +162,7 @@ $(function() {
         const dummyInt = $row.find('input[name="dummyInt"]').val();
 
         $.ajax({
-            url: '${contextPath}/sow/deleteBtEmployee.do',
+            url: '${contextPath}/sow/removeBtEmployee.do',
             type: 'POST',
             data: {
                 dummyInt: dummyInt
