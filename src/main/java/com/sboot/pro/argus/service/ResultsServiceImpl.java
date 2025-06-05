@@ -36,4 +36,11 @@ public class ResultsServiceImpl implements ResultsService {
 		String start_date = work_date.substring(0,7) + "-01";
 		return resultsDAO.selectResultsSum(searchArea, start_date, work_date);
 	}
+	
+	// mixed
+
+	public int modResultsList(String searchArea, String login_id, String work_date, List<ResultsVO> modResultsList) throws Exception {
+		int results = resultsDAO.insertResultsUpdateLog(searchArea, login_id, work_date);
+		return resultsDAO.updateResultsList(searchArea, work_date, modResultsList);
+	}
 }

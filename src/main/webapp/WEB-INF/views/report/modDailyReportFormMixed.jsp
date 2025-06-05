@@ -287,6 +287,7 @@
 										<td><input type="text" name="results_sum" value="${resultsList.results_sum}" placeholder="-" readonly></td>
 										<td><input type="text" name="results_achievement" value="${resultsList.results_achievement}" placeholder="-" readonly></td>
 										<td><input type="text" name="note" value="${resultsList.note}"></td>
+										<input type="hidden" name="results_fmonth_num" value="${resultsList.fmonth_num}"></td>
 									</tr>
 								</c:forEach>
 						</table>
@@ -384,35 +385,7 @@
 	  console.log("empName:", input.value);
 	});
 	
-	function submitAllForms() {
-		const formParams = new URLSearchParams();
-		const allForms = document.querySelectorAll('form[name="modDailyReportMixed"]');
-		
-		allForms.forEach(form => {
-			const inputs = form.querySelectorAll("input, select, textarea");
-			inputs.forEach(input => {
-				if (input.name) {
-					formData.append(input.name, input.value);
-				}
-			});
-		});
-		
-		const workDate = document.querySelector("input[name='work_date']");
-		if (workDate) formData.append("work_date", workDate.value);
-
-		fetch("/report/modDailyReportMixed.do", {
-		   method: "POST",
-		   headers: {
-		      "Content-type": "application/x-www-form-urlencoded"
-		   },
-		   body: formData
-		})
-		.then(res => res.text())
-		.then(result => {
-		   alert("전송 완료!");
-		   console.log(result);
-		});
-	}		
+	
 </script>
 <script src="${contextPath}/resources/js/script.js"></script>
 </html>

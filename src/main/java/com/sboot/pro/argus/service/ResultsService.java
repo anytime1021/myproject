@@ -15,4 +15,7 @@ public interface ResultsService {
 	public List<ResultsVO> selectResultsList(String searchArea, String work_date) throws Exception;
 	public ResultsVO selectResultsSum(String searchArea, String work_date) throws Exception;
 	
+	
+	// mixed
+	public int modResultsList(String searchArea, String login_id, String work_date, List<ResultsVO> modResultsList) throws Exception;
 }

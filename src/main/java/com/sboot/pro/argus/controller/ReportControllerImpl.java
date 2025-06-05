@@ -1079,8 +1079,9 @@ public class ReportControllerImpl implements ReportController{
 		@RequestParam(value = "sowDWL_overtime_out", required=false) String[] sowDWL_overtime_outArray,
 		@RequestParam(value = "emp_num_out", required=false) String[] emp_num_outArray,
 		@RequestParam(value = "fmonth_name", required = false) String[] fmonth_nameArray,
-		@RequestParam(value = "fmonth_profits", required = false) String[] fmonth_profitsArray,
+//		@RequestParam(value = "fmonth_profits", required = false) String[] fmonth_profitsArray,
 		@RequestParam(value = "results_dailyprofits", required = false) String[] results_dailyprofitsArray,
+		@RequestParam(value = "results_fmonth_num", required = false) String[] results_fmonth_numArray,
 		@RequestParam(value = "note", required = false) String[] noteArray,
 		HttpServletRequest request) throws Exception {
 		// 세션값받기
@@ -1163,20 +1164,20 @@ public class ReportControllerImpl implements ReportController{
 			result = sowService.sowModBusinessTrip(sowBusinessTripOut, searchArea, login_id, work_date);
 		}
 		
-//		// 3. 실적
-//		List<ResultsVO> addResultsList = new ArrayList<>();
-//		for (int i = 0; i < fmonth_nameArray.length; i++) {
-//			ResultsVO resultsVO = new ResultsVO();
-//			resultsVO.setFmonth_name(fmonth_nameArray[i]);
+		// 3. 실적
+		List<ResultsVO> modResultsList = new ArrayList<>();
+		for (int i = 0; i < fmonth_nameArray.length; i++) {
+			ResultsVO resultsVO = new ResultsVO();
+			resultsVO.setFmonth_name(fmonth_nameArray[i]);
 //			resultsVO.setFmonth_profits(new BigDecimal(fmonth_profitsArray[i]));
-//			resultsVO.setResults_dailyprofits(safeParseDecimal(results_dailyprofitsArray[i]));
-//			resultsVO.setNote(noteArray[i]);
-//			addResultsList.add(resultsVO);
-//		}
-//		
-//		int boardResult = resultsService.addResultsBoard(searchArea, work_date);
-//		int listResult = resultsService.addResultsList(searchArea, work_date, addResultsList);
-//		
+			resultsVO.setResults_dailyprofits(safeParseDecimal(results_dailyprofitsArray[i]));
+			resultsVO.setNote(noteArray[i]);
+			resultsVO.setFmonth_num(nullReturnZero(results_fmonth_numArray[i]));
+			modResultsList.add(resultsVO);
+		}
+		
+		int listResult = resultsService.modResultsList(searchArea, login_id, work_date, modResultsList);
+		
 		return mav;
 	}
 }

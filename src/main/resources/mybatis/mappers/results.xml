@@ -26,8 +26,24 @@
 	</select>
 	
 	<select id="selectResultsSum" parameterType="Map">
-	select fmonth_profits, results_dailyprofits, results_sum, round((results_sum / fmonth_profits) * 100,2) as results_achievement
-	from (select sum(fmonth_profits) as fmonth_profits, sum(results_dailyprofits) as results_dailyprofits, (select sum(results_dailyprofits) from results where login_area=#{searchArea} and work_date between #{start_date} and #{work_date}) as results_sum
-	from results where login_area = #{searchArea} and work_date = #{work_date}) as b;
+		select fmonth_profits, results_dailyprofits, results_sum, round((results_sum / fmonth_profits) * 100,2) as results_achievement
+		from (select sum(fmonth_profits) as fmonth_profits, sum(results_dailyprofits) as results_dailyprofits, (select sum(results_dailyprofits) from results where login_area=#{searchArea} and work_date between #{start_date} and #{work_date}) as results_sum
+		from results where login_area = #{searchArea} and work_date = #{work_date}) as b;
 	</select>
+	
+	<!-- mixed -->
+	<insert id="insertResultsUpdateLog" parameterType="Map">
+		insert results_updatelog(fmonth_name, fmonth_profits, note, login_area, work_date, login_id)
+		select fmonth_name, fmonth_profits, note, login_area, work_date, #{login_id} from results
+		where login_area = #{searchArea} and work_date = #{work_date}
+	</insert>
+	
+	<update id="updateResultsList" parameterType="Map">
+		<foreach collection="modResultsList" item="item" separator=";">
+		update results
+		set results_dailyprofits = #{item.dailyprofits},
+		note = #{item.note}
+		where fmonth_num=#{item.fmonth_num} and work_date = #{work_date}
+		</foreach>
+	</update>
 </mapper>
