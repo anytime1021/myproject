@@ -5,8 +5,8 @@
 	<!-- 실적 추가 (정보저장) -->	
 	<insert id="insertResultsList" parameterType="Map">
 		<foreach collection="addResultsList" item="item" separator=";">
-		insert into results(fmonth_name, fmonth_profits, results_dailyprofits, note, login_area, work_date)
-		values(#{item.fmonth_name}, #{item.fmonth_profits}, #{item.results_dailyprofits}, #{item.note}, #{searchArea}, #{work_date})
+		insert into results(fmonth_name, fmonth_profits, results_dailyprofits, note, login_area, work_date, fmonth_num)
+		values(#{item.fmonth_name}, #{item.fmonth_profits}, #{item.results_dailyprofits}, #{item.note}, #{searchArea}, #{work_date}, #{item.fmonth_num})
 		</foreach>
 	</insert>
 	

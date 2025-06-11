@@ -625,7 +625,10 @@ public class ReportControllerImpl implements ReportController{
 		// 3. 실적
 		List<ResultsVO> resultsList = new ArrayList<>();
 		resultsList = resultsService.selectResultsList(searchArea, work_date);
-		
+
+		for (ResultsVO dto : resultsList) {
+		    System.out.println(dto.getFmonth_num());
+		}
 		mav.addObject("resultsList", resultsList);
 		
 		ResultsVO resultsSum = new ResultsVO();
@@ -863,7 +866,7 @@ public class ReportControllerImpl implements ReportController{
 			resultsVO.setFmonth_num(nullReturnZero(results_fmonth_numArray[i]));
 			modResultsList.add(resultsVO);
 		}
-				        
+		
 		int listResults = resultsService.modResultsList(searchArea, login_id, work_date, modResultsList);
 		
 		return mav;
@@ -878,6 +881,18 @@ public class ReportControllerImpl implements ReportController{
 		// 삭제
 		int result = reportService.removeDailyReport(searchArea, work_date);
 		
+		return mav;
+	}
+	
+	
+	// SQL Injection Test
+	@PostMapping("/report/searchInformation.do")
+	public ModelAndView searchInformation(@RequestParam("search") String search, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/report/searchInformation");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		List<ReportVO> result = reportDAO.selectInformation(search, searchArea);
+		mav.addObject("result", result);
 		return mav;
 	}
 }

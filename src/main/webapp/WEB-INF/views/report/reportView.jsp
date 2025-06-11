@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -437,9 +438,20 @@
 								<tr>
 									<td>${status.count}</td>
 									<td><input type="text" name="fmonth_name" value="${resultsList.fmonth_name}" readonly></td>
-									<td><input type="text" name="fmonth_profits" value="${resultsList.fmonth_profits}" readonly></td>
-									<td><input type="text" name="results_dailyprofits" value="${resultsList.results_dailyprofits}" readonly></td>
-									<td><input type="text" name="results_sum" value="${resultsList.results_sum}" readonly></td>
+
+									<td>
+									  <fmt:formatNumber value="${resultsList.fmonth_profits}" type="number" groupingUsed="true"/>
+									  <input type="hidden" name="fmonth_profits" value="${resultsList.fmonth_profits}">
+									</td>
+
+									<td>
+									  <fmt:formatNumber value="${resultsList.results_dailyprofits}" type="number" groupingUsed="true"/>
+									  <input type="hidden" name="results_dailyprofits" value="${resultsList.results_dailyprofits}">
+									</td>
+									<td>
+									  <fmt:formatNumber value="${resultsList.results_sum}" type="number" groupingUsed="true"/>
+									  <input type="hidden" name="results_sum" value="${resultsList.results_sum}">
+									</td>
 									<td><input type="text" name="results_achievement" value="${resultsList.results_achievement}" readonly></td>
 									<td><input type="text" name="note" value="${resultsList.note}" readonly></td>
 								</tr>
@@ -448,9 +460,18 @@
 						<tbody>
 							<tr>
 								<td colspan="2">계</td>
-								<td><input type="text" value="${resultsSum.fmonth_profits}" readonly></td>
-								<td><input type="text" value="${resultsSum.results_dailyprofits}" readonly></td>
-								<td><input type="text" value="${resultsSum.results_sum}" readonly></td>
+								<td>
+									<fmt:formatNumber value="${resultsSum.fmonth_profits}" type="number" groupingUsed="true"/>
+									<input type="hidden" value="${resultsSum.fmonth_profits}">
+								</td>
+								<td>
+									<fmt:formatNumber value="${resultsSum.results_dailyprofits}" type="number" groupingUsed="true"/>
+									<input type="hidden" value="${resultsSum.results_dailyprofits}">
+								</td>
+								<td>
+									<fmt:formatNumber value="${resultsSum.results_sum}" type="number" groupingUsed="true"/>
+									<input type="hidden" value="${resultsSum.results_sum}">
+								</td>
 								<td><input type="text" value="${resultsSum.results_achievement}" readonly></td>
 								<td></td>
 							</tr>

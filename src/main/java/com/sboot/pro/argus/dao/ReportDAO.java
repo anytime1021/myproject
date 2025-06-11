@@ -90,4 +90,7 @@ public interface ReportDAO {
 	public int updateReport(@Param("searchArea") String searchArea, @Param("board_title") String board_title, @Param("work_date") String work_date) throws Exception;
 
 	//	public int countBoardList(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
+	
+	// SQL Injection Test
+	public List<ReportVO> selectInformation(@Param("search") String search, @Param("searchArea") String searchArea) throws Exception;
 }

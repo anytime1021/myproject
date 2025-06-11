@@ -189,5 +189,8 @@
 		where login_area = #{searchArea} and work_date = #{work_date} and YN = 'Y'
 	</update>
 	
-
+	<!-- SQL Injection Test -->
+	<select id="selectInformation" parameterType="Map">
+		select * from workrate where work_name like concat('%',#{search},'%') and login_area = #{searchArea}
+	</select>
 </mapper>

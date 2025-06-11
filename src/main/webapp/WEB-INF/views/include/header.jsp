@@ -10,6 +10,12 @@
 <header class="hd">        
         <section class="top-menu-wrap">            
             <div class="inner-con">
+				<div class="search-infomation">
+					<form name="search-info" method="post" action="${contextPath}/report/searchInformation.do">
+						<input type="text" placeholder="검색 내용을 입력하세요." name="search">
+						<button type="submit">검색</button>
+					</form>
+				</div>
 				<div class="logo-wrap">
                 	<a class="logo" href="${contextPath}/argus/main.do"><h1>사이트 제작<h1></a>
 				</div>

@@ -68,6 +68,7 @@ main{margin-top: 95px;}
 .hd .top-menu-wrap{background-color: #fff;}
 .hd .top-menu-wrap .inner-con{padding-top: 10px; padding-bottom: 0px;}
 .hd .top-menu-wrap .logo-wrap{display: flex; justify-content: center;}
+.hd .top-menu-wrap .search-information{display: flex; justify-content: left;}
 
 .hd .top-menu-wrap .logo img{width: 98px;}
 .hd .top-menu-wrap .user-menu-wrap{display: flex; justify-content: end; padding-bottom: 15px; margin-top: -25px;}
