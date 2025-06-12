@@ -433,14 +433,7 @@ public class ReportControllerImpl implements ReportController{
 		reportService.addWorkReportList(searchArea, workReportList, board_title);
 		
 		// 2. 근무현황
-		int forCounting = sowDAO.countNameLength(searchArea);
-		int count = 0;
 		
-		for (int i = 0; i < sowDWL_nameArray.length; i++) {
-			if (sowDWL_nameArray[i] != null && sowDWL_nameArray[i] != "") {
-				count++;
-			}
-		}
 		List<SowVO> resignationList = new ArrayList<>();
 		List<SowVO> sowDailyWorkLogList = new ArrayList<>();
 		for (int i = 0; i <sowDWL_nameArray.length; i++) {
@@ -460,7 +453,9 @@ public class ReportControllerImpl implements ReportController{
 		}
 		
 		// 퇴사자 직행
-		sowDAO.updateResignationList(resignationList, work_date);
+		if(resignationList.size() != 0) {
+			sowDAO.updateResignationList(resignationList, work_date);
+		}
 		
 		sowService.sowAddDailyWorkLogList(searchArea, sowDailyWorkLogList, work_date);
 
@@ -641,7 +636,7 @@ public class ReportControllerImpl implements ReportController{
 		// 날짜
 		mav.addObject("work_date", work_date);
 		
-		int totalEmployee = sowViewList.size() + btInCount + btOutCount;
+		int totalEmployee = sowViewList.size();
 		mav.addObject("totalEmployee", totalEmployee);
 		
 		// 3. 실적
@@ -842,17 +837,30 @@ public class ReportControllerImpl implements ReportController{
 		// 2. 근무현황
 		int forCounting = sowDAO.countNameLength(searchArea);
 		
+		List<SowVO> resignationList = new ArrayList<>();
+		
 		List<SowVO> sowDailyWorkLogList = new ArrayList<>();
-		for (int i = 0; i < forCounting; i++) {
-			SowVO sowvo = new SowVO();
-			sowvo.setSowDWL_name(sowDWL_nameArray[i]);
-			sowvo.setSowDWL_work_name(sowDWL_work_nameArray[i]);
-			sowvo.setSowDWL_shift(sowDWL_shiftArray[i]);
-			sowvo.setSowDWL_hours(nullReturnZero(sowDWL_hoursArray[i]));
-			sowvo.setSowDWL_overtime(nullReturnZero(sowDWL_overtimeArray[i]));
-			sowvo.setEmp_num(nullReturnZero(emp_numArray[i]));
-			sowDailyWorkLogList.add(sowvo);
+		for (int i = 0; i < sowDWL_nameArray.length; i++) {
+			if(sowDWL_nameArray[i] != null && sowDWL_nameArray[i] != "") {
+				SowVO sowvo = new SowVO();
+				sowvo.setSowDWL_name(sowDWL_nameArray[i]);
+				sowvo.setSowDWL_work_name(sowDWL_work_nameArray[i]);
+				sowvo.setSowDWL_shift(sowDWL_shiftArray[i]);
+				sowvo.setSowDWL_hours(nullReturnZero(sowDWL_hoursArray[i]));
+				sowvo.setSowDWL_overtime(nullReturnZero(sowDWL_overtimeArray[i]));
+				sowvo.setEmp_num(nullReturnZero(emp_numArray[i]));
+				sowDailyWorkLogList.add(sowvo);
+				if(sowDWL_shiftArray[i].equals("퇴사")) {
+					resignationList.add(sowvo);
+				}
+			}
 		}
+		
+		// 퇴사자 직행
+		if(resignationList.size() != 0) {
+			sowDAO.updateResignationList(resignationList, work_date);
+		}
+		
 		sowService.sowModDailyWorkLogList(sowDailyWorkLogList, searchArea, login_id, work_date);
 
 		int inCounting = sowDAO.countBtNameLength(searchArea, "in");
