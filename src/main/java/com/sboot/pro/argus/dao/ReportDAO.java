@@ -75,10 +75,16 @@ public interface ReportDAO {
 	public void deleteFmonth(ReportVO vo) throws Exception;
 	
 	// 추가
-	public int insertReport(@Param("searchArea") String searchArea, @Param("board_title") String board_title, @Param("work_date") String work_date) throws Exception;
+	public int insertReportBoard(@Param("searchArea") String searchArea, @Param("board_title") String board_title, @Param("work_date") String work_date, @Param("weather") String weather, @Param("dayofweekKorean") String dayofweekKorean) throws Exception;
 
-	// 날짜 검색
+	// 마지막 작성 날짜 검색
 	public String selectWorkdate(String searchArea);
+	
+	// 날씨, 요일 가져오기
+	public ReportVO selectWeatherDayOfWeek(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
+	
+	// 날씨 수정
+	public void updateWeather(@Param("searchArea") String searchArea, @Param("work_date") String work_date, @Param("weather") String weather) throws Exception;
 	
 	// 이전날 정보 가져오기
 	public List<ReportVO> selectWorkrateFormBefore(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;

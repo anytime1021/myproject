@@ -25,7 +25,7 @@
 	<main class="first-container">
 		<article>
 			<section>
-				<form autocomplete="off" name="addDailyReport" method="post" action="${contextPath}/report/addDailyReport.do">
+				<form autocomplete="off" name="addDailyReport" onsubmit="removeCommaBeforeSubmit()" method="post" action="${contextPath}/report/addDailyReport.do">
 					<section class="work-rate-flex"> 
 						<div class="work-basic">
 							<b> 1. 작업현황 </b>
@@ -37,7 +37,16 @@
 							<a href="${contextPath}/sow/sowAddBtEmployeeForm.do" class="btn-style">출장인원설정</a>
 						</div>
 					</section>
-					<label style="text-align:center;">날 짜 : </label><input type="date" name="work_date" placeholder="날짜를 입력해 주세요" style="text-align: center; border:1px solid black;"> 
+					<label style="text-align:center;">날 짜 : </label><input type="date" name="work_date" placeholder="날짜를 입력해 주세요" style="text-align: center; border:1px solid black;">
+					<label style="text-align:center;">날 씨 : </label>
+					<select name="weather">
+						<option value="맑음">맑음</option>
+						<option value="흐림">흐림</option>
+						<option value="비">비</option>
+						<option value="비/소나기">비/소나기</option>
+						<option value="눈">눈</option>
+						<option value="안개">안개</option>
+					</select>
 					<br>
 					<label style="text-align:center;">제 목 : </label><input type="text" name="board_title" placeholder="제목을 입력해 주세요" style="text-align: center; border:1px solid black; width:500px;">
 					<div class="work-rate">
@@ -124,25 +133,27 @@
 									<tbody>
 										<tr>
 											<td style="width:3%">${j+1+(i*30)}</td>
-											<td style="width:4%"><input type="text" name="sowDWL_name" value="${employeeList.emp_name}" readonly></td>
+											<td style="width:4%"><input type="text" name="sowDWL_name" value="${employeeList.emp_name}"></td>
 											<td class="dropdown" style="width:5%" onclick="worknameDropdown(this)">
 												<span class="selected">${sowView.sowDWL_work_name}</span>
 												<input type="hidden" name="sowDWL_work_name" class="sowDWL_work_name" value="${sowView.sowDWL_work_name}">
 												<ul class="dropdown-menu">
+													<li onclick="selectWorkname(this)"></li>
 													<c:forEach var="fmonth_name" items="${fmonthName}">
 														<li onclick="selectWorkname(this)">${fmonth_name.fmonth_name}</li>
 													</c:forEach>
-														<li onclick="selectWorkname(this)">울산</li>
-														<li onclick="selectWorkname(this)">마산</li>
-														<li onclick="selectWorkname(this)">창원</li>
-														<li onclick="selectWorkname(this)">여수</li>
-														<li onclick="selectWorkname(this)">서산</li>
+													<li onclick="selectWorkname(this)">울산</li>
+													<li onclick="selectWorkname(this)">마산</li>
+													<li onclick="selectWorkname(this)">창원</li>
+													<li onclick="selectWorkname(this)">여수</li>
+													<li onclick="selectWorkname(this)">서산</li>
 												</ul>
 											</td>
 											<td class="dropdown" style="width:4%" onclick="worknameDropdown(this)">
 												<span class="shiftSelected">${sowView.sowDWL_shift}</span>
 												<input type="hidden" name="sowDWL_shift" class="sowDWL_shift" value="${sowView.sowDWL_shift}">
 												<ul class="dropdown-menu">
+													<li onclick="selectWorkname(this)"></li>
 													<li onclick="selectWorkname(this)">주</li>
 													<li onclick="selectWorkname(this)">야</li>
 													<li onclick="selectWorkname(this)">교육</li>
@@ -152,6 +163,7 @@
 													<li onclick="selectWorkname(this)">연차</li>
 													<li onclick="selectWorkname(this)">병가</li>
 													<li onclick="selectWorkname(this)">훈련</li>
+													<li onclick="selectWorkname(this)">퇴사</li>
 													<li onclick="selectWorkname(this)">비고</li>
 												</ul>
 											</td>
@@ -288,10 +300,11 @@
 										<td>${status.count}</td>
 										<td><input type="text" name="fmonth_name" value="${fmonth_list.fmonth_name}" readonly></td>
 										<td><input type="text" name="fmonth_profits" value="${fmonth_list.fmonth_profits}" readonly></td>
-										<td><input type="text" name="results_dailyprofits"></td>
+										<td><input type="text" name="results_dailyprofits" oninput=""></td>
 										<td><input type="text" name="results_sum" placeholder="-" readonly></td>
 										<td><input type="text" name="results_achievement" placeholder="-" readonly></td>
 										<td><input type="text" name="note"></td>
+										<input type="hidden" name="results_fmonth_num" value="${fmonth_list.fmonth_num}">
 									</tr>
 								</c:forEach>
 						</table>
@@ -372,6 +385,18 @@
 		
 		const sowDWL_work_name = td.querySelector('input.sowDWL_work_name');
 		if (sowDWL_work_name) sowDWL_work_name.value = selectedText;
+		
+		event.stopPropagation();
+	}
+	
+	function selectWeather(li) {
+		const label = li.closest(".dropdown");
+		const selectedText = li.innerText;
+		label.querySelector(".selected").innerText = li.innerText;
+		label.querySelector(".dropdown-menu").style.display = "none";
+		
+		const weather = label.querySelector('input.weather');
+		if (weather) weather.value = selectedText;
 		
 		event.stopPropagation();
 	}

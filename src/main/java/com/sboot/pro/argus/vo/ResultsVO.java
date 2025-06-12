@@ -14,6 +14,8 @@ public class ResultsVO extends WorkingDailyBaseVO {
 	private BigDecimal results_achievement;
 	private String note;
 	
+	private String results_dailyprofits_comma;
+	private String results_sum_comma;
 	public BigDecimal getResults_dailyprofits() {
 		return results_dailyprofits;
 	}
@@ -38,11 +40,24 @@ public class ResultsVO extends WorkingDailyBaseVO {
 	public void setNote(String note) {
 		this.note = note;
 	}
-	@Override
-	public String toString() {
-		return "ResultsVO [results_dailyprofits=" + results_dailyprofits + ", results_sum=" + results_sum
-				+ ", results_achievement=" + results_achievement + ", note=" + note + "]" + super.toString();
+	public String getResults_dailyprofits_comma() {
+		return results_dailyprofits_comma;
+	}
+	public void setResults_dailyprofits_comma(String results_dailyprofits_comma) {
+		this.results_dailyprofits_comma = results_dailyprofits_comma;
+	}
+	public String getResults_sum_comma() {
+		return results_sum_comma;
+	}
+	public void setResults_sum_comma(String results_sum_comma) {
+		this.results_sum_comma = results_sum_comma;
 	}
 	
 	
+	@Override
+	public String toString() {
+		return "ResultsVO [results_dailyprofits=" + results_dailyprofits + ", results_sum=" + results_sum
+				+ ", results_achievement=" + results_achievement + ", note=" + note + ", results_dailyprofits_comma="
+				+ results_dailyprofits_comma + ", results_sum_comma=" + results_sum_comma + "]";
+	}
 }

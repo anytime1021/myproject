@@ -2,11 +2,15 @@ package com.sboot.pro.argus.controller;
 
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.sboot.pro.argus.DTO.BoardType;
 import com.sboot.pro.argus.DTO.CombinedSowDailyWorkLog;
 import com.sboot.pro.argus.DTO.DailyReportWorkrate;
@@ -147,8 +147,6 @@ public class ReportControllerImpl implements ReportController{
 	    mav.addObject("unitCostList", list);
 	    
 	    List<ReportVO> workNameList = reportDAO.selectUnitCostWorkName(login.getLogin_area());
-	    System.out.println(list);
-	    System.out.println(workNameList);
 	    mav.addObject("workNameList", workNameList);
 		return mav;
 	}
@@ -365,7 +363,9 @@ public class ReportControllerImpl implements ReportController{
 	}
 	
 	@PostMapping("/report/addDailyReport.do")
-	public ModelAndView addDailyReport(@RequestParam("work_date") String work_date, @RequestParam("board_title") String board_title,
+	public ModelAndView addDailyReport(@RequestParam("work_date") String work_date, 
+		@RequestParam("weather") String weather,
+		@RequestParam("board_title") String board_title,
 		@RequestParam(value = "work_name", required =false) String[] work_nameArray,
 		@RequestParam(value = "work_amount_HTW1", required = false) String[] work_amount_HTW1Array,
 		@RequestParam(value = "work_amount_HTW2", required = false) String[] work_amount_HTW2Array,
@@ -399,11 +399,21 @@ public class ReportControllerImpl implements ReportController{
 		@RequestParam(value = "fmonth_profits", required = false) String[] fmonth_profitsArray,
 		@RequestParam(value = "results_dailyprofits", required = false) String[] results_dailyprofitsArray,
 		@RequestParam(value = "note", required = false) String[] noteArray,
+		@RequestParam(value = "results_fmonth_num", required = false) String[] results_fmonth_numArray,
 		HttpServletRequest request) throws Exception {
 		// 세션값받기
-		ModelAndView mav = new ModelAndView("redirect:/report/mixReportTest.do");
+		ModelAndView mav = new ModelAndView("redirect:/report/reportArea.do");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
+		
+		
+		// 0. 게시판
+		LocalDate date = LocalDate.parse(work_date);
+		DayOfWeek dayofweek = date.getDayOfWeek();
+		
+		String dayofweekKorean = dayofweek.getDisplayName(TextStyle.SHORT, Locale.KOREA);
+			
+		int result = reportService.addReportBoard(searchArea, board_title, work_date, weather, dayofweekKorean);
 		
 		// 1. 작업현황
 		List<ReportVO> workReportList = new ArrayList<>();
@@ -426,13 +436,20 @@ public class ReportControllerImpl implements ReportController{
 
 		reportService.addWorkReportList(searchArea, workReportList, board_title);
 		
-		int result = reportService.addReport(searchArea, board_title, work_date);
-
 		// 2. 근무현황
 		int forCounting = sowDAO.countNameLength(searchArea);
+		int count = 0;
 		
+		for (int i = 0; i < sowDWL_nameArray.length; i++) {
+			if (sowDWL_nameArray[i] != null && sowDWL_nameArray[i] != "") {
+				count++;
+			}
+		}
+		System.out.println(forCounting);
+		System.out.println(count);
 		List<SowVO> sowDailyWorkLogList = new ArrayList<>();
-		for (int i = 0; i < forCounting; i++) {
+		for (int i = 0; i <sowDWL_nameArray.length; i++) {
+			if(sowDWL_nameArray[i] != null && sowDWL_nameArray[i] != "") {
 			SowVO sowvo = new SowVO();
 			sowvo.setSowDWL_name(sowDWL_nameArray[i]);
 			sowvo.setSowDWL_work_name(sowDWL_work_nameArray[i]);
@@ -441,7 +458,11 @@ public class ReportControllerImpl implements ReportController{
 			sowvo.setSowDWL_overtime(nullReturnZero(sowDWL_overtimeArray[i]));
 			sowvo.setEmp_num(nullReturnZero(emp_numArray[i]));
 			sowDailyWorkLogList.add(sowvo);
+			} 
 		}
+		
+
+		
 		sowService.sowAddDailyWorkLogList(searchArea, sowDailyWorkLogList, work_date);
 
 		int inCounting = sowDAO.countBtNameLength(searchArea, "in");
@@ -488,6 +509,7 @@ public class ReportControllerImpl implements ReportController{
 			resultsVO.setFmonth_profits(new BigDecimal(fmonth_profitsArray[i]));
 			resultsVO.setResults_dailyprofits(safeParseDecimal(results_dailyprofitsArray[i]));
 			resultsVO.setNote(noteArray[i]);
+			resultsVO.setFmonth_num(nullReturnZero(results_fmonth_numArray[i]));
 			addResultsList.add(resultsVO);
 		}
 		
@@ -543,6 +565,11 @@ public class ReportControllerImpl implements ReportController{
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
 		
+		// 날씨, 요일 DAO 직행
+		ReportVO weatherDayOfWeek = reportDAO.selectWeatherDayOfWeek(searchArea, work_date);
+		mav.addObject("weatherDayOfWeek", weatherDayOfWeek);
+		mav.addObject("area", searchArea);
+				
 		// 1. 작업현황
 		DailyReportWorkrate dailyReport = reportService.dailyReportWorkrate(searchArea, work_date);
 	    List<ReportVO> dailyReportViewMerged = dailyReport.getDailyReportViewMerged();
@@ -567,6 +594,8 @@ public class ReportControllerImpl implements ReportController{
 		
 		List<SowVO> sowViewList = data.getSowDailyWorkLog();
 		List<SowVO> sumOverTime = data.getSumOverTime();
+		
+//		List<SowVO>
 		
 		mav.addObject("sowViewList", sowViewList);
 		mav.addObject("sumOverTime", sumOverTime);
@@ -626,9 +655,6 @@ public class ReportControllerImpl implements ReportController{
 		List<ResultsVO> resultsList = new ArrayList<>();
 		resultsList = resultsService.selectResultsList(searchArea, work_date);
 
-		for (ResultsVO dto : resultsList) {
-		    System.out.println(dto.getFmonth_num());
-		}
 		mav.addObject("resultsList", resultsList);
 		
 		ResultsVO resultsSum = new ResultsVO();
@@ -644,6 +670,17 @@ public class ReportControllerImpl implements ReportController{
 		ModelAndView mav = new ModelAndView("/report/modDailyReportForm");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
+		
+		// 날씨, 요일 DAO 직행
+		ReportVO weatherDayOfWeek = reportDAO.selectWeatherDayOfWeek(searchArea, work_date);
+		mav.addObject("weatherDayOfWeek", weatherDayOfWeek);
+		mav.addObject("area", searchArea);
+		
+		// 날짜 및 기타 수정폼 기능 - DAO직행
+		mav.addObject("work_date", work_date);
+		
+		String board_title = reportDAO.selectBoardTitle(searchArea, work_date);
+		mav.addObject("board_title", board_title);
 		
 		// 1. 작업 현황
 		ReportVO HowToWork = reportDAO.selectHTW(searchArea);
@@ -725,22 +762,29 @@ public class ReportControllerImpl implements ReportController{
 		
 		// 3. 실적
 		List<ReportVO> fmonth_list = reportDAO.selectFmonth(searchArea);
-		mav.addObject("fmonth_list", fmonth_list);
 		
 		List<ResultsVO> results_list = resultsService.selectResultsList(searchArea, work_date);
+		
+		DecimalFormat formatter = new DecimalFormat("#,###");
+		
+//		for (ReportVO vo : fmonth_list) {
+//			vo.setFmonth_profits_comma(formatter.format(vo.getFmonth_profits()));
+//		}
+		mav.addObject("fmonth_list", fmonth_list);
+		
+		for (ResultsVO vo : results_list) {
+			vo.setResults_dailyprofits_comma(formatter.format(vo.getResults_dailyprofits()));
+//			vo.setResults_sum_comma(formatter.format(vo.getResults_sum()));
+		}
 		mav.addObject("results_list", results_list);
-		
-		// 날짜 및 기타 수정폼 기능 - DAO직행
-		mav.addObject("work_date", work_date);
-		
-		String board_title = reportDAO.selectBoardTitle(searchArea, work_date);
-		mav.addObject("board_title", board_title);
 		
 		return mav;
 	}
 	
 	@PostMapping("/report/modDailyReport.do")
-	public ModelAndView modDailyReport(@RequestParam(value = "work_date") String work_date, @RequestParam("board_title") String board_title,
+	public ModelAndView modDailyReport(@RequestParam(value = "work_date") String work_date, 
+		@RequestParam("weather") String weather,
+		@RequestParam("board_title") String board_title,
 		@RequestParam(value = "work_name", required = false) String[] work_nameArray,
 		@RequestParam(value = "work_amount_HTW1", required = false) String[] work_amount_HTW1Array,
 		@RequestParam(value = "work_amount_HTW2", required = false) String[] work_amount_HTW2Array,
@@ -781,6 +825,9 @@ public class ReportControllerImpl implements ReportController{
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
 		String login_id = login.getLogin_id();
+		
+		// 0. 날씨변경 DAO 직행
+		reportDAO.updateWeather(searchArea, work_date, weather);
 		
 		// 1. 작업현황
 		List<ReportVO> modReportList = new ArrayList<>();

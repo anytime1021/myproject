@@ -45,11 +45,11 @@
 							<td style="height:30%;"><b>날씨</b></td>
 						</tr>
 						<tr>
-						    <td style="height:70%;"></td>
-						    <td style="height:70%;"></td>
-						    <td style="height:70%;"></td>
-						    <td style="height:70%;"></td>
-							<td style="height:70%;"></td>
+						    <td style="height:70%;">1</td>
+						    <td style="height:70%;">${area}</td>
+						    <td style="height:70%;">${work_date}</td>								
+						    <td style="height:70%;">${weatherDayOfWeek.dayofweek}</td>								
+							<td style="height:70%;">${weatherDayOfWeek.weather}</td>
 						</tr>
 					</table>
 				</div>

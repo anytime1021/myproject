@@ -172,8 +172,8 @@ public class ReportServiceImpl implements ReportService {
 
 	
 	// 추가
-	public int addReport(String searchArea, String board_title, String work_date) throws Exception {
-		return reportDAO.insertReport(searchArea, board_title, work_date);
+	public int addReportBoard(String searchArea, String board_title, String work_date, String weather, String dayofweekKorean) throws Exception {
+		return reportDAO.insertReportBoard(searchArea, board_title, work_date, weather, dayofweekKorean);
 	}
 	
 	// 이전날 정보 불러오기

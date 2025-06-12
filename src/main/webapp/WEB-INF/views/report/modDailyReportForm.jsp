@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -25,13 +26,22 @@
 	<main class="first-container">
 		<article>
 			<section>
-				<form autocomplete="off" name="modDailyReport" method="post" action="${contextPath}/report/modDailyReport.do">
+				<form autocomplete="off" name="modDailyReport" onsubmit="removeCommaBeforeSubmit()" method="post" action="${contextPath}/report/modDailyReport.do">
 					<section class="work-rate-flex"> 
 						<div class="work-basic">
 							<b> 1. 작업현황 </b>
 						</div>
 					</section>
 					<label style="text-align:center;">날 짜 : </label><input type="date" name="work_date" value="${work_date}" placeholder="날짜를 입력해 주세요" style="text-align: center; border:1px solid black;"> 
+					<label style="text-align:center;">날 씨 : </label>
+					<select name="weather">
+						<option value="맑음" ${weatherDayOfWeek.weather == '맑음' ? 'selected' : ''}>맑음</option>
+						<option value="흐림" ${weatherDayOfWeek.weather == '흐림' ? 'selected' : ''}>흐림</option>
+						<option value="비" ${weatherDayOfWeek.weather == '비' ? 'selected' : ''}>비</option>
+						<option value="비/소나기" ${weatherDayOfWeek.weather == '비/소나기' ? 'selected' : ''}>비/소나기</option>
+						<option value="눈" ${weatherDayOfWeek.weather == '눈' ? 'selected' : ''}>눈</option>
+						<option value="안개" ${weatherDayOfWeek.weather == '안개' ? 'selected' : ''}>안개</option>
+					</select>
 					<br>
 					<label style="text-align:center;">제 목 : </label><input type="text" name="board_title" value="${board_title}" placeholder="제목을 입력해 주세요" style="text-align: center; border:1px solid black; width:500px;">
 					<div class="work-rate">
@@ -282,9 +292,15 @@
 									<tr>
 										<td>${status.count}</td>
 										<td><input type="text" name="fmonth_name" value="${fmonth_list.fmonth_name}" readonly></td>
-										<td><input type="text" name="fmonth_profits" value="${fmonth_list.fmonth_profits}" readonly></td>
-										<td><input type="text" name="results_dailyprofits" value="${resultsList.results_dailyprofits}"></td>
-										<td><input type="text" name="results_sum" value="${resultsList.results_sum}" placeholder="-" readonly></td>
+										<td>
+											<fmt:formatNumber value="${fmonth_list.fmonth_profits}" pattern="#,###" />
+											<input type="hidden" name="fmonth_profits" value="${fmonth_list.fmonth_profits}" readonly>
+										</td>
+										<td><input type="text" class="results_dailyprofits" name="results_dailyprofits" id="results_dailyprofits" oninput="formatComma(this)" value="${resultsList.results_dailyprofits_comma}"></td>
+										<td>
+											<fmt:formatNumber value="${resultsList.results_sum}" type="number" pattern="#,###" />
+											<input type="hidden" name="results_sum" value="${resultsList.results_sum}" placeholder="-" readonly>
+										</td>
 										<td><input type="text" name="results_achievement" value="${resultsList.results_achievement}" placeholder="-" readonly></td>
 										<td><input type="text" name="note" value="${resultsList.note}"></td>
 										<input type="hidden" name="results_fmonth_num" value="${resultsList.fmonth_num}">
@@ -385,7 +401,22 @@
 	  console.log("empName:", input.value);
 	});
 	
-	
+	function formatComma(input) {
+		const cursorPosition = input.selectionStart;
+		
+		let value = input.value.replace(/[^0-9]/g, '');
+		
+		input.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		
+		input.setSelectionRange(input.value.length, input.value.length);
+	}
+		
+	function removeCommaBeforeSubmit() {
+		const input = document.querySelectorAll(".results_dailyprofits");
+		input.forEach(input => {
+			input.value = input.value.replace(/,/g,'');
+		});
+	}
 </script>
 <script src="${contextPath}/resources/js/script.js"></script>
 </html>

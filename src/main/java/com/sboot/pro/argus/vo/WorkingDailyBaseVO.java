@@ -16,6 +16,8 @@ public class WorkingDailyBaseVO {
 	// 작업일보 전체
 	private String work_date;
 	private String login_work_area;
+	private String weather;
+	private String dayofweek;
 	
 	// 게시판
 	private int board_num;
@@ -36,7 +38,8 @@ public class WorkingDailyBaseVO {
 	private BigDecimal fmonth_profits;
 	private String login_area;
 	private int fmonth_num;
-
+	private String fmonth_profits_comma;
+	
 	public LoginVO getLoginVO() {
 		return loginVO;
 	}
@@ -60,6 +63,18 @@ public class WorkingDailyBaseVO {
 	}
 	public void setLogin_work_area(String login_work_area) {
 		this.login_work_area = login_work_area;
+	}
+	public String getWeather() {
+		return weather;
+	}
+	public void setWeather(String weather) {
+		this.weather = weather;
+	}
+	public String getDayofweek() {
+		return dayofweek;
+	}
+	public void setDayofweek(String dayofweek) {
+		this.dayofweek = dayofweek;
 	}
 	public int getBoard_num() {
 		return board_num;
@@ -120,6 +135,13 @@ public class WorkingDailyBaseVO {
 	}
 	public void setFmonth_profits(BigDecimal fmonth_profits) {
 		this.fmonth_profits = fmonth_profits;
+	}
+	
+	public String getFmonth_profits_comma() {
+		return fmonth_profits_comma;
+	}
+	public void setFmonth_profits_comma(String fmonth_profits_comma) {
+		this.fmonth_profits_comma = fmonth_profits_comma;
 	}
 	public String getLogin_area() {
 		return login_area;

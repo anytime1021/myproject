@@ -164,16 +164,26 @@
 		where fmonth_num = #{dummyInt}
 	</update>
 	
-
-	
-	<insert id="insertReport" parameterType="Map">
-		insert into workrate_board(board_title, work_date, login_area) values (#{board_title}, #{work_date}, #{searchArea})
+	<insert id="insertReportBoard" parameterType="Map">
+		insert into workrate_board(board_title, work_date, dayofweek, login_area, weather) values (#{board_title}, #{work_date}, #{dayofweekKorean}, #{searchArea}, #{weather})
 	</insert>
 	
 	<!-- 날짜 검색 -->
 	<select id="selectWorkdate" resultType="String">
 		select distinct max(work_date) from workrate_board where login_area = #{searchArea} and YN='Y';
 	</select>
+	
+	<!-- 날씨, 요일 가져오기 -->
+	<select id="selectWeatherDayOfWeek" resultType="ReportVO">
+		select dayofweek, weather from workrate_board where login_area = #{searchArea} and work_date = #{work_date} and YN = 'Y'
+	</select>
+	
+	<!-- 날씨 수정 -->
+	<update id="updateWeather" parameterType="Map">
+		update workrate_board
+		set weather = #{weather}
+		where login_area = #{searchArea} and work_date = #{work_date} and YN = 'Y'
+	</update>
 	
 	<select id="selectWorkrateFormBefore" parameterType="Map">
 		select * from workrate where login_area = #{searchArea} and work_date = #{work_date} and YN = 'Y'

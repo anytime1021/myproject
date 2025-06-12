@@ -44,7 +44,7 @@ public interface ReportService {
 	// 2025-04-17 전체 수정 후
 	
 	// 추가
-	public int addReport(String searchArea, String board_title, String work_date) throws Exception;
+	public int addReportBoard(String searchArea, String board_title, String work_date, String weather, String dayofweekKorean) throws Exception;
 
 	// 전날 정보 불러오기
 	public List<ReportVO> workrateFormBefore(String searchArea, String work_date) throws Exception;
