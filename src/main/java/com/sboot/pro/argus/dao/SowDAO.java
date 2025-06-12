@@ -20,11 +20,14 @@ public interface SowDAO {
 	public void insertBusinessTrip(@Param("searchArea") String searchArea, @Param("sowBusinessTrip") List<SowVO> sowBusinessTrip, @Param("work_date") String work_date) throws Exception;
 
 	public int countBtNameLength(@Param("searchArea") String searchArea, @Param("bt_inout") String bt_inout) throws Exception;
-
-	// sow 일일 보기
-	public List<SowVO> selectViewList(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
-	public List<SowVO> selectSumOverTime(@Param("searchArea") String searchArea, @Param("work_date") String work_date, @Param("start_date") String start_date) throws Exception;
 	
+	// sow 퇴사자 저장
+	public void updateResignationList(@Param("resignationList") List<SowVO> resignationList, @Param("work_date") String work_date) throws Exception;
+	
+	// sow 일일 보기
+	public List<SowVO> selectViewList(@Param("searchArea") String searchArea, @Param("start_date") String start_date, @Param("work_date") String work_date) throws Exception;
+
+	public List<SowVO> selectViewList_removeResi(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
 	public List<SowVO> selectDayNightOvertime(@Param("searchArea") String searchArea, @Param("start_date") String start_date, @Param("work_date") String work_date) throws Exception;
 	public List<SowVO> selectShiftType(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
 	

@@ -123,46 +123,46 @@ public class ReportControllerImpl implements ReportController{
 	// -------------------------------------------------------------------------------------------------------------------
 	
 	// 단가 등록
-	@GetMapping("/report/testList.do")
-	public ModelAndView testList(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("/report/testList");
-		HttpSession session = request.getSession();
-		LoginVO login = (LoginVO) session.getAttribute("login");
-		String searchArea = login.getLogin_area();
-        
-		String work_date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		CombinedSowDailyWorkLog data = sowService.getCombinedSowDailyWorkLog(searchArea, work_date);
-		
-		List<SowVO> sowViewList = data.getSowDailyWorkLog();
-		List<SowVO> sumOverTime = data.getSumOverTime();
-		List<ReportVO> workname = reportDAO.selectFmonth(searchArea);
-//		sowViewList = reportService.selectViewList(searchArea, work_date);
-		mav.addObject("sowViewList", sowViewList);
-		mav.addObject("sumOverTime", sumOverTime);
-		mav.addObject("work_date", work_date);
-		mav.addObject("workname", workname);
-		mav.addObject("searchArea", searchArea);
-		
-	    List<ReportVO> list = reportDAO.selectUnitCost(login.getLogin_area());
-	    mav.addObject("unitCostList", list);
-	    
-	    List<ReportVO> workNameList = reportDAO.selectUnitCostWorkName(login.getLogin_area());
-	    mav.addObject("workNameList", workNameList);
-		return mav;
-	}
+//	@GetMapping("/report/testList.do")
+//	public ModelAndView testList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		ModelAndView mav = new ModelAndView("/report/testList");
+//		HttpSession session = request.getSession();
+//		LoginVO login = (LoginVO) session.getAttribute("login");
+//		String searchArea = login.getLogin_area();
+//        
+//		String work_date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+//		CombinedSowDailyWorkLog data = sowService.getCombinedSowDailyWorkLog(searchArea, work_date);
+//		
+//		List<SowVO> sowViewList = data.getSowDailyWorkLog();
+//		List<SowVO> sumOverTime = data.getSumOverTime();
+//		List<ReportVO> workname = reportDAO.selectFmonth(searchArea);
+////		sowViewList = reportService.selectViewList(searchArea, work_date);
+//		mav.addObject("sowViewList", sowViewList);
+//		mav.addObject("sumOverTime", sumOverTime);
+//		mav.addObject("work_date", work_date);
+//		mav.addObject("workname", workname);
+//		mav.addObject("searchArea", searchArea);
+//		
+//	    List<ReportVO> list = reportDAO.selectUnitCost(login.getLogin_area());
+//	    mav.addObject("unitCostList", list);
+//	    
+//	    List<ReportVO> workNameList = reportDAO.selectUnitCostWorkName(login.getLogin_area());
+//	    mav.addObject("workNameList", workNameList);
+//		return mav;
+//	}
 	
-	// 단가 추가 
-	@PostMapping("/report/addPrice.do")
-	public ModelAndView addPrice(@ModelAttribute("addPrice") ReportVO addPrice, HttpServletRequest request, HttpServletResponse response) throws Exception {
-	    ModelAndView mav = new ModelAndView("redirect:/report/addPrice.do");
-		HttpSession session = request.getSession();
-	    LoginVO login = (LoginVO) session.getAttribute("login");
-	    addPrice.setLogin_area(login.getLogin_area());
-	    reportDAO.insertMethodQuantityCost(addPrice);
-	    List<ReportVO> list = reportDAO.selectUnitCost(login.getLogin_area());
-	    mav.addObject("unitCostList", list);
-	    return mav; 
-	}
+//	// 단가 추가 
+//	@PostMapping("/report/addPrice.do")
+//	public ModelAndView addPrice(@ModelAttribute("addPrice") ReportVO addPrice, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//	    ModelAndView mav = new ModelAndView("redirect:/report/addPrice.do");
+//		HttpSession session = request.getSession();
+//	    LoginVO login = (LoginVO) session.getAttribute("login");
+//	    addPrice.setLogin_area(login.getLogin_area());
+//	    reportDAO.insertMethodQuantityCost(addPrice);
+//	    List<ReportVO> list = reportDAO.selectUnitCost(login.getLogin_area());
+//	    mav.addObject("unitCostList", list);
+//	    return mav; 
+//	}
 	
 	// testList2 이하 업체등록 및 익월예상보고
 	@GetMapping("/report/followingMonth.do")
@@ -288,14 +288,10 @@ public class ReportControllerImpl implements ReportController{
 		List<ReportVO> selectFmonth = reportDAO.selectFmonth(searchArea);
 		mav.addObject("selectFmonth", selectFmonth);
 		
-		// 2. 근무 현황
-		CombinedSowDailyWorkLog data = sowService.getCombinedSowDailyWorkLog(searchArea, work_date);
-		
-		List<SowVO> sowViewList = data.getSowDailyWorkLog();
-		List<SowVO> sumOverTime = data.getSumOverTime();
-		
+	    // 2. 근무현황 - 퇴사자 삭제 리스트 DAO 직행
+		List<SowVO> sowViewList = sowDAO.selectViewList_removeResi(searchArea, work_date);
+
 		mav.addObject("sowViewList", sowViewList);
-		mav.addObject("sumOverTime", sumOverTime);
 		
 		// 출장자 목록
 		List<SowVO> btInList = new ArrayList<SowVO>();
@@ -445,23 +441,26 @@ public class ReportControllerImpl implements ReportController{
 				count++;
 			}
 		}
-		System.out.println(forCounting);
-		System.out.println(count);
+		List<SowVO> resignationList = new ArrayList<>();
 		List<SowVO> sowDailyWorkLogList = new ArrayList<>();
 		for (int i = 0; i <sowDWL_nameArray.length; i++) {
 			if(sowDWL_nameArray[i] != null && sowDWL_nameArray[i] != "") {
-			SowVO sowvo = new SowVO();
-			sowvo.setSowDWL_name(sowDWL_nameArray[i]);
-			sowvo.setSowDWL_work_name(sowDWL_work_nameArray[i]);
-			sowvo.setSowDWL_shift(sowDWL_shiftArray[i]);
-			sowvo.setSowDWL_hours(nullReturnZero(sowDWL_hoursArray[i]));
-			sowvo.setSowDWL_overtime(nullReturnZero(sowDWL_overtimeArray[i]));
-			sowvo.setEmp_num(nullReturnZero(emp_numArray[i]));
-			sowDailyWorkLogList.add(sowvo);
+				SowVO sowvo = new SowVO();
+				sowvo.setSowDWL_name(sowDWL_nameArray[i]);
+				sowvo.setSowDWL_work_name(sowDWL_work_nameArray[i]);
+				sowvo.setSowDWL_shift(sowDWL_shiftArray[i]);
+				sowvo.setSowDWL_hours(nullReturnZero(sowDWL_hoursArray[i]));
+				sowvo.setSowDWL_overtime(nullReturnZero(sowDWL_overtimeArray[i]));
+				sowvo.setEmp_num(nullReturnZero(emp_numArray[i]));
+				sowDailyWorkLogList.add(sowvo);
+				if(sowDWL_shiftArray[i].equals("퇴사")) {
+					resignationList.add(sowvo);
+				}
 			} 
 		}
 		
-
+		// 퇴사자 직행
+		sowDAO.updateResignationList(resignationList, work_date);
 		
 		sowService.sowAddDailyWorkLogList(searchArea, sowDailyWorkLogList, work_date);
 
@@ -497,6 +496,7 @@ public class ReportControllerImpl implements ReportController{
 			sowvo.setEmp_num(nullReturnZero(emp_num_outArray[i]));
 			sowBusinessTripOut.add(sowvo);
 		}
+		
 		if (!sowBusinessTripOut.isEmpty()) {
 			sowService.sowAddBusinessTrip(searchArea, sowBusinessTripOut, work_date);
 		}
@@ -590,16 +590,9 @@ public class ReportControllerImpl implements ReportController{
 		mav.addObject("sumOvertime", sumOvertime);
 	    
 	    // 2. 근무현황
-	    CombinedSowDailyWorkLog data = sowService.getCombinedSowDailyWorkLog(searchArea, work_date);
-		
-		List<SowVO> sowViewList = data.getSowDailyWorkLog();
-		List<SowVO> sumOverTime = data.getSumOverTime();
-		
-//		List<SowVO>
-		
+		List<SowVO> sowViewList = sowService.selectViewList(searchArea, work_date);
 		mav.addObject("sowViewList", sowViewList);
-		mav.addObject("sumOverTime", sumOverTime);
-		
+
 		// 출장자 불러오기
 		List<SowVO> btInList = new ArrayList<>();
 		btInList = sowService.selectBusinessTrip(searchArea, "in", work_date);
@@ -648,7 +641,7 @@ public class ReportControllerImpl implements ReportController{
 		// 날짜
 		mav.addObject("work_date", work_date);
 		
-		int totalEmployee = sumOverTime.size() + btInCount + btOutCount;
+		int totalEmployee = sowViewList.size() + btInCount + btOutCount;
 		mav.addObject("totalEmployee", totalEmployee);
 		
 		// 3. 실적
@@ -692,14 +685,9 @@ public class ReportControllerImpl implements ReportController{
 		List<ReportVO> selectFmonth = reportDAO.selectFmonth(searchArea);
 		mav.addObject("selectFmonth", selectFmonth);
 		
-		// 2. 근무 현황
-		CombinedSowDailyWorkLog data = sowService.getCombinedSowDailyWorkLog(searchArea, work_date);
-		
-		List<SowVO> sowViewList = data.getSowDailyWorkLog();
-		List<SowVO> sumOverTime = data.getSumOverTime();
-		
+	    // 2. 근무현황
+		List<SowVO> sowViewList = sowService.selectViewList(searchArea, work_date);
 		mav.addObject("sowViewList", sowViewList);
-		mav.addObject("sumOverTime", sumOverTime);
 		
 		// 출장자 목록
 		List<SowVO> btInList = new ArrayList<SowVO>();

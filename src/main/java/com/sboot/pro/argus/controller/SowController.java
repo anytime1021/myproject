@@ -36,12 +36,6 @@ public interface SowController {
 			@RequestParam(value = "emp_num_out", required=false) String[] emp_num_outArray,
 			@RequestParam("work_date") String work_date, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
-	// sow 일일 보기
-	public ModelAndView sowView(@RequestParam("work_date") String work_date, HttpServletRequest request, HttpServletResponse response) throws Exception;
-
-	// sow 일일 수정 폼
-	public ModelAndView sowModDailyForm(@RequestParam("work_date") String work_date, HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
 	// sow 월별 게시판 접속
 	public ModelAndView sowBoardTotal(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
@@ -52,8 +46,6 @@ public interface SowController {
 	// 직원 등록(정보저장)
 	public ModelAndView sowAddEmployee(@RequestParam("sowMWL_name") String sowMWL_name, @RequestParam("searchDate") String searchDate, HttpServletRequest request, HttpServletResponse response) throws Exception;
 
-	public CombinedSowDailyWorkLog getCombinedSowDailyWorkLog(String searchArea, String work_date) throws Exception;
-	
 	// 출장자 추가 폼
 	public ModelAndView sowAddBtEmployeeForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	

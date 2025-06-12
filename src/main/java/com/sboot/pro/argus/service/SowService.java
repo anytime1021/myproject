@@ -31,8 +31,6 @@ public interface SowService {
 	// 직원 목록
 	public List<SowVO> selectEmployeeList(String searchArea) throws Exception;
 
-	public CombinedSowDailyWorkLog getCombinedSowDailyWorkLog(String searchArea, String work_date) throws Exception;
-
 	// 출장자 목록
 	public List<SowVO> selectBtEmployeeList(String searchArea, String bt_inout) throws Exception;
 

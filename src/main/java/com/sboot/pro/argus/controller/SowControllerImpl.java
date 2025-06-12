@@ -210,116 +210,6 @@ public class SowControllerImpl implements SowController {
 		}
 	}
 	
-	// sow 일일 보기
-	@Override
-	@GetMapping("/sow/sowDailyView.do")
-	public ModelAndView sowView(@RequestParam("work_date") String work_date, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("/sow/sowDailyView");
-		HttpSession session = request.getSession();
-		LoginVO login = (LoginVO) session.getAttribute("login");
-		String searchArea = login.getLogin_area();
-		
-		// 일일보기 및 추가누계 불러오기
-		CombinedSowDailyWorkLog data = sowService.getCombinedSowDailyWorkLog(searchArea, work_date);
-		
-		List<SowVO> sowViewList = data.getSowDailyWorkLog();
-		List<SowVO> sumOverTime = data.getSumOverTime();
-		
-		mav.addObject("sowViewList", sowViewList);
-		mav.addObject("sumOverTime", sumOverTime);
-		
-		// 출장자 불러오기
-		List<SowVO> btInList = new ArrayList<>();
-		btInList = sowService.selectBusinessTrip(searchArea, "in", work_date);
-		
-		List<SowVO> btOutList = new ArrayList<>();
-		btOutList = sowService.selectBusinessTrip(searchArea, "out", work_date);
-		
-		// 출장자 추가누계
-		List<SowVO> btInSumOverTime = new ArrayList<>();
-		btInSumOverTime = sowService.btSumOverTime(searchArea, "in", work_date);
-		
-		List<SowVO> btOutSumOverTime = new ArrayList<>();
-		btOutSumOverTime = sowService.btSumOverTime(searchArea, "out", work_date);
-		
-		String bt_in = "in";
-		String bt_out = "out";
-		int btInCount = sowService.countBtViewList(searchArea, bt_in, work_date);
-		int btOutCount = sowService.countBtViewList(searchArea, bt_out, work_date);
-		
-		mav.addObject("btInList", btInList);
-		mav.addObject("btOutList", btOutList);
-		mav.addObject("btInCount", btInCount);
-		mav.addObject("btOutCount", btOutCount);
-		mav.addObject("btInSumOverTime", btInSumOverTime);
-		mav.addObject("btOutSumOverTime", btOutSumOverTime);
-		
-		// 작업명 불러오기
-		List<SowVO> sowWorkName = new ArrayList<SowVO>();
-		sowWorkName = sowDAO.selectWorkName(searchArea);
-		mav.addObject("sowWorkName", sowWorkName);
-
-		// 주간추가 - 야간 - 야간추가 검색
-		List<SowVO> dayNightOvertime = new ArrayList<SowVO>();
-		dayNightOvertime = sowService.selectDayNightOvertime(searchArea, work_date);
-		mav.addObject("dayNightOvertime", dayNightOvertime);
-		
-		// 기타 근무별 데이터 조회
-		List<SowVO> shiftType = new ArrayList<SowVO>();
-		shiftType = sowService.selectShiftType(searchArea, work_date);
-		
-		List<String> shiftNames = List.of("교육", "출장(입)", "출장(출)", "경조", "시험", "연차", "병가", "훈련", "기타", "비고");
-		mav.addObject("shiftNames", shiftNames);
-
-		mav.addObject("shiftType", shiftType);
-		
-		// 날짜
-		mav.addObject("work_date", work_date);
-		
-		int totalEmployee = sumOverTime.size() + btInCount + btOutCount;
-		mav.addObject("totalEmployee", totalEmployee);
-		return mav;
-	}
-	
-	// sow 일일 수정 폼
-	@Override
-	@GetMapping("/sow/sowModDailyForm.do")
-	public ModelAndView sowModDailyForm(@RequestParam("work_date") String work_date, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("/sow/sowModDailyForm");
-		HttpSession session = request.getSession();
-		LoginVO login = (LoginVO) session.getAttribute("login");
-		String searchArea = login.getLogin_area();
-		
-		CombinedSowDailyWorkLog data = sowService.getCombinedSowDailyWorkLog(searchArea, work_date);
-
-		List<SowVO> sowViewList = data.getSowDailyWorkLog();
-		List<SowVO> sumOverTime = data.getSumOverTime();
-//			sowViewList = sowService.selectViewList(searchArea, work_date);
-		List<SowVO> workNameList = new ArrayList<SowVO>();
-		
-		String searchDate = work_date.substring(0,7);
-		
-		List<SowVO> sowWorkName = new ArrayList<SowVO>();
-		sowWorkName = sowDAO.selectWorkName(searchArea);
-		
-		mav.addObject("sowWorkName", sowWorkName);
-		mav.addObject("sowViewList", sowViewList);
-		mav.addObject("sumOverTime", sumOverTime);
-		mav.addObject("work_date", work_date);
-		
-		/////////////////
-		
-		List<SowVO> fmonthName = new ArrayList<SowVO>();
-		fmonthName = sowDAO.selectWorkName(searchArea);
-		
-		List<SowVO> empList = new ArrayList<SowVO>();
-		empList = sowService.selectEmployeeList(searchArea);
-		
-		mav.addObject("fmonthName", fmonthName); 
-		mav.addObject("empList", empList);
-		mav.addObject("searchArea", searchArea);
-		return mav;
-	}
 	
 	// 게시판 접속 공용
 	@Override
@@ -383,21 +273,6 @@ public class SowControllerImpl implements SowController {
 	public String deleteEmployee(SowVO dummyInt) throws Exception {
 		sowDAO.deleteEmployee(dummyInt);
 		return "ok";
-	}
-	
-	// 일일 보기
-	@Override
-	public CombinedSowDailyWorkLog getCombinedSowDailyWorkLog(String searchArea, String work_date) throws Exception {
-		List<SowVO> selectViewList = new ArrayList<>();
-		selectViewList = sowDAO.selectViewList(searchArea, work_date);
-		String searchDate = work_date.substring(0,7) + "-01";
-		List<SowVO> sumOverTime = new ArrayList<>();
-		sumOverTime = sowDAO.selectSumOverTime(searchArea, work_date, searchDate);
-		CombinedSowDailyWorkLog response = new CombinedSowDailyWorkLog();
-		response.setSowDailyWorkLog(selectViewList);
-		response.setSumOverTime(sumOverTime);
-		
-		return response;
 	}
 	
 	// 출장자 추가 폼

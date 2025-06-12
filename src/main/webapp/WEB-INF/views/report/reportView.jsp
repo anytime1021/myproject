@@ -174,15 +174,12 @@
 								<c:choose>
 									<c:when test="${i == 0}">
 										<c:set var="sowView" value="${sowViewList[status.index]}" />
-										<c:set var="overtime" value="${sumOverTime[status.index]}" />
 									</c:when>
 									<c:when test="${i == 1}">
 										<c:set var="sowView" value="${sowViewList[status.index + (i * 30)]}" />
-										<c:set var="overtime" value="${sumOverTime[status.index + (i * 30)]}" />
 									</c:when>
 									<c:when test="${i == 2}">
 										<c:set var="sowView" value="${sowViewList[status.index + (i * 30)]}" />
-										<c:set var="overtime" value="${sumOverTime[status.index + (i * 30)]}" />
 									</c:when>
 								</c:choose>
 								<tbody>
@@ -193,7 +190,7 @@
 										<td style="width:4%"><input type="text" value="${sowView.sowDWL_shift}" readonly></td>
 										<td style="width:2%"><input type="text" value="${sowView.sowDWL_hours}" readonly></td>
 										<td style="width:3%"><input type="text" value="${sowView.sowDWL_overtime}" readonly></td>
-										<td style="width:4%"><input type="text" value="${overtime.dummyInt}" readonly></td>
+										<td style="width:4%"><input type="text" value="${sowView.dummyInt}" readonly></td>
 										<input type="hidden" name="work_date" value="${work_Date}">
 									</tr>
 								</tbody>
@@ -316,7 +313,8 @@
 								<td style="width:6%; height:30px;">연차</td>
 								<td style="width:6%; height:30px;">병가</td>
 								<td style="width:6%; height:30px;">훈련</td>
-								<td colspan="2" style="width:12%; height:30px;">비고</td>
+								<td style="width:6%; height:30px;">퇴사</td>
+								<td colspan="2" style="width:8%; height:30px;">비고</td>
 							</tr>
 						</thead>
 						<tbody>
@@ -389,6 +387,13 @@
 										<td style="width:6%;" rowspan="3">
 											<c:forEach var="shiftType" items="${shiftType}">
 												<c:if test="${shiftType.sowDWL_shift == '훈련'}">
+													${shiftType.sowDWL_name}
+												</c:if>
+											</c:forEach>
+										</td>
+										<td style="width:6%;" rowspan="3">
+											<c:forEach var="shiftType" items="${shiftType}">
+												<c:if test="${shiftType.sowDWL_shift == '퇴사'}">
 													${shiftType.sowDWL_name}
 												</c:if>
 											</c:forEach>

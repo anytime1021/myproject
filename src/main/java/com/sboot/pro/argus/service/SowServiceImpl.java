@@ -44,22 +44,9 @@ public class SowServiceImpl implements SowService {
 	// sow 일일 보기
 	@Override
 	public List<SowVO> selectViewList(String searchArea, String work_date) throws Exception {
-		return sowDAO.selectViewList(searchArea, work_date);
-	}
-	
-	// sow 일일 보기 (추가 누계)
-	@Override
-	public CombinedSowDailyWorkLog getCombinedSowDailyWorkLog(String searchArea, String work_date) throws Exception {
-		List<SowVO> selectViewList = new ArrayList<>();
-		selectViewList = sowDAO.selectViewList(searchArea, work_date);
-		String searchDate = work_date.substring(0,7) + "-01";
-		List<SowVO> sumOverTime = new ArrayList<>();
-		sumOverTime = sowDAO.selectSumOverTime(searchArea, work_date, searchDate);
-		CombinedSowDailyWorkLog response = new CombinedSowDailyWorkLog();
-		response.setSowDailyWorkLog(selectViewList);
-		response.setSumOverTime(sumOverTime);
-		return response;
-	}
+		String start_date = work_date.substring(0,7) + "-01";
+		return sowDAO.selectViewList(searchArea, start_date, work_date);
+	}	
 	
 	@Override
 	public List<SowVO> selectDayNightOvertime(String searchArea, String work_date) throws Exception {

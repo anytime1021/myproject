@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -299,8 +300,11 @@
 									<tr>
 										<td>${status.count}</td>
 										<td><input type="text" name="fmonth_name" value="${fmonth_list.fmonth_name}" readonly></td>
-										<td><input type="text" name="fmonth_profits" value="${fmonth_list.fmonth_profits}" readonly></td>
-										<td><input type="text" name="results_dailyprofits" oninput=""></td>
+										<td>
+											<fmt:formatNumber value="${fmonth_profits}" pattern="#,###" />
+											<input type="hidden" name="fmonth_profits" value="${fmonth_list.fmonth_profits}">
+										</td>
+										<td><input type="text" name="results_dailyprofits" oninput="formatComma(this)"></td>
 										<td><input type="text" name="results_sum" placeholder="-" readonly></td>
 										<td><input type="text" name="results_achievement" placeholder="-" readonly></td>
 										<td><input type="text" name="note"></td>
@@ -442,7 +446,22 @@
 			alert("전송 완료!");
 			console.log(result);
 		});
-	}		
+	}
+	
+	function formatComma(input) {
+		let value = input.value.replace(/[^0-9]/g, '');
+		
+		input.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		
+		input.setSelectionRange(input.value.length, input.value.length);
+	}
+		
+	function removeCommaBeforeSubmit() {
+		const input = document.querySelectorAll(".results_dailyprofits");
+		input.forEach(input => {
+			input.value = input.value.replace(/,/g,'');
+		});
+	}
 </script>
 <script src="${contextPath}/resources/js/script.js"></script>
 </html>
