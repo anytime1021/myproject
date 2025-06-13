@@ -322,14 +322,11 @@ public class ReportControllerImpl implements ReportController{
 		List<SowVO> btInListData = new ArrayList<>();
 		btInListData = sowService.selectBusinessTrip(searchArea, "in", work_date);
 		
-		List<SowVO> btOutListData = new ArrayList<>();
-		btOutListData = sowService.selectBusinessTrip(searchArea, "out", work_date);
-
+		
 		int btInCount = sowService.countBtViewList(searchArea, bt_in, work_date);
-		int btOutCount = sowService.countBtViewList(searchArea, bt_out, work_date);
+		int btOutCount = sowService.countSowBtOutList(searchArea, work_date);
 
 		mav.addObject("btInListData", btInListData);
-		mav.addObject("btOutListData", btOutListData);
 		mav.addObject("btInCount", btInCount);
 		mav.addObject("btOutCount", btOutCount);
 		
@@ -593,26 +590,23 @@ public class ReportControllerImpl implements ReportController{
 		btInList = sowService.selectBusinessTrip(searchArea, "in", work_date);
 		
 		List<SowVO> btOutList = new ArrayList<>();
-		btOutList = sowService.selectBusinessTrip(searchArea, "out", work_date);
+		btOutList = sowService.selectSowBtOutList(searchArea, work_date);
 		
 		// 출장자 추가누계
-		List<SowVO> btInSumOverTime = new ArrayList<>();
-		btInSumOverTime = sowService.btSumOverTime(searchArea, "in", work_date);
-		
-		List<SowVO> btOutSumOverTime = new ArrayList<>();
-		btOutSumOverTime = sowService.btSumOverTime(searchArea, "out", work_date);
-		
 		String bt_in = "in";
-		String bt_out = "out";
+		
+		List<SowVO> btInSumOverTime = new ArrayList<>();
+		btInSumOverTime = sowService.btSumOverTime(searchArea, bt_in, work_date);
+			
+		
 		int btInCount = sowService.countBtViewList(searchArea, bt_in, work_date);
-		int btOutCount = sowService.countBtViewList(searchArea, bt_out, work_date);
+		int btOutCount = sowService.countSowBtOutList(searchArea, work_date);
 		
 		mav.addObject("btInList", btInList);
 		mav.addObject("btOutList", btOutList);
 		mav.addObject("btInCount", btInCount);
 		mav.addObject("btOutCount", btOutCount);
 		mav.addObject("btInSumOverTime", btInSumOverTime);
-		mav.addObject("btOutSumOverTime", btOutSumOverTime);
 		
 		// 작업명 불러오기
 		List<SowVO> sowWorkName = new ArrayList<SowVO>();

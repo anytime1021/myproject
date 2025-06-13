@@ -136,11 +136,21 @@
 													<c:forEach var="fmonth_name" items="${fmonthName}">
 														<li onclick="selectWorkname(this)">${fmonth_name.fmonth_name}</li>
 													</c:forEach>
+													<c:if test="${searchArea != '울산'}">
 														<li onclick="selectWorkname(this)">울산</li>
+													</c:if>
+													<c:if test="${searchArea != '마산'}">
 														<li onclick="selectWorkname(this)">마산</li>
+													</c:if>
+													<c:if test="${searchArea != '창원'}">
 														<li onclick="selectWorkname(this)">창원</li>
+													</c:if>
+													<c:if test="${searchArea != '여수'}">
 														<li onclick="selectWorkname(this)">여수</li>
+													</c:if>
+													<c:if test="${searchArea != '서산'}">
 														<li onclick="selectWorkname(this)">서산</li>
+													</c:if>
 												</ul>
 											</td>
 											<td class="dropdown" style="width:4%" onclick="worknameDropdown(this)">

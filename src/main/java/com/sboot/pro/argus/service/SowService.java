@@ -34,6 +34,11 @@ public interface SowService {
 	// 출장자 목록
 	public List<SowVO> selectBtEmployeeList(String searchArea, String bt_inout) throws Exception;
 
+	// 출장자 목록 - 출장자(출)
+	public List<SowVO> selectSowBtOutList(String searchArea, String work_date) throws Exception;
+	
+	public int countSowBtOutList(String searchArea, String work_date) throws Exception;
+	
 	// 출장자 추가 (정보저장)
 	public int sowAddBtEmployee(String emp_name, String sowDWL_work_name, String bt_inout, String searchArea) throws Exception;
 	

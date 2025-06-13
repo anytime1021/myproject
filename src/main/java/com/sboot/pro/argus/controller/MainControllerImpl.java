@@ -41,6 +41,22 @@ public class MainControllerImpl implements MainController {
 	@Autowired
 	private LoginDAO loginDAO;
 	
+	// 메인 로그인 페이지 접속
+	@Override
+	@GetMapping("/argus/loginForm.do")
+	public ModelAndView ArgusloginForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView("/argus/loginForm");
+		return mav;
+	}
+	
+	// 메인 페이지 접속2
+	@Override
+	@GetMapping("/argus/main2.do")
+	public ModelAndView main2(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView("/argus/main2");
+		return mav;
+	}
+	
 	// 메인 페이지 접속
 	@Override
 	@GetMapping("/argus/main.do")
@@ -88,7 +104,7 @@ public class MainControllerImpl implements MainController {
 			}
 		} else {
 			rAttr.addAttribute("result","loginFailed");
-			mav.setViewName("redirect:/login/loginForm.do");
+			mav.setViewName("redirect:/argus/loginForm.do");
 		}
 		return mav;
 	}

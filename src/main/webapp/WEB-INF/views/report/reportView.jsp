@@ -58,20 +58,20 @@
 						<tr>
 							<tr>
 							    <td rowspan="3"><b>결재</b></td>
-							    <td colspan="2" style="height:20%;"><b>사업소</b></td>
-							    <td colspan="2" style="height:20%;"><b>본사</b></td>
+							    <td colspan="2" style="height:10%;"><b>사업소</b></td>
+							    <td colspan="2" style="height:10%;"><b>본사</b></td>
 							</tr>
 							<tr>
-							    <td style="height:20%;">담당</td>
-							    <td style="height:20%;">소장</td>
-							    <td style="height:20%;">담당</td>
-							    <td style="height:20%;">팀장</td>
+							    <td style="height:10%;">담당</td>
+							    <td style="height:10%;">소장</td>
+							    <td style="height:10%;">담당</td>
+							    <td style="height:10%;">팀장</td>
 							</tr>
 							<tr>
-							    <td style="height:60%;"></td>
-							    <td style="height:60%;"></td>
-							    <td style="height:60%;"></td>
-							    <td style="height:60%;"></td>
+							    <td style="height:80%;"></td>
+							    <td style="height:80%;"></td>
+							    <td style="height:80%;"></td>
+							    <td style="height:80%;"></td>
 							</tr>
 						</tr>
 					</table>
@@ -260,7 +260,6 @@
 					</thead>
 					<c:forEach var="j" begin="0" end="${btOutEnd - 1}" varStatus="status">
 						<c:set var="btOut" value="${btOutList[status.index]}" />
-						<c:set var="overtime_out" value="${btOutSumOverTime[status.index]}" />
 						<tbody>
 							<tr>
 								<td style="width:3%">${j+1}</td>
@@ -269,7 +268,7 @@
 								<td style="width:4%"><input type="text" name="sowDWL_shift_inout" class="sowDWL_shift" value="${btOut.sowDWL_shift}" readonly></td>
 								<td style="width:2%"><input type="text" name="sowDWL_hours_inout" value="${btOut.sowDWL_hours}" readonly></td>
 								<td style="width:3%"><input type="text" name="sowDWL_overtime_inout" value="${btOut.sowDWL_overtime}" readonly></td>
-								<td style="width:4%"><input type="text" value="${overtime_out.dummyInt}" readonly></td>
+								<td style="width:4%"><input type="text" value="${btOut.dummyInt}" readonly></td>
 							</tr>
 						</tbody>
 					</c:forEach>

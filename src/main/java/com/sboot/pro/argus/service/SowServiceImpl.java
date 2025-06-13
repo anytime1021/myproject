@@ -93,6 +93,18 @@ public class SowServiceImpl implements SowService {
 			return sowDAO.selectBtEmployeeList(searchArea, bt_inout);
 	}
 	
+	// 출장자 목록 - 출장자(출)
+	@Override
+	public List<SowVO> selectSowBtOutList(String searchArea, String work_date) throws Exception {
+		String start_date = work_date.substring(0,7) + "-01";
+		return sowDAO.selectSowBtOutList(searchArea, work_date, start_date);
+	}
+	
+	@Override
+	public int countSowBtOutList(String searchArea, String work_date) throws Exception {
+		return sowDAO.countSowBtOutList(searchArea, work_date);
+	}
+	
 	// 출장자 추가
 	@Override
 	public int sowAddBtEmployee(String emp_name, String sowDWL_work_name, String bt_inout, String searchArea) throws Exception {

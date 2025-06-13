@@ -26,7 +26,7 @@
 	<main class="first-container">
 		<article>
 			<section>
-				<form autocomplete="off" name="addDailyReport" onsubmit="removeCommaBeforeSubmit()" method="post" action="${contextPath}/report/addDailyReport.do">
+				<form autocomplete="off" name="addDailyReport" onsubmit="return checkBeforeSubmit(this);" method="post" action="${contextPath}/report/addDailyReport.do">
 					<section class="work-rate-flex"> 
 						<div class="work-basic">
 							<b> 1. 작업현황 </b>
@@ -143,11 +143,21 @@
 													<c:forEach var="fmonth_name" items="${fmonthName}">
 														<li onclick="selectWorkname(this)">${fmonth_name.fmonth_name}</li>
 													</c:forEach>
-													<li onclick="selectWorkname(this)">울산</li>
-													<li onclick="selectWorkname(this)">마산</li>
-													<li onclick="selectWorkname(this)">창원</li>
-													<li onclick="selectWorkname(this)">여수</li>
-													<li onclick="selectWorkname(this)">서산</li>
+													<c:if test="${searchArea != '울산'}">
+														<li onclick="selectWorkname(this)">울산</li>
+													</c:if>
+													<c:if test="${searchArea != '마산'}">
+														<li onclick="selectWorkname(this)">마산</li>
+													</c:if>
+													<c:if test="${searchArea != '창원'}">
+														<li onclick="selectWorkname(this)">창원</li>
+													</c:if>
+													<c:if test="${searchArea != '여수'}">
+														<li onclick="selectWorkname(this)">여수</li>
+													</c:if>
+													<c:if test="${searchArea != '서산'}">
+														<li onclick="selectWorkname(this)">서산</li>
+													</c:if>
 												</ul>
 											</td>
 											<td class="dropdown" style="width:4%" onclick="worknameDropdown(this)">
@@ -301,10 +311,10 @@
 										<td>${status.count}</td>
 										<td><input type="text" name="fmonth_name" value="${fmonth_list.fmonth_name}" readonly></td>
 										<td>
-											<fmt:formatNumber value="${fmonth_profits}" pattern="#,###" />
+											<fmt:formatNumber value="${fmonth_list.fmonth_profits}" pattern="#,###" />
 											<input type="hidden" name="fmonth_profits" value="${fmonth_list.fmonth_profits}">
 										</td>
-										<td><input type="text" name="results_dailyprofits" oninput="formatComma(this)"></td>
+										<td><input type="text" class="results_dailyprofits" name="results_dailyprofits" oninput="formatComma(this)"></td>
 										<td><input type="text" name="results_sum" placeholder="-" readonly></td>
 										<td><input type="text" name="results_achievement" placeholder="-" readonly></td>
 										<td><input type="text" name="note"></td>
@@ -455,7 +465,28 @@
 		
 		input.setSelectionRange(input.value.length, input.value.length);
 	}
+	
+	function checkBeforeSubmit(form) {
+		removeCommaBeforeSubmit();
 		
+		const dateInput = form.querySelector("input[name='work_date']");
+		const titleInput = form.querySelector("input[name='board_title']");
+		
+		if (!dateInput.value) {
+			alert("날짜를 선택해주세요.");
+			dateInput.focus();
+			return false;
+		}
+		
+		if (!titleInput.value) {
+			alert("제목을 입력해주세요.");
+			titleInput.focus();
+			return false;
+		}
+		
+		return true;
+	}
+	
 	function removeCommaBeforeSubmit() {
 		const input = document.querySelectorAll(".results_dailyprofits");
 		input.forEach(input => {

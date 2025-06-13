@@ -1,0 +1,29 @@
+@charset "utf-8";
+
+* {margin: 0; padding: 0; box-sizing: border-box;}
+body {font-family: "Noto Sans KR", sans-serif; line-height: 1.6;}
+header {display: flex; align-items: center; padding: 20px 50px; border-bottom: 1px solid #ccc;}
+a {color: black; text-decoration: none;}
+a:visited {color: black;}
+a:hover {color: dodgerblue;}
+.logo {display: flex; align-items: center; width: 400px;}
+.logo img {width: 150px; height: 50px;}
+.board-title {width: 750px; height: 100%;}
+nav .menu {display: flex; list-style: none; gap: 30px; font-weight: 500;}
+.menu li {cursor: pointer; width: 100px;}
+.brochure {color: #4a3fd1; font-weight: bold;}
+.menu-icon {display: none; font-size: 24px;}
+.hero {position: relative; width: 120%; height: 550px; background-image: url('resources/img/background.jpg'); background-size: cover; background-position: center;
+  	   display: flex; align-items: center; justify-content: center; text-align: center;}
+.overlay-text {color: white; text-shadow: 2px 2px 5px rgba(0,0,0,0.7);}
+.overlay-text .sub-text {color: orange; font-size: 18px; margin-bottom: 10px;}
+.overlay-text h1 {font-size: 32px; font-weight: bold;}
+.content {text-align: center; padding: 60px 20px;}
+.content h2 {font-size: 28px; margin-bottom: 10px; position: relative;}
+.content h2::after {content: ''; display: block; width: 1px; height: 20px; background: black; margin: 10px auto;}
+.content p {font-size: 16px; color: #333;}
+
+
+.ft {width: 100%; height: 150px; background-color: lightblue;}
+.ft .information {justify-content: left;}
+.ft .information .ft-text {margin-left: 30px; padding-top: 35px;}

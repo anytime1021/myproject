@@ -54,7 +54,8 @@
 			emp_resignation_date = #{work_date}
 			where emp_num = #{item.emp_num} and YN = 'Y'
 		</foreach>
-	</update>	
+	</update>
+	
 	<!-- sow 일일 보기 -->
 	<select id="selectViewList" parameterType="Map" resultType="sowVO">
 		select * from sowdailyworklog a inner join 
@@ -195,6 +196,20 @@
 	
 	<select id="countBtList" parameterType="String" resultType="int">
 		select count(*) from business_trip_employee where login_area = #{searchArea} and bt_inout = #{bt_inout} and YN = 'Y'
+	</select>
+	
+	<!-- 출장자 목록 - 출장자(출) -->
+	<select id="selectSowBtOutList" parameterType="Map">
+		select a.*, b.dummyInt from sowdailyworklog a inner join
+			(select emp_num, sum(sowDWL_overtime) as dummyInt from sowdailyworklog a1 where login_area = #{searchArea}
+				and work_date between #{start_date} and #{work_date} and YN = 'Y' group by emp_num) b
+			on a.emp_num = b.emp_num where a.login_area = #{searchArea} and a.work_date = #{work_date} and a.YN = 'Y'
+ 			and not exists (select 1 from workrate b2 where a.sowDWL_work_name = b2.work_name)
+	</select>
+	
+	<select id="countSowBtOutList" parameterType="Map" resultType="int">
+		select count(*) from sowdailyworklog a where login_area = #{searchArea} and work_date = #{work_date} and YN = 'Y'
+		and not exists (select 1 from workrate b where a.sowDWL_work_name = b.work_name);
 	</select>
 	
 	<!-- 출장자 추가 (정보저장) -->

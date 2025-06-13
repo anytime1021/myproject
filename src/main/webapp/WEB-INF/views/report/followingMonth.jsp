@@ -15,7 +15,7 @@
 </head>
 <body>
 
-<h3>익월 용역 예상 보고(미완 - 추후 진행 예정) 11111</h3>
+<h3>익월 용역 예상 보고(미완 - 추후 진행 예정)</h3>
 <a href="${contextPath}/report/reportArea.do">돌아가기</a>
 <span id="amountText" style="margin-left:10px; color:gray;"></span>
 

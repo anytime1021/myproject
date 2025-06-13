@@ -56,6 +56,11 @@ public interface SowDAO {
 	// 출장자 목록
 	public List<SowVO> selectBtEmployeeList(@Param("searchArea") String searchArea, @Param("bt_inout") String bt_inout) throws Exception;
 
+	// 출장자 목록 - 출장자(출)
+	public List<SowVO> selectSowBtOutList(@Param("searchArea") String searchArea, @Param("work_date") String work_date, @Param("start_date") String start_date) throws Exception;
+	
+	public int countSowBtOutList(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
+	
 	// 출장자 count - 테이블 구조 유지 조건
 	public int countBtList(@Param("searchArea") String searchArea, @Param("bt_inout") String bt_inout) throws Exception;
 	
