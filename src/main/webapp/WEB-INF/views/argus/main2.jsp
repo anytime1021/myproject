@@ -16,10 +16,29 @@
 	</head>
 	<body>
 		<%@ include file="../include/header2.jsp"%>
-		<section class="hero">
-			<div class="overlay-text">
-				<p class="sub-text">Technology . . . is only as good as the people who use it.</p>
-				<h1>技本과 人本의 기술자 집단 아거스</h1>
+		<section class="main-container">
+			<div class="main-quarter">
+				<div class="quarter">
+					<div class="report-board">
+						<div class="report-board-title">작업일보</div>
+						<div class="shortcut">바로가기 + </div>
+					</div>
+					<div class="list">
+						<ul>
+							<li>1. </li>
+							<li>2. </li>
+						</ul>
+					</div>
+				</div>
+				<div class="quarter">
+					<div class="report-board">
+						<div class="report-board-title">-</div>
+						<div class="shortcut"></div>
+					</div>
+					<div class="list">
+						<p class="sub-text">Technology . . . is only as good as the people who use it.</p>
+					</div>
+				</div>
 			</div>
 		</section>
 		<section class="content">

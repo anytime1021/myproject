@@ -16,10 +16,10 @@
 			<ul class="menu">
 				<li></li>
 				<li><a href="${contextPath}/report/reportArea.do">보고서게시판</a></li>
-				<li>사업분야</li>
-				<li>기술현황</li>
-				<li>고객센터</li>
-				<li class="brochure">BROCHURE</li>
+				<li>-</li>
+				<li>-</li>
+				<li>-</li>
+				<li class="brochure">-</li>
 			</ul>
 		</nav>
 	</div>
