@@ -42,6 +42,7 @@
 						<option value="눈" ${weatherDayOfWeek.weather == '눈' ? 'selected' : ''}>눈</option>
 						<option value="안개" ${weatherDayOfWeek.weather == '안개' ? 'selected' : ''}>안개</option>
 					</select>
+					<label style="text-align:center;">지 역 : ${area} </label><input type="hidden" name="area" value="${area}">
 					<br>
 					<label style="text-align:center;">제 목 : </label><input type="text" name="board_title" value="${board_title}" placeholder="제목을 입력해 주세요" style="text-align: center; border:1px solid black; width:500px;">
 					<div class="work-rate">

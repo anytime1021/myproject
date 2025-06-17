@@ -94,7 +94,16 @@ public interface ReportDAO {
 
 	// 게시글 수정
 	public int updateReport(@Param("searchArea") String searchArea, @Param("board_title") String board_title, @Param("work_date") String work_date) throws Exception;
-
+	
+	
+	// 메인페이지 리스트
+	public List<ReportVO> selectWorkrateListAll(String searchArea) throws Exception;
+	
+	public List<ReportVO> selectWorkrateListArea(String searchArea) throws Exception;
+	
+	// 메인페이지 리스트 - 본사 view
+	public String returnSearchArea(String board_num) throws Exception;
+	
 	//	public int countBoardList(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
 	
 	// SQL Injection Test

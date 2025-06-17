@@ -25,8 +25,9 @@
 					</div>
 					<div class="list">
 						<ul>
-							<li>1. </li>
-							<li>2. </li>
+							<c:forEach var="workrateListValue" items="${workrateList}" varStatus="status">
+								<li><a href="${contextPath}/report/reportView.do?board_num=${workrateListValue.board_num}&work_date=${workrateListValue.work_date}">${status.index+1}. ${workrateListValue.board_title} ${workrateListValue.work_date}</a></li>
+							</c:forEach>
 						</ul>
 					</div>
 				</div>

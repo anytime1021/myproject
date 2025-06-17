@@ -552,10 +552,14 @@ public class ReportControllerImpl implements ReportController{
 	}
 	
 	@GetMapping("/report/reportView.do")
-	public ModelAndView reportView(@RequestParam("work_date") String work_date, HttpServletRequest request) throws Exception {
+	public ModelAndView reportView(@RequestParam("board_num") String board_num, @RequestParam("work_date") String work_date, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("/report/reportView");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
+		
+		if (searchArea.equals("본사")) {
+			searchArea = reportDAO.returnSearchArea("board_num");
+		}
 		
 		// 날씨, 요일 DAO 직행
 		ReportVO weatherDayOfWeek = reportDAO.selectWeatherDayOfWeek(searchArea, work_date);
@@ -762,6 +766,7 @@ public class ReportControllerImpl implements ReportController{
 	public ModelAndView modDailyReport(@RequestParam(value = "work_date") String work_date, 
 		@RequestParam("weather") String weather,
 		@RequestParam("board_title") String board_title,
+		@RequestParam("area") String searchArea,
 		@RequestParam(value = "work_name", required = false) String[] work_nameArray,
 		@RequestParam(value = "work_amount_HTW1", required = false) String[] work_amount_HTW1Array,
 		@RequestParam(value = "work_amount_HTW2", required = false) String[] work_amount_HTW2Array,
@@ -800,7 +805,6 @@ public class ReportControllerImpl implements ReportController{
 		// 세션값받기
 		ModelAndView mav = new ModelAndView("redirect:/report/reportView.do?work_date=" + work_date);
 		LoginVO login = (LoginVO) request.getAttribute("login");
-		String searchArea = login.getLogin_area();
 		String login_id = login.getLogin_id();
 		
 		// 0. 날씨변경 DAO 직행

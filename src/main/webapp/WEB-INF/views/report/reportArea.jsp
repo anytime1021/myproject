@@ -66,7 +66,7 @@
 							<c:set var="i" value="${i+1}" />
 								<tr>
 									<td>${reportListJsp.row_num}</td>
-									<td><a href="${contextPath}/report/reportView.do?work_date=${reportListJsp.work_date}">${reportListJsp.board_title}</a></td>
+									<td><a href="${contextPath}/report/reportView.do?board_num=${reportListJsp.board_num}&work_date=${reportListJsp.work_date}">${reportListJsp.board_title}</a></td>
 									<td>${reportListJsp.work_date}</td>
 								</tr>
 							</c:forEach>

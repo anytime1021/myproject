@@ -199,6 +199,20 @@
 		where login_area = #{searchArea} and work_date = #{work_date} and YN = 'Y'
 	</update>
 	
+	<!-- 메인페이지 리스트 -->
+	<select id="selectWorkrateListAll" parameterType="String">
+		select * from workrate_board where YN='Y' order by work_date desc limit 4
+	</select>
+	
+	<select id="selectWorkrateListArea" parameterType="String">
+		select * from workrate_board where login_area = #{searchArea} and YN='Y' order by work_date desc limit 4
+	</select>
+	
+	<!-- 메인페이지 리스트 본사 view -->
+	<select id="returnSearchArea" parameterType="String" resultType="String">
+		select login_area from workrate_board where board_num = #{board_num}
+	</select>
+	
 	<!-- SQL Injection Test -->
 	<select id="selectInformation" parameterType="Map">
 		select * from workrate where work_name like concat('%',#{search},'%') and login_area = #{searchArea}

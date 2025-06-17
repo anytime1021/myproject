@@ -51,4 +51,7 @@ public interface ReportService {
 	
 	// 수정
 	public int modReport(String searchArea, String board_title, String work_date) throws Exception;
+	
+	// 메인페이지 리스트
+	public List<ReportVO> selectWorkrateList(String searchArea) throws Exception;
 }

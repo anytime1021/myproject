@@ -185,5 +185,14 @@ public class ReportServiceImpl implements ReportService {
 	public int modReport(String searchArea, String board_title, String work_date) throws Exception {
 		return reportDAO.updateReport(searchArea, board_title, work_date);
 	}
+	
+	// 메인페이지 리스트
+	public List<ReportVO> selectWorkrateList(String searchArea) throws Exception {
+		if (searchArea.equals("본사")) {
+			return reportDAO.selectWorkrateListAll(searchArea);
+		} else {
+			return reportDAO.selectWorkrateListArea(searchArea);
+		}
+	}
 }
 

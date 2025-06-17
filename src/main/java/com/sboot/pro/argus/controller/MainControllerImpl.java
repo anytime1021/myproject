@@ -1,5 +1,8 @@
 package com.sboot.pro.argus.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +22,7 @@ import com.sboot.pro.argus.vo.ReportVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+
 
 @Controller("mainController")
 public class MainControllerImpl implements MainController {
@@ -54,6 +58,12 @@ public class MainControllerImpl implements MainController {
 	@GetMapping("/argus/main2.do")
 	public ModelAndView main2(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("/argus/main2");
+		HttpSession session = request.getSession();
+		LoginVO login = (LoginVO) session.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		List<ReportVO> workrateList = new ArrayList<>();
+		workrateList = reportService.selectWorkrateList(searchArea);
+		mav.addObject("workrateList", workrateList);
 		return mav;
 	}
 	
