@@ -102,7 +102,7 @@ public interface ReportDAO {
 	public List<ReportVO> selectWorkrateListArea(String searchArea) throws Exception;
 	
 	// 메인페이지 리스트 - 본사 view
-	public String returnSearchArea(String board_num) throws Exception;
+	public String returnSearchArea(int board_num) throws Exception;
 	
 	//	public int countBoardList(@Param("searchArea") String searchArea, @Param("work_date") String work_date) throws Exception;
 	

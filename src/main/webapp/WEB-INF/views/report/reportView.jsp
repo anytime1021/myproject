@@ -488,7 +488,13 @@
 				<div class="work-basic">
 				</div>
 				<div class="work-basic2">
-					<a href="${contextPath}/report/modDailyReportForm.do?work_date=${work_date}">수정하기</a>
+					<form name="modDailyReportForm" action="${contextPath}/report/modDailyReportForm.do" method="post">
+<!--					<a href="${contextPath}/report/modDailyReportForm.do?board_num=${board_num}&work_date=${work_date}">수정하기</a>-->
+						<input type="hidden" name="area" value="${area}">
+						<input type="hidden" name="work_date" value="${work_date}">
+						<input type="hidden" name="board_num" value="${board_num}">
+						<input type="submit" value="수정하기">
+					</form>
 				</div>
 				<div class="work-basic2">
 					<a href="${contextPath}/report/deleteDailyReport.do?work_date=${work_date}">삭제하기</a>

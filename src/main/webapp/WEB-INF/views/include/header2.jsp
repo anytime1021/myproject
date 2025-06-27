@@ -7,6 +7,19 @@
 	request.setCharacterEncoding("UTF-8");
 %>
 <link rel="stylesheet" href="${contextPath}/resources/css/main2.css">
+<link rel="stylesheet" href="${contextPath}/resources/css/sidebar.css">
+<script>
+	function toggleOptions(el) {
+	    const options = el.nextElementSibling;
+
+	    // 토글
+	    if (options.style.display === 'block') {
+	        options.style.display = 'none';
+	    } else {
+	        options.style.display = 'block';
+	    }
+	}
+</script>
 <header>
 	<div class="logo">
 		<img src="${contextPath}/resources/img/argusImage.jpg" alt="Argus Logo">
@@ -16,7 +29,7 @@
 			<ul class="menu">
 				<li></li>
 				<li><a href="${contextPath}/report/reportArea.do">보고서게시판</a></li>
-				<li>-</li>
+				<li><a href="${contextPath}/blockManagement/blockList.do">시험편 관리</a></li>
 				<li>-</li>
 				<li>-</li>
 				<li class="brochure">-</li>

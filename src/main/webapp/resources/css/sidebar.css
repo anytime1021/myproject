@@ -1,0 +1,6 @@
+.sidebar {width: 200px; padding: 10px; font-family: sans-serif; background-color: white;}
+.sidebar .filter-group {margin-bottom: 15px;}
+.sidebar .filter-group .filter-title {font-weight: bold; cursor: pointer; padding: 5px 0;}
+.sidebar .filter-group .filter-options {display: none; margin-left: 10px;}
+.sidebar .filter-group .filter-options label {display: block; margin-top: 5px;}
+.sidebar .filter-group .filter-options a {text-decoration-line: none; color: black;}

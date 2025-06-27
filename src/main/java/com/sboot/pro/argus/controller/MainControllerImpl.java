@@ -95,7 +95,7 @@ public class MainControllerImpl implements MainController {
 	@PostMapping("/login/login.do")
 	public ModelAndView login(@RequestParam("login_id") String login_id, @RequestParam("login_pwd") String login_pwd,
 			RedirectAttributes rAttr, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("/argus/main");
+		ModelAndView mav = new ModelAndView("/argus/main2");
 		loginVO = loginService.login(login_id, login_pwd);
 		if(loginVO != null) {
 			HttpSession session = request.getSession();
@@ -110,7 +110,7 @@ public class MainControllerImpl implements MainController {
 			if(action != null) {
 				mav.setViewName("redirect:"+action);
 			} else {
-				mav.setViewName("redirect:/argus/main.do");
+				mav.setViewName("redirect:/argus/main2.do");
 			}
 		} else {
 			rAttr.addAttribute("result","loginFailed");
