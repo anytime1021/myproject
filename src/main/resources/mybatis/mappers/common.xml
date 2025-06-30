@@ -1,23 +1,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sboot.pro.argus.dao.CommonDAO">
-	<!-- 게시판 접속 -->
-	<select id="selectReportList" parameterType="String">
-	select * from
-		(select * from (
-			select  ROW_NUMBER() OVER (ORDER BY work_date) AS row_num, board_title, work_date, login_area from workrate_board where login_area = #{searchArea}
-		) as t1
-	) as t2 order by work_date desc;
-	</select>
 	
-	<!-- 월별 보고서 게시판 접속 -->
+	<!-- 보고서 게시판 접속 -->
 	<select id="selectTotalReportList" parameterType="String" resultType="reportVO">
 	select * from
 		(select * from (
 			select  ROW_NUMBER() OVER (ORDER BY work_date) AS row_num, board_num, board_title, work_date, login_area from 
 					${tableName} where login_area = #{searchArea} and YN = 'Y'
 		) as t1
-	) as t2 order by work_date desc;
+	) as t2 order by work_date desc limit #{offset}, #{limit};
 	</select>
 
+	<select id="selectReportCount" resultType="int">
+		select count(*) from ${tableName} where login_area = #{searchArea} and YN='Y'
+	</select>
 </mapper>

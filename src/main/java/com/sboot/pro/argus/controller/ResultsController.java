@@ -7,9 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 public interface ResultsController {
-	// 게시판 접속
-	public ModelAndView resultsBoard(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
+
 	// 실적 추가 폼
 	public ModelAndView addResultsForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
 

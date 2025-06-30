@@ -1,0 +1,12 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sboot.pro.argus.dao.BlockDAO">
+	<select id="selectBlockCount" resultType="int">
+		select count(*) from blockinformation where login_area=#{searchArea} and YN='Y'
+	</select>
+	
+	<select id="selectBlockList">
+		select * from blockinformation where login_area=#{searchArea} and YN='Y'
+		order by df_idNumber limit #{offset}, #{limit}
+	</select>
+</mapper>

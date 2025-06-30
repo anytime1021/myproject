@@ -77,7 +77,7 @@ public class ReportControllerImpl implements ReportController{
 	// 일일 보고서 게시판 접속
 	@Override
 	@GetMapping("/report/reportArea.do")
-	public ModelAndView reportArea(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView reportArea(@RequestParam(value="page", defaultValue = "1") int page, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("/report/reportArea");
 		HttpSession session = request.getSession();
 		LoginVO login = (LoginVO) session.getAttribute("login");
@@ -85,8 +85,12 @@ public class ReportControllerImpl implements ReportController{
 		
 		int token = 1;
 		
+		int limit = 20;
+		
+		int offset = (page-1) * limit;
+		
 		String tableName = BoardType.fromToken(token).getTableName();
-		List<WorkingDailyBaseVO> reportListJsp = commonService.reportListTotalJava(searchArea, tableName);
+		List<WorkingDailyBaseVO> reportListJsp = commonService.reportListTotalJava(searchArea, tableName, offset, limit);
 		mav.addObject("reportListJsp", reportListJsp);
 		return mav;
 	}
@@ -942,17 +946,27 @@ public class ReportControllerImpl implements ReportController{
 	
 
 	@GetMapping("/report/reportArea2.do")
-	public ModelAndView reportArea2(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView reportArea2(@RequestParam(value = "page", defaultValue = "1") int page, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("/report/reportArea2");
 		HttpSession session = request.getSession();
 		LoginVO login = (LoginVO) session.getAttribute("login");
 		String searchArea = login.getLogin_area();
-		
+				
 		int token = 1;
 		
+		int limit = 20;
+		int offset = (page-1) * limit;
+		
 		String tableName = BoardType.fromToken(token).getTableName();
-		List<WorkingDailyBaseVO> reportListJsp = commonService.reportListTotalJava(searchArea, tableName);
+		
+		int totalCount = commonService.getReportCount(searchArea, tableName);
+		List<WorkingDailyBaseVO> reportListJsp = commonService.reportListTotalJava(searchArea, tableName, offset, limit);
+		
+		int totalPage = (int) Math.ceil((double) totalCount / limit);
+		
 		mav.addObject("reportListJsp", reportListJsp);
+		mav.addObject("currentPage", page);
+		mav.addObject("totalPage", totalPage);
 		return mav;
 	}
 }

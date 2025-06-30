@@ -4,13 +4,16 @@ a {text-decoration: none; color: black;}
 /* 레포트 게시판 */
 .first-container {width: 100%; height: auto; background-color: white; margin: 0; padding: 0px; display: flex;}
 .first-container .sidebar {width: 200px; background-color: white;}
-.first-container .main-content {flex: 1;}
+.first-container .main-content {flex: 1; height: 700px;}
 .first-container .main-content .report-container {padding: 20px; height: auto; text-align: right;}
 .first-container .main-content .report-container .btn {display:inline-block; background-color: lightskyblue; border-radius: 6px;}
-.first-container .main-content .report-container .report-list {width: 100%; height: auto; overflow-x: auto; overflow-y: visible;}
+.first-container .main-content .report-container .report-list {width: 100%; overflow-x: auto; overflow-y: visible;}
 .first-container .main-content .report-container .report-list .table-control {width: 100%; border-collapse: collapse; text-align: center;}
-.first-container .main-content .report-container .report-list .table-control th {border:1px solid black; background-image: url('${contextPath}/resources/img/th-background.jpg'); background-size: contain;}
+.first-container .main-content .report-container .report-list .table-control th {border:1px solid black; background-image: url("/resources/img/th-background2.jpg"); background-size: contain;}
 .first-container .main-content .report-container .report-list .table-control td {border:1px solid black;}
+.first-container .main-content .report-container .report-list .pagination {margin-top: 20px; text-align: center;}
+.first-container .main-content .report-container .report-list .pagination a {margin: 0 5px; text-decoration: none; color: #007BFF;}
+.first-container .main-content .report-container .report-list .pagination strong {margin: 0 5px; font-weight: bold;}
 
 
 /* 레포트 게시판 테이블 */

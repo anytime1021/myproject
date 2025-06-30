@@ -11,7 +11,9 @@ import com.sboot.pro.argus.vo.WorkingDailyBaseVO;
 @Mapper
 @Repository("commonDAO")
 public interface CommonDAO {
-	// 월별 보고서 게시판 접속
-	public List<WorkingDailyBaseVO> selectTotalReportList(@Param("searchArea") String searchArea, @Param("tableName") String tableName) throws Exception;
+	// 게시판 접속 공용
+	public List<WorkingDailyBaseVO> selectTotalReportList(@Param("searchArea") String searchArea, @Param("tableName") String tableName, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
 	
+	// 게시판 페이징 카운트
+	public int selectReportCount(@Param("searchArea") String searchArea, @Param("tableName") String tableName) throws Exception;
 }

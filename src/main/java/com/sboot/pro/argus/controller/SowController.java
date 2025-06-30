@@ -9,9 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 public interface SowController {
-	// sow 일일 게시판 접속
-	public ModelAndView sowBoard(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
+
 	// sow 일일 추가 폼
 	public ModelAndView sowAddForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
@@ -35,10 +33,6 @@ public interface SowController {
 			@RequestParam(value = "sowDWL_overtime_out", required=false) String[] sowDWL_overtime_outArray,
 			@RequestParam(value = "emp_num_out", required=false) String[] emp_num_outArray,
 			@RequestParam("work_date") String work_date, HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
-	// sow 월별 게시판 접속
-	public ModelAndView sowBoardTotal(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
 
 	// 직원 목록
 	public ModelAndView sowAddEmployeeForm(HttpServletRequest request, HttpServletResponse response) throws Exception;

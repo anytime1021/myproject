@@ -43,24 +43,7 @@ public class ResultsControllerImpl implements ResultsController {
 	
 	@Autowired
 	private CommonDAO commonDAO;
-	
-	// 게시판 접속
-	@Override
-	@GetMapping("/results/resultsBoard.do")
-	public ModelAndView resultsBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("/results/resultsBoard");
-		HttpSession session = request.getSession();
-		LoginVO login = (LoginVO) session.getAttribute("login");
-		String searchArea = login.getLogin_area();
 		
-		int token = 3;
-		
-		String tableName = BoardType.fromToken(token).getTableName();
-		List<WorkingDailyBaseVO> resultsBoardList = commonService.reportListTotalJava(searchArea, tableName);
-		mav.addObject("resultsBoardList", resultsBoardList);
-		return mav;
-	}
-	
 	// 실적 추가 폼
 	@Override
 	@GetMapping("/results/addResultsForm.do")

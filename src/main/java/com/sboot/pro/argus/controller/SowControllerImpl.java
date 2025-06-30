@@ -48,23 +48,6 @@ public class SowControllerImpl implements SowController {
 	@Autowired
 	private WorkingDailyBaseVO workingDailyBaseVO;
 	
-	// sow 일일 게시판 접속
-	@Override
-	@GetMapping("/sow/sowBoard.do")
-	public ModelAndView sowBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("/sow/sowBoard");
-		HttpSession session = request.getSession();
-		LoginVO login = (LoginVO) session.getAttribute("login");
-		String searchArea = login.getLogin_area();
-		
-		int token = 2;
-		
-		String tableName = BoardType.fromToken(token).getTableName();
-		List<WorkingDailyBaseVO> sowBoardList = commonService.reportListTotalJava(searchArea, tableName);
-		mav.addObject("sowBoardList", sowBoardList);
-		return mav;
-	}
-	
 	// sow 일일 추가 폼
 	@Override
 	@GetMapping("/sow/sowAddForm.do")
@@ -210,28 +193,6 @@ public class SowControllerImpl implements SowController {
 		}
 	}
 	
-	
-	// 게시판 접속 공용
-	@Override
-	@GetMapping("/sow/sowBoardTotal.do")
-	public ModelAndView sowBoardTotal(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("/sow/sowBoardTotal");
-		HttpSession session = request.getSession();
-		LoginVO login = (LoginVO) session.getAttribute("login");
-		String searchArea = login.getLogin_area();
-		
-		// 월별 근무현황 토큰 2
-//			int token = 2;
-//			List<SowVO> sowListTotalJsp = new ArrayList<SowVO>();
-//			sowListTotalJsp = sowService.reportListTotalJava(searchArea, token);
-		
-		int token = 4;
-		
-		String tableName = BoardType.fromToken(token).getTableName();
-		List<WorkingDailyBaseVO> sowListTotalJsp = commonService.reportListTotalJava(searchArea, tableName);
-		mav.addObject("sowListTotalJsp", sowListTotalJsp);
-		return mav;
-	}
 	
 	// 직원 목록
 	@Override

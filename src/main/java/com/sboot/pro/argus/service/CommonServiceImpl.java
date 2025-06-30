@@ -17,8 +17,16 @@ public class CommonServiceImpl implements CommonService {
 	@Autowired
 	private CommonDAO commonDAO;
 	
+	// 게시판 접속 공용
 	@Override
-	public List<WorkingDailyBaseVO> reportListTotalJava(String searchArea, String tableName) throws Exception {
-			return commonDAO.selectTotalReportList(searchArea, tableName);
+	public List<WorkingDailyBaseVO> reportListTotalJava(String searchArea, String tableName, int offset, int limit) throws Exception {
+			return commonDAO.selectTotalReportList(searchArea, tableName, offset, limit);
 	}
+	
+	// 게시판 페이징 카운트
+	@Override
+	public int getReportCount(String searchArea, String tableName) throws Exception {
+		return commonDAO.selectReportCount(searchArea, tableName);
+	}
+	
 }

@@ -23,9 +23,9 @@
                     <table class="table-control">
                         <thead>
                             <tr>
-                                <th style="width:10%; background-image: url('${contextPath}/resources/img/th-background.jpg">NO</th>
-                                <th style="width:80%; background-image: url('${contextPath}/resources/img/th-background.jpg"">제 목</th>
-                                <th style="width:10%; background-image: url('${contextPath}/resources/img/th-background.jpg"">작성일</th>
+                                <th style="width:10%;">NO</th>
+                                <th style="width:80%;">제 목</th>
+                                <th style="width:10%;">작성일</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -38,8 +38,20 @@
                             </c:forEach>
                         </tbody>
                     </table>
+					<a class="btn" href="${contextPath}/report/addDailyReportForm.do">작성하기</a>
+					<div class="pagination">
+						<c:forEach var="i" begin="1" end="${totalPage}">
+							<c:choose>
+								<c:when test="${i == currentPage}">
+									<strong>[${i}]</strong>
+								</c:when>
+								<c:otherwise>
+									<a href="${contextPath}/report/reportArea2.do?page=${i}">[${i}]</a>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</div>
                 </div>
-                <a class="btn" href="${contextPath}/report/addDailyReportForm.do">작성하기</a>
             </div>
         </div>
     </main>

@@ -28,7 +28,7 @@
 		<nav>
 			<ul class="menu">
 				<li></li>
-				<li><a href="${contextPath}/report/reportArea.do">보고서게시판</a></li>
+				<li><a href="${contextPath}/report/reportArea2.do">보고서게시판</a></li>
 				<li><a href="${contextPath}/blockManagement/blockList.do">시험편 관리</a></li>
 				<li>-</li>
 				<li>-</li>
