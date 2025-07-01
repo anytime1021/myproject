@@ -1,19 +1,31 @@
 @charset "utf-8";
 a {text-decoration: none; color: black;}
 
-/* 레포트 게시판 */
+/* 게시판 리스트 */
 .first-container {width: 100%; height: auto; background-color: white; margin: 0; padding: 0px; display: flex;}
 .first-container .sidebar {width: 200px; background-color: white;}
 .first-container .main-content {flex: 1; height: 700px;}
-.first-container .main-content .report-container {padding: 20px; height: auto; text-align: right;}
-.first-container .main-content .report-container .btn {display:inline-block; background-color: lightskyblue; border-radius: 6px;}
-.first-container .main-content .report-container .report-list {width: 100%; overflow-x: auto; overflow-y: visible;}
-.first-container .main-content .report-container .report-list .table-control {width: 100%; border-collapse: collapse; text-align: center;}
-.first-container .main-content .report-container .report-list .table-control th {border:1px solid black; background-image: url("/resources/img/th-background2.jpg"); background-size: contain;}
-.first-container .main-content .report-container .report-list .table-control td {border:1px solid black;}
-.first-container .main-content .report-container .report-list .pagination {margin-top: 20px; text-align: center;}
-.first-container .main-content .report-container .report-list .pagination a {margin: 0 5px; text-decoration: none; color: #007BFF;}
-.first-container .main-content .report-container .report-list .pagination strong {margin: 0 5px; font-weight: bold;}
+.first-container .main-content .contents-container {padding: 20px; height: auto; text-align: right;}
+.first-container .main-content .contents-container .btn {text-align: center; display:inline-block; width: 15%; height: 30px; background-color: white; font-weight: bold; border:1px solid black;}
+.first-container .main-content .contents-container .contents-list {width: 100%; overflow-x: auto; overflow-y: visible;}
+.first-container .main-content .contents-container .contents-list .table-control {width: 100%; border-collapse: collapse; text-align: center;}
+.first-container .main-content .contents-container .contents-list .table-control th {border:1px solid black; background-image: url("/resources/img/th-background2.jpg"); background-size: contain;}
+.first-container .main-content .contents-container .contents-list .table-control td {border:1px solid black;}
+.first-container .main-content .contents-container .contents-list .pagination {margin-top: 20px; text-align: center;}
+.first-container .main-content .contents-container .contents-list .pagination a {margin: 0 5px; text-decoration: none; color: #007BFF;}
+.first-container .main-content .contents-container .contents-list .pagination strong {margin: 0 5px; font-weight: bold;}
+.first-container .main-content .contents-container .contents-list .table-blockView {width: 100%; border-collapse: collapse; text-align: center;}
+.first-container .main-content .contents-container .contents-list .table-blockView th {border:1px solid black;}
+.first-container .main-content .contents-container .contents-list .table-blockView td {border:1px solid black;}
+.first-container .main-content .contents-container .contents-list .table-blockView .background {font-weight: bold; border:1px solid black; background-image: url("/resources/img/th-background2.jpg"); background-size: contain;}
+
+/* 블럭 추가 폼 */
+.first-container .main-content .addBlock-container {padding: 20px; height: auto; justify-content: center; display: flex;}
+.first-container .main-content .addBlock-container .addBlock-label {width: 110px; height: auto; padding: 0px;}
+.first-container .main-content .addBlock-container .addBlock-text {width: 200px; height: auto; padding: 0px; align-items: right; text-align: right;}
+.first-container .main-content .addBlock-container .modBlock-imageName {width: 250px; height: auto; text-align: left; padding-left: 10px;}
+.first-container .main-content .addBlock-container .addBlock-text input[type="text"] {width: 200px;}
+
 
 
 /* 레포트 게시판 테이블 */

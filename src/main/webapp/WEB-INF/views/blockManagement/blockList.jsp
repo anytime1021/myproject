@@ -19,8 +19,8 @@
     <main class="first-container">
         <%@ include file="../include/sidebar.jsp" %>
         <div class="main-content">
-            <div class="report-container">
-                <div class="report-list">
+            <div class="contents-container">
+                <div class="contents-list">
                     <table class="table-control">
                         <thead>
                             <tr>
@@ -40,7 +40,7 @@
 									<td>${blockList.df_material}</td>
 									<td>${blockList.df_usage}</td>
 									<td>${blockList.df_itemStatus}</td>
-									<td><a href="#">상세보기</a></td>
+									<td><button style="font-weight: bold; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">상세보기</button></td>
 								</tr>
 							</c:forEach>
                         </tbody>
@@ -64,4 +64,26 @@
     </main>
     <%@ include file="../include/footer2.jsp"%>
 </body>
+<script>
+	function detailView(button) {
+		const row = button.closest("tr");
+		const cells = row.getElementsByTagName("td");
+		
+		const id = cells[0].innerText;
+		const material = cells[1].innerText;
+		
+		const form = document.createElement("form");
+		form.method = "POST";
+		form.action = "/blockManagement/blockView.do";
+		
+		const inputId = document.createElement("input");
+		inputId.type = "hidden";
+		inputId.name = "df_idNumber";
+		inputId.value = id;
+		
+		form.appendChild(inputId);
+		document.body.appendChild(form);
+		form.submit();
+	}
+</script>
 </html>

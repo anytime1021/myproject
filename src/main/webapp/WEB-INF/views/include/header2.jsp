@@ -22,7 +22,7 @@
 </script>
 <header>
 	<div class="logo">
-		<img src="${contextPath}/resources/img/argusImage.jpg" alt="Argus Logo">
+		<a href="${contextPath}/argus/main2.do"><img src="${contextPath}/resources/img/argusImage.jpg" alt="Argus Logo"></a>
 	</div>
 	<div class="board-title">
 		<nav>

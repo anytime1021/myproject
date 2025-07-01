@@ -1,11 +1,14 @@
 package com.sboot.pro.argus.vo;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class BlockVO extends WorkingDailyBaseVO {
 	
 	// 시험편 정보
-	private int bf_num;
+	private int df_num;
 	private String df_idNumber;
-	private String df_picture;
+	private MultipartFile df_picture;
+	private String df_pictureName;
 	private String df_material;
 	private String df_size;
 	private String df_usage;
@@ -19,11 +22,11 @@ public class BlockVO extends WorkingDailyBaseVO {
 	private int mr_num;
 	private String mr_moveDate;
 	private String mr_rentalArea;
-	public int getBf_num() {
-		return bf_num;
+	public int getDf_num() {
+		return df_num;
 	}
-	public void setBf_num(int bf_num) {
-		this.bf_num = bf_num;
+	public void setDf_num(int df_num) {
+		this.df_num = df_num;
 	}
 	public String getDf_idNumber() {
 		return df_idNumber;
@@ -31,11 +34,17 @@ public class BlockVO extends WorkingDailyBaseVO {
 	public void setDf_idNumber(String df_idNumber) {
 		this.df_idNumber = df_idNumber;
 	}
-	public String getDf_picture() {
+	public MultipartFile getDf_picture() {
 		return df_picture;
 	}
-	public void setDf_picture(String df_picture) {
+	public void setDf_picture(MultipartFile df_picture) {
 		this.df_picture = df_picture;
+	}
+	public String getDf_pictureName() {
+		return df_pictureName;
+	}
+	public void setDf_pictureName(String df_pictureName) {
+		this.df_pictureName = df_pictureName;
 	}
 	public String getDf_material() {
 		return df_material;
@@ -106,7 +115,7 @@ public class BlockVO extends WorkingDailyBaseVO {
 	
 	@Override
 	public String toString() {
-		return "BlockVO [bf_num=" + bf_num + ", df_idNumber=" + df_idNumber + ", df_picture=" + df_picture
+		return "BlockVO [df_num=" + df_num + ", df_idNumber=" + df_idNumber + ", df_picture=" + df_picture
 				+ ", df_material=" + df_material + ", df_size=" + df_size + ", df_usage=" + df_usage + ", df_form="
 				+ df_form + ", df_defectType=" + df_defectType + ", df_manufacture=" + df_manufacture
 				+ ", df_itemStatus=" + df_itemStatus + ", df_moveStatus=" + df_moveStatus + ", mr_num=" + mr_num

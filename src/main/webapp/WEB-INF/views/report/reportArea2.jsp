@@ -18,8 +18,8 @@
     <main class="first-container">
         <%@ include file="../include/sidebar.jsp" %>
         <div class="main-content">
-            <div class="report-container">
-                <div class="report-list">
+            <div class="contents-container">
+                <div class="contents-list">
                     <table class="table-control">
                         <thead>
                             <tr>

@@ -40,6 +40,9 @@ public class WorkingDailyBaseVO {
 	private int fmonth_num;
 	private String fmonth_profits_comma;
 	
+	// 비고
+	private String note;
+	
 	public LoginVO getLoginVO() {
 		return loginVO;
 	}
@@ -154,6 +157,12 @@ public class WorkingDailyBaseVO {
 	}
 	public void setFmonth_num(int fmonth_num) {
 		this.fmonth_num = fmonth_num;
+	}
+	public String getNote() {
+		return note;
+	}
+	public void setNote(String note) {
+		this.note = note;
 	}
 	
 	@Override
