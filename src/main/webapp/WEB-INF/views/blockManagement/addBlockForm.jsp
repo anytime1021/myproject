@@ -12,7 +12,7 @@
     <meta charset="UTF-8">
     <title>아거스 리포트</title>
     <link rel="stylesheet" href="${contextPath}/resources/css/styles3.css">
-
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <%@ include file="../include/header2.jsp" %>
@@ -35,7 +35,9 @@
 						<label>비고 : </label><br>
 					</div>
 					<div class="addBlock-text">
-						<input type="text" name="df_idNumber">
+						<div style="display:inline-flex; align-items:center; gap:10px;">
+							<input type="text" id="df_idNumber" name="df_idNumber"><span id="checkMsg" style="width:200px; margin-left: 10px;"></span>
+						</div>
 						<input type="file" name="df_picture">
 						<input type="text" name="df_material">
 						<input type="text" name="df_size">
@@ -44,7 +46,24 @@
 						<input type="text" name="df_defectType">
 						<input type="date" name="df_manufacture">
 						<input type="text" name="df_itemStatus">
-						<input type="text" name="df_moveStatus">
+						<select name="df_moveStatus">
+							<option value="${searchArea}">-</option>
+							<c:if test="${searchArea ne '서산'}">
+								<option value="서산">서산</option>
+							</c:if>
+							<c:if test="${searchArea ne '마산'}">
+								<option value="마산">마산</option>
+							</c:if>
+							<c:if test="${searchArea ne '울산'}">
+								<option value="울산">울산</option>
+							</c:if>
+							<c:if test="${searchArea ne '여수'}">
+								<option value="여수">여수</option>
+							</c:if>
+							<c:if test="${searchArea ne '창원'}">
+								<option value="창원">창원</option>
+							</c:if>
+						</select>
 						<input type="text" name="note"><br>
 						<button type="submit">추가하기</button>
 					</div>
@@ -54,4 +73,34 @@
     </main>
     <%@ include file="../include/footer2.jsp"%>
 </body>
+<script>
+	$(document).ready(function(){
+		$('#df_idNumber').on('keyup', function() {
+			const idNumber = $(this).val().trim();
+			
+			if (idNumber.length === 0) {
+				$('#checkMsg').text('');
+				return;
+			}
+			
+			$.ajax({
+				url: '${contextPath}/blockManagement/checkDuplicateIdNumber.do',
+				type: 'GET',
+				data: { 
+					idNumber: idNumber 
+				},
+				success: function(result) {
+					if (result === 'available') {
+						$('#checkMsg').text('사용 가능한 번호입니다.').css('color', 'green');
+					} else {
+						$('#checkMsg').text('이미 사용중인 번호입니다.').css('color', 'red');
+					}
+				},
+				error: function() {
+					$('#checkMsg').text('서버 오류').css('color', 'gray');
+				}
+			});
+		});
+	});
+</script>
 </html>

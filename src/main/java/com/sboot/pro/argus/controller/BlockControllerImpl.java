@@ -1,7 +1,6 @@
 package com.sboot.pro.argus.controller;
 
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.InputStream;
@@ -15,15 +14,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.sboot.pro.argus.DTO.PagingDTO;
 import com.sboot.pro.argus.service.BlockService;
 import com.sboot.pro.argus.vo.BlockVO;
 import com.sboot.pro.argus.vo.LoginVO;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
 @Controller("blockManagementController")
 public class BlockControllerImpl implements BlockController {
@@ -40,17 +40,16 @@ public class BlockControllerImpl implements BlockController {
 		String searchArea = login.getLogin_area();
 
 		int limit = 20;
-		int offset = (page-1) * limit ;
-		
+		int currentPage = page;
+		int pageBlockSize = 10;
 		int totalCount = blockService.getBlockCount(searchArea);
 		
-		List<BlockVO> blockList = blockService.selectBlockList(searchArea, offset, limit);
+		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
+				
+		List<BlockVO> blockList = blockService.selectBlockList(searchArea, paging.getOffset(), limit);
 		
-		int totalPage = (int) Math.ceil((double) totalCount / limit);
-		
+		mav.addObject("paging", paging);
 		mav.addObject("blockList", blockList);
-		mav.addObject("currentPage", page);
-		mav.addObject("totalPage", totalPage);
 		return mav;
 	}
 	
@@ -96,7 +95,18 @@ public class BlockControllerImpl implements BlockController {
 	@GetMapping("/blockManagement/addBlockForm.do")
 	public ModelAndView addBlockForm(HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("/blockManagement/addBlockForm");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		mav.addObject("searchArea", searchArea);
 		return mav;
+	}
+	
+	// 블럭 추가 폼 일련번호 체크
+	@ResponseBody
+	@GetMapping("/blockManagement/checkDuplicateIdNumber.do")
+	public String checkDuplicateIdNumber(@RequestParam("idNumber") String idNumber) throws Exception {
+		boolean exists = blockService.isExistIdNumber(idNumber);
+		return exists ? "duplicate" : "available";
 	}
 	
 	// 블럭 추가
@@ -221,4 +231,14 @@ public class BlockControllerImpl implements BlockController {
 		blockService.modBlock(modBlockForm);
 		return mav;
 	}
+	
+	// 블럭 삭제
+	@Override
+	@GetMapping("/blockManagement/removeBlock.do")
+	public ModelAndView removeBlock(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockList.do");
+		blockService.removeBlock(df_idNumber);
+		return mav;
+	}
+	
 }

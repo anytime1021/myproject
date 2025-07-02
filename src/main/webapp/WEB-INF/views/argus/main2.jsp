@@ -42,6 +42,50 @@
 				</div>
 			</div>
 		</section>
+		<section class="main-container-assist">
+			<div class="main-quarter">
+				<div class="quarter">
+					<div class="report-board">
+						<div class="report-board-title">게시판 제목을 입력해주세요.</div>
+						<div class="shortcut"></div>
+					</div>
+					<div class="list">
+						<p class="sub-text">게시판 내용을 입력해주세요.</p>
+					</div>
+				</div>
+				<div class="quarter">
+					<div class="report-board">
+						<div class="report-board-title">게시판 제목을 입력해주세요.</div>
+						<div class="shortcut"></div>
+					</div>
+					<div class="list">
+						<p class="sub-text">게시판 내용을 입력해주세요.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="main-container-assist">
+			<div class="main-quarter">
+				<div class="quarter">
+					<div class="report-board">
+						<div class="report-board-title">게시판 제목을 입력해주세요.</div>
+						<div class="shortcut"></div>
+					</div>
+					<div class="list">
+						<p class="sub-text">게시판 내용을 입력해주세요.</p>
+					</div>
+				</div>
+				<div class="quarter">
+					<div class="report-board">
+						<div class="report-board-title">게시판 제목을 입력해주세요.</div>
+						<div class="shortcut"></div>
+					</div>
+					<div class="list">
+						<p class="sub-text">게시판 내용을 입력해주세요.</p>
+					</div>
+				</div>
+			</div>
+		</section>
 		<section class="content">
 			<h2>사업분야</h2>
 			<p>첨단의 기술도 기술자의 역량만큼 빛을 발하기 마련입니다.</p>

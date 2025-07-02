@@ -35,6 +35,12 @@ public class BlockServiceImpl implements BlockService {
 		return blockDAO.selectBlockView(df_idNumber);
 	}
 	
+	// 블럭 추가 폼 일련번호 체크
+	@Override
+	public boolean isExistIdNumber(String idNumber) throws Exception {
+		return blockDAO.isExistIdNumber(idNumber) > 0;
+	}
+	
 	// 블럭 추가
 	@Override
 	public void addBlock(BlockVO addBlockForm, String searchArea) throws Exception {
@@ -42,10 +48,15 @@ public class BlockServiceImpl implements BlockService {
 	}
 	
 	// 블럭 수정
-	
 	@Override
 	public void modBlock(BlockVO modBlockForm) throws Exception {
 		blockDAO.insertUpdateLog(modBlockForm.getDf_num());
 		blockDAO.updateBlock(modBlockForm);
+	}
+	
+	// 블럭 삭제
+	@Override
+	public void removeBlock(String df_idNumber) throws Exception {
+		blockDAO.deleteBlock(df_idNumber);
 	}
 }

@@ -32,9 +32,17 @@
 				<li><a href="${contextPath}/blockManagement/blockList.do">시험편 관리</a></li>
 				<li>-</li>
 				<li>-</li>
-				<li class="brochure">-</li>
+				<c:choose>
+					<c:when test="${logOn}">
+						<li>${login.login_area} 님.</li>
+						<li><a href="${contextPath}/login/logout.do">로그아웃</a></li>
+						<li><a href="${contextPath}/user/umReserInfo.do?u_id=${user.u_id}">마이페이지</a></li>				
+					</c:when>
+					<c:otherwise>
+						<li><a href="${contextPath}/login/loginForm.do">로그인</a></li>
+					</c:otherwise>
+				</c:choose>
 			</ul>
 		</nav>
 	</div>
-	<div class="menu-icon"></div>
 </header>

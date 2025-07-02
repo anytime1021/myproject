@@ -27,4 +27,7 @@ public interface BlockController {
 
 	// 블럭 수정
 	public ModelAndView modBlock(@ModelAttribute("modBlock") BlockVO modBlock, HttpServletRequest request) throws Exception;
+
+	// 블럭 삭제
+	public ModelAndView removeBlock(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest requst) throws Exception;
 }

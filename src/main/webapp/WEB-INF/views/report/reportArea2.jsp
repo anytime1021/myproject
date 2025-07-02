@@ -38,20 +38,44 @@
                             </c:forEach>
                         </tbody>
                     </table>
-					<a class="btn" href="${contextPath}/report/addDailyReportForm.do">작성하기</a>
+				</div>
+				<div class="paging-list">
 					<div class="pagination">
-						<c:forEach var="i" begin="1" end="${totalPage}">
-							<c:choose>
-								<c:when test="${i == currentPage}">
-									<strong>[${i}]</strong>
-								</c:when>
-								<c:otherwise>
-									<a href="${contextPath}/report/reportArea2.do?page=${i}">[${i}]</a>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
+	
+					  <a href="${contextPath}/report/reportArea2.do?page=1"><strong>[≪]</strong></a>
+	
+					  <c:if test="${paging.startPage > 1}">
+					    <fmt:formatNumber var="prevPage" value="${paging.startPage - 1}" type="number" maxFractionDigits="0" />
+					    <a href="${contextPath}/report/reportArea2.do?page=${prevPage}"><strong>[＜]</strong></a>
+					  </c:if>
+	
+					  <c:forEach var="i" begin="${paging.startPage}" end="${paging.endPage}">
+					    <c:choose>
+					      <c:when test="${i == paging.currentPage}">
+					        <strong style="font-size:20px; color:black;">[${i}]</strong>
+					      </c:when>
+					      <c:otherwise>
+					        <a href="${contextPath}/report/reportArea2.do?page=${i}">[${i}]</a>
+					      </c:otherwise>
+					    </c:choose>
+					  </c:forEach>
+	
+					  <c:if test="${paging.endPage < paging.totalPage}">
+					    <fmt:formatNumber var="nextPage" value="${paging.endPage + 1}" type="number" maxFractionDigits="0" />
+					    <a href="${contextPath}/report/reportArea2.do?page=${nextPage}"><strong>[＞]</strong></a>
+					  </c:if>
+					  
+					  <a href="${contextPath}/report/reportArea2.do?page=${paging.totalPage}"><strong>[≫]</strong></a>
+	
 					</div>
-                </div>
+					<div class="search-write">
+						<form class="search-box" method="post" action="${contextPath}/report/searchReport.do">
+							<input type="text" name="search" placeholder="검색어 입력">
+							<button type="submit">검색</button>
+						</form>
+						<a class="write-btn" href="${contextPath}/report/addDailyReportForm.do">작성하기</a>
+					</div>
+	            </div>
             </div>
         </div>
     </main>

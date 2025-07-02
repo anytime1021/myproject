@@ -79,7 +79,7 @@
 						</tbody>
 					</table>
 					<a class="btn" href="${contextPath}/blockManagement/modBlockForm.do?df_idNumber=${blockView.df_idNumber}">수정하기</a>
-					<a class="btn" onclick="return confirm('정말 삭제하시겠습니까?');" href="${contextPath}/blockManagement/removeBlockForm.do?df_idNumber=${blockView.df_idNumber}">삭제하기</a>
+					<a class="btn" onclick="return confirm('정말 삭제하시겠습니까?');" href="${contextPath}/blockManagement/removeBlock.do?df_idNumber=${blockView.df_idNumber}">삭제하기</a>
 				</div>
 			</div>
         </div>

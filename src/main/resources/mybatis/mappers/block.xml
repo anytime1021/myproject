@@ -9,12 +9,17 @@
 	<!-- 블럭 리스트 -->
 	<select id="selectBlockList">
 		select * from blockinformation where login_area=#{searchArea} and YN='Y'
-		order by df_idNumber limit #{offset}, #{limit}
+		order by df_idNumber desc limit #{offset}, #{limit}
 	</select>
 	
 	<!-- 블럭 상세보기 -->
 	<select id="selectBlockView" resultType="BlockVO">
 		select * from blockinformation where df_idNumber = #{df_idNumber} and YN = 'Y'
+	</select>
+	
+	<!-- 블럭 추가 폼 일련번호 체크 -->
+	<select id="isExistIdNumber" resultType="int">
+		select count(*) from blockinformation where substr(df_idNumber,1,8) = substr(#{df_idNumber},1,8) and substr(df_idNumber,13,3) = substr(#{df_idNumber},13,3)
 	</select>
 	
 	<!-- 블럭 추가 -->
@@ -46,5 +51,11 @@
 		df_moveStatus = #{df_moveStatus},
 		note = #{note}
 		where df_num = #{df_num}
+	</update>
+	
+	<update id="deleteBlock">
+		update blockinformation
+		set YN = 'N'
+		where df_idNumber = #{df_idNumber}
 	</update>
 </mapper>

@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -16,7 +15,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,8 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.sboot.pro.argus.DTO.BoardType;
-import com.sboot.pro.argus.DTO.CombinedSowDailyWorkLog;
 import com.sboot.pro.argus.DTO.DailyReportWorkrate;
+import com.sboot.pro.argus.DTO.PagingDTO;
 import com.sboot.pro.argus.dao.CommonDAO;
 import com.sboot.pro.argus.dao.ReportDAO;
 import com.sboot.pro.argus.dao.SowDAO;
@@ -955,18 +953,18 @@ public class ReportControllerImpl implements ReportController{
 		int token = 1;
 		
 		int limit = 20;
-		int offset = (page-1) * limit;
+		int currentPage = page;
+		int pageBlockSize = 20;
 		
 		String tableName = BoardType.fromToken(token).getTableName();
-		
 		int totalCount = commonService.getReportCount(searchArea, tableName);
-		List<WorkingDailyBaseVO> reportListJsp = commonService.reportListTotalJava(searchArea, tableName, offset, limit);
 		
-		int totalPage = (int) Math.ceil((double) totalCount / limit);
+		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
 		
+		List<WorkingDailyBaseVO> reportListJsp = commonService.reportListTotalJava(searchArea, tableName, paging.getOffset(), limit);
+
+		mav.addObject("paging", paging);
 		mav.addObject("reportListJsp", reportListJsp);
-		mav.addObject("currentPage", page);
-		mav.addObject("totalPage", totalPage);
 		return mav;
 	}
 }

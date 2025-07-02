@@ -21,10 +21,16 @@ public interface BlockDAO {
 	// 블럭 상세보기
 	public BlockVO selectBlockView(String df_idNumber) throws Exception;
 	
+	// 블럭 추가 폼 일련번호 체크
+	public int isExistIdNumber(String df_idNumber) throws Exception;
+	
 	// 블럭 추가
 	public void insertBlock(@Param("addBlockForm") BlockVO addBlockForm, @Param("searchArea") String searchArea) throws Exception;
 
 	// 블럭 수정
 	public void insertUpdateLog(int df_num) throws Exception;
 	public void updateBlock(BlockVO modBlockForm) throws Exception;
+	
+	// 블럭 삭제
+	public void deleteBlock(String df_idNumber) throws Exception;
 }
