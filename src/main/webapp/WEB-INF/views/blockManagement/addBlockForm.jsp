@@ -35,14 +35,32 @@
 						<label>비고 : </label><br>
 					</div>
 					<div class="addBlock-text">
+						<c:choose>
+							<c:when test="${searchArea eq '서산'}">
+								<c:set var="idNumValue" value="A(SS)-" />
+							</c:when>
+							<c:when test="${searchArea eq '마산'}">
+								<c:set var="idNumValue" value="A(MS)-" />
+							</c:when>
+							<c:when test="${searchArea eq '울산'}">
+								<c:set var="idNumValue" value="A(US)-" />
+							</c:when>
+							<c:when test="${searchArea eq '여수'}">
+								<c:set var="idNumValue" value="A(YS)-" />
+							</c:when>
+							<c:when test="${searchArea eq '창원'}">
+								<c:set var="idNumValue" value="A(CW)-" />
+							</c:when>
+						</c:choose>
 						<div style="display:inline-flex; align-items:center; gap:10px;">
-							<input type="text" id="df_idNumber" name="df_idNumber"><span id="checkMsg" style="width:200px; margin-left: 10px;"></span>
+							<input type="text" id="df_idNumber" name="df_idNumber"
+							value="${idNumValue}"><span id="checkMsg" style="width:200px; margin-left: 10px;"></span>
 						</div>
 						<input type="file" name="df_picture">
 						<input type="text" name="df_material">
 						<input type="text" name="df_size">
-						<input type="text" name="df_usage">
-						<input type="text" name="df_form">
+						<input type="text" name="df_usage" readonly>
+						<input type="text" name="df_form" readonly>
 						<input type="text" name="df_defectType">
 						<input type="date" name="df_manufacture">
 						<input type="text" name="df_itemStatus">
