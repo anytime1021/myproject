@@ -59,4 +59,10 @@ public class BlockServiceImpl implements BlockService {
 	public void removeBlock(String df_idNumber) throws Exception {
 		blockDAO.deleteBlock(df_idNumber);
 	}
+	
+	// 블럭 이동 기록
+	@Override
+	public List<BlockVO> selectBlockMoveList(String searchArea) throws Exception {
+		return blockDAO.selectBlockMoveList(searchArea);
+	}
 }

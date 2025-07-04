@@ -25,15 +25,15 @@
                         <thead>
                             <tr>
 								<th style="width:20%;">식별번호</th>
-								<th style="width:20%;">크기</th>
-								<th style="width:15%;">재질</th>
-								<th style="width:15%;">용도</th>
-								<th style="width:15%;">상태</th>
+								<th style="width:20%;">대여사업소</th>
+								<th style="width:15%;">대여자</th>
+								<th style="width:15%;">수령자</th>
+								<th style="width:15%;">대여날짜</th>
 								<th style="width:15%;"></th>
                             </tr>
                         </thead>
                         <tbody>
-							<c:forEach var="blockList" items="${blockList}">
+							<c:forEach var="blockList" items="${blockList}"> 
 								<tr>
 									<td>${blockList.df_idNumber}</td>
 									<td>${blockList.df_size}</td>
@@ -88,25 +88,4 @@
     </main>
     <%@ include file="../include/footer2.jsp"%>
 </body>
-<script>
-	function detailView(button) {
-		const row = button.closest("tr");
-		const cells = row.getElementsByTagName("td");
-		
-		const id = cells[0].innerText;
-		
-		const form = document.createElement("form");
-		form.method = "POST";
-		form.action = "/blockManagement/blockView.do";
-		
-		const inputId = document.createElement("input");
-		inputId.type = "hidden";
-		inputId.name = "df_idNumber";
-		inputId.value = id;
-		
-		form.appendChild(inputId);
-		document.body.appendChild(form);
-		form.submit();
-	}
-</script>
 </html>

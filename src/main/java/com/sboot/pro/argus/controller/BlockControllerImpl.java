@@ -241,6 +241,32 @@ public class BlockControllerImpl implements BlockController {
 		return mav;
 	}
 	
+	// 블럭 대여 등록 폼
+	@Override
+	@GetMapping("/blockManagement/moveBlockForm.do")
+	public ModelAndView moveBlockForm(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/blockManagement/moveBlockForm");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		BlockVO blockInformation = blockService.selectBlockView(df_idNumber);
+		mav.addObject("searchArea", searchArea);
+		mav.addObject("blockInformation", blockInformation);
+		return mav;
+	}
+	
+	// 블럭 이동 기록
+	@Override
+	@GetMapping("/blockManagement/blockMoveList.do")
+	public ModelAndView blockMoveList(HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/blockManagement/blockMoveList");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		List<BlockVO> blockMoveList = blockService.selectBlockMoveList(searchArea);
+		mav.addObject("blockMoveList", blockMoveList);
+		return mav;
+	}
+	
+	
 	@GetMapping("/blockManagement/test.do")
 	public ModelAndView test(HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("/blockManagement/test");

@@ -33,4 +33,7 @@ public interface BlockDAO {
 	
 	// 블럭 삭제
 	public void deleteBlock(String df_idNumber) throws Exception;
+	
+	// 블럭 이동 기록
+	public List<BlockVO> selectBlockMoveList(String searchArea) throws Exception;
 }

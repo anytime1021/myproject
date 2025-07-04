@@ -30,4 +30,10 @@ public interface BlockController {
 
 	// 블럭 삭제
 	public ModelAndView removeBlock(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest requst) throws Exception;
+	
+	// 블럭 대여 등록 폼
+	public ModelAndView moveBlockForm(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception;
+	
+	// 블럭 이동 기록
+	public ModelAndView blockMoveList(HttpServletRequest request) throws Exception;
 }

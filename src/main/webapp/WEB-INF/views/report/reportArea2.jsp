@@ -11,7 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <title>아거스 리포트</title>
-    <link rel="stylesheet" href="${contextPath}/resources/css/styles3.css">
+    <link rel="stylesheet" href="${contextPath}/resources/css/boardStyle.css">
 </head>
 <body>
     <%@ include file="../include/header2.jsp" %>
@@ -24,8 +24,8 @@
                         <thead>
                             <tr>
                                 <th style="width:10%;">NO</th>
-                                <th style="width:80%;">제 목</th>
-                                <th style="width:10%;">작성일</th>
+                                <th style="width:70%;">제 목</th>
+                                <th style="width:20%;">작성일</th>
                             </tr>
                         </thead>
                         <tbody>

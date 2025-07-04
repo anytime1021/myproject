@@ -53,9 +53,15 @@
 		where df_num = #{df_num}
 	</update>
 	
+	<!-- 블럭 삭제 -->
 	<update id="deleteBlock">
 		update blockinformation
 		set YN = 'N'
 		where df_idNumber = #{df_idNumber}
 	</update>
+	
+	<!-- 블럭 이동 기록 -->
+	<select id="selectBlockMoveList" parameterType="String">
+		select * from blockMoveList where login_area = #{searchArea} and YN = 'Y'
+	</select>
 </mapper>

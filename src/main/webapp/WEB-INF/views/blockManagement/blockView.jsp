@@ -11,7 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <title>아거스 리포트</title>
-    <link rel="stylesheet" href="${contextPath}/resources/css/styles3.css">
+    <link rel="stylesheet" href="${contextPath}/resources/css/boardStyle.css">
 
 </head>
 <body>
@@ -28,7 +28,7 @@
 								<td class="background" style="width:20%;">크기</td>
 								<td class="background" style="width:15%;">재질</td>
 								<td class="background" style="width:15%;">용도</td>
-								<td class="background" style="width:15%;">사용여부</td>
+								<td class="background" style="width:15%;">상태</td>
 								<td class="background" style="width:15%;">결함종류</td>
 							</tr>
 							<tr>
@@ -78,6 +78,9 @@
 							</c:choose>
 						</tbody>
 					</table>
+				</div>
+				<div class="search-write">
+					<a class="btn" href="${contextPath}/blockMagagement/moveBlockForm.do?df_idNumber=${blockView.df_idNumber}">시험편 대여 등록</a>
 					<a class="btn" href="${contextPath}/blockManagement/modBlockForm.do?df_idNumber=${blockView.df_idNumber}">수정하기</a>
 					<a class="btn" onclick="return confirm('정말 삭제하시겠습니까?');" href="${contextPath}/blockManagement/removeBlock.do?df_idNumber=${blockView.df_idNumber}">삭제하기</a>
 				</div>

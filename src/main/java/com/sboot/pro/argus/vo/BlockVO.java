@@ -19,9 +19,15 @@ public class BlockVO extends WorkingDailyBaseVO {
 	private String df_moveStatus;
 	
 	// 이동 기록
-	private int mr_num;
-	private String mr_moveDate;
-	private String mr_rentalArea;
+	private int moveList_num;
+	private String moveList_lender;
+	private String moveList_recipient;
+	private String moveList_recipient_area;
+	private String moveList_rental_date;
+	private String moveList_return_date;
+	private String moveList_moveStatus;
+	private String created_at;
+	
 	public int getDf_num() {
 		return df_num;
 	}
@@ -94,31 +100,64 @@ public class BlockVO extends WorkingDailyBaseVO {
 	public void setDf_moveStatus(String df_moveStatus) {
 		this.df_moveStatus = df_moveStatus;
 	}
-	public int getMr_num() {
-		return mr_num;
+	public int getMoveList_num() {
+		return moveList_num;
 	}
-	public void setMr_num(int mr_num) {
-		this.mr_num = mr_num;
+	public void setMoveList_num(int moveList_num) {
+		this.moveList_num = moveList_num;
 	}
-	public String getMr_moveDate() {
-		return mr_moveDate;
+	public String getMoveList_lender() {
+		return moveList_lender;
 	}
-	public void setMr_moveDate(String mr_moveDate) {
-		this.mr_moveDate = mr_moveDate;
+	public void setMoveList_lender(String moveList_lender) {
+		this.moveList_lender = moveList_lender;
 	}
-	public String getMr_rentalArea() {
-		return mr_rentalArea;
+	public String getMoveList_recipient() {
+		return moveList_recipient;
 	}
-	public void setMr_rentalArea(String mr_rentalArea) {
-		this.mr_rentalArea = mr_rentalArea;
+	public void setMoveList_recipient(String moveList_recipient) {
+		this.moveList_recipient = moveList_recipient;
+	}
+	public String getMoveList_recipient_area() {
+		return moveList_recipient_area;
+	}
+	public void setMoveList_recipient_area(String moveList_recipient_area) {
+		this.moveList_recipient_area = moveList_recipient_area;
+	}
+	public String getMoveList_rental_date() {
+		return moveList_rental_date;
+	}
+	public void setMoveList_rental_date(String moveList_rental_date) {
+		this.moveList_rental_date = moveList_rental_date;
+	}
+	public String getMoveList_return_date() {
+		return moveList_return_date;
+	}
+	public void setMoveList_return_date(String moveList_return_date) {
+		this.moveList_return_date = moveList_return_date;
+	}
+	public String getMoveList_moveStatus() {
+		return moveList_moveStatus;
+	}
+	public void setMoveList_moveStatus(String moveList_moveStatus) {
+		this.moveList_moveStatus = moveList_moveStatus;
+	}
+	public String getCreated_at() {
+		return created_at;
+	}
+	public void setCreated_at(String created_at) {
+		this.created_at = created_at;
 	}
 	
 	@Override
 	public String toString() {
 		return "BlockVO [df_num=" + df_num + ", df_idNumber=" + df_idNumber + ", df_picture=" + df_picture
-				+ ", df_material=" + df_material + ", df_size=" + df_size + ", df_usage=" + df_usage + ", df_form="
-				+ df_form + ", df_defectType=" + df_defectType + ", df_manufacture=" + df_manufacture
-				+ ", df_itemStatus=" + df_itemStatus + ", df_moveStatus=" + df_moveStatus + ", mr_num=" + mr_num
-				+ ", mr_moveDate=" + mr_moveDate + ", mr_rentalArea=" + mr_rentalArea + "]";
+				+ ", df_pictureName=" + df_pictureName + ", df_material=" + df_material + ", df_size=" + df_size
+				+ ", df_usage=" + df_usage + ", df_form=" + df_form + ", df_defectType=" + df_defectType
+				+ ", df_manufacture=" + df_manufacture + ", df_itemStatus=" + df_itemStatus + ", df_moveStatus="
+				+ df_moveStatus + ", moveList_num=" + moveList_num + ", moveList_lender=" + moveList_lender
+				+ ", moveList_recipient=" + moveList_recipient + ", moveList_recipient_area=" + moveList_recipient_area
+				+ ", moveList_rental_date=" + moveList_rental_date + ", moveList_return_date=" + moveList_return_date
+				+ ", moveList_moveStatus=" + moveList_moveStatus + ", created_at=" + created_at + "]";
 	}
 }
