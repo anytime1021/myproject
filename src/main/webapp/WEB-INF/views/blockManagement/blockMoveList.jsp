@@ -25,21 +25,21 @@
                         <thead>
                             <tr>
 								<th style="width:20%;">식별번호</th>
-								<th style="width:20%;">대여사업소</th>
-								<th style="width:15%;">대여자</th>
-								<th style="width:15%;">수령자</th>
-								<th style="width:15%;">대여날짜</th>
-								<th style="width:15%;"></th>
+								<th style="width:16%;">대여자</th>
+								<th style="width:16%;">수령자</th>
+								<th style="width:16%;">수령지역</th>
+								<th style="width:16%;">대여날짜</th>
+								<th style="width:16%;"></th>
                             </tr>
                         </thead>
                         <tbody>
-							<c:forEach var="blockList" items="${blockList}"> 
+							<c:forEach var="blockMoveList" items="${blockMoveList}"> 
 								<tr>
-									<td>${blockList.df_idNumber}</td>
-									<td>${blockList.df_size}</td>
-									<td>${blockList.df_material}</td>
-									<td>${blockList.df_usage}</td>
-									<td>${blockList.df_itemStatus}</td>
+									<td>${blockMoveList.df_idNumber}</td>
+									<td>${blockMoveList.moveList_lender}</td>
+									<td>${blockMoveList.moveList_recipient}</td>
+									<td>${blockMoveList.moveList_recipient_area}</td>
+									<td>${blockMoveList.moveList_rental_date}</td>
 									<td><button style="font-weight: bold; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">상세보기</button></td>
 								</tr>
 							</c:forEach>
@@ -49,11 +49,11 @@
 				<div class="paging-list">
 					<div class="pagination">
 
-					  <a href="${contextPath}/blockManagement/blockList.do?page=1"><strong>[≪]</strong></a>
+					  <a href="${contextPath}/blockManagement/blockMoveList.do?page=1"><strong>[≪]</strong></a>
 
 					  <c:if test="${paging.startPage > 1}">
 					    <fmt:formatNumber var="prevPage" value="${paging.startPage - 1}" type="number" maxFractionDigits="0" />
-					    <a href="${contextPath}/blockManagement/blockList.do?page=${prevPage}"><strong>[＜]</strong></a>
+					    <a href="${contextPath}/blockManagement/blockMoveList.do?page=${prevPage}"><strong>[＜]</strong></a>
 					  </c:if>
 
 					  <c:forEach var="i" begin="${paging.startPage}" end="${paging.endPage}">
@@ -62,17 +62,17 @@
 					        <strong style="font-size:20px; color:black;">[${i}]</strong>
 					      </c:when>
 					      <c:otherwise>
-					        <a href="${contextPath}/blockManagement/blockList.do?page=${i}">[${i}]</a>
+					        <a href="${contextPath}/blockManagement/blockMoveList.do?page=${i}">[${i}]</a>
 					      </c:otherwise>
 					    </c:choose>
 					  </c:forEach>
 
 					  <c:if test="${paging.endPage < paging.totalPage}">
 					    <fmt:formatNumber var="nextPage" value="${paging.endPage + 1}" type="number" maxFractionDigits="0" />
-					    <a href="${contextPath}/blockManagement/blockList.do?page=${nextPage}"><strong>[＞]</strong></a>
+					    <a href="${contextPath}/blockManagement/blockMoveList.do?page=${nextPage}"><strong>[＞]</strong></a>
 					  </c:if>
 					  
-					  <a href="${contextPath}/blockManagement/blockList.do?page=${paging.totalPage}"><strong>[≫]</strong></a>
+					  <a href="${contextPath}/blockManagement/blockMoveList.do?page=${paging.totalPage}"><strong>[≫]</strong></a>
 
 					</div>
 					<div class="search-write">
@@ -80,7 +80,6 @@
 							<input type="text" name="search" placeholder="검색어 입력">
 							<button type="submit">검색</button>
 						</form>
-						<a class="write-btn" href="${contextPath}/blockManagement/addBlockForm.do">작성하기</a>
 					</div>
                 </div>
             </div>

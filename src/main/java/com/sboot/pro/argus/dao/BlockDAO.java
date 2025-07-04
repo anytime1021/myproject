@@ -34,6 +34,13 @@ public interface BlockDAO {
 	// 블럭 삭제
 	public void deleteBlock(String df_idNumber) throws Exception;
 	
+	// 블럭 대여
+	public void updateItemStatus(@Param("df_idNumber") String df_idNumber, @Param("df_moveStatus") String df_moveStatus) throws Exception;
+	public void insertMoveBlockList(@Param("moveBlock") BlockVO moveBlock, @Param("login_area") String login_area, @Param("login_id") String login_id) throws Exception;
+	
+	// 블럭 이동 기록 수 카운트
+	public int selectMoveListCount(String searchArea) throws Exception;
+	
 	// 블럭 이동 기록
 	public List<BlockVO> selectBlockMoveList(String searchArea) throws Exception;
 }

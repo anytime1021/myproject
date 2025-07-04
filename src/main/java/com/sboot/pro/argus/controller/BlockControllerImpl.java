@@ -254,14 +254,35 @@ public class BlockControllerImpl implements BlockController {
 		return mav;
 	}
 	
+	// 블럭 대여
+	@Override
+	@PostMapping("/blockManagement/moveBlock.do")
+	public ModelAndView moveBlock(@ModelAttribute("moveBlock") BlockVO moveBlock, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockMoveList.do");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		System.out.println(moveBlock.getDf_moveStatus());
+		blockService.modItemStatus(moveBlock.getDf_idNumber(), moveBlock.getMoveList_recipient_area());
+		blockService.addMoveBlockList(moveBlock, login.getLogin_area(), login.getLogin_id());
+		return mav;
+	}
+	
 	// 블럭 이동 기록
 	@Override
 	@GetMapping("/blockManagement/blockMoveList.do")
-	public ModelAndView blockMoveList(HttpServletRequest request) throws Exception {
+	public ModelAndView blockMoveList(@RequestParam(value="page", defaultValue="1") int page, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("/blockManagement/blockMoveList");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
+		
+		int limit = 20;
+		int currentPage = page;
+		int pageBlockSize = 5;
+		int totalCount = blockService.getMoveListCount(searchArea);
+		
+		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
+		
 		List<BlockVO> blockMoveList = blockService.selectBlockMoveList(searchArea);
+		mav.addObject("paging", paging);
 		mav.addObject("blockMoveList", blockMoveList);
 		return mav;
 	}

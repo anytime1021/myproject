@@ -60,6 +60,24 @@ public class BlockServiceImpl implements BlockService {
 		blockDAO.deleteBlock(df_idNumber);
 	}
 	
+	// 블럭 대여
+	@Override
+	public void modItemStatus(String df_idNumber, String df_moveStatus) throws Exception {
+		blockDAO.updateItemStatus(df_idNumber, df_moveStatus);
+	}
+	
+	@Override
+	public void addMoveBlockList(BlockVO moveBlock, String login_area, String login_id) throws Exception {
+		blockDAO.insertMoveBlockList(moveBlock, login_area, login_id);
+	}
+	
+	
+	// 블럭 이동 기록 수 카운트
+	@Override
+	public int getMoveListCount(String searchArea) throws Exception {
+		return blockDAO.selectMoveListCount(searchArea);
+	}
+	
 	// 블럭 이동 기록
 	@Override
 	public List<BlockVO> selectBlockMoveList(String searchArea) throws Exception {

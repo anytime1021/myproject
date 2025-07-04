@@ -34,6 +34,9 @@ public interface BlockController {
 	// 블럭 대여 등록 폼
 	public ModelAndView moveBlockForm(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception;
 	
+	// 블럭 대여
+	public ModelAndView moveBlock(@ModelAttribute("moveBlockList") BlockVO moveBlockList, HttpServletRequest request) throws Exception;
+	
 	// 블럭 이동 기록
-	public ModelAndView blockMoveList(HttpServletRequest request) throws Exception;
+	public ModelAndView blockMoveList(@RequestParam(value="page", defaultValue="1") int page, HttpServletRequest request) throws Exception;
 }

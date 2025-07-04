@@ -60,8 +60,26 @@
 		where df_idNumber = #{df_idNumber}
 	</update>
 	
+	<!-- 블럭 대여 -->
+	<update id="updateItemStatus">
+		update blockInformation
+		set df_itemStatus = '대여중',
+		df_moveStatus = #{df_moveStatus}
+		where df_idNumber = #{df_idNumber}
+	</update>
+	
+	<insert id="insertMoveBlockList">
+		insert into blockMoveList(moveList_lender, moveList_recipient, moveList_recipient_area, moveList_moveStatus, df_idNumber, login_area, login_id, note)
+		select #{moveBlock.moveList_lender}, #{moveBlock.moveList_recipient}, #{moveBlock.moveList_recipient_area}, df_moveStatus, #{moveBlock.df_idNumber}, #{login_area}, #{login_id}, #{moveBlock.note} from blockInformation where df_idNumber = #{moveBlock.df_idNumber}
+	</insert>
+	
+	<!-- 블럭 이동 기록 수 카운트 -->
+	<select id="selectMoveListCount" resultType="int">
+		select count(*) from blockMoveList where login_area = #{searchArea} and YN = 'Y'
+	</select>
+	
 	<!-- 블럭 이동 기록 -->
 	<select id="selectBlockMoveList" parameterType="String">
-		select * from blockMoveList where login_area = #{searchArea} and YN = 'Y'
+		select * from blockMoveList where login_area = #{searchArea} and YN = 'Y' order by moveList_rental_date desc;
 	</select>
 </mapper>
