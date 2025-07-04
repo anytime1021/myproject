@@ -41,7 +41,7 @@ public class BlockControllerImpl implements BlockController {
 
 		int limit = 20;
 		int currentPage = page;
-		int pageBlockSize = 10;
+		int pageBlockSize = 5;
 		int totalCount = blockService.getBlockCount(searchArea);
 		
 		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
@@ -241,4 +241,9 @@ public class BlockControllerImpl implements BlockController {
 		return mav;
 	}
 	
+	@GetMapping("/blockManagement/test.do")
+	public ModelAndView test(HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/blockManagement/test");
+		return mav;
+	}
 }

@@ -1,0 +1,37 @@
+@charset "utf-8";
+a {text-decoration: none; color: black;}
+
+/* 게시판 리스트 */
+.first-container {width: 100%; height: auto; background-color: white; margin: 0; padding: 0px; display: flex;}
+.first-container .sidebar {width: 200px; background-color: white;}
+.first-container .main-content {flex: 1; height: 700px;}
+.first-container .main-content .contents-container {padding: 20px; height: auto; text-align: right;}
+.first-container .main-content .contents-container .btn {text-align: center; display:inline-block; width: 15%; height: 30px; background-color: white; font-weight: bold; border:1px solid black;}
+.first-container .main-content .contents-container .contents-list {width: 100%; height: 600px; overflow-x: auto; overflow-y: visible; text-align: center; justify-content: center;}
+.first-container .main-content .contents-container .contents-list .table-control {width: 80%; border-collapse: collapse; text-align: center; margin: 0 auto;}
+.first-container .main-content .contents-container .contents-list .table-control thead {background: linear-gradient(to right, #6a11cb, #2575fc); color: white;}
+.first-container .main-content .contents-container .contents-list .table-control th, td {padding: 16px; border-bottom: 1px solid white; font-size: 16px;}
+.first-container .main-content .contents-container .contents-list .table-control tbody tr:hover {background-color: white; cursor: pointer; transition: background-color 0.3s;}
+.first-container .main-content .contents-container .contents-list .table-control a {text-decoration: none; color: black;}
+.first-container .main-content .contents-container .contents-list .table-control a:hover {text-decoration: unerline; color: #2575fc;}
+.first-container .main-content .contents-container .contents-list .table-blockView {width: 100%; border-collapse: collapse; text-align: center;}
+.first-container .main-content .contents-container .contents-list .table-blockView th {border:1px solid black;}
+.first-container .main-content .contents-container .contents-list .table-blockView td {border:1px solid black;}
+.first-container .main-content .contents-container .contents-list .table-blockView .background {font-weight: bold; border:1px solid black; background-image: url("/resources/img/th-background2.jpg"); background-size: contain;}
+.first-container .main-content .contents-container .paging-list {height: auto; text-align: center; align-items: center;}
+.first-container .main-content .contents-container .paging-list .pagination {text-align: center;}
+.first-container .main-content .contents-container .paging-list .pagination a {font-size: 16px; color: blue;}
+.first-container .main-content .contents-container .paging-list .pagination strong {font-size: 16px; color: black;}
+.first-container .main-content .contents-container .paging-list .search-write {position: relative; margin-top: 10px;}
+.first-container .main-content .contents-container .paging-list .search-write .search-box {position: absolute; left: 50%; transform: translateX(-50%); display: flex; gap: 5px;}
+.first-container .main-content .contents-container .paging-list .search-write .search-box input[type="text"] {height: 30px;}
+.first-container .main-content .contents-container .paging-list .search-write .search-box button {width: 100px; height: 30px; text-align: center; border: 1px solid black;}
+.first-container .main-content .contents-container .paging-list .search-write .write-btn {position: absolute; right: 0;	 text-align: center; width: 150px; height: 30px; background-color: white; font-weight: bold; border:1px solid black;}
+
+
+/* 블럭 추가 폼 */
+.first-container .main-content .addBlock-container {padding: 20px; height: auto; justify-content: center; display: flex;}
+.first-container .main-content .addBlock-container .addBlock-label {width: 110px; height: auto; padding: 0px;}
+.first-container .main-content .addBlock-container .addBlock-text {width: 200px; height: auto; padding: 0px; align-items: right; text-align: left;}
+.first-container .main-content .addBlock-container .modBlock-imageName {width: 250px; height: auto; text-align: left; padding-left: 10px;}
+.first-container .main-content .addBlock-container .addBlock-text input[type="text"] {width: 200px;}

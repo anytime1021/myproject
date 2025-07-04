@@ -83,7 +83,7 @@
 							</c:if>
 						</select>
 						<input type="text" name="note"><br>
-						<button type="submit">추가하기</button>
+						<button type="submit" onclick="return submitCheck()">추가하기</button>
 					</div>
 				</div>
 			</form>
@@ -110,8 +110,10 @@
 				success: function(result) {
 					if (result === 'available') {
 						$('#checkMsg').text('사용 가능한 번호입니다.').css('color', 'green');
-					} else {
+					} else if(result === 'duplicate') {
 						$('#checkMsg').text('이미 사용중인 번호입니다.').css('color', 'red');
+					} else {
+						$('#checkMsg').text('사용 불가능한 번호입니다.').css('color', 'red');
 					}
 				},
 				error: function() {

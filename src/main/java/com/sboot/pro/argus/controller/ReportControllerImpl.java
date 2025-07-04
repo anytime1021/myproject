@@ -954,7 +954,7 @@ public class ReportControllerImpl implements ReportController{
 		
 		int limit = 20;
 		int currentPage = page;
-		int pageBlockSize = 20;
+		int pageBlockSize = 5;
 		
 		String tableName = BoardType.fromToken(token).getTableName();
 		int totalCount = commonService.getReportCount(searchArea, tableName);

@@ -11,7 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <title>아거스 리포트</title>
-    <link rel="stylesheet" href="${contextPath}/resources/css/styles3.css">
+    <link rel="stylesheet" href="${contextPath}/resources/css/boardStyle.css">
 
 </head>
 <body>
