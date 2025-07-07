@@ -23,9 +23,6 @@
                 <div class="contents-list">
 					<div class="search-write">
 						<div>
-							<a style="display:inline-block; width:100px; text-align:center; height:30px; border:1px solid black;" href="${contextPath}/blockManagement/addBlockForm.do">시험편 등록</a>
-						</div>
-						<div>
 							<form class="search-box" method="post" action="${contextPath}/blockManagement/searchBlock.do">
 								<select name="searchType">
 									<option value="idNumber">식별번호</option>
@@ -43,6 +40,9 @@
 									<button type="submit" title="검색">&#128269;</button>
 								</div>
 							</form>
+						</div>
+						<div>
+							<a style="display:inline-block; width:100px; text-align:center; height:30px; border:1px solid black;" href="${contextPath}/blockManagement/addBlockForm.do">시험편 등록</a>
 						</div>
 					</div>
                     <table class="table-control">
