@@ -266,6 +266,17 @@ public class BlockControllerImpl implements BlockController {
 		return mav;
 	}
 	
+	// 대여한 블럭 리스트
+	@Override
+	@GetMapping("/blockManagement/blockRentalList.do")
+	public ModelAndView blockRentalList(@RequestParam(value="page", defaultValue="1") int page, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/blockManagement/blockRentalList");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+//		List<BlockVO> rentalList = blockService.selectBlockRentalList(searchArea);
+		return mav;
+	}
+	
 	// 블럭 이동 기록
 	@Override
 	@GetMapping("/blockManagement/blockMoveList.do")

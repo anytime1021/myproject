@@ -21,6 +21,7 @@ public class BlockVO extends WorkingDailyBaseVO {
 	// 이동 기록
 	private int moveList_num;
 	private String moveList_lender;
+	private String moveList_lender_area;
 	private String moveList_recipient;
 	private String moveList_recipient_area;
 	private String moveList_rental_date;
@@ -112,6 +113,12 @@ public class BlockVO extends WorkingDailyBaseVO {
 	public void setMoveList_lender(String moveList_lender) {
 		this.moveList_lender = moveList_lender;
 	}
+	public String getMoveList_lender_area() {
+		return moveList_lender_area;
+	}
+	public void setMoveList_lender_area(String moveList_lender_area) {
+		this.moveList_lender_area = moveList_lender_area;
+	}
 	public String getMoveList_recipient() {
 		return moveList_recipient;
 	}
@@ -156,8 +163,9 @@ public class BlockVO extends WorkingDailyBaseVO {
 				+ ", df_usage=" + df_usage + ", df_form=" + df_form + ", df_defectType=" + df_defectType
 				+ ", df_manufacture=" + df_manufacture + ", df_itemStatus=" + df_itemStatus + ", df_moveStatus="
 				+ df_moveStatus + ", moveList_num=" + moveList_num + ", moveList_lender=" + moveList_lender
-				+ ", moveList_recipient=" + moveList_recipient + ", moveList_recipient_area=" + moveList_recipient_area
-				+ ", moveList_rental_date=" + moveList_rental_date + ", moveList_return_date=" + moveList_return_date
-				+ ", moveList_moveStatus=" + moveList_moveStatus + ", created_at=" + created_at + "]";
+				+ ", moveList_lender_area=" + moveList_lender_area + ", moveList_recipient=" + moveList_recipient
+				+ ", moveList_recipient_area=" + moveList_recipient_area + ", moveList_rental_date="
+				+ moveList_rental_date + ", moveList_return_date=" + moveList_return_date + ", moveList_moveStatus="
+				+ moveList_moveStatus + ", created_at=" + created_at + "]";
 	}
 }

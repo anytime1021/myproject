@@ -19,7 +19,8 @@
     <div class="filter-group">
         <div class="filter-title" onclick="toggleOptions(this)">시험편 관리 ▾</div>
         <div class="filter-options">
-            <label><a href="${contextPath}/blockManagement/blockList.do"> 시험편 관리 </a></label>
+            <label><a href="${contextPath}/blockManagement/blockList.do"> 보유 시험편 </a></label>
+			<label><a href="${contextPath}/blockManagement/blockRentalList.do">대여 시험편</a></label>
 			<label><a href="${contextPath}/blockManagement/blockMoveList.do"> 이동 기록 </a></label>
         </div>
     </div>

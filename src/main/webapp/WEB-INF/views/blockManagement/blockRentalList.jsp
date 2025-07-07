@@ -37,24 +37,22 @@
                         <thead>
                             <tr>
 								<th style="width:20%;">식별번호</th>
-								<th style="width:13%;">대여자</th>
-								<th style="width:13%;">수취자</th>
-								<th style="width:13%;">수취지역</th>
-								<th style="width:14%;">대여일</th>
-								<th style="width:14%;">반납일</th>
-								<th style="width:13%;">상태</th>
+								<th style="width:16%;">대여자</th>
+								<th style="width:16%;">수취자</th>
+								<th style="width:16%;">수취지역</th>
+								<th style="width:16%;">대여날짜</th>
+								<th style="width:16%;"></th>
                             </tr>
                         </thead>
                         <tbody>
 							<c:forEach var="blockMoveList" items="${blockMoveList}"> 
 								<tr>
-									<td><button style="font-size: 16px; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">${blockMoveList.df_idNumber}</button></td>
+									<td>${blockMoveList.df_idNumber}</td>
 									<td>${blockMoveList.moveList_lender}</td>
 									<td>${blockMoveList.moveList_recipient}</td>
 									<td>${blockMoveList.moveList_recipient_area}</td>
 									<td>${blockMoveList.moveList_rental_date}</td>
-									<td>${blockMoveList.moveList_return_date}</td>
-									<td>${blockMoveList.df_itemStatus}</td>
+									<td><button style="font-weight: bold; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">상세보기</button></td>
 								</tr>
 							</c:forEach>
                         </tbody>

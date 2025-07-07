@@ -6,8 +6,11 @@ a {text-decoration: none; color: black;}
 .first-container .sidebar {width: 200px; background-color: white;}
 .first-container .main-content {flex: 1; height: 700px;}
 .first-container .main-content .contents-container {padding: 20px; height: auto; text-align: right;}
-.first-container .main-content .contents-container .btn {text-align: center; display:inline-block; width: 15%; height: 30px; background-color: white; font-weight: bold; border:1px solid black;}
 .first-container .main-content .contents-container .contents-list {width: 100%; height: 600px; overflow-x: auto; overflow-y: visible; text-align: center; justify-content: center;}
+.first-container .main-content .contents-container .contents-list .search-write {width: 80%; margin: 10px auto; display: flex; justify-content: space-between}
+.first-container .main-content .contents-container .contents-list .search-write .search-box {position: static; display: flex; gap: 5px; transform: none;}
+.first-container .main-content .contents-container .contents-list .search-write .search-box select {height: 30px; border: 1px solid black; padding: 0 8px;}
+.first-container .main-content .contents-container .contents-list .search-write .write-btn {position: absolute; right: 0; text-align: center; width: 150px; height: 30px; background-color: white; font-weight: bold; border:1px solid black;}
 .first-container .main-content .contents-container .contents-list .table-control {width: 80%; border-collapse: collapse; text-align: center; margin: 0 auto;}
 .first-container .main-content .contents-container .contents-list .table-control thead {background: linear-gradient(to right, #6a11cb, #2575fc); color: white;}
 .first-container .main-content .contents-container .contents-list .table-control th {padding: 16px; border-bottom: 1px solid white; font-size: 16px;}
@@ -23,12 +26,18 @@ a {text-decoration: none; color: black;}
 .first-container .main-content .contents-container .paging-list .pagination {text-align: center;}
 .first-container .main-content .contents-container .paging-list .pagination a {font-size: 16px; color: blue;}
 .first-container .main-content .contents-container .paging-list .pagination strong {font-size: 16px; color: black;}
-.first-container .main-content .contents-container .paging-list .search-write {position: relative; margin-top: 10px;}
-.first-container .main-content .contents-container .paging-list .search-write .search-box {position: absolute; left: 50%; transform: translateX(-50%); display: flex; gap: 5px;}
-.first-container .main-content .contents-container .paging-list .search-write .search-box input[type="text"] {height: 30px;}
-.first-container .main-content .contents-container .paging-list .search-write .search-box button {width: 100px; height: 30px; text-align: center; border: 1px solid black;}
-.first-container .main-content .contents-container .paging-list .search-write .write-btn {position: absolute; right: 0;	 text-align: center; width: 150px; height: 30px; background-color: white; font-weight: bold; border:1px solid black;}
+/*.first-container .main-content .contents-container .paging-list .search-write {position: relative; margin-top: 10px;}*/
+/*.first-container .main-content .contents-container .paging-list .search-write .search-box {position: absolute; right: 0; transform: none; display: flex; gap: 5px;}*/
+/*.first-container .main-content .contents-container .paging-list .search-write .search-box input[type="text"] {height: 30px;}*/
+/*.first-container .main-content .contents-container .paging-list .search-write .search-box button {width: 100px; height: 30px; text-align: center; border: 1px solid black;}*/
+/*.first-container .main-content .contents-container .paging-list .search-write .write-btn {position: absolute; right: 0;	 text-align: center; width: 150px; height: 30px; background-color: white; font-weight: bold; border:1px solid black;}*/
 
+/* view 및 검색창 */
+.searchWithButton {display: flex; border: 1px solid black; height: 30px; overflow: hidden; border-radius: 0;}
+.searchWithButton input[type="text"] {border: none; padding: 0 8px; flex: 1; height: 100%; box-sizing: border-box; outline: none;}
+.searchWithButton button {border: none; background-color: white; width: 40px; height: 100%; font-size: 16px; cursor: pointer;}
+.contents-container .btn-wrapper {text-align: right; margin-top: 10px; width: 100%; margin-left: auto; margin-right: auto;}
+.contents-container .btn {display: inline-block; width: 15%; height: 30px; background-color: white; font-weight: bold; border: 1px solid black; text-align: center; margin-left: 5px;}
 
 /* 블럭 추가 폼 */
 .first-container .main-content .addBlock-container {padding: 20px; height: auto; justify-content: center; display: flex;}

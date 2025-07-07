@@ -37,6 +37,9 @@ public interface BlockController {
 	// 블럭 대여
 	public ModelAndView moveBlock(@ModelAttribute("moveBlockList") BlockVO moveBlockList, HttpServletRequest request) throws Exception;
 	
+	// 대여한 블럭 리스트
+	public ModelAndView blockRentalList(@RequestParam(value="page", defaultValue="1") int page, HttpServletRequest request) throws Exception;
+	
 	// 블럭 이동 기록
 	public ModelAndView blockMoveList(@RequestParam(value="page", defaultValue="1") int page, HttpServletRequest request) throws Exception;
 }

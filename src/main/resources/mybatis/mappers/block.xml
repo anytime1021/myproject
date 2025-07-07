@@ -69,8 +69,8 @@
 	</update>
 	
 	<insert id="insertMoveBlockList">
-		insert into blockMoveList(moveList_lender, moveList_recipient, moveList_recipient_area, moveList_moveStatus, df_idNumber, login_area, login_id, note)
-		select #{moveBlock.moveList_lender}, #{moveBlock.moveList_recipient}, #{moveBlock.moveList_recipient_area}, df_moveStatus, #{moveBlock.df_idNumber}, #{login_area}, #{login_id}, #{moveBlock.note} from blockInformation where df_idNumber = #{moveBlock.df_idNumber}
+		insert into blockMoveList(moveList_lender, moveList_recipient, moveList_recipient_area, df_itemStatus, df_idNumber, login_area, login_id, note)
+		select #{moveBlock.moveList_lender}, #{moveBlock.moveList_recipient}, #{moveBlock.moveList_recipient_area}, df_itemStatus, #{moveBlock.df_idNumber}, #{login_area}, #{login_id}, #{moveBlock.note} from blockInformation where df_idNumber = #{moveBlock.df_idNumber}
 	</insert>
 	
 	<!-- 블럭 이동 기록 수 카운트 -->

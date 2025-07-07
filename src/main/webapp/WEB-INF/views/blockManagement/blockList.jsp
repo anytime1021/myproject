@@ -21,6 +21,30 @@
         <div class="main-content">
             <div class="contents-container">
                 <div class="contents-list">
+					<div class="search-write">
+						<div>
+							<a style="display:inline-block; width:100px; text-align:center; height:30px; border:1px solid black;" href="${contextPath}/blockManagement/addBlockForm.do">시험편 등록</a>
+						</div>
+						<div>
+							<form class="search-box" method="post" action="${contextPath}/blockManagement/searchBlock.do">
+								<select name="searchType">
+									<option value="idNumber">식별번호</option>
+									<option value="material">재질</option>
+									<option value="usage">용도</option>
+									<option value="form">형태</option>
+									<option value="defectType">결함종류</option>
+									<option value="manufacture">제작일자</option>
+									<option value="itemStatus">사용여부</option>
+									<option value="moveStatus">이동현황</option>
+									<option value="note">비고</option>
+								</select>
+								<div class="searchWithButton">
+									<input type="text" name="search" placeholder="검색어 입력">
+									<button type="submit" title="검색">&#128269;</button>
+								</div>
+							</form>
+						</div>
+					</div>
                     <table class="table-control">
                         <thead>
                             <tr>
@@ -48,42 +72,29 @@
 				</div>
 				<div class="paging-list">
 					<div class="pagination">
-
-					  <a href="${contextPath}/blockManagement/blockList.do?page=1"><strong>[≪]</strong></a>
-
-					  <c:if test="${paging.startPage > 1}">
-					    <fmt:formatNumber var="prevPage" value="${paging.startPage - 1}" type="number" maxFractionDigits="0" />
-					    <a href="${contextPath}/blockManagement/blockList.do?page=${prevPage}"><strong>[＜]</strong></a>
-					  </c:if>
-
-					  <c:forEach var="i" begin="${paging.startPage}" end="${paging.endPage}">
-					    <c:choose>
-					      <c:when test="${i == paging.currentPage}">
-					        <strong style="font-size:20px; color:black;">[${i}]</strong>
-					      </c:when>
-					      <c:otherwise>
-					        <a href="${contextPath}/blockManagement/blockList.do?page=${i}">[${i}]</a>
-					      </c:otherwise>
-					    </c:choose>
-					  </c:forEach>
-
-					  <c:if test="${paging.endPage < paging.totalPage}">
-					    <fmt:formatNumber var="nextPage" value="${paging.endPage + 1}" type="number" maxFractionDigits="0" />
-					    <a href="${contextPath}/blockManagement/blockList.do?page=${nextPage}"><strong>[＞]</strong></a>
-					  </c:if>
-					  
-					  <a href="${contextPath}/blockManagement/blockList.do?page=${paging.totalPage}"><strong>[≫]</strong></a>
-
+						<a href="${contextPath}/blockManagement/blockList.do?page=1"><strong>[≪]</strong></a>
+						<c:if test="${paging.startPage > 1}">
+					    	<fmt:formatNumber var="prevPage" value="${paging.startPage - 1}" type="number" maxFractionDigits="0" />
+					    	<a href="${contextPath}/blockManagement/blockList.do?page=${prevPage}"><strong>[＜]</strong></a>
+					  	</c:if>
+						<c:forEach var="i" begin="${paging.startPage}" end="${paging.endPage}">
+						    <c:choose>
+						    	<c:when test="${i == paging.currentPage}">
+						        	<strong style="font-size:20px; color:black;">[${i}]</strong>
+						    	</c:when>
+						    	<c:otherwise>
+						        	<a href="${contextPath}/blockManagement/blockList.do?page=${i}">[${i}]</a>
+						    	</c:otherwise>
+						  	</c:choose>
+						</c:forEach>
+						<c:if test="${paging.endPage < paging.totalPage}">
+					  		<fmt:formatNumber var="nextPage" value="${paging.endPage + 1}" type="number" maxFractionDigits="0" />
+					  		<a href="${contextPath}/blockManagement/blockList.do?page=${nextPage}"><strong>[＞]</strong></a>
+						</c:if>
+						<a href="${contextPath}/blockManagement/blockList.do?page=${paging.totalPage}"><strong>[≫]</strong></a>
 					</div>
-					<div class="search-write">
-						<form class="search-box" method="post" action="${contextPath}/blockManagement/searchBlock.do">
-							<input type="text" name="search" placeholder="검색어 입력">
-							<button type="submit">검색</button>
-						</form>
-						<a class="write-btn" href="${contextPath}/blockManagement/addBlockForm.do">작성하기</a>
-					</div>
-                </div>
-            </div>
+            	</div>
+        	</div>
         </div>
     </main>
     <%@ include file="../include/footer2.jsp"%>
