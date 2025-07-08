@@ -38,6 +38,14 @@ public interface BlockDAO {
 	public void updateItemStatus(@Param("df_idNumber") String df_idNumber, @Param("df_moveStatus") String df_moveStatus) throws Exception;
 	public void insertMoveBlockList(@Param("moveBlock") BlockVO moveBlock, @Param("login_area") String login_area, @Param("login_id") String login_id) throws Exception;
 	
+	// 대여한 블럭 리스트
+	public List<String> selectIdNumber(String searchArea) throws Exception;
+	public List<BlockVO> selectBlockRentalList(List<String> idNumber) throws Exception;
+	
+	// 블럭 반납
+	public void updateReturnStatus(String df_idNumber) throws Exception;
+	public void updateReturnRecipient(String df_idNumber) throws Exception;
+	
 	// 블럭 이동 기록 수 카운트
 	public int selectMoveListCount(String searchArea) throws Exception;
 	

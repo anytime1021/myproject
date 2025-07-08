@@ -273,7 +273,17 @@ public class BlockControllerImpl implements BlockController {
 		ModelAndView mav = new ModelAndView("/blockManagement/blockRentalList");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
-//		List<BlockVO> rentalList = blockService.selectBlockRentalList(searchArea);
+		List<BlockVO> rentalList = blockService.selectBlockRentalList(searchArea);
+		mav.addObject("rentalList", rentalList);
+		return mav;
+	}
+	
+	// 블럭 반납
+	@Override
+	@PostMapping("/blockManagement/returnBlock.do")
+	public ModelAndView retrunBlock(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockRentalList.do");
+		blockService.modStatusRecipient(df_idNumber);
 		return mav;
 	}
 	
@@ -293,6 +303,7 @@ public class BlockControllerImpl implements BlockController {
 		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
 		
 		List<BlockVO> blockMoveList = blockService.selectBlockMoveList(searchArea);
+		mav.addObject("searchArea", searchArea);
 		mav.addObject("paging", paging);
 		mav.addObject("blockMoveList", blockMoveList);
 		return mav;

@@ -73,6 +73,33 @@
 		select #{moveBlock.moveList_lender}, #{moveBlock.moveList_recipient}, #{moveBlock.moveList_recipient_area}, df_itemStatus, #{moveBlock.df_idNumber}, #{login_area}, #{login_id}, #{moveBlock.note} from blockInformation where df_idNumber = #{moveBlock.df_idNumber}
 	</insert>
 	
+	<!-- 대여한 블럭 리스트 -->
+	<select id="selectIdNumber" parameterType="String">
+		select df_idNumber from blockMoveList where moveList_recipient_area = #{searchArea} and moveList_return_date is null and YN = 'Y'
+	</select>
+	
+	<select id="selectBlockRentalList" parameterType="list">
+		select * from blockInformation where df_idNumber in
+		<foreach item="id" collection="list" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</select>
+	
+	<!-- 블럭 반납 -->
+	<update id="updateReturnStatus">
+		update blockInformation a
+		set df_itemStatus = '사용중',
+		df_moveStatus = '-'
+		where df_idNumber = #{df_idNumber}
+	</update>
+	
+	<update id="updateReturnRecipient">
+		update blockMoveList
+		set df_itemStatus = '사용중',
+		moveList_return_date = now()
+		where df_idNumber = #{df_idNumber}
+	</update>
+	
 	<!-- 블럭 이동 기록 수 카운트 -->
 	<select id="selectMoveListCount" resultType="int">
 		select count(*) from blockMoveList where login_area = #{searchArea} and YN = 'Y'
@@ -80,6 +107,6 @@
 	
 	<!-- 블럭 이동 기록 -->
 	<select id="selectBlockMoveList" parameterType="String">
-		select * from blockMoveList where login_area = #{searchArea} and YN = 'Y' order by moveList_rental_date desc;
+		select * from blockMoveList where (login_area = #{searchArea} or moveList_recipient_area = #{searchArea}) and YN = 'Y' order by moveList_rental_date desc;
 	</select>
 </mapper>

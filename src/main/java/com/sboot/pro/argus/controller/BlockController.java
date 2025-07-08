@@ -40,6 +40,9 @@ public interface BlockController {
 	// 대여한 블럭 리스트
 	public ModelAndView blockRentalList(@RequestParam(value="page", defaultValue="1") int page, HttpServletRequest request) throws Exception;
 	
+	// 블럭 반납
+	public ModelAndView retrunBlock(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception;
+	
 	// 블럭 이동 기록
 	public ModelAndView blockMoveList(@RequestParam(value="page", defaultValue="1") int page, HttpServletRequest request) throws Exception;
 }

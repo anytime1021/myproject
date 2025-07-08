@@ -31,6 +31,12 @@ public interface BlockService {
 	public void modItemStatus(String df_idNumber, String df_moveStatus) throws Exception;
 	public void addMoveBlockList(BlockVO moveBlock, String login_area, String login_id) throws Exception;
 	
+	// 대여한 블럭 리스트
+	public List<BlockVO> selectBlockRentalList(String searchArea) throws Exception;
+	
+	// 블럭 반납
+	public void modStatusRecipient(String df_idNumber) throws Exception;
+	
 	// 블럭 이동 기록 수 카운트
 	public int getMoveListCount(String searchArea) throws Exception;
 	

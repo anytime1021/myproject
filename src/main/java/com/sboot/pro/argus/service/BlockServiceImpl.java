@@ -1,5 +1,6 @@
 package com.sboot.pro.argus.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,23 @@ public class BlockServiceImpl implements BlockService {
 		blockDAO.insertMoveBlockList(moveBlock, login_area, login_id);
 	}
 	
+	// 대여한 블럭 리스트
+	@Override
+	public List<BlockVO> selectBlockRentalList(String searchArea) throws Exception {
+		List<String> idNumber = blockDAO.selectIdNumber(searchArea);
+		System.out.println(idNumber);
+		if (idNumber == null || idNumber.isEmpty()) {
+			idNumber = new ArrayList<>();
+			idNumber.add("1");
+		}
+		return blockDAO.selectBlockRentalList(idNumber);
+	}
+	
+	// 블럭 반납
+	public void modStatusRecipient(String df_idNumber) throws Exception {
+		blockDAO.updateReturnStatus(df_idNumber);
+		blockDAO.updateReturnRecipient(df_idNumber);
+	}
 	
 	// 블럭 이동 기록 수 카운트
 	@Override
