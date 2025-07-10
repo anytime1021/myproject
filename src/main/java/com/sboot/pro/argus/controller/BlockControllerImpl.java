@@ -309,6 +309,27 @@ public class BlockControllerImpl implements BlockController {
 		return mav;
 	}
 	
+	// 블럭 검색
+	@Override
+	@PostMapping("/blockManagement/searchList.do")
+	public ModelAndView searchList(@RequestParam(value="page", defaultValue="1") int page, @RequestParam("searchType") String searchType, @RequestParam("searchQuery") String searchQuery, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/blockManagement/searchList");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+
+		List<BlockVO> searchList = blockService.selectSearchList(searchType, searchQuery);
+		
+		int limit = 20;
+		int currentPage = page;
+		int pageBlockSize = 5;
+		int totalCount = blockService.getSearchListCount(searchType, searchQuery);
+		
+		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
+		
+		mav.addObject("searchList", searchList);
+		mav.addObject("paging", paging);
+		return mav;
+	}
 	
 	@GetMapping("/blockManagement/test.do")
 	public ModelAndView test(HttpServletRequest request) throws Exception {

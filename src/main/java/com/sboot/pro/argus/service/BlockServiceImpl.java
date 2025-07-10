@@ -101,4 +101,16 @@ public class BlockServiceImpl implements BlockService {
 	public List<BlockVO> selectBlockMoveList(String searchArea) throws Exception {
 		return blockDAO.selectBlockMoveList(searchArea);
 	}
+	
+	// 블럭 검색
+	@Override
+	public List<BlockVO> selectSearchList(String searchType, String searchQuery) throws Exception {
+		return blockDAO.selectSearchList(searchType, searchQuery);
+	}
+	
+	// 블럭 검색 수 카운트
+	@Override
+	public int getSearchListCount(String searchType, String searchQuery) throws Exception {
+		return blockDAO.selectListCount(searchType, searchQuery);
+	}
 }

@@ -23,7 +23,7 @@
                 <div class="contents-list">
 					<div class="search-write">
 						<div>
-							<form class="search-box" method="post" action="${contextPath}/blockManagement/searchBlock.do">
+							<form class="search-box" method="post" action="${contextPath}/blockManagement/searchList.do">
 								<select name="searchType">
 									<option value="idNumber">식별번호</option>
 									<option value="material">재질</option>
@@ -36,7 +36,7 @@
 									<option value="note">비고</option>
 								</select>
 								<div class="searchWithButton">
-									<input type="text" name="search" placeholder="검색어 입력">
+									<input type="text" name="searchQuery" placeholder="검색어 입력">
 									<button type="submit" title="검색">&#128269;</button>
 								</div>
 							</form>

@@ -36,7 +36,7 @@
 									<option value="note">비고</option>
 								</select>
 								<div class="searchWithButton">
-									<input type="text" name="search" placeholder="검색어 입력">
+									<input type="text" name="searchQuery" placeholder="검색어 입력">
 									<button type="submit" title="검색">&#128269;</button>
 								</div>
 							</form>
@@ -57,14 +57,14 @@
                             </tr>
                         </thead>
                         <tbody>
-							<c:forEach var="rentalList" items="${rentalList}">
+							<c:forEach var="searchList" items="${searchList}">
 								<tr>
-									<td><button style="font-size: 16px; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">${rentalList.df_idNumber}</button></td>
-									<td>${rentalList.df_size}</td>
-									<td>${rentalList.df_material}</td>
-									<td>${rentalList.df_usage}</td>
-									<td>${rentalList.df_itemStatus}</td>
-									<td><button style="font-size: 16px; cursor: pointer; background-color: white; border: none;" onclick="returnBlock(this)">반납하기</button></td>
+									<td>${searchList.df_idNumber}</td>
+									<td>${searchList.df_size}</td>
+									<td>${searchList.df_material}</td>
+									<td>${searchList.df_usage}</td>
+									<td>${searchList.df_itemStatus}</td>
+									<td><button style="font-weight: bold; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">상세보기</button></td>
 								</tr>
 							</c:forEach>
                         </tbody>
@@ -72,10 +72,10 @@
 				</div>
 				<div class="paging-list">
 					<div class="pagination">
-						<a href="${contextPath}/blockManagement/blockList.do?page=1"><strong>[≪]</strong></a>
+						<a href="${contextPath}/blockManagement/searchList.do?page=1"><strong>[≪]</strong></a>
 						<c:if test="${paging.startPage > 1}">
 					    	<fmt:formatNumber var="prevPage" value="${paging.startPage - 1}" type="number" maxFractionDigits="0" />
-					    	<a href="${contextPath}/blockManagement/blockList.do?page=${prevPage}"><strong>[＜]</strong></a>
+					    	<a href="${contextPath}/blockManagement/searchList.do?page=${prevPage}"><strong>[＜]</strong></a>
 					  	</c:if>
 						<c:forEach var="i" begin="${paging.startPage}" end="${paging.endPage}">
 						    <c:choose>
@@ -83,15 +83,15 @@
 						        	<strong style="font-size:20px; color:black;">[${i}]</strong>
 						    	</c:when>
 						    	<c:otherwise>
-						        	<a href="${contextPath}/blockManagement/blockList.do?page=${i}">[${i}]</a>
+						        	<a href="${contextPath}/blockManagement/searchList.do?page=${i}">[${i}]</a>
 						    	</c:otherwise>
 						  	</c:choose>
 						</c:forEach>
 						<c:if test="${paging.endPage < paging.totalPage}">
 					  		<fmt:formatNumber var="nextPage" value="${paging.endPage + 1}" type="number" maxFractionDigits="0" />
-					  		<a href="${contextPath}/blockManagement/blockList.do?page=${nextPage}"><strong>[＞]</strong></a>
+					  		<a href="${contextPath}/blockManagement/searchList.do?page=${nextPage}"><strong>[＞]</strong></a>
 						</c:if>
-						<a href="${contextPath}/blockManagement/blockList.do?page=${paging.totalPage}"><strong>[≫]</strong></a>
+						<a href="${contextPath}/blockManagement/searchList.do?page=${paging.totalPage}"><strong>[≫]</strong></a>
 					</div>
             	</div>
         	</div>
@@ -109,26 +109,6 @@
 		const form = document.createElement("form");
 		form.method = "POST";
 		form.action = "/blockManagement/blockView.do";
-		
-		const inputId = document.createElement("input");
-		inputId.type = "hidden";
-		inputId.name = "df_idNumber";
-		inputId.value = id;
-		
-		form.appendChild(inputId);
-		document.body.appendChild(form);
-		form.submit();
-	}
-	
-	function returnBlock(button) {
-		const row = button.closest("tr");
-		const cells = row.getElementsByTagName("td");
-		
-		const id = cells[0].innerText;
-		
-		const form = document.createElement("form");
-		form.method = "POST";
-		form.action = "/blockManagement/returnBlock.do";
 		
 		const inputId = document.createElement("input");
 		inputId.type = "hidden";

@@ -42,4 +42,10 @@ public interface BlockService {
 	
 	// 블럭 이동 기록
 	public List<BlockVO> selectBlockMoveList(String searchArea) throws Exception;
+
+	// 블럭 검색
+	public List<BlockVO> selectSearchList(String searchType, String searchQuery) throws Exception;
+	
+	// 블럭 검색 수 카운트
+	public int getSearchListCount(String searchType, String searchQuery) throws Exception;
 }

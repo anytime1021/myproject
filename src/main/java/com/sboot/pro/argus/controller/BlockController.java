@@ -45,4 +45,7 @@ public interface BlockController {
 	
 	// 블럭 이동 기록
 	public ModelAndView blockMoveList(@RequestParam(value="page", defaultValue="1") int page, HttpServletRequest request) throws Exception;
+
+	// 블럭 검색
+	public ModelAndView searchList(@RequestParam(value="page", defaultValue="1") int page, @RequestParam("searchType") String searchType, @RequestParam("searchQuery") String searchQuery, HttpServletRequest request) throws Exception;
 }

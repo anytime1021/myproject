@@ -109,4 +109,52 @@
 	<select id="selectBlockMoveList" parameterType="String">
 		select * from blockMoveList where (login_area = #{searchArea} or moveList_recipient_area = #{searchArea}) and YN = 'Y' order by moveList_rental_date desc;
 	</select>
+	
+	<!-- 블럭 검색 및 페이징 카운트 수 -->
+	<sql id="searchList">
+		<where>
+	        <choose>
+	            <when test="searchType == 'idNumber'">
+	                df_idNumber LIKE CONCAT('%', #{searchQuery}, '%')
+	            </when>
+	            <when test="searchType == 'material'">
+	                df_material LIKE CONCAT('%', #{searchQuery}, '%')
+	            </when>
+	            <when test="searchType == 'usage'">
+	                df_usage LIKE CONCAT('%', #{searchQuery}, '%')
+	            </when>
+	            <when test="searchType == 'form'">
+	                df_form LIKE CONCAT('%', #{searchQuery}, '%')
+	            </when>
+	            <when test="searchType == 'defectType'">
+	                df_defectType LIKE CONCAT('%', #{searchQuery}, '%')
+	            </when>
+	            <when test="searchType == 'manufacture'">
+	                df_manufacture LIKE CONCAT('%', #{searchQuery}, '%')
+	            </when>
+	            <when test="searchType == 'itemStatus'">
+	                df_itemStatus LIKE CONCAT('%', #{searchQuery}, '%')
+	            </when>
+	            <when test="searchType == 'moveStatus'">
+	                df_moveStatus LIKE CONCAT('%', #{searchQuery}, '%')
+	            </when>
+	            <when test="searchType == 'note'">
+	                df_note LIKE CONCAT('%', #{searchQuery}, '%')
+	            </when>
+	            <otherwise>
+	                1 = 1 <!-- 검색 조건 없을 경우 전체 조회 -->
+	            </otherwise>
+	        </choose>
+	    </where>
+	</sql>
+	
+	<select id="selectSearchList" parameterType="Map">
+		select * from blockInformation
+		<include refid="searchList" />
+	</select>
+	
+	<select id="selectListCount" resultType="int">
+		select count(*) from blockInformation
+		<include refid="searchList" />
+	</select>
 </mapper>
