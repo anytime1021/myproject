@@ -32,7 +32,7 @@ public interface BlockService {
 	public void addMoveBlockList(BlockVO moveBlock, String login_area, String login_id) throws Exception;
 	
 	// 대여한 블럭 리스트
-	public List<BlockVO> selectBlockRentalList(String searchArea) throws Exception;
+	public List<BlockVO> selectBlockRentalList(String searchArea, int offset, int limit) throws Exception;
 	
 	// 블럭 반납
 	public void modStatusRecipient(String df_idNumber) throws Exception;

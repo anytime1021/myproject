@@ -90,6 +90,7 @@
 		<foreach item="id" collection="list" open="(" separator="," close=")">
 			#{id}
 		</foreach>
+		order by moveList_rental_date desc limit #{offset}, #{limit}
 	</select>
 	
 	<!-- 블럭 반납 -->

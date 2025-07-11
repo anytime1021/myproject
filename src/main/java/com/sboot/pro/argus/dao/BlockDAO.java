@@ -40,7 +40,7 @@ public interface BlockDAO {
 	
 	// 대여한 블럭 리스트
 	public List<String> selectIdNumber(String searchArea) throws Exception;
-	public List<BlockVO> selectBlockRentalList(List<String> idNumber) throws Exception;
+	public List<BlockVO> selectBlockRentalList(@Param("idNumber") List<String> idNumber, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
 	
 	// 블럭 반납
 	public void updateReturnStatus(String df_idNumber) throws Exception;
@@ -50,7 +50,7 @@ public interface BlockDAO {
 	public int selectMoveListCount(String searchArea) throws Exception;
 	
 	// 블럭 이동 기록
-	public List<BlockVO> selectBlockMoveList(@Param("searchArea") String searchArea, int offset, int limit) throws Exception;
+	public List<BlockVO> selectBlockMoveList(@Param("searchArea") String searchArea, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
 
 	// 블럭 검색
 	public List<BlockVO> selectSearchList(@Param("searchArea") String searchArea, @Param("searchType") String searchType, @Param("searchQuery") String searchQuery, @Param("offset") int offset, @Param("limit") int limit) throws Exception;

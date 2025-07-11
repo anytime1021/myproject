@@ -270,7 +270,16 @@ public class BlockControllerImpl implements BlockController {
 		ModelAndView mav = new ModelAndView("/blockManagement/blockRentalList");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
-		List<BlockVO> rentalList = blockService.selectBlockRentalList(searchArea);
+		
+		int limit = 20;
+		int currentPage = page;
+		int pageBlockSize = 5;
+		int totalCount = blockService.getMoveListCount(searchArea);
+		
+		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
+		
+		List<BlockVO> rentalList = blockService.selectBlockRentalList(searchArea, paging.getOffset(), limit);
+		mav.addObject("paging", paging);
 		mav.addObject("rentalList", rentalList);
 		return mav;
 	}

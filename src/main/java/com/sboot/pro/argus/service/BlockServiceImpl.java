@@ -74,13 +74,13 @@ public class BlockServiceImpl implements BlockService {
 	
 	// 대여한 블럭 리스트
 	@Override
-	public List<BlockVO> selectBlockRentalList(String searchArea) throws Exception {
+	public List<BlockVO> selectBlockRentalList(String searchArea, int offset, int limit) throws Exception {
 		List<String> idNumber = blockDAO.selectIdNumber(searchArea);
 		if (idNumber == null || idNumber.isEmpty()) {
 			idNumber = new ArrayList<>();
 			idNumber.add("1");
 		}
-		return blockDAO.selectBlockRentalList(idNumber);
+		return blockDAO.selectBlockRentalList(idNumber, offset, limit);
 	}
 	
 	// 블럭 반납
