@@ -29,7 +29,7 @@
 								<td class="background" style="width:15%;">재질</td>
 								<td class="background" style="width:15%;">용도</td>
 								<td class="background" style="width:15%;">상태</td>
-								<td class="background" style="width:15%;">결함종류</td>
+								<td class="background" style="width:15%;">시험편정보</td>
 							</tr>
 							<tr>
 								<td style="width:20%;">${blockView.df_idNumber}</td>
@@ -37,21 +37,15 @@
 								<td style="width:15%;">${blockView.df_material}</td>
 								<td style="width:15%;">${blockView.df_usage}</td>
 								<td style="width:15%;">${blockView.df_itemStatus}</td>
-								<td style="width:15%;">${blockView.df_defectType}</td>
+								<td style="width:15%;">${blockView.df_form}</td>
 							</tr>
 							<tr>
 								<td class="background" colspan="5" style="width:85%;">사진</td>
-								<td class="background" style="width:15%;">시험편정보</td>
+								<td class="background" style="width:15%;">제작일자</td>
 							</tr>
 							<tr>
 								<td colspan="5" rowspan="7" style="width:85%; height:300px;"><img src="${contextPath}/resources/img/${blockView.df_pictureName}" style="object-fit:contain; display:block; margin: 0 auto;"></td>
-								<td width="15%">${blockView.df_form}</td>
-							</tr>
-							<tr>
-								<td class="background" >제작일자</td>
-							</tr>
-							<tr>
-								<td>${blockView.df_manufacture}</td>
+								<td width="15%">${blockView.df_manufacture}</td>
 							</tr>
 							<tr>
 								<td class="background" >이동현황</td>

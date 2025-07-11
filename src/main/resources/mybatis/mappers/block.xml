@@ -1,15 +1,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sboot.pro.argus.dao.BlockDAO">
+	<!-- 블럭 리스트 -->
+	<select id="selectBlockList">
+		<choose>
+			<when test="searchArea == '본사'">
+				select * from blockinformation where YN='Y' 
+				order by df_idNumber desc limit #{offset}, #{limit}
+			</when>
+			<otherwise>
+				select * from blockinformation where login_area=#{searchArea} and YN='Y'
+				order by df_idNumber desc limit #{offset}, #{limit}
+			</otherwise>
+		</choose>
+	</select>
+	
 	<!-- 블럭 수 카운트 -->
 	<select id="selectBlockCount" resultType="int">
 		select count(*) from blockinformation where login_area=#{searchArea} and YN='Y'
-	</select>
-	
-	<!-- 블럭 리스트 -->
-	<select id="selectBlockList">
-		select * from blockinformation where login_area=#{searchArea} and YN='Y'
-		order by df_idNumber desc limit #{offset}, #{limit}
 	</select>
 	
 	<!-- 블럭 상세보기 -->
@@ -24,16 +32,16 @@
 	
 	<!-- 블럭 추가 -->
 	<insert id="insertBlock">
-		insert into blockinformation(df_idNumber, df_pictureName, df_material, df_size, df_usage, df_form, df_defectType, df_manufacture, df_itemStatus, df_moveStatus, note, login_area)
+		insert into blockinformation(df_idNumber, df_pictureName, df_material, df_size, df_usage, df_form, df_manufacture, df_itemStatus, df_moveStatus, note, login_area)
 		values (#{addBlockForm.df_idNumber}, #{addBlockForm.df_pictureName}, #{addBlockForm.df_material}, #{addBlockForm.df_size}, 
-		#{addBlockForm.df_usage}, #{addBlockForm.df_form}, #{addBlockForm.df_defectType}, #{addBlockForm.df_manufacture}, 
+		#{addBlockForm.df_usage}, #{addBlockForm.df_form}, #{addBlockForm.df_manufacture}, 
 		#{addBlockForm.df_itemStatus}, #{addBlockForm.df_moveStatus}, #{addBlockForm.note}, #{searchArea})
 	</insert>
 	
 	<!-- 블럭 수정 -->
 	<insert id="insertUpdateLog">
-		insert into blockinformation_updatelog(df_idNumber, df_pictureName, df_material, df_size, df_usage, df_form, df_defectType, df_manufacture, df_itemStatus, df_moveStatus, note, login_area, YN)
-		select df_idNumber, df_pictureName, df_material, df_size, df_usage, df_form, df_defectType, df_manufacture, df_itemStatus, df_moveStatus, note, login_area, YN from blockinformation
+		insert into blockinformation_updatelog(df_idNumber, df_pictureName, df_material, df_size, df_usage, df_form, df_manufacture, df_itemStatus, df_moveStatus, note, login_area, YN)
+		select df_idNumber, df_pictureName, df_material, df_size, df_usage, df_form, df_manufacture, df_itemStatus, df_moveStatus, note, login_area, YN from blockinformation
 		where df_num = #{df_num}
 	</insert>
 	
@@ -45,7 +53,6 @@
 		df_size = #{df_size},
 		df_usage = #{df_usage},
 		df_form = #{df_form},
-		df_defectType = #{df_defectType},
 		df_manufacture = #{df_manufacture},
 		df_itemStatus = #{df_itemStatus},
 		df_moveStatus = #{df_moveStatus},
@@ -102,12 +109,27 @@
 	
 	<!-- 블럭 이동 기록 수 카운트 -->
 	<select id="selectMoveListCount" resultType="int">
-		select count(*) from blockMoveList where login_area = #{searchArea} and YN = 'Y'
+		<choose>
+			<when test="searchArea == '본사'">
+				select count(*) from blockMoveList where YN = 'Y'
+			</when>
+			<otherwise>
+				select count(*) from blockMoveList where login_area = #{searchArea} and YN = 'Y'
+			</otherwise>
+		</choose>
 	</select>
 	
 	<!-- 블럭 이동 기록 -->
 	<select id="selectBlockMoveList" parameterType="String">
-		select * from blockMoveList where (login_area = #{searchArea} or moveList_recipient_area = #{searchArea}) and YN = 'Y' order by moveList_rental_date desc;
+		<choose>
+			<when test="searchArea == '본사'">
+				select * from blockMoveList where YN = 'Y' order by moveList_rental_date desc limit #{offset}, #{limit};
+			</when>
+			<otherwise>
+				select * from blockMoveList where (login_area = #{searchArea} or moveList_recipient_area = #{searchArea}) and YN = 'Y' 
+				order by moveList_rental_date desc limit #{offset}, #{limit};
+			</otherwise>
+		</choose>
 	</select>
 	
 	<!-- 블럭 검색 및 페이징 카운트 수 -->
@@ -125,9 +147,6 @@
 	            </when>
 	            <when test="searchType == 'form'">
 	                df_form LIKE CONCAT('%', #{searchQuery}, '%')
-	            </when>
-	            <when test="searchType == 'defectType'">
-	                df_defectType LIKE CONCAT('%', #{searchQuery}, '%')
 	            </when>
 	            <when test="searchType == 'manufacture'">
 	                df_manufacture LIKE CONCAT('%', #{searchQuery}, '%')
@@ -149,12 +168,32 @@
 	</sql>
 	
 	<select id="selectSearchList" parameterType="Map">
-		select * from blockInformation
-		<include refid="searchList" />
+		<choose>
+			<when test="searchArea == '본사'">
+				select * from blockInformation
+				<include refid="searchList" />
+				order by df_idNumber desc limit #{offset}, #{limit}
+			</when>
+			<otherwise>
+				select * from blockInformation
+				<include refid="searchList" />
+				and login_area = #{searchArea}
+				order by df_idNumber desc limit #{offset}, #{limit}
+			</otherwise>
+		</choose>
 	</select>
 	
 	<select id="selectListCount" resultType="int">
-		select count(*) from blockInformation
-		<include refid="searchList" />
+		<choose>
+			<when test="searchArea == '본사'">
+				select count(*) from blockInformation
+				<include refid="searchList" />
+			</when>
+			<otherwise>
+				select count(*) from blockInformation
+				<include refid="searchList" />
+				and login_area = #{searchArea}
+			</otherwise>
+		</choose>
 	</select>
 </mapper>

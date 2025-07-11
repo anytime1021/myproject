@@ -192,8 +192,6 @@ public class BlockControllerImpl implements BlockController {
 	@PostMapping("/blockManagement/modBlock.do")
 	public ModelAndView modBlock(@ModelAttribute("modBlock") BlockVO modBlockForm, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockList.do");
-		LoginVO login = (LoginVO) request.getAttribute("login");
-		String searchArea = login.getLogin_area();
 		
 		if (!modBlockForm.getDf_picture().isEmpty()) {
 			
@@ -260,7 +258,6 @@ public class BlockControllerImpl implements BlockController {
 	public ModelAndView moveBlock(@ModelAttribute("moveBlock") BlockVO moveBlock, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockMoveList.do");
 		LoginVO login = (LoginVO) request.getAttribute("login");
-		System.out.println(moveBlock.getDf_moveStatus());
 		blockService.modItemStatus(moveBlock.getDf_idNumber(), moveBlock.getMoveList_recipient_area());
 		blockService.addMoveBlockList(moveBlock, login.getLogin_area(), login.getLogin_id());
 		return mav;
@@ -302,7 +299,7 @@ public class BlockControllerImpl implements BlockController {
 		
 		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
 		
-		List<BlockVO> blockMoveList = blockService.selectBlockMoveList(searchArea);
+		List<BlockVO> blockMoveList = blockService.selectBlockMoveList(searchArea, paging.getOffset(), limit);
 		mav.addObject("searchArea", searchArea);
 		mav.addObject("paging", paging);
 		mav.addObject("blockMoveList", blockMoveList);
@@ -311,21 +308,22 @@ public class BlockControllerImpl implements BlockController {
 	
 	// 블럭 검색
 	@Override
-	@PostMapping("/blockManagement/searchList.do")
+	@GetMapping("/blockManagement/searchList.do")
 	public ModelAndView searchList(@RequestParam(value="page", defaultValue="1") int page, @RequestParam("searchType") String searchType, @RequestParam("searchQuery") String searchQuery, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("/blockManagement/searchList");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
-
-		List<BlockVO> searchList = blockService.selectSearchList(searchType, searchQuery);
-		
 		int limit = 20;
 		int currentPage = page;
 		int pageBlockSize = 5;
-		int totalCount = blockService.getSearchListCount(searchType, searchQuery);
+		int totalCount = blockService.getSearchListCount(searchArea, searchType, searchQuery);
 		
 		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
 		
+		List<BlockVO> searchList = blockService.selectSearchList(searchArea, searchType, searchQuery, paging.getOffset(), limit);
+		
+		mav.addObject("searchType", searchType);
+		mav.addObject("searchQuery", searchQuery);
 		mav.addObject("searchList", searchList);
 		mav.addObject("paging", paging);
 		return mav;

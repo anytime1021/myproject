@@ -27,7 +27,6 @@
 					<label>크기 : </label><br>
 					<label>용도 : </label><br>
 					<label>시험편 정보 : </label><br>
-					<label>결함종류 : </label><br>
 					<label>제작일자 : </label><br>
 					<label>상태 : </label><br>
 					<label>이동현황 : </label><br>
@@ -40,7 +39,6 @@
 					<input type="text" name="df_size" value="${blockInformation.df_size}" readonly>
 					<input type="text" name="df_usage" value="${blockInformation.df_usage}" readonly>
 					<input type="text" name="df_form" value="${blockInformation.df_form}" readonly>
-					<input type="text" name="df_defectType" value="${blockInformation.df_defectType}" readonly>
 					<input type="date" name="df_manufacture" value="${blockInformation.df_manufacture}" readonly>
 					<input type="text" name="df_itemStatus" value="${blockInformation.df_itemStatus}" readonly>
 					<input type="text" name="df_moveStatus" value="${blockInformation.df_moveStatus}" readonly>

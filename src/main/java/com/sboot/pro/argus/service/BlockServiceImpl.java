@@ -76,7 +76,6 @@ public class BlockServiceImpl implements BlockService {
 	@Override
 	public List<BlockVO> selectBlockRentalList(String searchArea) throws Exception {
 		List<String> idNumber = blockDAO.selectIdNumber(searchArea);
-		System.out.println(idNumber);
 		if (idNumber == null || idNumber.isEmpty()) {
 			idNumber = new ArrayList<>();
 			idNumber.add("1");
@@ -98,19 +97,19 @@ public class BlockServiceImpl implements BlockService {
 	
 	// 블럭 이동 기록
 	@Override
-	public List<BlockVO> selectBlockMoveList(String searchArea) throws Exception {
-		return blockDAO.selectBlockMoveList(searchArea);
+	public List<BlockVO> selectBlockMoveList(String searchArea, int offset, int limit) throws Exception {
+		return blockDAO.selectBlockMoveList(searchArea, offset, limit);
 	}
 	
 	// 블럭 검색
 	@Override
-	public List<BlockVO> selectSearchList(String searchType, String searchQuery) throws Exception {
-		return blockDAO.selectSearchList(searchType, searchQuery);
+	public List<BlockVO> selectSearchList(String searchArea, String searchType, String searchQuery, int offset, int limit) throws Exception {
+		return blockDAO.selectSearchList(searchArea, searchType, searchQuery,  offset, limit);
 	}
 	
 	// 블럭 검색 수 카운트
 	@Override
-	public int getSearchListCount(String searchType, String searchQuery) throws Exception {
-		return blockDAO.selectListCount(searchType, searchQuery);
+	public int getSearchListCount(String searchArea, String searchType, String searchQuery) throws Exception {
+		return blockDAO.selectListCount(searchArea, searchType, searchQuery);
 	}
 }

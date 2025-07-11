@@ -23,20 +23,19 @@
                 <div class="contents-list">
 					<div class="search-write">
 						<div>
-							<form class="search-box" method="post" action="${contextPath}/blockManagement/searchList.do">
+							<form class="search-box" method="get" action="${contextPath}/blockManagement/searchList.do">
 								<select name="searchType">
-									<option value="idNumber">식별번호</option>
-									<option value="material">재질</option>
-									<option value="usage">용도</option>
-									<option value="form">형태</option>
-									<option value="defectType">결함종류</option>
-									<option value="manufacture">제작일자</option>
-									<option value="itemStatus">사용여부</option>
-									<option value="moveStatus">이동현황</option>
-									<option value="note">비고</option>
+									<option value="idNumber" ${searchType == 'idNumber' ? 'selected' : ''}>식별번호</option>
+									<option value="material" ${searchType == 'material' ? 'selected' : ''}>재질</option>
+									<option value="usage" ${searchType == 'usage' ? 'selected' : ''}>용도</option>
+									<option value="form" ${searchType == 'form' ? 'selected' : ''}>형태</option>
+									<option value="manufacture" ${searchType == 'manufacture' ? 'selected' : ''}>제작일자</option>
+									<option value="itemStatus" ${searchType == 'itemStatus' ? 'selected' : ''}>상태</option>
+									<option value="moveStatus" ${searchType == 'moveStatus' ? 'selected' : ''}>이동현황</option>
+									<option value="note" ${searchType == 'note' ? 'selected' : ''}>비고</option>
 								</select>
 								<div class="searchWithButton">
-									<input type="text" name="searchQuery" placeholder="검색어 입력">
+									<input type="text" name="searchQuery" value="${searchQuery}" placeholder="검색어 입력">
 									<button type="submit" title="검색">&#128269;</button>
 								</div>
 							</form>
@@ -72,10 +71,10 @@
 				</div>
 				<div class="paging-list">
 					<div class="pagination">
-						<a href="${contextPath}/blockManagement/searchList.do?page=1"><strong>[≪]</strong></a>
+						<a href="javascript:void(0);" onclick="goToPage(1)"><strong>[≪]</strong></a>
 						<c:if test="${paging.startPage > 1}">
 					    	<fmt:formatNumber var="prevPage" value="${paging.startPage - 1}" type="number" maxFractionDigits="0" />
-					    	<a href="${contextPath}/blockManagement/searchList.do?page=${prevPage}"><strong>[＜]</strong></a>
+					    	<a href="javascript:void(0);" onclick="goToPage(${prevPage})"><strong>[＜]</strong></a>
 					  	</c:if>
 						<c:forEach var="i" begin="${paging.startPage}" end="${paging.endPage}">
 						    <c:choose>
@@ -83,17 +82,17 @@
 						        	<strong style="font-size:20px; color:black;">[${i}]</strong>
 						    	</c:when>
 						    	<c:otherwise>
-						        	<a href="${contextPath}/blockManagement/searchList.do?page=${i}">[${i}]</a>
+						        	<a href="javascript:void(0);" onclick="goToPage(${i})">[${i}]</a>
 						    	</c:otherwise>
 						  	</c:choose>
 						</c:forEach>
 						<c:if test="${paging.endPage < paging.totalPage}">
 					  		<fmt:formatNumber var="nextPage" value="${paging.endPage + 1}" type="number" maxFractionDigits="0" />
-					  		<a href="${contextPath}/blockManagement/searchList.do?page=${nextPage}"><strong>[＞]</strong></a>
+					  		<a href="javascript:void(0);" onclick="goToPage(${nextPage})"><strong>[＞]</strong></a>
 						</c:if>
-						<a href="${contextPath}/blockManagement/searchList.do?page=${paging.totalPage}"><strong>[≫]</strong></a>
+						<a href="javascript:void(0);" onclick="goToPage(${paging.totalPage})"><strong>[≫]</strong></a>
 					</div>
-            	</div>
+				</div>
         	</div>
         </div>
     </main>
@@ -119,5 +118,35 @@
 		document.body.appendChild(form);
 		form.submit();
 	}
+	
+	function goToPage(pageNumber) {
+			const form = document.createElement("form");
+			form.method = "GET";
+			form.action = "${contextPath}/blockManagement/searchList.do";
+
+			const searchType = document.querySelector('select[name="searchType"]').value;
+			const searchQuery = document.querySelector('input[name="searchQuery"]').value;
+
+			const inputType = document.createElement("input");
+			inputType.type = "hidden";
+			inputType.name = "searchType";
+			inputType.value = searchType;
+			form.appendChild(inputType);
+
+			const inputQuery = document.createElement("input");
+			inputQuery.type = "hidden";
+			inputQuery.name = "searchQuery";
+			inputQuery.value = searchQuery;
+			form.appendChild(inputQuery);
+
+			const inputPage = document.createElement("input");
+			inputPage.type = "hidden";
+			inputPage.name = "page";
+			inputPage.value = pageNumber;
+			form.appendChild(inputPage);
+
+			document.body.appendChild(form);
+			form.submit();
+		}
 </script>
 </html>

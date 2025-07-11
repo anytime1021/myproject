@@ -50,11 +50,11 @@ public interface BlockDAO {
 	public int selectMoveListCount(String searchArea) throws Exception;
 	
 	// 블럭 이동 기록
-	public List<BlockVO> selectBlockMoveList(String searchArea) throws Exception;
+	public List<BlockVO> selectBlockMoveList(@Param("searchArea") String searchArea, int offset, int limit) throws Exception;
 
 	// 블럭 검색
-	public List<BlockVO> selectSearchList(@Param("searchType") String searchType, @Param("searchQuery") String searchQuery) throws Exception;
+	public List<BlockVO> selectSearchList(@Param("searchArea") String searchArea, @Param("searchType") String searchType, @Param("searchQuery") String searchQuery, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
 
 	// 블럭 검색 수 카운트
-	public int selectListCount(@Param("searchType") String searchType, @Param("searchQuery") String searchQuery) throws Exception;
+	public int selectListCount(@Param("searchArea") String searchArea, @Param("searchType") String searchType, @Param("searchQuery") String searchQuery) throws Exception;
 }

@@ -28,7 +28,6 @@
 						<label>크기 : </label><br>
 						<label>용도 : </label><br>
 						<label>시험편 정보 : </label><br>
-						<label>결함종류 : </label><br>
 						<label>제작일자 : </label><br>
 						<label>사용여부 : </label><br>
 						<label>이동현황 : </label><br>
@@ -61,7 +60,6 @@
 						<input type="text" name="df_size">
 						<input type="text" name="df_usage" readonly>
 						<input type="text" name="df_form" readonly>
-						<input type="text" name="df_defectType">
 						<input type="date" name="df_manufacture">
 						<input type="text" name="df_itemStatus">
 						<select name="df_moveStatus">

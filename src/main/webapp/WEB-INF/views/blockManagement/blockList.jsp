@@ -23,15 +23,14 @@
                 <div class="contents-list">
 					<div class="search-write">
 						<div>
-							<form class="search-box" method="post" action="${contextPath}/blockManagement/searchList.do">
+							<form class="search-box" method="get" action="${contextPath}/blockManagement/searchList.do">
 								<select name="searchType">
 									<option value="idNumber">식별번호</option>
 									<option value="material">재질</option>
 									<option value="usage">용도</option>
 									<option value="form">형태</option>
-									<option value="defectType">결함종류</option>
 									<option value="manufacture">제작일자</option>
-									<option value="itemStatus">사용여부</option>
+									<option value="itemStatus">상태</option>
 									<option value="moveStatus">이동현황</option>
 									<option value="note">비고</option>
 								</select>

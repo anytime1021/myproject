@@ -29,9 +29,8 @@
 									<option value="material">재질</option>
 									<option value="usage">용도</option>
 									<option value="form">형태</option>
-									<option value="defectType">결함종류</option>
 									<option value="manufacture">제작일자</option>
-									<option value="itemStatus">사용여부</option>
+									<option value="itemStatus">상태</option>
 									<option value="moveStatus">이동현황</option>
 									<option value="note">비고</option>
 								</select>
@@ -63,7 +62,14 @@
 									<td>${rentalList.df_size}</td>
 									<td>${rentalList.df_material}</td>
 									<td>${rentalList.df_usage}</td>
-									<td>${rentalList.df_itemStatus}</td>
+									<c:choose>
+										<c:when test="${rentalList.df_itemStatus eq '사용중'}">
+											반납완료
+										</c:when>
+										<c:otherwise>
+											${rentalList.df_itemStatus}
+										</c:otherwise>
+									</c:choose>
 									<td><button style="font-size: 16px; cursor: pointer; background-color: white; border: none;" onclick="returnBlock(this)">반납하기</button></td>
 								</tr>
 							</c:forEach>
