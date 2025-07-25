@@ -87,10 +87,10 @@
 	
 	<select id="selectBlockRentalList" parameterType="list">
 		select * from blockInformation where df_idNumber in
-		<foreach item="id" collection="list" open="(" separator="," close=")">
+		<foreach item="id" collection="idNumber" open="(" separator="," close=")">
 			#{id}
 		</foreach>
-		order by moveList_rental_date desc limit #{offset}, #{limit}
+		order by df_idNumber desc limit #{offset}, #{limit}
 	</select>
 	
 	<!-- 블럭 반납 -->
@@ -173,12 +173,13 @@
 			<when test="searchArea == '본사'">
 				select * from blockInformation
 				<include refid="searchList" />
+				and YN = 'Y'
 				order by df_idNumber desc limit #{offset}, #{limit}
 			</when>
 			<otherwise>
 				select * from blockInformation
 				<include refid="searchList" />
-				and login_area = #{searchArea}
+				and login_area = #{searchArea} and YN = 'Y'
 				order by df_idNumber desc limit #{offset}, #{limit}
 			</otherwise>
 		</choose>
@@ -189,12 +190,44 @@
 			<when test="searchArea == '본사'">
 				select count(*) from blockInformation
 				<include refid="searchList" />
+				and YN = 'Y'
 			</when>
 			<otherwise>
 				select count(*) from blockInformation
 				<include refid="searchList" />
-				and login_area = #{searchArea}
+				and login_area = #{searchArea} and YN = 'Y'
 			</otherwise>
 		</choose>
+	</select>
+	
+	<select id="selectIdNumberSearch" parameterType="Map">
+		select df_idNumber from blockInformation
+		<include refid="searchList" />
+		and YN = 'Y'
+		<if test="searchArea != '본사'">
+			and login_area = #{searchArea}
+		</if>
+	</select>
+	
+	<select id="selectSearchRentalList" parameterType="Map">
+		select * from blockInformation
+		<include refid="searchList" />
+		and YN = 'Y'
+		<if test="searchArea != '본사'">
+		    and login_area = #{searchArea}
+		</if>
+		and df_idNumber in 
+		<foreach item="id" collection="idNumber" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+		order by df_idNumber desc limit #{offset}, #{limit}
+	</select>
+	
+	<select id="selectSearchMoveList" parameterType="Map">
+		select * from blockMoveList where YN = 'Y' 
+			<if test="searchArea != '본사'">
+				and (login_area = #{searchArea} or moveList_recipient_area = #{searchArea})
+			</if>
+		order by moveList_rental_date desc limit #{offset}, #{limit}
 	</select>
 </mapper>

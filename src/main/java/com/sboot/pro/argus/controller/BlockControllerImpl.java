@@ -318,19 +318,20 @@ public class BlockControllerImpl implements BlockController {
 	// 블럭 검색
 	@Override
 	@GetMapping("/blockManagement/searchList.do")
-	public ModelAndView searchList(@RequestParam(value="page", defaultValue="1") int page, @RequestParam("searchType") String searchType, @RequestParam("searchQuery") String searchQuery, HttpServletRequest request) throws Exception {
+	public ModelAndView searchList(@RequestParam(value="page", defaultValue="1") int page, @RequestParam("searchType") String searchType, @RequestParam("searchQuery") String searchQuery, @RequestParam("token") String token, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("/blockManagement/searchList");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
 		int limit = 20;
 		int currentPage = page;
 		int pageBlockSize = 5;
-		int totalCount = blockService.getSearchListCount(searchArea, searchType, searchQuery);
+		int totalCount = blockService.getSearchListCount(searchArea, searchType, searchQuery, token);
 		
 		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
 		
-		List<BlockVO> searchList = blockService.selectSearchList(searchArea, searchType, searchQuery, paging.getOffset(), limit);
+		List<BlockVO> searchList = blockService.selectSearchList(searchArea, searchType, searchQuery, paging.getOffset(), limit, token);
 		
+		mav.addObject("token", token);
 		mav.addObject("searchType", searchType);
 		mav.addObject("searchQuery", searchQuery);
 		mav.addObject("searchList", searchList);

@@ -103,13 +103,25 @@ public class BlockServiceImpl implements BlockService {
 	
 	// 블럭 검색
 	@Override
-	public List<BlockVO> selectSearchList(String searchArea, String searchType, String searchQuery, int offset, int limit) throws Exception {
-		return blockDAO.selectSearchList(searchArea, searchType, searchQuery,  offset, limit);
+	public List<BlockVO> selectSearchList(String searchArea, String searchType, String searchQuery, int offset, int limit, String token) throws Exception {
+		if (token.equals("blockList")) {
+			return blockDAO.selectSearchList(searchArea, searchType, searchQuery, offset, limit);
+		} else if(token.equals("blockMoveList")) {
+			List<String> idNumber = blockDAO.selectIdNumberSearch(searchArea, searchType, searchQuery);
+			if (idNumber == null || idNumber.isEmpty()) {
+				idNumber = new ArrayList<>();
+				idNumber.add("1");
+			}
+			return blockDAO.selectSearchRentalList(searchArea, idNumber, offset, limit);
+		} else if(token.equals("blockRentalList")) {
+			return blockDAO.selectSearchMoveList(searchArea, searchType, searchQuery, offset, limit);
+		}
+		return new ArrayList<BlockVO>();
 	}
 	
 	// 블럭 검색 수 카운트
 	@Override
-	public int getSearchListCount(String searchArea, String searchType, String searchQuery) throws Exception {
-		return blockDAO.selectListCount(searchArea, searchType, searchQuery);
+	public int getSearchListCount(String searchArea, String searchType, String searchQuery, String token) throws Exception {
+		return blockDAO.selectListCount(searchArea, searchType, searchQuery, token);
 	}
 }

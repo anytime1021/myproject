@@ -22,10 +22,17 @@
             <div class="contents-container">
                 <div class="contents-list">
 					<div class="search-write">
-						<form class="search-box" method="post" action="${contextPath}/blockManagement/searchBlock.do">
+						<form class="search-box" method="post" action="${contextPath}/blockManagement/searchList.do">
+							<input type="hidden" name="token" value="blockMoveList">
 							<select name="searchType">
 								<option value="idNumber">식별번호</option>
-								<option value="itemStatus">용도</option>
+								<option value="material">재질</option>
+								<option value="usage">용도</option>
+								<option value="form">형태</option>
+								<option value="manufacture">제작일자</option>
+								<option value="itemStatus">상태</option>
+								<option value="moveStatus">이동현황</option>
+								<option value="note">비고</option>
 							</select>
 							<div class="searchWithButton">
 								<input type="text" name="search" placeholder="검색어 입력">
@@ -54,7 +61,16 @@
 									<td>${blockMoveList.moveList_recipient_area}</td>
 									<td>${blockMoveList.moveList_rental_date}</td>
 									<td>${blockMoveList.moveList_return_date}</td>
-									<td>${blockMoveList.df_itemStatus}</td>
+									<td>
+									<c:choose>
+										<c:when test="${blockMoveList.df_itemStatus eq '사용중'}">
+									    	반납완료
+									    </c:when>
+									    <c:otherwise>
+									    	${blockMoveList.df_itemStatus}
+									    </c:otherwise>
+									</c:choose>
+									</td>
 								</tr>
 							</c:forEach>
                         </tbody>

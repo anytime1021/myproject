@@ -44,8 +44,8 @@ public interface BlockService {
 	public List<BlockVO> selectBlockMoveList(String searchArea, int offset, int limit) throws Exception;
 
 	// 블럭 검색
-	public List<BlockVO> selectSearchList(String searchArea, String searchType, String searchQuery, int offset, int limit) throws Exception;
+	public List<BlockVO> selectSearchList(String searchArea, String searchType, String searchQuery, int offset, int limit, String token) throws Exception;
 	
 	// 블럭 검색 수 카운트
-	public int getSearchListCount(String searchArea, String searchType, String searchQuery) throws Exception;
+	public int getSearchListCount(String searchArea, String searchType, String searchQuery, String token) throws Exception;
 }

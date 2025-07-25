@@ -24,6 +24,7 @@
 					<div class="search-write">
 						<div>
 							<form class="search-box" method="post" action="${contextPath}/blockManagement/searchList.do">
+								<input type="hidden" name="token" value="blockRentalList">
 								<select name="searchType">
 									<option value="idNumber">식별번호</option>
 									<option value="material">재질</option>
@@ -62,6 +63,7 @@
 									<td>${rentalList.df_size}</td>
 									<td>${rentalList.df_material}</td>
 									<td>${rentalList.df_usage}</td>
+									<td>
 									<c:choose>
 										<c:when test="${rentalList.df_itemStatus eq '사용중'}">
 											반납완료
@@ -70,6 +72,7 @@
 											${rentalList.df_itemStatus}
 										</c:otherwise>
 									</c:choose>
+									</td>
 									<td><button style="font-size: 16px; cursor: pointer; background-color: white; border: none;" onclick="returnBlock(this)">반납하기</button></td>
 								</tr>
 							</c:forEach>

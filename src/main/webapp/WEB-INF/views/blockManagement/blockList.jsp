@@ -24,6 +24,7 @@
 					<div class="search-write">
 						<div>
 							<form class="search-box" method="get" action="${contextPath}/blockManagement/searchList.do">
+								<input type="hidden" name="token" value="blockList">
 								<select name="searchType">
 									<option value="idNumber">식별번호</option>
 									<option value="material">재질</option>

@@ -34,6 +34,7 @@
 									<option value="moveStatus" ${searchType == 'moveStatus' ? 'selected' : ''}>이동현황</option>
 									<option value="note" ${searchType == 'note' ? 'selected' : ''}>비고</option>
 								</select>
+								<input type="hidden" name="token" value="${token}">
 								<div class="searchWithButton">
 									<input type="text" name="searchQuery" value="${searchQuery}" placeholder="검색어 입력">
 									<button type="submit" title="검색">&#128269;</button>
