@@ -330,7 +330,7 @@ public class BlockControllerImpl implements BlockController {
 		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
 		
 		List<BlockVO> searchList = blockService.selectSearchList(searchArea, searchType, searchQuery, paging.getOffset(), limit, token);
-		
+		System.out.println(token);
 		mav.addObject("token", token);
 		mav.addObject("searchType", searchType);
 		mav.addObject("searchQuery", searchQuery);

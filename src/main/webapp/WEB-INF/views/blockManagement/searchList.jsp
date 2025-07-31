@@ -127,6 +127,7 @@
 
 			const searchType = document.querySelector('select[name="searchType"]').value;
 			const searchQuery = document.querySelector('input[name="searchQuery"]').value;
+			const token = document.querySelector('input[name="token"]').value;
 
 			const inputType = document.createElement("input");
 			inputType.type = "hidden";
@@ -145,6 +146,12 @@
 			inputPage.name = "page";
 			inputPage.value = pageNumber;
 			form.appendChild(inputPage);
+			
+			const inputToken = document.createElement("input");
+			inputToken.type = "hidden";
+			inputToken.name = "token";
+			inputToken.value = token;
+			form.appendChild(inputToken);
 
 			document.body.appendChild(form);
 			form.submit();

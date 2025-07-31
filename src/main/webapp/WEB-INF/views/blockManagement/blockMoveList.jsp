@@ -22,7 +22,7 @@
             <div class="contents-container">
                 <div class="contents-list">
 					<div class="search-write">
-						<form class="search-box" method="post" action="${contextPath}/blockManagement/searchList.do">
+						<form class="search-box" method="get" action="${contextPath}/blockManagement/searchList.do">
 							<input type="hidden" name="token" value="blockMoveList">
 							<select name="searchType">
 								<option value="idNumber">식별번호</option>
@@ -35,7 +35,7 @@
 								<option value="note">비고</option>
 							</select>
 							<div class="searchWithButton">
-								<input type="text" name="search" placeholder="검색어 입력">
+								<input type="text" name="searchQuery" placeholder="검색어 입력">
 								<button type="submit" title="검색">&#128269;</button>
 							</div>
 						</form>

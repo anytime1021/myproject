@@ -23,7 +23,7 @@
                 <div class="contents-list">
 					<div class="search-write">
 						<div>
-							<form class="search-box" method="post" action="${contextPath}/blockManagement/searchList.do">
+							<form class="search-box" method="get" action="${contextPath}/blockManagement/searchList.do">
 								<input type="hidden" name="token" value="blockRentalList">
 								<select name="searchType">
 									<option value="idNumber">식별번호</option>
@@ -36,7 +36,7 @@
 									<option value="note">비고</option>
 								</select>
 								<div class="searchWithButton">
-									<input type="text" name="search" placeholder="검색어 입력">
+									<input type="text" name="searchQuery" placeholder="검색어 입력">
 									<button type="submit" title="검색">&#128269;</button>
 								</div>
 							</form>
@@ -81,10 +81,10 @@
 				</div>
 				<div class="paging-list">
 					<div class="pagination">
-						<a href="${contextPath}/blockManagement/blockList.do?page=1"><strong>[≪]</strong></a>
+						<a href="${contextPath}/blockManagement/blockRentalList.do?page=1"><strong>[≪]</strong></a>
 						<c:if test="${paging.startPage > 1}">
 					    	<fmt:formatNumber var="prevPage" value="${paging.startPage - 1}" type="number" maxFractionDigits="0" />
-					    	<a href="${contextPath}/blockManagement/blockList.do?page=${prevPage}"><strong>[＜]</strong></a>
+					    	<a href="${contextPath}/blockManagement/blockRentalList.do?page=${prevPage}"><strong>[＜]</strong></a>
 					  	</c:if>
 						<c:forEach var="i" begin="${paging.startPage}" end="${paging.endPage}">
 						    <c:choose>
@@ -92,15 +92,15 @@
 						        	<strong style="font-size:20px; color:black;">[${i}]</strong>
 						    	</c:when>
 						    	<c:otherwise>
-						        	<a href="${contextPath}/blockManagement/blockList.do?page=${i}">[${i}]</a>
+						        	<a href="${contextPath}/blockManagement/blockRentalList.do?page=${i}">[${i}]</a>
 						    	</c:otherwise>
 						  	</c:choose>
 						</c:forEach>
 						<c:if test="${paging.endPage < paging.totalPage}">
 					  		<fmt:formatNumber var="nextPage" value="${paging.endPage + 1}" type="number" maxFractionDigits="0" />
-					  		<a href="${contextPath}/blockManagement/blockList.do?page=${nextPage}"><strong>[＞]</strong></a>
+					  		<a href="${contextPath}/blockManagement/blockRentalList.do?page=${nextPage}"><strong>[＞]</strong></a>
 						</c:if>
-						<a href="${contextPath}/blockManagement/blockList.do?page=${paging.totalPage}"><strong>[≫]</strong></a>
+						<a href="${contextPath}/blockManagement/blockRentalList.do?page=${paging.totalPage}"><strong>[≫]</strong></a>
 					</div>
             	</div>
         	</div>

@@ -209,10 +209,9 @@
 		</if>
 	</select>
 	
-	<select id="selectSearchRentalList" parameterType="Map">
-		select * from blockInformation
-		<include refid="searchList" />
-		and YN = 'Y'
+	<select id="selectSearchMoveList" parameterType="Map">
+		select * from blockMoveList
+		where YN = 'Y'
 		<if test="searchArea != '본사'">
 		    and login_area = #{searchArea}
 		</if>
@@ -223,7 +222,7 @@
 		order by df_idNumber desc limit #{offset}, #{limit}
 	</select>
 	
-	<select id="selectSearchMoveList" parameterType="Map">
+	<select id="selectSearchRentalList" parameterType="Map">
 		select * from blockMoveList where YN = 'Y' 
 			<if test="searchArea != '본사'">
 				and (login_area = #{searchArea} or moveList_recipient_area = #{searchArea})

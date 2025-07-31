@@ -112,9 +112,9 @@ public class BlockServiceImpl implements BlockService {
 				idNumber = new ArrayList<>();
 				idNumber.add("1");
 			}
-			return blockDAO.selectSearchRentalList(searchArea, idNumber, offset, limit);
+			return blockDAO.selectSearchMoveList(searchArea, idNumber, offset, limit);
 		} else if(token.equals("blockRentalList")) {
-			return blockDAO.selectSearchMoveList(searchArea, searchType, searchQuery, offset, limit);
+			return blockDAO.selectSearchRentalList(searchArea, searchType, searchQuery, offset, limit);
 		}
 		return new ArrayList<BlockVO>();
 	}
