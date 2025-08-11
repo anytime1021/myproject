@@ -22,54 +22,55 @@
             <div class="contents-container">
                 <div class="contents-list">
 					<div class="search-write">
-						<div>
-							<form class="search-box" method="get" action="${contextPath}/blockManagement/searchList.do">
-								<select name="searchType">
-									<option value="idNumber" ${searchType == 'idNumber' ? 'selected' : ''}>식별번호</option>
-									<option value="material" ${searchType == 'material' ? 'selected' : ''}>재질</option>
-									<option value="usage" ${searchType == 'usage' ? 'selected' : ''}>용도</option>
-									<option value="form" ${searchType == 'form' ? 'selected' : ''}>형태</option>
-									<option value="manufacture" ${searchType == 'manufacture' ? 'selected' : ''}>제작일자</option>
-									<option value="itemStatus" ${searchType == 'itemStatus' ? 'selected' : ''}>상태</option>
-									<option value="moveStatus" ${searchType == 'moveStatus' ? 'selected' : ''}>이동현황</option>
-									<option value="note" ${searchType == 'note' ? 'selected' : ''}>비고</option>
-								</select>
-								<input type="hidden" name="token" value="${token}">
-								<div class="searchWithButton">
-									<input type="text" name="searchQuery" value="${searchQuery}" placeholder="검색어 입력">
-									<button type="submit" title="검색">&#128269;</button>
-								</div>
-							</form>
-						</div>
+						<form class="search-box" method="get" action="${contextPath}/blockManagement/searchList.do">
+							<input type="hidden" name="token" value="blockMoveList">
+							<select name="searchType">
+								<option value="idNumber">식별번호</option>
+								<option value="material">재질</option>
+								<option value="usage">용도</option>
+								<option value="form">형태</option>
+								<option value="manufacture">제작일자</option>
+								<option value="itemStatus">상태</option>
+								<option value="moveStatus">이동현황</option>
+								<option value="note">비고</option>
+							</select>
+							<div class="searchWithButton">
+								<input type="text" name="searchQuery" placeholder="검색어 입력">
+								<button type="submit" title="검색">&#128269;</button>
+							</div>
+						</form>
 					</div>
                     <table class="table-control">
                         <thead>
                             <tr>
 								<th style="width:20%;">식별번호</th>
-								<th style="width:20%;">크기</th>
-								<th style="width:15%;">재질</th>
-								<th style="width:15%;">용도</th>
-								<th style="width:15%;">상태</th>
-								<th style="width:15%;"></th>
+								<th style="width:13%;">대여자</th>
+								<th style="width:13%;">수취자</th>
+								<th style="width:13%;">수취지역</th>
+								<th style="width:14%;">대여일</th>
+								<th style="width:14%;">반납일</th>
+								<th style="width:13%;">상태</th>
                             </tr>
                         </thead>
                         <tbody>
-							<c:forEach var="searchList" items="${searchList}">
+							<c:forEach var="searchList" items="${searchList}"> 
 								<tr>
-									<td><button style="font-size: 15px; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">${searchList.df_idNumber}</button></td>
-									<td>${searchList.df_size}</td>
-									<td>${searchList.df_material}</td>
-									<td>${searchList.df_usage}</td>
-									<td>${searchList.df_itemStatus}</td>
+									<td><button style="font-size: 16px; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">${searchList.df_idNumber}</button></td>
+									<td>${searchList.moveList_lender}</td>
+									<td>${searchList.moveList_recipient}</td>
+									<td>${searchList.moveList_recipient_area}</td>
+									<td>${searchList.moveList_rental_date}</td>
+									<td>${searchList.moveList_return_date}</td>
 									<td>
 									<c:choose>
-										<c:when test="${token eq 'blockList'}">
-											<button style="font-weight: bold; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">상세보기</button>
-										</c:when>
-										<c:otherwise>
-											<button style="font-size: 16px; cursor: pointer; background-color: white; border: none;" onclick="returnBlock(this)">반납하기</button>
-										</c:otherwise>
+										<c:when test="${searchList.df_itemStatus eq '사용중'}">
+									    	반납완료
+									    </c:when>
+									    <c:otherwise>
+									    	${searchList.df_itemStatus}
+									    </c:otherwise>
 									</c:choose>
+									</td>
 								</tr>
 							</c:forEach>
                         </tbody>
@@ -99,7 +100,7 @@
 						<a href="javascript:void(0);" onclick="goToPage(${paging.totalPage})"><strong>[≫]</strong></a>
 					</div>
 				</div>
-        	</div>
+            </div>
         </div>
     </main>
     <%@ include file="../include/footer2.jsp"%>
@@ -124,7 +125,7 @@
 		document.body.appendChild(form);
 		form.submit();
 	}
-	
+
 	function goToPage(pageNumber) {
 			const form = document.createElement("form");
 			form.method = "GET";

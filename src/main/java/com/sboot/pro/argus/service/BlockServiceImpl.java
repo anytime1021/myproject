@@ -108,13 +108,17 @@ public class BlockServiceImpl implements BlockService {
 			return blockDAO.selectSearchList(searchArea, searchType, searchQuery, offset, limit);
 		} else if(token.equals("blockMoveList")) {
 			List<String> idNumber = blockDAO.selectIdNumberSearch(searchArea, searchType, searchQuery);
+			for (String id : idNumber) {
+			    System.out.println(id);
+			}
 			if (idNumber == null || idNumber.isEmpty()) {
 				idNumber = new ArrayList<>();
 				idNumber.add("1");
 			}
 			return blockDAO.selectSearchMoveList(searchArea, idNumber, offset, limit);
 		} else if(token.equals("blockRentalList")) {
-			return blockDAO.selectSearchRentalList(searchArea, searchType, searchQuery, offset, limit);
+			List<String> idNumber = blockDAO.selectRentalListId(searchArea);
+			return blockDAO.selectSearchRentalList(idNumber, searchType, searchQuery, offset, limit);
 		}
 		return new ArrayList<BlockVO>();
 	}
@@ -122,6 +126,14 @@ public class BlockServiceImpl implements BlockService {
 	// 블럭 검색 수 카운트
 	@Override
 	public int getSearchListCount(String searchArea, String searchType, String searchQuery, String token) throws Exception {
-		return blockDAO.selectListCount(searchArea, searchType, searchQuery, token);
+		if("blockRentalList".equals(token)) {
+			List<String> idNumber = blockDAO.selectRentalListId(searchArea);
+			if (idNumber == null || idNumber.isEmpty()) {
+				idNumber = new ArrayList<>();
+				idNumber.add("1");
+			}
+			return blockDAO.selectListCount(searchArea, searchType, searchQuery, token, idNumber);
+		}
+		return blockDAO.selectListCount(searchArea, searchType, searchQuery, token, null);
 	}
 }

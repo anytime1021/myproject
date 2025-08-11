@@ -12,7 +12,6 @@
     <meta charset="UTF-8">
     <title>아거스 리포트</title>
     <link rel="stylesheet" href="${contextPath}/resources/css/boardStyle.css">
-
 </head>
 <body>
     <%@ include file="../include/header2.jsp" %>
@@ -59,7 +58,7 @@
                         <tbody>
 							<c:forEach var="blockList" items="${blockList}">
 								<tr>
-									<td>${blockList.df_idNumber}</td>
+									<td><button style="font-size: 15px; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">${blockList.df_idNumber}</button></td>
 									<td>${blockList.df_size}</td>
 									<td>${blockList.df_material}</td>
 									<td>${blockList.df_usage}</td>

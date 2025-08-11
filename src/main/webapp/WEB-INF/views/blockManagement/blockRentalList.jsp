@@ -12,7 +12,6 @@
     <meta charset="UTF-8">
     <title>아거스 리포트</title>
     <link rel="stylesheet" href="${contextPath}/resources/css/boardStyle.css">
-
 </head>
 <body>
     <%@ include file="../include/header2.jsp" %>
@@ -41,9 +40,6 @@
 								</div>
 							</form>
 						</div>
-						<div>
-							<a style="display:inline-block; width:100px; text-align:center; height:30px; border:1px solid black;" href="${contextPath}/blockManagement/addBlockForm.do">시험편 등록</a>
-						</div>
 					</div>
                     <table class="table-control">
                         <thead>
@@ -59,7 +55,7 @@
                         <tbody>
 							<c:forEach var="rentalList" items="${rentalList}">
 								<tr>
-									<td><button style="font-size: 16px; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">${rentalList.df_idNumber}</button></td>
+									<td><button style="font-size: 15px; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">${rentalList.df_idNumber}</button></td>
 									<td>${rentalList.df_size}</td>
 									<td>${rentalList.df_material}</td>
 									<td>${rentalList.df_usage}</td>
