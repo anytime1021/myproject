@@ -77,28 +77,28 @@
                     </table>
 				</div>
 				<div class="paging-list">
-					<div class="pagination">
-						<a href="${contextPath}/blockManagement/blockMoveList.do?page=1"><strong>[≪]</strong></a>
+					<ul class="pagination">
+						<li><a href="${contextPath}/blockManagement/blockMoveList.do?page=1">&lt;&lt; First</a></li>
 					  	<c:if test="${paging.startPage > 1}">
 							<fmt:formatNumber var="prevPage" value="${paging.startPage - 1}" type="number" maxFractionDigits="0" />
-							<a href="${contextPath}/blockManagement/blockMoveList.do?page=${prevPage}"><strong>[＜]</strong></a>
+							<li><a href="${contextPath}/blockManagement/blockMoveList.do?page=${prevPage}">&lt; Previous</a></li>
 						</c:if>
 						<c:forEach var="i" begin="${paging.startPage}" end="${paging.endPage}">
 							<c:choose>
 						    	<c:when test="${i == paging.currentPage}">
-						        	<strong style="font-size:20px; color:black;">[${i}]</strong>
+						        	<li><strong>${i}</strong></li>
 						    	</c:when>
 						    	<c:otherwise>
-						        	<a href="${contextPath}/blockManagement/blockMoveList.do?page=${i}">[${i}]</a>
+						        	<li><a href="${contextPath}/blockManagement/blockMoveList.do?page=${i}">${i}</a></li>
 						    	</c:otherwise>
 						    </c:choose>
 						</c:forEach>
 						<c:if test="${paging.endPage < paging.totalPage}">
 						   	<fmt:formatNumber var="nextPage" value="${paging.endPage + 1}" type="number" maxFractionDigits="0" />
-							<a href="${contextPath}/blockManagement/blockMoveList.do?page=${nextPage}"><strong>[＞]</strong></a>
+							<li><a href="${contextPath}/blockManagement/blockMoveList.do?page=${nextPage}">Next &gt;</a></li>
 						</c:if>
-						<a href="${contextPath}/blockManagement/blockMoveList.do?page=${paging.totalPage}"><strong>[≫]</strong></a>
-					</div>
+						<li><a href="${contextPath}/blockManagement/blockMoveList.do?page=${paging.totalPage}">Last &gt;&gt;</a></li>
+					</ul>
                 </div>
             </div>
         </div>

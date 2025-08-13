@@ -47,7 +47,7 @@ public interface BlockDAO {
 	public void updateReturnRecipient(String df_idNumber) throws Exception;
 	
 	// 블럭 이동 기록 수 카운트
-	public int selectMoveListCount(String searchArea) throws Exception;
+	public int selectBlockMoveListCount(String searchArea) throws Exception;
 	
 	// 블럭 이동 기록
 	public List<BlockVO> selectBlockMoveList(@Param("searchArea") String searchArea, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
@@ -55,9 +55,10 @@ public interface BlockDAO {
 	// 블럭 검색 + 검색 수 카운트
 	public List<BlockVO> selectSearchList(@Param("searchArea") String searchArea, @Param("searchType") String searchType, @Param("searchQuery") String searchQuery, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
 	public int selectListCount(@Param("searchArea") String searchArea, @Param("searchType") String searchType, @Param("searchQuery") String searchQuery, @Param("token") String token, @Param("idNumber") List<String> idNumber) throws Exception;
-
+	public int selectMoveListCount(@Param("searchArea") String searchArea, @Param("searchType") String searchType, @Param("searchQuery") String searchQuery) throws Exception;
+	
 	public List<String> selectIdNumberSearch(@Param("searchArea") String searchArea, @Param("searchType") String searchType, @Param("searchQuery") String searchQuery) throws Exception;
-	public List<BlockVO> selectSearchMoveList(@Param("searchArea") String searchArea, @Param("idNumber") List<String> idNumber, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
+	public List<BlockVO> selectSearchMoveList(@Param("idNumber") List<String> idNumber, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
 	
 	public List<String> selectRentalListId(@Param("searchArea") String searchArea) throws Exception;
 	public List<BlockVO> selectSearchRentalList(@Param("idNumber") List<String> idNumber, @Param("searchType") String searchType, @Param("searchQuery") String searchQuery, @Param("offset") int offset, @Param("limit") int limit) throws Exception;

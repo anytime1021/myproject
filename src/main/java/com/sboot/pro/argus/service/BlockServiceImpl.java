@@ -38,8 +38,8 @@ public class BlockServiceImpl implements BlockService {
 	
 	// 블럭 추가 폼 일련번호 체크
 	@Override
-	public boolean isExistIdNumber(String idNumber) throws Exception {
-		return blockDAO.isExistIdNumber(idNumber) > 0;
+	public boolean isExistIdNumber(String df_idNumber) throws Exception {
+		return blockDAO.isExistIdNumber(df_idNumber) > 0;
 	}
 	
 	// 블럭 추가
@@ -92,7 +92,7 @@ public class BlockServiceImpl implements BlockService {
 	// 블럭 이동 기록 수 카운트
 	@Override
 	public int getMoveListCount(String searchArea) throws Exception {
-		return blockDAO.selectMoveListCount(searchArea);
+		return blockDAO.selectBlockMoveListCount(searchArea);
 	}
 	
 	// 블럭 이동 기록
@@ -108,14 +108,11 @@ public class BlockServiceImpl implements BlockService {
 			return blockDAO.selectSearchList(searchArea, searchType, searchQuery, offset, limit);
 		} else if(token.equals("blockMoveList")) {
 			List<String> idNumber = blockDAO.selectIdNumberSearch(searchArea, searchType, searchQuery);
-			for (String id : idNumber) {
-			    System.out.println(id);
-			}
 			if (idNumber == null || idNumber.isEmpty()) {
 				idNumber = new ArrayList<>();
 				idNumber.add("1");
 			}
-			return blockDAO.selectSearchMoveList(searchArea, idNumber, offset, limit);
+			return blockDAO.selectSearchMoveList(idNumber, offset, limit);
 		} else if(token.equals("blockRentalList")) {
 			List<String> idNumber = blockDAO.selectRentalListId(searchArea);
 			return blockDAO.selectSearchRentalList(idNumber, searchType, searchQuery, offset, limit);
@@ -126,13 +123,20 @@ public class BlockServiceImpl implements BlockService {
 	// 블럭 검색 수 카운트
 	@Override
 	public int getSearchListCount(String searchArea, String searchType, String searchQuery, String token) throws Exception {
-		if("blockRentalList".equals(token)) {
+		if ("blockRentalList".equals(token)) {
 			List<String> idNumber = blockDAO.selectRentalListId(searchArea);
 			if (idNumber == null || idNumber.isEmpty()) {
 				idNumber = new ArrayList<>();
 				idNumber.add("1");
 			}
 			return blockDAO.selectListCount(searchArea, searchType, searchQuery, token, idNumber);
+		} else if ("blockMoveList".equals(token)) {
+//			List<String> idNumber = blockDAO.selectIdNumberSearch(searchArea, searchType, searchQuery);
+//			if (idNumber == null || idNumber.isEmpty()) {
+//				idNumber = new ArrayList<>();
+//				idNumber.add("1");
+//			}
+			return blockDAO.selectMoveListCount(searchArea, searchType, searchQuery);
 		}
 		return blockDAO.selectListCount(searchArea, searchType, searchQuery, token, null);
 	}

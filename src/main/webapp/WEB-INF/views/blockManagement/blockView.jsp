@@ -72,11 +72,15 @@
 							</c:choose>
 						</tbody>
 					</table>
-					<div class="btn-wrapper">
-						<a class="btn" href="${contextPath}/blockManagement/moveBlockForm.do?df_idNumber=${blockView.df_idNumber}">시험편 대여 등록</a>
-						<a class="btn" href="${contextPath}/blockManagement/modBlockForm.do?df_idNumber=${blockView.df_idNumber}">수정하기</a>
-						<a class="btn" onclick="return confirm('정말 삭제하시겠습니까?');" href="${contextPath}/blockManagement/removeBlock.do?df_idNumber=${blockView.df_idNumber}">삭제하기</a>
-					</div>
+					<c:if test="${blockView.login_area eq searchArea}">
+						<c:if test="${blockView.df_itemStatus eq '사용중'}">
+							<div class="btn-wrapper">
+								<a class="btn" href="${contextPath}/blockManagement/moveBlockForm.do?df_idNumber=${blockView.df_idNumber}">시험편 대여 등록</a>
+								<a class="btn" href="${contextPath}/blockManagement/modBlockForm.do?df_idNumber=${blockView.df_idNumber}">수정하기</a>
+								<a class="btn" onclick="return confirm('정말 삭제하시겠습니까?');" href="${contextPath}/blockManagement/removeBlock.do?df_idNumber=${blockView.df_idNumber}">삭제하기</a>
+							</div>
+						</c:if>
+					</c:if>
 				</div>
 			</div>
         </div>

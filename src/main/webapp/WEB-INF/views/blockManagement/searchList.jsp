@@ -12,7 +12,6 @@
     <meta charset="UTF-8">
     <title>아거스 리포트</title>
     <link rel="stylesheet" href="${contextPath}/resources/css/boardStyle.css">
-
 </head>
 <body>
     <%@ include file="../include/header2.jsp" %>
@@ -54,51 +53,65 @@
                             </tr>
                         </thead>
                         <tbody>
-							<c:forEach var="searchList" items="${searchList}">
-								<tr>
-									<td><button style="font-size: 15px; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">${searchList.df_idNumber}</button></td>
-									<td>${searchList.df_size}</td>
-									<td>${searchList.df_material}</td>
-									<td>${searchList.df_usage}</td>
-									<td>${searchList.df_itemStatus}</td>
-									<td>
-									<c:choose>
-										<c:when test="${token eq 'blockList'}">
-											<button style="font-weight: bold; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">상세보기</button>
-										</c:when>
-										<c:otherwise>
-											<button style="font-size: 16px; cursor: pointer; background-color: white; border: none;" onclick="returnBlock(this)">반납하기</button>
-										</c:otherwise>
-									</c:choose>
-								</tr>
-							</c:forEach>
+							<c:choose>
+								<c:when test="${empty searchList}">
+									<tr>
+										<td colspan="6" style="text-align:center; padding:20px;">
+											검색 결과가 없습니다.
+										</td>
+									</tr>
+								</c:when>
+								<c:otherwise>
+									<c:forEach var="searchList" items="${searchList}">
+										<tr>
+											<td><button style="font-size: 15px; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">${searchList.df_idNumber}</button></td>
+											<td>${searchList.df_size}</td>
+											<td>${searchList.df_material}</td>
+											<td>${searchList.df_usage}</td>
+											<td>${searchList.df_itemStatus}</td>
+											<td>
+											<c:choose>
+												<c:when test="${token eq 'blockList'}">
+													<button style="font-weight: bold; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">상세보기</button>
+												</c:when>
+												<c:otherwise>
+													<button style="font-size: 16px; cursor: pointer; background-color: white; border: none;" onclick="returnBlock(this)">반납하기</button>
+												</c:otherwise>
+											</c:choose>
+											</td>
+										</tr>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
                         </tbody>
                     </table>
 				</div>
-				<div class="paging-list">
-					<div class="pagination">
-						<a href="javascript:void(0);" onclick="goToPage(1)"><strong>[≪]</strong></a>
-						<c:if test="${paging.startPage > 1}">
-					    	<fmt:formatNumber var="prevPage" value="${paging.startPage - 1}" type="number" maxFractionDigits="0" />
-					    	<a href="javascript:void(0);" onclick="goToPage(${prevPage})"><strong>[＜]</strong></a>
-					  	</c:if>
-						<c:forEach var="i" begin="${paging.startPage}" end="${paging.endPage}">
-						    <c:choose>
-						    	<c:when test="${i == paging.currentPage}">
-						        	<strong style="font-size:20px; color:black;">[${i}]</strong>
-						    	</c:when>
-						    	<c:otherwise>
-						        	<a href="javascript:void(0);" onclick="goToPage(${i})">[${i}]</a>
-						    	</c:otherwise>
-						  	</c:choose>
-						</c:forEach>
-						<c:if test="${paging.endPage < paging.totalPage}">
-					  		<fmt:formatNumber var="nextPage" value="${paging.endPage + 1}" type="number" maxFractionDigits="0" />
-					  		<a href="javascript:void(0);" onclick="goToPage(${nextPage})"><strong>[＞]</strong></a>
-						</c:if>
-						<a href="javascript:void(0);" onclick="goToPage(${paging.totalPage})"><strong>[≫]</strong></a>
+				<c:if test="${not empty searchList}">
+					<div class="paging-list">
+						<ul class="pagination">
+							<li><a href="javascript:void(0);" onclick="goToPage(1)">&lt;&lt; First</a></li>
+							<c:if test="${paging.startPage > 1}">
+						    	<fmt:formatNumber var="prevPage" value="${paging.startPage - 1}" type="number" maxFractionDigits="0" />
+						    	<li><a href="javascript:void(0);" onclick="goToPage(${prevPage})">&lt; Previous</a></li>
+						  	</c:if>
+							<c:forEach var="i" begin="${paging.startPage}" end="${paging.endPage}">
+							    <c:choose>
+							    	<c:when test="${i == paging.currentPage}">
+							        	<li><strong>${i}</strong></li>
+							    	</c:when>
+							    	<c:otherwise>
+							        	<li><a href="javascript:void(0);" onclick="goToPage(${i})">${i}</a></li>
+							    	</c:otherwise>
+							  	</c:choose>
+							</c:forEach>
+							<c:if test="${paging.endPage < paging.totalPage}">
+						  		<fmt:formatNumber var="nextPage" value="${paging.endPage + 1}" type="number" maxFractionDigits="0" />
+						  		<li><a href="javascript:void(0);" onclick="goToPage(${nextPage})">Next &gt;</a></li>
+							</c:if>
+							<li><a href="javascript:void(0);" onclick="goToPage(${paging.totalPage})">Last &gt;&gt;</a></li>
+						</ul>
 					</div>
-				</div>
+				</c:if>
         	</div>
         </div>
     </main>

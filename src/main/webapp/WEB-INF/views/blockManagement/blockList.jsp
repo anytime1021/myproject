@@ -70,28 +70,44 @@
                     </table>
 				</div>
 				<div class="paging-list">
-					<div class="pagination">
-						<a href="${contextPath}/blockManagement/blockList.do?page=1"><strong>[≪]</strong></a>
-						<c:if test="${paging.startPage > 1}">
-					    	<fmt:formatNumber var="prevPage" value="${paging.startPage - 1}" type="number" maxFractionDigits="0" />
-					    	<a href="${contextPath}/blockManagement/blockList.do?page=${prevPage}"><strong>[＜]</strong></a>
-					  	</c:if>
-						<c:forEach var="i" begin="${paging.startPage}" end="${paging.endPage}">
-						    <c:choose>
-						    	<c:when test="${i == paging.currentPage}">
-						        	<strong style="font-size:20px; color:black;">[${i}]</strong>
-						    	</c:when>
-						    	<c:otherwise>
-						        	<a href="${contextPath}/blockManagement/blockList.do?page=${i}">[${i}]</a>
-						    	</c:otherwise>
-						  	</c:choose>
-						</c:forEach>
-						<c:if test="${paging.endPage < paging.totalPage}">
-					  		<fmt:formatNumber var="nextPage" value="${paging.endPage + 1}" type="number" maxFractionDigits="0" />
-					  		<a href="${contextPath}/blockManagement/blockList.do?page=${nextPage}"><strong>[＞]</strong></a>
-						</c:if>
-						<a href="${contextPath}/blockManagement/blockList.do?page=${paging.totalPage}"><strong>[≫]</strong></a>
-					</div>
+					<ul class="pagination">
+					    <li>
+					        <a href="${contextPath}/blockManagement/blockList.do?page=1">&lt;&lt; First</a>
+					    </li>
+
+					    <c:if test="${paging.startPage > 1}">
+					        <fmt:formatNumber var="prevPage" value="${paging.startPage - 1}" type="number" maxFractionDigits="0" />
+					        <li>
+					            <a href="${contextPath}/blockManagement/blockList.do?page=${prevPage}">&lt; Previous</a>
+					        </li>
+					    </c:if>
+
+					    <c:forEach var="i" begin="${paging.startPage}" end="${paging.endPage}">
+					        <c:choose>
+					            <c:when test="${i == paging.currentPage}">
+					                <li>
+					                    <strong>${i}</strong>
+					                </li>
+					            </c:when>
+					            <c:otherwise>
+					                <li>
+					                    <a href="${contextPath}/blockManagement/blockList.do?page=${i}">${i}</a>
+					                </li>
+					            </c:otherwise>
+					        </c:choose>
+					    </c:forEach>
+
+					    <c:if test="${paging.endPage < paging.totalPage}">
+					        <fmt:formatNumber var="nextPage" value="${paging.endPage + 1}" type="number" maxFractionDigits="0" />
+					        <li>
+					            <a href="${contextPath}/blockManagement/blockList.do?page=${nextPage}">Next &gt;</a>
+					        </li>
+					    </c:if>
+
+					    <li>
+					        <a href="${contextPath}/blockManagement/blockList.do?page=${paging.totalPage}">Last &gt;&gt;</a>
+					    </li>
+					</ul>
             	</div>
         	</div>
         </div>

@@ -2,11 +2,11 @@
 a {text-decoration: none; color: black;}
 
 /* 게시판 리스트 */
-.first-container {width: 100%; height: auto; background-color: white; margin: 0; padding: 0px; display: flex;}
-.first-container .sidebar {width: 200px; background-color: white;}
-.first-container .main-content {flex: 1; height: 700px;}
+.first-container {width: 100%; height: 820px; background-color: white; margin: 0; padding: 0px; display: flex;}
+.first-container .sidebar {width: 200px; height: 820px; background-color: white;}
+.first-container .main-content {flex: 1; height: 820px;}
 .first-container .main-content .contents-container {padding: 20px; height: auto; text-align: right;}
-.first-container .main-content .contents-container .contents-list {width: 100%; height: 600px; overflow-x: auto; overflow-y: visible; text-align: center; justify-content: center;}
+.first-container .main-content .contents-container .contents-list {width: 100%; height: 700px; overflow-x: auto; overflow-y: visible; text-align: center; justify-content: center;}
 .first-container .main-content .contents-container .contents-list .search-write {width: 80%; margin: 10px auto; display: flex; justify-content: space-between}
 .first-container .main-content .contents-container .contents-list .search-write .search-box {position: static; display: flex; gap: 5px; transform: none;}
 .first-container .main-content .contents-container .contents-list .search-write .search-box select {height: 30px; border: 1px solid black; padding: 0 8px;}
@@ -23,9 +23,9 @@ a {text-decoration: none; color: black;}
 .first-container .main-content .contents-container .contents-list .table-blockView td {padding: 0px; border: 1px solid black; font-size: 16px;}
 .first-container .main-content .contents-container .contents-list .table-blockView .background {background-color: #2575fc; color: white;}
 .first-container .main-content .contents-container .paging-list {height: auto; text-align: center; align-items: center;}
-.first-container .main-content .contents-container .paging-list .pagination {text-align: center;}
-.first-container .main-content .contents-container .paging-list .pagination a {font-size: 16px; color: blue;}
-.first-container .main-content .contents-container .paging-list .pagination strong {font-size: 16px; color: black;}
+/*.first-container .main-content .contents-container .paging-list .pagination {text-align: center;}*/
+/*.first-container .main-content .contents-container .paging-list .pagination a {font-size: 16px; color: blue;}*/
+/*.first-container .main-content .contents-container .paging-list .pagination strong {font-size: 16px; color: black;}*/
 /*.first-container .main-content .contents-container .paging-list .search-write {position: relative; margin-top: 10px;}*/
 /*.first-container .main-content .contents-container .paging-list .search-write .search-box {position: absolute; right: 0; transform: none; display: flex; gap: 5px;}*/
 /*.first-container .main-content .contents-container .paging-list .search-write .search-box input[type="text"] {height: 30px;}*/
@@ -45,3 +45,18 @@ a {text-decoration: none; color: black;}
 .first-container .main-content .addBlock-container .addBlock-text {width: 200px; height: auto; padding: 0px; align-items: right; text-align: left;}
 .first-container .main-content .addBlock-container .modBlock-imageName {width: 250px; height: auto; text-align: left; padding-left: 10px;}
 .first-container .main-content .addBlock-container .addBlock-text input[type="text"] {width: 200px;}
+
+
+/* 페이징 처리 */
+/*.pagination {display: inline-flex; list-style: none; padding: 0; margin: 0; font-family: Arial, sans-serif;}*/
+/*.pagination a, .pagination strong {display: inline-block; padding: 5px 10px; margin: 0 2px; text-decoration: none; border: 1px solid #ddd; color: #007bff; background-color: #fff; font-size: 14px; border-radius: 4px; transition: background-color 0.2s, color 0.2s;}*/
+/*.pagination a:hover {background-color: #f0f0f0;}*/
+/*.pagination strong {background-color: #007bff; color: white; border-color: #007bff; font-weight: bold;}*/
+/*.pagination a:disabled {color: #ccc; pointer-events: none; border-color: #ddd; background-color: #f9f9f9;}*/
+
+/* 페이징 처리 2 */
+.pagination {display: flex; justify-content: center; list-style: none; padding: 0; margin: 20px 0;}
+.pagination li {margin: 0;}
+.pagination li a, .pagination li strong {display: block; padding: 6px 12px; font-size: 14px; color: #007bff; text-decoration: none; border: 1px solid #ddd; background-color: white; box-sizing: border-box;}
+.pagination li strong {font-weight: bold; color: #000; background-color: #e9ecef; border-color: #ddd;}
+.pagination li a:hover {background-color: lightgray;}

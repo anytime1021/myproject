@@ -27,7 +27,8 @@
 	
 	<!-- 블럭 추가 폼 일련번호 체크 -->
 	<select id="isExistIdNumber" resultType="int">
-		select count(*) from blockinformation where substr(df_idNumber,1,8) = substr(#{df_idNumber},1,8) and substr(df_idNumber,13,3) = substr(#{df_idNumber},13,3)
+		select count(*) from blockinformation where substr(df_idNumber,1,8) = substr(#{df_idNumber},1,8) 
+		and substr(df_idNumber,13,3) = substr(#{df_idNumber},13,3)
 	</select>
 	
 	<!-- 블럭 추가 -->
@@ -109,15 +110,11 @@
 	</update>
 	
 	<!-- 블럭 이동 기록 수 카운트 -->
-	<select id="selectMoveListCount" resultType="int">
-		<choose>
-			<when test="searchArea == '본사'">
-				select count(*) from blockMoveList where YN = 'Y'
-			</when>
-			<otherwise>
-				select count(*) from blockMoveList where login_area = #{searchArea} and YN = 'Y'
-			</otherwise>
-		</choose>
+	<select id="selectBlockMoveListCount" resultType="int">
+		select count(*) from blockMoveList where YN = 'Y'
+		<if test="searchArea != '본사'">
+		and (login_area = #{searchArea} or moveList_recipient_area = #{searchArea})
+		</if>
 	</select>
 	
 	<!-- 블럭 이동 기록 -->
@@ -168,6 +165,41 @@
 	    </where>
 	</sql>
 	
+	<sql id="aliasSearchList">
+		<where>
+	        <choose>
+	            <when test="searchType == 'idNumber'">
+	                ${alias}.df_idNumber LIKE CONCAT('%', #{searchQuery}, '%')
+	            </when>
+	            <when test="searchType == 'material'">
+	               ${alias}.df_material LIKE CONCAT('%', #{searchQuery}, '%')
+	            </when>
+	            <when test="searchType == 'usage'">
+	                ${alias}.df_usage LIKE CONCAT('%', #{searchQuery}, '%')
+	            </when>
+	            <when test="searchType == 'form'">
+	                ${alias}.df_form LIKE CONCAT('%', #{searchQuery}, '%')
+	            </when>
+	            <when test="searchType == 'manufacture'">
+	                ${alias}.df_manufacture LIKE CONCAT('%', #{searchQuery}, '%')
+	            </when>
+	            <when test="searchType == 'itemStatus'">
+	                ${alias}.df_itemStatus LIKE CONCAT('%', #{searchQuery}, '%')
+	            </when>
+	            <when test="searchType == 'moveStatus'">
+	                ${alias}.df_moveStatus LIKE CONCAT('%', #{searchQuery}, '%')
+	            </when>
+	            <when test="searchType == 'note'">
+	                ${alias}.df_note LIKE CONCAT('%', #{searchQuery}, '%')
+	            </when>
+	            <otherwise>
+	                1 = 1
+	            </otherwise>
+	        </choose>
+	    </where>
+	</sql>
+	
+	<!-- 검색 목록 -->
 	<select id="selectSearchList" parameterType="Map">
 		<choose>
 			<when test="searchArea == '본사'">
@@ -185,6 +217,7 @@
 		</choose>
 	</select>
 	
+	<!-- 검색 수 카운트 1 -->
 	<select id="selectListCount" resultType="int" parameterType="Map">
 	    select count(*) 
 	    from blockInformation
@@ -198,29 +231,42 @@
     	</if>
 	</select>
 	
+	<!-- 검색 수 카운트 2 -->
+	<select id="selectMoveListCount" resultType="int" parameterType="Map">
+		select count(*) from blockInformation a inner join blockMoveList b on a.df_idNumber = b.df_idNumber
+		<include refid="aliasSearchList">
+			<property name="alias" value="a"/>
+		</include>
+		and a.YN = 'Y'
+		<if test="searchArea != '본사'">
+		and (a.login_area = #{searchArea} or b.moveList_recipient_area = #{searchArea})
+		</if>
+	</select>
+	
+	<!-- 검색 식별번호 찾기 1 -->
 	<select id="selectIdNumberSearch" parameterType="Map">
 		select a.df_idNumber from blockInformation a inner join blockMoveList b on
 		a.df_idNumber = b.df_idNumber
-		<include refid="searchList" />
-		and YN = 'Y'
+		<include refid="aliasSearchList">
+			<property name="alias" value="a"/>
+		</include>
+		and a.YN = 'Y'
 		<if test="searchArea != '본사'">
 			and (a.login_area = #{searchArea} or (b.moveList_recipient_area = #{searchArea} and b.moveList_return_date is null))
 		</if>
 	</select>
-	t
+	
+	<!-- 검색 이동 기록 -->
 	<select id="selectSearchMoveList" parameterType="Map">
 		select * from blockMoveList
-		where YN = 'Y'
-		<if test="searchArea != '본사'">
-		    and login_area = #{searchArea}
-		</if>
-		and df_idNumber in 
+		where YN = 'Y' and df_idNumber in 
 		<foreach item="id" collection="idNumber" open="(" separator="," close=")">
 			#{id}
 		</foreach>
-		order by df_idNumber desc limit #{offset}, #{limit}
+		order by moveList_rental_date desc limit #{offset}, #{limit};
 	</select>
 	
+	<!-- 검색 식별번호 찾기 2-->
 	<select id="selectRentalListId" parameterType="Map">
 		select df_idNumber from blockMoveList where YN = 'Y' 
 			<if test="searchArea != '본사'">
@@ -228,6 +274,7 @@
 			</if>
 	</select>
 	
+	<!-- 검색 대여 기록 -->
 	<select id="selectSearchRentalList" parameterType="Map">
 		select * from blockInformation
 		<include refid="searchList" />

@@ -25,17 +25,17 @@
 						<form class="search-box" method="get" action="${contextPath}/blockManagement/searchList.do">
 							<input type="hidden" name="token" value="blockMoveList">
 							<select name="searchType">
-								<option value="idNumber">식별번호</option>
-								<option value="material">재질</option>
-								<option value="usage">용도</option>
-								<option value="form">형태</option>
-								<option value="manufacture">제작일자</option>
-								<option value="itemStatus">상태</option>
-								<option value="moveStatus">이동현황</option>
-								<option value="note">비고</option>
+								<option value="idNumber" ${searchType == 'idNumber' ? 'selected' : ''}>식별번호</option>
+								<option value="material" ${searchType == 'material' ? 'selected' : ''}>재질</option>
+								<option value="usage" ${searchType == 'usage' ? 'selected' : ''}>용도</option>
+								<option value="form" ${searchType == 'form' ? 'selected' : ''}>형태</option>
+								<option value="manufacture" ${searchType == 'manufacture' ? 'selected' : ''}>제작일자</option>
+								<option value="itemStatus" ${searchType == 'itemStatus' ? 'selected' : ''}>상태</option>
+								<option value="moveStatus" ${searchType == 'moveStatus' ? 'selected' : ''}>이동현황</option>
+								<option value="note" ${searchType == 'note' ? 'selected' : ''}>비고</option>
 							</select>
 							<div class="searchWithButton">
-								<input type="text" name="searchQuery" placeholder="검색어 입력">
+								<input type="text" name="searchQuery" value="${searchQuery}" placeholder="검색어 입력">
 								<button type="submit" title="검색">&#128269;</button>
 							</div>
 						</form>
@@ -53,53 +53,66 @@
                             </tr>
                         </thead>
                         <tbody>
-							<c:forEach var="searchList" items="${searchList}"> 
-								<tr>
-									<td><button style="font-size: 16px; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">${searchList.df_idNumber}</button></td>
-									<td>${searchList.moveList_lender}</td>
-									<td>${searchList.moveList_recipient}</td>
-									<td>${searchList.moveList_recipient_area}</td>
-									<td>${searchList.moveList_rental_date}</td>
-									<td>${searchList.moveList_return_date}</td>
-									<td>
-									<c:choose>
-										<c:when test="${searchList.df_itemStatus eq '사용중'}">
-									    	반납완료
-									    </c:when>
-									    <c:otherwise>
-									    	${searchList.df_itemStatus}
-									    </c:otherwise>
-									</c:choose>
-									</td>
-								</tr>
-							</c:forEach>
+							<c:choose>
+								<c:when test="${empty searchList}">
+									<tr>
+										<td colspan="7" style="text-align:center; padding:20px;">
+											검색 결과가 없습니다.
+										</td>
+									</tr>
+								</c:when>
+								<c:otherwise>
+									<c:forEach var="searchList" items="${searchList}"> 
+										<tr>
+											<td><button style="font-size: 16px; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">${searchList.df_idNumber}</button></td>
+											<td>${searchList.moveList_lender}</td>
+											<td>${searchList.moveList_recipient}</td>
+											<td>${searchList.moveList_recipient_area}</td>
+											<td>${searchList.moveList_rental_date}</td>
+											<td>${searchList.moveList_return_date}</td>
+											<td>
+											<c:choose>
+												<c:when test="${searchList.df_itemStatus eq '사용중'}">
+											    	반납완료
+											    </c:when>
+											    <c:otherwise>
+											    	${searchList.df_itemStatus}
+											    </c:otherwise>
+											</c:choose>
+											</td>
+										</tr>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
                         </tbody>
                     </table>
 				</div>
-				<div class="paging-list">
-					<div class="pagination">
-						<a href="javascript:void(0);" onclick="goToPage(1)"><strong>[≪]</strong></a>
-						<c:if test="${paging.startPage > 1}">
-					    	<fmt:formatNumber var="prevPage" value="${paging.startPage - 1}" type="number" maxFractionDigits="0" />
-					    	<a href="javascript:void(0);" onclick="goToPage(${prevPage})"><strong>[＜]</strong></a>
-					  	</c:if>
-						<c:forEach var="i" begin="${paging.startPage}" end="${paging.endPage}">
-						    <c:choose>
-						    	<c:when test="${i == paging.currentPage}">
-						        	<strong style="font-size:20px; color:black;">[${i}]</strong>
-						    	</c:when>
-						    	<c:otherwise>
-						        	<a href="javascript:void(0);" onclick="goToPage(${i})">[${i}]</a>
-						    	</c:otherwise>
-						  	</c:choose>
-						</c:forEach>
-						<c:if test="${paging.endPage < paging.totalPage}">
-					  		<fmt:formatNumber var="nextPage" value="${paging.endPage + 1}" type="number" maxFractionDigits="0" />
-					  		<a href="javascript:void(0);" onclick="goToPage(${nextPage})"><strong>[＞]</strong></a>
-						</c:if>
-						<a href="javascript:void(0);" onclick="goToPage(${paging.totalPage})"><strong>[≫]</strong></a>
+				<c:if test="${not empty searchList}">
+					<div class="paging-list">
+						<ul class="pagination">
+							<li><a href="javascript:void(0);" onclick="goToPage(1)">&lt;&lt; First</a></li>
+							<c:if test="${paging.startPage > 1}">
+						    	<fmt:formatNumber var="prevPage" value="${paging.startPage - 1}" type="number" maxFractionDigits="0" />
+						    	<li><a href="javascript:void(0);" onclick="goToPage(${prevPage})">&lt; Previous</a></li>
+						  	</c:if>
+							<c:forEach var="i" begin="${paging.startPage}" end="${paging.endPage}">
+							    <c:choose>
+							    	<c:when test="${i == paging.currentPage}">
+							        	<li><strong>${i}</strong></li>
+							    	</c:when>
+							    	<c:otherwise>
+							        	<li><a href="javascript:void(0);" onclick="goToPage(${i})">${i}</a></li>
+							    	</c:otherwise>
+							  	</c:choose>
+							</c:forEach>
+							<c:if test="${paging.endPage < paging.totalPage}">
+						  		<fmt:formatNumber var="nextPage" value="${paging.endPage + 1}" type="number" maxFractionDigits="0" />
+						  		<li><a href="javascript:void(0);" onclick="goToPage(${nextPage})">Next &gt;</a></li>
+							</c:if>
+							<li><a href="javascript:void(0);" onclick="goToPage(${paging.totalPage})">Last &gt;&gt;</a></li>
+						</ul>
 					</div>
-				</div>
+				</c:if>
             </div>
         </div>
     </main>

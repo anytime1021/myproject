@@ -3,8 +3,8 @@ a {text-decoration: none; color: black;}
 
 /* 게시판 리스트 */
 .first-container {width: 100%; height: auto; background-color: white; margin: 0; padding: 0px; display: flex;}
-.first-container .sidebar {width: 200px; background-color: white;}
-.first-container .main-content {flex: 1; height: 700px;}
+.first-container .sidebar {width: 200px; height: 820px; background-color: white;}
+.first-container .main-content {flex: 1; height: 820px;}
 .first-container .main-content .contents-container {padding: 20px; height: auto; text-align: right;}
 .first-container .main-content .contents-container .btn {text-align: center; display:inline-block; width: 15%; height: 30px; background-color: white; font-weight: bold; border:1px solid black;}
 .first-container .main-content .contents-container .contents-list {width: 100%; height: 600px; overflow-x: auto; overflow-y: visible;}
@@ -25,24 +25,28 @@ a {text-decoration: none; color: black;}
 .first-container .main-content .contents-container .paging-list .search-write .search-box button {width: 100px; height: 30px; text-align: center; border: 1px solid black;}
 .first-container .main-content .contents-container .paging-list .search-write .write-btn {position: absolute; right: 0;	 text-align: center; width: 150px; height: 30px; background-color: white; font-weight: bold; border:1px solid black;}
 
-
 /* 블럭 추가 폼 */
 .first-container .main-content .addBlock-container {padding: 20px; height: auto; justify-content: center; display: flex;}
-.first-container .main-content .addBlock-container .addBlock-label {width: 110px; height: auto; padding: 0px;}
-.first-container .main-content .addBlock-container .addBlock-text {width: 200px; height: auto; padding: 0px; align-items: right; text-align: left;}
-.first-container .main-content .addBlock-container .modBlock-imageName {width: 250px; height: auto; text-align: left; padding-left: 10px;}
-.first-container .main-content .addBlock-container .addBlock-text input[type="text"] {width: 200px;}
+/*.first-container .main-content .addBlock-container .addBlock-label {width: 110px; height: auto; padding: 0px;}*/
+/*.first-container .main-content .addBlock-container .addBlock-text {width: 200px; height: auto; padding: 0px; align-items: right; text-align: left;}*/
+/*.first-container .main-content .addBlock-container .modBlock-imageName {width: 250px; height: auto; text-align: left; padding-left: 10px;}*/
+/*.first-container .main-content .addBlock-container .addBlock-text input[type="text"] {width: 200px;}*/
+form {background: white; max-width: 700px; padding: 30px 40px; margin: 0 auto; border-radius: 12px; box-shadow: 0 10px 20px rgb(0 0 0 / 0.1);}
+.first-container .main-content .addBlock-container .addBlock .form-group {display: flex; margin-top: 9px; margin-bottom: 9px; align-items: center;}
+.first-container .main-content .addBlock-container .addBlock label {flex: 1 0 110px; font-weight: 600; color: #333;}
+.first-container .main-content .addBlock-container .addBlock input[type="text"], input[type="date"], select, input[type="file"] {flex: 2; width: 100%; padding: 8px 10px; font-size: 15px; border: 1.8px solid #ccc; border-radius: 6px; transition: border-color 0.3s ease;}
+input[type="file"] {flex: 2; width: 100%; padding: 8px 10px; font-size: 15px; border: 1.8px solid #ccc; border-radius: 6px; transition: border-color 0.3s ease;}
+.first-container .main-content .addBlock-container .addBlock input[type="text"]:focus, input[type="date"]:focus, select:focus {outline: none; border-color: #4a90e2; box-shadow: 0 0 6px #4a90e2;}
+.first-container .main-content .addBlock-container .addBlock button {display: block; width: 100%; padding: 12px 0; background: #4a90e2; border: none; border-radius: 8px; color: #FFFFFF; font-size: 17px; font-weight: 700; cursor: pointer; margin-top: 12px; transition: background 0.25s ease;}
+.first-container .main-content .addBlock-container .addBlock button:hover {background: blue;}
 
 /* 번외 */
 .first-container .main-content .addBlock-container .addBlock-label-border {width: 110px; height: auto; padding: 0px; border-left: 1px solid black; padding-left: 5px; margin-left: 5px;}
-
 
 /* 레포트 게시판 테이블 */
 #wrap {position: absolute; font-size:70px; color: black; text-align:center; top: 50%; left: 50%; transform: translate(-50%, -50%);}
 .ul-wrap {margin: 0px; padding: 0px; list-style: none; display: flex; text-align: center; justify-content: center; align-items: center; height:50px; border-bottom: 1px solid gray;}
 .ul-wrap .li-wrap {width: 100px; margin: 0px; padding: 0px 10px 0px 10px;}
-
-
 
 /* 레포트 작성 폼 */
 /* 작업일자 및 결재 */
@@ -101,4 +105,3 @@ a {text-decoration: none; color: black;}
 .second-container .section-flex .add-form-container thead {background-color: #cccccc; text-align: center; align-items: center;}
 .second-container .section-flex .add-form-container th,
 .second-container .section-flex .add-form-container td {border: 1px solid black; padding: 10px;}
-

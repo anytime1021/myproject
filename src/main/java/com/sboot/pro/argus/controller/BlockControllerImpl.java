@@ -86,6 +86,7 @@ public class BlockControllerImpl implements BlockController {
 //			return mav;
 //		}
 		BlockVO blockView = blockService.selectBlockView(df_idNumber);
+		mav.addObject("searchArea", searchArea);
 		mav.addObject("blockView", blockView);
 		return mav;
 	}
@@ -104,8 +105,8 @@ public class BlockControllerImpl implements BlockController {
 	// 블럭 추가 폼 일련번호 체크
 	@ResponseBody
 	@GetMapping("/blockManagement/checkDuplicateIdNumber.do")
-	public String checkDuplicateIdNumber(@RequestParam("idNumber") String idNumber) throws Exception {
-		boolean exists = blockService.isExistIdNumber(idNumber);
+	public String checkDuplicateIdNumber(@RequestParam("df_idNumber") String df_idNumber) throws Exception {
+		boolean exists = blockService.isExistIdNumber(df_idNumber);
 		return exists ? "duplicate" : "available";
 	}
 	
@@ -146,6 +147,11 @@ public class BlockControllerImpl implements BlockController {
 			
 			addblockForm.setDf_pictureName(savedName);
 		}
+		
+		if (addblockForm.getDf_manufacture().isEmpty()) {
+			addblockForm.setDf_manufacture(null);
+		}
+		
 		blockService.addBlock(addblockForm, searchArea);
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/addBlockForm.do");
 		return mav;

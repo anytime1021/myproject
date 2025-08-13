@@ -177,7 +177,7 @@
 		}
 		
 		let tf_manufacture = $("#df_manufacture").val().trim();
-		if(!tf_manufacture > 0) {
+		if(!tf_manufacture.length > 0) {
 			manufacture = true;
 		} else {
 			manufacture = false;
@@ -196,19 +196,40 @@
 	            alert("이미 사용중인 식별번호입니다.");
 	            e.preventDefault();
 	        }
-			if(!material) {
-				alert("재질을 입력해주세요.");
-	            e.preventDefault();
-			}
-			if(!size) {
-				alert("크기를 입력해주세요.");
-	            e.preventDefault();
-			}
-			if(!manufacture) {
-				alert("날짜를 입력해주세요.");
-	            e.preventDefault();
-			}
-	    });
+			let tf_material = $("#df_material").val().trim();
+		    let tf_size = $("#df_size").val().trim();
+		    let tf_manufacture = $("#df_manufacture").val().trim();
+		    
+		    let material = tf_material.length > 0;
+		    let size = tf_size.length > 0;
+		    let manufacture = tf_manufacture.length > 0;
+
+		    if(!idValid){
+		        alert("식별번호 형식이 올바르지 않습니다.");
+		        e.preventDefault();
+		        return;
+		    }
+		    if(!idAvailable){
+		        alert("이미 사용중인 식별번호입니다.");
+		        e.preventDefault();
+		        return;
+		    }
+		    if(!material){
+		        alert("재질을 입력해주세요.");
+		        e.preventDefault();
+		        return;
+		    }
+		    if(!size){
+		        alert("크기를 입력해주세요.");
+		        e.preventDefault();
+		        return;
+		    }
+		    if(!manufacture){
+		        alert("날짜를 입력해주세요.");
+		        e.preventDefault();
+		        return;
+		    }
+		}
 
 		document.getElementById('df_idNumber').addEventListener('input', function() {
 		    let str = document.getElementById('df_idNumber').value;
