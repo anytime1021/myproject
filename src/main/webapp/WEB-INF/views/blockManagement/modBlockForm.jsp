@@ -12,52 +12,170 @@
     <meta charset="UTF-8">
     <title>아거스 리포트</title>
     <link rel="stylesheet" href="${contextPath}/resources/css/styles3.css">
-
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <%@ include file="../include/header2.jsp" %>
     <main class="first-container">
         <%@ include file="../include/sidebar.jsp" %>
         <div class="main-content">
-			<form autocomplete="off" name="addBlockForm" method="post" action="${contextPath}/blockManagement/modBlock.do" enctype="multipart/form-data">
- 				<div class="addBlock-container">
-					<div class="addBlock-label">
-						<label>식별번호 : </label><br>
-						<label>사진 : </label><br>
-						<label>재질 : </label><br>
-						<label>크기 : </label><br>
-						<label>용도 : </label><br>
-						<label>시험편 정보 : </label><br>
-						<label>제작일자 : </label><br>
-						<label>상태 : </label><br>
-						<label>이동현황 : </label><br>
-						<label>비고 : </label><br>
+			<div class="addBlock-container">
+				<form autocomplete="off" name="modBlockForm" method="post" action="${contextPath}/blockManagement/modBlock.do" enctype="multipart/form-data">
+					<div class="addBlock">
+						<div class="form-group">
+							<input type="hidden" id="df_num" name="df_num" value="${blockView.df_num}">
+
+							<label for="df_idNumber">식별번호 : </label>
+							<input type="text" id="df_idNumber" name="df_idNumber" value="${blockView.df_idNumber}" readonly>
+							<br>
+						</div>
+						<div style="text-align:right;">
+							<span id="checkMsg" style="width:180px; margin-left:0; align-items:center; text-align:right;"></span>
+						</div>
+						<div class="form-group">
+							<label for="df_pictureName">수정할 사진 : </label>
+							<input type="file" id="df_picture" name="df_picture">
+						</div>
+						<div class="form-group">
+							<label for="picture_now"> 현재 사진 : </label>
+							<img src="${contextPath}/resources/img/${blockView.df_pictureName}" style="width:20%; height:auto; object-fit:contain;">
+						</div>
+						<div class="form-group">
+							<label for="df_material">재질 : </label>
+							<input type="text" id="df_material" name="df_material" value="${blockView.df_material}">
+						</div>
+						<div class="form-group">
+							<label for="df_size">크기 : </label>
+							<input type="text" id="df_size" name="df_size" value="${blockView.df_size}">
+						</div>
+						<div class="form-group">
+							<label>용도 : </label>
+							<input type="text" id="df_usage" name="df_usage" value="${blockView.df_usage}" readonly>
+						</div>
+						<div class="form-group">
+							<label>시험편 정보 : </label>
+							<input type="text" id="df_form" name="df_form" value="${blockView.df_form}" readonly>
+						</div>
+						<div class="form-group">
+							<label>제작일자 : </label>
+							<input type="text" id="df_manufacture" name="df_manufacture" value= "${blockView.df_manufacture}" placeholder="yyyy-mm-dd">
+						</div>
+						<div class="form-group">
+							<label>사용여부 : </label>
+							<select id="df_itemStatus" name="df_itemStatus">
+								<option value="사용중" ${blockView.df_itemStatus == '사용중' ? 'selected' : ''}>사용중</option>
+								<option value="폐기" ${blockView.df_itemStatus == '폐기' ? 'selected' : ''}>폐기</option>
+								<option value="분실" ${blockView.df_itemStatus == '분실' ? 'selected' : ''}>분실</option>
+								<option value="대여중" ${blockView.df_itemStatus == '대여중' ? 'selected' : ''}>대여중</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label>이동현황 : </label>
+							<input type="text" name="df_moveStatus" name="df_moveStatus" value="-" readonly>
+<!--							<select id="df_moveStatus" name="df_moveStatus">-->
+<!--								<c:if test="${searchArea eq '서산'}">-->
+<!--									<option value="-" ${df_moveStatus == '-' ? 'selected' : ''}>-</option>-->
+<!--									<option value="마산" ${df_moveStatus == '마산' ? 'selected' : ''}>마산</option>-->
+<!--									<option value="울산" ${df_moveStatus == '울산' ? 'selected' : ''}>울산</option>-->
+<!--									<option value="여수" ${df_moveStatus == '여수' ? 'selected' : ''}>여수</option>-->
+<!--									<option value="창원" ${df_moveStatus == '창원' ? 'selected' : ''}>창원</option>-->
+<!--								</c:if>-->
+<!--								<c:if test="${searchArea eq '마산'}">-->
+<!--									<option value="서산" ${df_moveStatus == '서산' ? 'selected' : ''}>서산</option>-->
+<!--									<option value="-" ${df_moveStatus == '-' ? 'selected' : ''}>-</option>-->
+<!--									<option value="울산" ${df_moveStatus == '울산' ? 'selected' : ''}>울산</option>-->
+<!--									<option value="여수" ${df_moveStatus == '여수' ? 'selected' : ''}>여수</option>-->
+<!--									<option value="창원" ${df_moveStatus == '창원' ? 'selected' : ''}>창원</option>-->
+<!--								</c:if>-->
+<!--								<c:if test="${searchArea eq '울산'}">-->
+<!--									<option value="서산" ${df_moveStatus == '서산' ? 'selected' : ''}>서산</option>-->
+<!--									<option value="마산" ${df_moveStatus == '마산' ? 'selected' : ''}>마산</option>-->
+<!--									<option value="-" ${df_moveStatus == '-' ? 'selected' : ''}>-</option>-->
+<!--									<option value="여수" ${df_moveStatus == '여수' ? 'selected' : ''}>여수</option>-->
+<!--									<option value="창원" ${df_moveStatus == '창원' ? 'selected' : ''}>창원</option>-->
+<!--								</c:if>-->
+<!--								<c:if test="${searchArea eq '여수'}">-->
+<!--									<option value="서산" ${df_moveStatus == '서산' ? 'selected' : ''}>서산</option>-->
+<!--									<option value="마산" ${df_moveStatus == '마산' ? 'selected' : ''}>마산</option>-->
+<!--									<option value="울산" ${df_moveStatus == '울산' ? 'selected' : ''}>울산</option>-->
+<!--									<option value="-" ${df_moveStatus == '-' ? 'selected' : ''}>-</option>-->
+<!--									<option value="창원" ${df_moveStatus == '창원' ? 'selected' : ''}>창원</option>-->
+<!--								</c:if>-->
+<!--								<c:if test="${searchArea eq '창원'}">-->
+<!--									<option value="서산" ${df_moveStatus == '서산' ? 'selected' : ''}>서산</option>-->
+<!--									<option value="마산" ${df_moveStatus == '마산' ? 'selected' : ''}>마산</option>-->
+<!--									<option value="울산" ${df_moveStatus == '울산' ? 'selected' : ''}>울산</option>-->
+<!--									<option value="여수" ${df_moveStatus == '여수' ? 'selected' : ''}>여수</option>-->
+<!--									<option value="-" ${df_moveStatus == '-' ? 'selected' : ''}>-</option>-->
+<!--								</c:if>-->
+<!--							</select>-->
+						</div>
+						<div class="form-group">
+							<label>비고 : </label>
+							<input type="text" id="note" name="note" value="${blockView.note}">
+						</div>
+						<button type="submit" id="submitBtn">수정하기</button>
 					</div>
-					<div class="addBlock-text">
-						<input type="hidden" name="df_num" value="${blockView.df_num}">
-						<input type="text" name="df_idNumber" value="${blockView.df_idNumber}">
-						<input type="file" name="df_picture">
-						<input type="hidden" name="df_pictureName" value="${blockView.df_pictureName}">
-						<input type="text" name="df_material" value="${blockView.df_material}">
-						<input type="text" name="df_size" value="${blockView.df_size}">
-						<input type="text" name="df_usage" value="${blockView.df_usage}">
-						<input type="text" name="df_form" value="${blockView.df_form}">
-						<input type="date" name="df_manufacture" value="${blockView.df_manufacture}">
-						<input type="text" name="df_itemStatus" value="${blockView.df_itemStatus}">
-						<input type="text" name="df_moveStatus" value="${blockView.df_moveStatus}">
-						<input type="text" name="note" value="${blockView.note}"><br>
-						<button type="submit">수정하기</button>
-					</div>
-					<div class="modBlock-imageName">
-						<br>
-						<label> 기존 사진 : ${imageName}</label>
-						<br>
-						<img src="${contextPath}/resources/img/${blockView.df_pictureName}" style="width:100%; height:auto; object-fit:contain;">
-					</div>
-				</div>
-			</form>
+				</form>
+			</div>
         </div>
     </main>
     <%@ include file="../include/footer2.jsp"%>
 </body>
+<script>
+	$(document).ready(function(){
+	    let material = false;
+	    let size = false;
+	    let manufacture = false;
+
+		$("#df_material").on("input", function() {
+			let tf_material = $("#df_material").val().trim();
+			
+			if (tf_material.length > 0 ) {
+				material = true;
+			} else {
+				material = false;
+			}
+		});
+
+		$("#df_size").on("input", function() {
+			let tf_size = $("#df_size").val().trim();
+			
+			if (tf_size.length > 0 ) {
+				size = true;
+			} else {
+				size = false;
+			}
+		});
+
+		$("#df_manufacture").on("input", function() {
+			let tf_manufacture = $("#df_manufacture").val().trim();
+			
+			if (tf_manufacture.length > 0 ) {
+				manufacture = true;
+			} else {
+				manufacture = false;
+			}
+		});
+		
+	    // 등록 버튼 클릭
+	    $("#submitBtn").on("click", function(e){
+	        if (!material) {
+	            alert("재질을 입력해주세요.");
+	            e.preventDefault();
+	            return;
+	        }
+	        if (!size) {
+	            alert("크기를 입력해주세요.");
+	            e.preventDefault();
+	            return;
+	        }
+	        if (!manufacture) {
+	            alert("날짜를 입력해주세요.");
+	            e.preventDefault();
+	        }
+	    });
+	});
+
+</script>
 </html>

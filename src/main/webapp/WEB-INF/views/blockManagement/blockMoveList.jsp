@@ -50,6 +50,7 @@
 								<th style="width:14%;">대여일</th>
 								<th style="width:14%;">반납일</th>
 								<th style="width:13%;">상태</th>
+								<th>비고</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -67,10 +68,18 @@
 									    	반납완료
 									    </c:when>
 									    <c:otherwise>
-									    	${blockMoveList.df_itemStatus}
+											<c:choose>
+												<c:when test="${searchArea eq blockMoveList.login_area}">
+									    			대여중(Lent)
+												</c:when>
+												<c:otherwise>
+													대여중(Borrow)
+												</c:otherwise>
+											</c:choose>
 									    </c:otherwise>
 									</c:choose>
 									</td>
+									<td>${blockMoveList.note}</td>
 								</tr>
 							</c:forEach>
                         </tbody>

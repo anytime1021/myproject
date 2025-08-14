@@ -26,7 +26,7 @@ a {text-decoration: none; color: black;}
 .first-container .main-content .contents-container .paging-list .search-write .write-btn {position: absolute; right: 0;	 text-align: center; width: 150px; height: 30px; background-color: white; font-weight: bold; border:1px solid black;}
 
 /* 블럭 추가 폼 */
-.first-container .main-content .addBlock-container {padding: 20px; height: auto; justify-content: center; display: flex;}
+.first-container .main-content .addBlock-container {padding: 20px; height: auto; justify-content: center; display: flex; align-items: flex-start;}
 /*.first-container .main-content .addBlock-container .addBlock-label {width: 110px; height: auto; padding: 0px;}*/
 /*.first-container .main-content .addBlock-container .addBlock-text {width: 200px; height: auto; padding: 0px; align-items: right; text-align: left;}*/
 /*.first-container .main-content .addBlock-container .modBlock-imageName {width: 250px; height: auto; text-align: left; padding-left: 10px;}*/

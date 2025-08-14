@@ -61,30 +61,6 @@ public class BlockControllerImpl implements BlockController {
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
 		
-//		String compare_block = df_idNumber.substring(2,4);
-//		String compare_login = "";
-//		if (searchArea.equals("서산")) {
-//			compare_login = "SS";
-//		} else if (searchArea.equals("울산")) {
-//			compare_login = "US";
-//		} else if (searchArea.equals("창원")) {
-//			compare_login = "CW";
-//		} else if (searchArea.equals("마산")) {
-//			compare_login = "MS";
-//		} else if (searchArea.equals("여수")) {
-//			compare_login = "YS";
-//		} else if (searchArea.equals("본사")) {
-//			compare_login = "본사";
-//		}
-//		
-//		System.out.println(compare_block);
-//		System.out.println(compare_login);
-//		
-//		if (compare_block.equals(compare_login) || compare_login.equals("본사") ) {
-//			BlockVO blockView = blockService.selectBlockView(df_idNumber);
-//			mav.addObject("blockView", blockView);
-//			return mav;
-//		}
 		BlockVO blockView = blockService.selectBlockView(df_idNumber);
 		mav.addObject("searchArea", searchArea);
 		mav.addObject("blockView", blockView);
@@ -183,10 +159,14 @@ public class BlockControllerImpl implements BlockController {
 		
 		if (compare_block.equals(compare_login) || compare_login.equals("본사") ) {
 			BlockVO blockView = blockService.selectBlockView(df_idNumber);
+			if (blockView.getDf_pictureName().isEmpty() || blockView.getDf_pictureName() == null) {
+				blockView.setDf_pictureName("A-NoImage.jpg");
+			}
 			int imageNameIndex = blockView.getDf_pictureName().indexOf("A");
 			String imageName = blockView.getDf_pictureName().substring(imageNameIndex);
 			mav.addObject("imageName", imageName);
 			mav.addObject("blockView", blockView);
+			mav.addObject("searchArea", searchArea);
 			return mav;
 		}
 
