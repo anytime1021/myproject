@@ -12,10 +12,12 @@
 	<meta charset="UTF-8">
 	<title>Argus</title>
 	<link rel="stylesheet" href="${contextPath}/resources/css/style.css"> 
-	<link rel="stylesheet" href="${contextPath}/resources/css/main2.css">     
-	</head>
-	<body>
-		<%@ include file="../include/header2.jsp" %>
+	<link rel="stylesheet" href="${contextPath}/resources/css/main2.css">
+</head>
+<body>
+	<%@ include file="../include/header2.jsp" %>
+	<article>
+		<div id="snow-container"></div>
 		<section class="main-container">
 			<div class="main-quarter">
 				<div class="quarter">
@@ -86,10 +88,50 @@
 				</div>
 			</div>
 		</section>
-		<section class="content">
-			<h2>사업분야</h2>
-			<p>첨단의 기술도 기술자의 역량만큼 빛을 발하기 마련입니다.</p>
-		</section>
-		<%@ include file="../include/footer2.jsp" %>
-	</body>
+	</article>
+	<section class="content">
+		<h2>사업분야</h2>
+		<p>첨단의 기술도 기술자의 역량만큼 빛을 발하기 마련입니다.</p>
+	</section>
+	<%@ include file="../include/footer2.jsp" %>
+</body>
+<script>
+	const snowContainer = document.getElementById('snow-container');
+	const snowCount = 50; 
+
+	for (let i = 0; i < snowCount; i++) {
+	    const snowflake = document.createElement('div');
+	    snowflake.className = 'snowflake';
+	    snowflake.innerHTML = '❄';
+	    snowflake.style.left = Math.random() * window.innerWidth + 'px';
+	    snowflake.style.opacity = Math.random();
+	    snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+	    snowContainer.appendChild(snowflake);
+
+
+	    animateSnow(snowflake);
+	}
+
+	function animateSnow(snowflake) {
+	    let y = -10;
+	    const speed = Math.random() * 1 + 0.5;
+	    const xOffset = Math.random() * 50 - 25;
+	    const startX = parseFloat(snowflake.style.left);
+
+	    function fall() {
+	        y += speed;
+	        snowflake.style.top = y + 'px';
+	        snowflake.style.left = startX + xOffset * Math.sin(y / 50) + 'px';
+
+	        if (y < window.innerHeight) {
+	            requestAnimationFrame(fall);
+	        } else {
+	            y = -10;
+	            snowflake.style.left = Math.random() * window.innerWidth + 'px';
+	            requestAnimationFrame(fall);
+	        }
+	    }
+	    fall();
+	}
+</script>
 </html>

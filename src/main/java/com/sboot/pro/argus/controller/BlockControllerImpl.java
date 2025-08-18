@@ -211,6 +211,8 @@ public class BlockControllerImpl implements BlockController {
 				
 				modBlockForm.setDf_pictureName(savedName);
 			}
+		} else {
+			
 		}
 		blockService.modBlock(modBlockForm);
 		return mav;
