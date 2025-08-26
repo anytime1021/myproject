@@ -125,7 +125,7 @@
 				where sowDWL_shift = '야' and YN = 'Y' and work_date between #{start_date} and #{work_date}
 				group by sowDWL_work_name
 			) c on a.fmonth_name = c.sowDWL_work_name
-				where a.login_area = #{searchArea}
+				where a.login_area = #{searchArea} and YN='Y'
 		union all
 		select
 		'합계' as fmonth_name,
@@ -145,7 +145,7 @@
 					where sowDWL_shift = '야' and YN = 'Y' and work_date between #{start_date} and #{work_date}
 					group by sowDWL_work_name
 			) c on a.fmonth_name = c.sowDWL_work_name
-			where a.login_area = #{searchArea};
+			where a.login_area = #{searchArea} and YN='Y';
 	</select>
 	
 	<select id="selectShiftType" parameterType="String">

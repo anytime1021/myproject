@@ -1,6 +1,5 @@
 @charset "utf-8";
 a {text-decoration: none; color: black;}
-
 /* 게시판 리스트 */
 .first-container {width: 100%; height: auto; background-color: white; margin: 0; padding: 0px; display: flex;}
 .first-container .sidebar {width: 200px; height: 820px; background-color: white;}
@@ -95,12 +94,12 @@ input[type="file"] {flex: 2; width: 100%; padding: 8px 10px; font-size: 15px; bo
 
 /* 근무현황 추가(sow-add) */
 .second-container {width: 75%; height: 100%; background-color: white; margin:0 auto;}
-.second-container .section-flex {justify-content: space-between; height:100%;}
+.second-container .section-flex {justify-content: space-between; height: 100%;}
 .second-container .section-flex .sow-title-nameList {width: 50%; height: 100%; border: 1px solid black; display: flex; justify-content: center; align-items: center; margin: 0 auto;}
 /*.second-container .section-flex .left-form {width:50%; display:flex; justify-content: center; align-items: center; height:100%;}*/
 /*.second-container .section-flex .left-form form {width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;}*/
 /*.second-container .section-flex .left-form .add-form-container {height: 100%; display: flex; justify-content: center; align-items: center; width: 100%;}*/
-.second-container .section-flex .add-form-container {width: 50%; height:100%; border: 1px solid black; margin:0 auto;}
+.second-container .section-flex .add-form-container {width: 50%; height: 100%; border: 1px solid black; margin:0 auto;}
 .second-container .section-flex .add-form-container table {table-layout: fixed;	font-size: 10px; width: 100%; border-collapse: collapse; text-align: center; align-items: center;}
 .second-container .section-flex .add-form-container thead {background-color: #cccccc; text-align: center; align-items: center;}
 .second-container .section-flex .add-form-container th,

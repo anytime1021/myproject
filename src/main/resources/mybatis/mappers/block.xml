@@ -229,6 +229,9 @@
 	            #{id}
 	        </foreach>
     	</if>
+    	<if test="token != 'blockRentalList' and searchArea != '본사'">
+    		and login_area = #{searchArea}
+    	</if>
 	</select>
 	
 	<!-- 검색 수 카운트 2 -->

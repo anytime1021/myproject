@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.util.Arrays" %>
+<%@ page import="jakarta.servlet.http.Cookie" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -30,11 +32,26 @@
 				<form name="Login" action="${contextPath}/login/login.do" method="post">
 					<fieldset>
 						<ul>
-							<li><label for="id">id </label><input type="text" name="login_id"></li>
+							<%
+							    String savedId = "";
+							    boolean saved = false;
+							    Cookie[] cookies = request.getCookies();
+							    if (cookies != null) {
+							        for (Cookie c : cookies) {
+							            if ("savedId".equals(c.getName())) {
+							                savedId = c.getValue();
+							                saved = true;
+							                break;
+							            }
+							        }
+							    }
+							%>
+							<li><label for="id">id </label><input type="text" name="login_id" value="<%= savedId %>"></li>
 							<li><label for="pw">pw </label><input type="password" name="login_pwd"></li>
 						</ul>
+						<input type="checkbox" name="rememberId" <%= saved ? "checked" : "" %>> ID 저장
 						<input type="submit" value="로그인" class="submit-btn">
-					</fieldset>
+					</fieldset>  
 				</form>	
 			</div>
 		</section>

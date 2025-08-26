@@ -16,7 +16,7 @@
 <body>
 
 <h3>익월 용역 예상 보고(미완 - 추후 진행 예정)</h3>
-<a href="${contextPath}/report/reportArea.do">돌아가기</a>
+<a href="${contextPath}/report/reportArea2.do">돌아가기</a>
 <span id="amountText" style="margin-left:10px; color:gray;"></span>
 
 <!-- 현장 선택 -->
@@ -83,6 +83,15 @@ $(function() {
         return x.replace(/[^0-9]/g, '') // 숫자만 남김
                 .replace(/\B(?=(\d{3})+(?!\d))/g, ','); // 쉼표 삽입
     }
+	
+	$('#amountInput').on('input', function() {
+		this.value = formatNumberWithCommas(this.value);
+	});
+	
+	$('#addFollowingMonth').on('submit', function() {
+		const $amountInput = $('#amountInput');
+		$amountInput.val($amountInput.val().replace(/,/g, ''));
+	});
 	
     // 수정하기 클릭 시
     $('.edit-btn').on('click', function() {

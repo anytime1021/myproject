@@ -39,6 +39,7 @@
 						<div class="form-group">
 							<label for="picture_now"> 현재 사진 : </label>
 							<img src="${contextPath}/resources/img/${blockView.df_pictureName}" style="width:20%; height:auto; object-fit:contain;">
+							<input type="hidden" id="df_pictureName" name="df_pictureName" value="${blockView.df_pictureName}">
 						</div>
 						<div class="form-group">
 							<label for="df_material">재질 : </label>
@@ -72,43 +73,6 @@
 						<div class="form-group">
 							<label>이동현황 : </label>
 							<input type="text" name="df_moveStatus" name="df_moveStatus" value="-" readonly>
-<!--							<select id="df_moveStatus" name="df_moveStatus">-->
-<!--								<c:if test="${searchArea eq '서산'}">-->
-<!--									<option value="-" ${df_moveStatus == '-' ? 'selected' : ''}>-</option>-->
-<!--									<option value="마산" ${df_moveStatus == '마산' ? 'selected' : ''}>마산</option>-->
-<!--									<option value="울산" ${df_moveStatus == '울산' ? 'selected' : ''}>울산</option>-->
-<!--									<option value="여수" ${df_moveStatus == '여수' ? 'selected' : ''}>여수</option>-->
-<!--									<option value="창원" ${df_moveStatus == '창원' ? 'selected' : ''}>창원</option>-->
-<!--								</c:if>-->
-<!--								<c:if test="${searchArea eq '마산'}">-->
-<!--									<option value="서산" ${df_moveStatus == '서산' ? 'selected' : ''}>서산</option>-->
-<!--									<option value="-" ${df_moveStatus == '-' ? 'selected' : ''}>-</option>-->
-<!--									<option value="울산" ${df_moveStatus == '울산' ? 'selected' : ''}>울산</option>-->
-<!--									<option value="여수" ${df_moveStatus == '여수' ? 'selected' : ''}>여수</option>-->
-<!--									<option value="창원" ${df_moveStatus == '창원' ? 'selected' : ''}>창원</option>-->
-<!--								</c:if>-->
-<!--								<c:if test="${searchArea eq '울산'}">-->
-<!--									<option value="서산" ${df_moveStatus == '서산' ? 'selected' : ''}>서산</option>-->
-<!--									<option value="마산" ${df_moveStatus == '마산' ? 'selected' : ''}>마산</option>-->
-<!--									<option value="-" ${df_moveStatus == '-' ? 'selected' : ''}>-</option>-->
-<!--									<option value="여수" ${df_moveStatus == '여수' ? 'selected' : ''}>여수</option>-->
-<!--									<option value="창원" ${df_moveStatus == '창원' ? 'selected' : ''}>창원</option>-->
-<!--								</c:if>-->
-<!--								<c:if test="${searchArea eq '여수'}">-->
-<!--									<option value="서산" ${df_moveStatus == '서산' ? 'selected' : ''}>서산</option>-->
-<!--									<option value="마산" ${df_moveStatus == '마산' ? 'selected' : ''}>마산</option>-->
-<!--									<option value="울산" ${df_moveStatus == '울산' ? 'selected' : ''}>울산</option>-->
-<!--									<option value="-" ${df_moveStatus == '-' ? 'selected' : ''}>-</option>-->
-<!--									<option value="창원" ${df_moveStatus == '창원' ? 'selected' : ''}>창원</option>-->
-<!--								</c:if>-->
-<!--								<c:if test="${searchArea eq '창원'}">-->
-<!--									<option value="서산" ${df_moveStatus == '서산' ? 'selected' : ''}>서산</option>-->
-<!--									<option value="마산" ${df_moveStatus == '마산' ? 'selected' : ''}>마산</option>-->
-<!--									<option value="울산" ${df_moveStatus == '울산' ? 'selected' : ''}>울산</option>-->
-<!--									<option value="여수" ${df_moveStatus == '여수' ? 'selected' : ''}>여수</option>-->
-<!--									<option value="-" ${df_moveStatus == '-' ? 'selected' : ''}>-</option>-->
-<!--								</c:if>-->
-<!--							</select>-->
 						</div>
 						<div class="form-group">
 							<label>비고 : </label>
@@ -124,41 +88,20 @@
 </body>
 <script>
 	$(document).ready(function(){
-	    let material = false;
-	    let size = false;
-	    let manufacture = false;
+		let material = $("#df_material").val().trim().length > 0 ? true : false;
+		let size = $("#df_size").val().trim().length > 0 ? true : false;
+		let manufacture = $("#df_manufacture").val().trim().length > 0 ? true : false;
 
 		$("#df_material").on("input", function() {
-			let tf_material = $("#df_material").val().trim();
-			
-			if (tf_material.length > 0 ) {
-				material = true;
-			} else {
-				material = false;
-			}
+		    material = $(this).val().trim().length > 0;
 		});
-
 		$("#df_size").on("input", function() {
-			let tf_size = $("#df_size").val().trim();
-			
-			if (tf_size.length > 0 ) {
-				size = true;
-			} else {
-				size = false;
-			}
+		    size = $(this).val().trim().length > 0;
+		});
+		$("#df_manufacture").on("input", function() {
+		    manufacture = $(this).val().trim().length > 0;
 		});
 
-		$("#df_manufacture").on("input", function() {
-			let tf_manufacture = $("#df_manufacture").val().trim();
-			
-			if (tf_manufacture.length > 0 ) {
-				manufacture = true;
-			} else {
-				manufacture = false;
-			}
-		});
-		
-	    // 등록 버튼 클릭
 	    $("#submitBtn").on("click", function(e){
 	        if (!material) {
 	            alert("재질을 입력해주세요.");

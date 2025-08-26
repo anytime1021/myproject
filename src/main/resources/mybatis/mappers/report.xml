@@ -128,7 +128,7 @@
 		where work_date = #{work_date} and login_area = #{searchArea};
 	</delete>
 		
-	<!-- 단가 ajax ////////////// -->
+	<!-- 단가 ajax -->
 	<insert id="insertMethodQuantityCost" parameterType="reportVO">
 		insert unitCost(work_name_total, login_area, unitcost_method, unitcost_unitQuantity, unitcost_cost)
 		values(#{work_name_total}, #{login_area}, #{unitcost_method}, #{unitcost_unitQuantity}, #{unitcost_cost})

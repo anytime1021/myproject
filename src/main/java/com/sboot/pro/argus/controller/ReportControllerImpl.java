@@ -397,7 +397,7 @@ public class ReportControllerImpl implements ReportController{
 		@RequestParam(value = "results_fmonth_num", required = false) String[] results_fmonth_numArray,
 		HttpServletRequest request) throws Exception {
 		// 세션값받기
-		ModelAndView mav = new ModelAndView("redirect:/report/reportArea.do");
+		ModelAndView mav = new ModelAndView("redirect:/report/reportArea2.do");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
 		

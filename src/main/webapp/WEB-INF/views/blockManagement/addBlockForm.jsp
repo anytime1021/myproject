@@ -81,7 +81,7 @@
 						</div>
 						<div class="form-group">
 							<label>이동현황 : </label>
-							<input type="text" id="df_moveStatus" name="df_moveStatus" value="-">
+							<input type="text" id="df_moveStatus" name="df_moveStatus" value="-" readonly>
 						</div>
 						<div class="form-group">
 							<label>비고 : </label>

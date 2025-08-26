@@ -38,7 +38,7 @@
 							<a href="${contextPath}/sow/sowAddBtEmployeeForm.do" class="btn-style">출장인원설정</a>
 						</div>
 					</section>
-					<label style="text-align:center;">날 짜 : </label><input type="date" name="work_date" placeholder="날짜를 입력해 주세요" style="text-align: center; border:1px solid black;">
+					<label style="text-align:center;">날 짜 : </label><input type="date" id="work_date" name="work_date" style="text-align: center; border:1px solid black;">
 					<label style="text-align:center;">날 씨 : </label>
 					<select name="weather">
 						<option value="맑음">맑음</option>
@@ -143,6 +143,7 @@
 													<c:forEach var="fmonth_name" items="${fmonthName}">
 														<li onclick="selectWorkname(this)">${fmonth_name.fmonth_name}</li>
 													</c:forEach>
+													<li onclick="selectWorkname(this)">기타</li>
 													<c:if test="${searchArea != '울산'}">
 														<li onclick="selectWorkname(this)">울산</li>
 													</c:if>
@@ -332,6 +333,14 @@
 	</main>
 </body>
 <script>
+	window.addEventListener('DOMContentLoaded', () => {
+	    const today = new Date();
+	    const yyyy = today.getFullYear();
+	    const mm = String(today.getMonth() + 1).padStart(2,'0');
+	    const dd = String(today.getDate()).padStart(2,'0');
+	    document.getElementById('work_date').value = `${yyyy}-${mm}-${dd}`;
+	});
+	
 	function worknameDropdown(td) {
 	    // 기존 메뉴 닫기
 	    document.querySelectorAll(".dropdown-menu-body").forEach(el => el.remove());
@@ -493,6 +502,8 @@
 			input.value = input.value.replace(/,/g,'');
 		});
 	}
+	
+
 </script>
 <script src="${contextPath}/resources/js/script.js"></script>
 </html>

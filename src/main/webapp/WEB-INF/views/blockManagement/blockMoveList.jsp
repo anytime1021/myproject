@@ -43,14 +43,14 @@
                     <table class="table-control">
                         <thead>
                             <tr>
-								<th style="width:20%;">식별번호</th>
-								<th style="width:13%;">대여자</th>
-								<th style="width:13%;">수취자</th>
-								<th style="width:13%;">수취지역</th>
-								<th style="width:14%;">대여일</th>
-								<th style="width:14%;">반납일</th>
-								<th style="width:13%;">상태</th>
-								<th>비고</th>
+								<th style="width:18%;">식별번호</th>
+								<th style="width:10%;">대여자</th>
+								<th style="width:10%;">수취자</th>
+								<th style="width:11%;">수취지역</th>
+								<th style="width:15%;">대여일</th>
+								<th style="width:15%;">반납일</th>
+								<th style="width:11%;">상태</th>
+								<th style="width:8%;">비고</th>
                             </tr>
                         </thead>
                         <tbody>

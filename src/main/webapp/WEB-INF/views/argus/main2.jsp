@@ -23,7 +23,7 @@
 				<div class="quarter">
 					<div class="report-board">
 						<div class="report-board-title">작업일보</div>
-						<div class="shortcut">바로가기 + </div>
+						<div class="shortcut"><a href="#">바로가기 + </a></div>
 					</div>
 					<div class="list">
 						<ul>
@@ -107,7 +107,6 @@
 	    snowflake.style.opacity = Math.random();
 	    snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
 	    snowContainer.appendChild(snowflake);
-
 
 	    animateSnow(snowflake);
 	}

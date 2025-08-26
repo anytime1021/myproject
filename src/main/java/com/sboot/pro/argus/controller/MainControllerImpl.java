@@ -1,13 +1,16 @@
 package com.sboot.pro.argus.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -19,6 +22,7 @@ import com.sboot.pro.argus.service.ReportService;
 import com.sboot.pro.argus.vo.LoginVO;
 import com.sboot.pro.argus.vo.ReportVO;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -94,6 +98,7 @@ public class MainControllerImpl implements MainController {
 	@Override
 	@PostMapping("/login/login.do")
 	public ModelAndView login(@RequestParam("login_id") String login_id, @RequestParam("login_pwd") String login_pwd,
+			@RequestParam(value = "rememberId", required = false) String rememberId,
 			RedirectAttributes rAttr, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView("/argus/main2");
 		loginVO = loginService.login(login_id, login_pwd);
@@ -107,6 +112,19 @@ public class MainControllerImpl implements MainController {
 
 	        // 로그 저장
 	        AccessLogUtil.write(login_id, ip);
+	        
+	        if ("on".equals(rememberId)) {
+	            Cookie cookie = new Cookie("savedId", login_id);
+	            cookie.setMaxAge(60 * 60 * 24 * 30);
+	            cookie.setPath("/");
+	            response.addCookie(cookie);
+	        } else {
+	            Cookie cookie = new Cookie("savedId", "");
+	            cookie.setMaxAge(0);
+	            cookie.setPath("/");
+	            response.addCookie(cookie);
+	        }
+	        
 			if(action != null) {
 				mav.setViewName("redirect:"+action);
 			} else {
@@ -127,12 +145,27 @@ public class MainControllerImpl implements MainController {
 		session.removeAttribute("login");
 		session.setAttribute("logOn", false);
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("redirect:/argus/main.do");
+		mav.setViewName("redirect:/argus/loginForm.do");
 		session.invalidate();
 		return mav;
 	}
 
-	
+	// 접근 권한 페이지
+	@GetMapping("/argus/noAuth.do")
+	public ModelAndView noAuth(HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/argus/noAuth");
+		return mav;
+	}
+	@GetMapping("/session-info")
+	@ResponseBody
+	public Map<String, Object> getSessionInfo(HttpSession session) {
+		Map<String, Object> result = new HashMap<>();
+		result.put("maxInactiveInterval", session.getMaxInactiveInterval());
+		result.put("creationTime", session.getCreationTime());
+		result.put("lastAccessedTime", session.getLastAccessedTime());
+		return result;
+	}
+		
 	
 	@GetMapping("/login")
     public String testLog(HttpServletRequest request) {

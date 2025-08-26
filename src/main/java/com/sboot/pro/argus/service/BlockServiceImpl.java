@@ -131,11 +131,6 @@ public class BlockServiceImpl implements BlockService {
 			}
 			return blockDAO.selectListCount(searchArea, searchType, searchQuery, token, idNumber);
 		} else if ("blockMoveList".equals(token)) {
-//			List<String> idNumber = blockDAO.selectIdNumberSearch(searchArea, searchType, searchQuery);
-//			if (idNumber == null || idNumber.isEmpty()) {
-//				idNumber = new ArrayList<>();
-//				idNumber.add("1");
-//			}
 			return blockDAO.selectMoveListCount(searchArea, searchType, searchQuery);
 		}
 		return blockDAO.selectListCount(searchArea, searchType, searchQuery, token, null);

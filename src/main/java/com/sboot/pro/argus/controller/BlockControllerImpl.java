@@ -38,7 +38,7 @@ public class BlockControllerImpl implements BlockController {
 		ModelAndView mav = new ModelAndView("/blockManagement/blockList");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
-
+		
 		int limit = 20;
 		int currentPage = page;
 		int pageBlockSize = 5;
@@ -100,8 +100,7 @@ public class BlockControllerImpl implements BlockController {
 			File dir = new File(uploadDir);
 			if (!dir.exists()) dir.mkdirs();
 			
-			String originalName = uploadFile.getOriginalFilename();
-			String savedName = System.currentTimeMillis() + "_" + originalName;
+			String savedName = System.currentTimeMillis() + "_" + addblockForm.getDf_idNumber();
 			
 			InputStream inputStream = uploadFile.getInputStream();
 			BufferedImage originalImage = ImageIO.read(inputStream);
@@ -111,7 +110,6 @@ public class BlockControllerImpl implements BlockController {
 			
 			int targetHeight = 300;
 			int targetWidth = (originalWidth * targetHeight) / originalHeight;
-			
 
 			BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
 			Graphics2D g2d = resizedImage.createGraphics();
@@ -122,6 +120,8 @@ public class BlockControllerImpl implements BlockController {
 			ImageIO.write(resizedImage, "jpg", outputFile);
 			
 			addblockForm.setDf_pictureName(savedName);
+		} else {
+			addblockForm.setDf_pictureName("A-NoImage.jpg");
 		}
 		
 		if (addblockForm.getDf_manufacture().isEmpty()) {
@@ -188,8 +188,8 @@ public class BlockControllerImpl implements BlockController {
 				File dir = new File(uploadDir);
 				if (!dir.exists()) dir.mkdirs();
 				
-				String originalName = uploadFile.getOriginalFilename();
-				String savedName = System.currentTimeMillis() + "_" + originalName;
+//				String originalName = uploadFile.getOriginalFilename();
+				String savedName = System.currentTimeMillis() + "_" + modBlockForm.getDf_idNumber();
 				
 				InputStream inputStream = uploadFile.getInputStream();
 				BufferedImage originalImage = ImageIO.read(inputStream);
@@ -200,7 +200,6 @@ public class BlockControllerImpl implements BlockController {
 				int targetHeight = 300;
 				int targetWidth = (originalWidth * targetHeight) / originalHeight;
 				
-	
 				BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
 				Graphics2D g2d = resizedImage.createGraphics();
 				g2d.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
@@ -211,8 +210,6 @@ public class BlockControllerImpl implements BlockController {
 				
 				modBlockForm.setDf_pictureName(savedName);
 			}
-		} else {
-			
 		}
 		blockService.modBlock(modBlockForm);
 		return mav;

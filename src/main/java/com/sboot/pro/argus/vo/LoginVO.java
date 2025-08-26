@@ -11,8 +11,8 @@ public class LoginVO {
 	private String login_id;
 	private String login_pwd;
 	private String login_area;
-	private int login_grade;
-	private int login_area_num;
+	private int login_report_access;
+	private int login_block_access;
 	
 	public int getLogin_num() {
 		return login_num;
@@ -38,16 +38,17 @@ public class LoginVO {
 	public void setLogin_area(String login_area) {
 		this.login_area = login_area;
 	}
-	public int getLogin_grade() {
-		return login_grade;
+	public int getLogin_report_access() {
+		return login_report_access;
 	}
-	public void setLogin_grade(int login_grade) {
-		this.login_grade = login_grade;
+	public void setLogin_report_access(int login_report_access) {
+		this.login_report_access = login_report_access;
 	}
-	public int getLogin_area_num() {
-		return login_area_num;
+	public int getLogin_block_access() {
+		return login_block_access;
 	}
-	public void setLogin_area_num(int login_area_num) {
-		this.login_area_num = login_area_num;
+	public void setLogin_block_access(int login_block_access) {
+		this.login_block_access = login_block_access;
 	}
+
 }

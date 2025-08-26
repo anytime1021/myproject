@@ -2,6 +2,7 @@
 
 /* main2 */
 * {margin: 0; padding: 0; box-sizing: border-box;}
+html, body {overflow-x: hidden;}
 body {font-family: "Noto Sans KR", sans-serif; line-height: 1.6;}
 header {display: flex; align-items: center; padding: 20px 50px; border-bottom: 1px solid #ccc;}
 #snow-container {width: 100%; height: 100%; pointer-events: none; z-index: 0;}
@@ -12,8 +13,12 @@ header {display: flex; align-items: center; padding: 20px 50px; border-bottom: 1
 .main-container .main-quarter .quarter .report-board {width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 0px 15px 0px 15px;}
 .main-container .main-quarter .quarter .report-board .report-board-title {font-weight: bold;}
 .main-container .main-quarter .quarter .report-board .shortcut {border-bottom: 1px solid lightskyblue;}
+.main-container .main-quarter .quarter .report-board .shortcut a {text-decoration: none; color: blue;}
+.main-container .main-quarter .quarter .report-board .shourcut a:visited {color: inherit;}
 .main-container .main-quarter .quarter .list {display: block; list-style:none; padding: 0px 15px 0px 15px; margin: 0px;}
 .main-container .main-quarter .quarter .list li {display: block;}
+.main-container .main-quarter .quarter .list li a {text-decoration: none; color: black;}
+.main-container .main-quarter .quarter .list li a:visited {color: inherit;}
 .main-container-assist {width: 100%; height: auto; display: flex; justify-content: center; align-items: center;}
 .main-container-assist .main-quarter {width: 80%; height: auto; display: flex; margin: 0px; padding: 0px;}
 .main-container-assist .main-quarter .quarter {width: 50%; height: 200px; display: block; border: 1px solid black;}
@@ -24,7 +29,6 @@ header {display: flex; align-items: center; padding: 20px 50px; border-bottom: 1
 .main-container-assist .main-quarter .quarter .list li {display: block;}
 
 /* header */
-
 nav .menu {display: flex; list-style: none; gap: 30px; font-weight: 500;}
 nav .menu li {cursor: pointer; width: 100px; text-align: center;}
 .logo {display: flex; align-items: center; width: 400px;}
@@ -38,10 +42,6 @@ nav .menu a:hover {color: dodgerblue;}
 .ft {width: 100%; height: 150px; background-color: lightblue;}
 .ft .information {justify-content: left;}
 .ft .information .ft-text {margin-left: 30px; padding-top: 35px;}
-
-
-
-
 
 
 .hero {position: relative; width: 120%; height: 550px; background-image: url('resources/img/background.jpg'); background-size: cover; background-position: center;

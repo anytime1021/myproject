@@ -26,6 +26,7 @@ public interface MainController {
 
 	// 로그인
 	public ModelAndView login(@RequestParam("login_id") String login_id, @RequestParam("login_pwd") String login_pwd,
+			@RequestParam(value = "rememberId", required = false) String rememberId,
 			RedirectAttributes rAttr, HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 	// 로그아웃
