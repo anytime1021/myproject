@@ -71,7 +71,7 @@
 											<td>${searchList.df_itemStatus}</td>
 											<td>
 											<c:choose>
-												<c:when test="${token eq 'blockList'}">
+												<c:when test="${token eq 'blockList' or token eq 'blockTotalList'}">
 													<button style="font-weight: bold; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">상세보기</button>
 												</c:when>
 												<c:otherwise>

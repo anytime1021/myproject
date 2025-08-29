@@ -38,6 +38,9 @@ public interface BlockDAO {
 	public void updateItemStatus(@Param("df_idNumber") String df_idNumber, @Param("df_moveStatus") String df_moveStatus) throws Exception;
 	public void insertMoveBlockList(@Param("moveBlock") BlockVO moveBlock, @Param("login_area") String login_area, @Param("login_id") String login_id) throws Exception;
 	
+	// 대여한 블럭 수 카운트
+	public int selectRentalListCount(String searchArea) throws Exception;
+
 	// 대여한 블럭 리스트
 	public List<String> selectIdNumber(String searchArea) throws Exception;
 	public List<BlockVO> selectBlockRentalList(@Param("idNumber") List<String> idNumber, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
@@ -56,11 +59,30 @@ public interface BlockDAO {
 	public List<BlockVO> selectSearchList(@Param("searchArea") String searchArea, @Param("searchType") String searchType, @Param("searchQuery") String searchQuery, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
 	public int selectListCount(@Param("searchArea") String searchArea, @Param("searchType") String searchType, @Param("searchQuery") String searchQuery, @Param("token") String token, @Param("idNumber") List<String> idNumber) throws Exception;
 	public int selectMoveListCount(@Param("searchArea") String searchArea, @Param("searchType") String searchType, @Param("searchQuery") String searchQuery) throws Exception;
+	public int selectListTotalCount(@Param("searchArea") String searchArea, @Param("searchType") String searchType, @Param("searchQuery") String searchQuery) throws Exception;
 	
 	public List<String> selectIdNumberSearch(@Param("searchArea") String searchArea, @Param("searchType") String searchType, @Param("searchQuery") String searchQuery) throws Exception;
 	public List<BlockVO> selectSearchMoveList(@Param("idNumber") List<String> idNumber, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
 	
 	public List<String> selectRentalListId(@Param("searchArea") String searchArea) throws Exception;
 	public List<BlockVO> selectSearchRentalList(@Param("idNumber") List<String> idNumber, @Param("searchType") String searchType, @Param("searchQuery") String searchQuery, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
+	public List<BlockVO> selectSearchTotalList(@Param("searchArea") String searchArea, @Param("searchType") String searchType, @Param("searchQuery") String searchQuery, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
 	
+	// 전체 블럭 보기 수 카운트
+	public int selectBlockTotalCount(String searchArea) throws Exception;
+	
+	// 전체 블럭 리스트
+	public List<BlockVO> selectBlockTotalList(@Param("searchArea") String searchArea, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
+	
+	// 승인 대기 수 카운트
+	public int selectApprovalCount(String searchArea) throws Exception;
+	
+	// 승인 대기 리스트
+	public List<BlockVO> selectApprovalList(@Param("searchArea") String searchArea, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
+
+	// 이동 보고서 상세보기
+	public BlockVO selectBlockApprovalView(String df_idNumber) throws Exception;
+	
+	// 이동 승인
+	public int updateApproval(@Param("df_idNumber") String df_idNumber, @Param("searchArea") String searchArea) throws Exception;
 }

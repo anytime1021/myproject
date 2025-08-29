@@ -48,4 +48,19 @@ public interface BlockController {
 
 	// 블럭 검색
 	public ModelAndView searchList(@RequestParam(value="page", defaultValue="1") int page, @RequestParam("searchType") String searchType, @RequestParam("searchQuery") String searchQuery, @RequestParam("token") String token, HttpServletRequest request) throws Exception;
+
+	// 전체 블럭 리스트
+	public ModelAndView blockTotalList(@RequestParam(value="page", defaultValue="1") int page, HttpServletRequest request) throws Exception;
+
+	// 승인 대기 리스트
+	public ModelAndView blockApproval(@RequestParam(value="page", defaultValue="1") int page, HttpServletRequest request) throws Exception;
+
+	// 이동 보고서 상세보기
+	public ModelAndView blockApprovalView(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception;
+
+	// 이동 승인
+	public ModelAndView updateApproval(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception;
+
+	// 이동 거절
+	public ModelAndView updateRejection(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception;
 }

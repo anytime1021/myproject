@@ -70,7 +70,7 @@
 									    <c:otherwise>
 											<c:choose>
 												<c:when test="${searchArea eq blockMoveList.login_area}">
-									    			대여중(Lent)
+									    			대여중(Lend)
 												</c:when>
 												<c:otherwise>
 													대여중(Borrow)

@@ -77,9 +77,18 @@
 	</update>
 	
 	<insert id="insertMoveBlockList">
-		insert into blockMoveList(moveList_lender, moveList_recipient, moveList_recipient_area, df_itemStatus, df_idNumber, login_area, login_id, note)
-		select #{moveBlock.moveList_lender}, #{moveBlock.moveList_recipient}, #{moveBlock.moveList_recipient_area}, df_itemStatus, #{moveBlock.df_idNumber}, #{login_area}, #{login_id}, #{moveBlock.note} from blockInformation where df_idNumber = #{moveBlock.df_idNumber}
+		insert into blockMoveList(moveList_lender, moveList_lender_rank, moveList_recipient, moveList_recipient_area, moveList_recipient_rank, moveList_rental_date, df_itemStatus, df_idNumber, login_area, login_id, note, created_at)
+		select #{moveBlock.moveList_lender}, #{moveBlock.moveList_lender_rank}, #{moveBlock.moveList_recipient}, #{moveBlock.moveList_recipient_area}, #{moveBlock.moveList_recipient_rank}, #{moveBlock.moveList_rental_date}, df_itemStatus, #{moveBlock.df_idNumber}, #{login_area}, #{login_id}, #{moveBlock.note}, #{moveBlock.created_at} from blockInformation where df_idNumber = #{moveBlock.df_idNumber};
+		
+		insert into approval(df_idNumber, app_branch_area, login_area)
+		values(#{moveBlock.df_idNumber}, #{moveBlock.moveList_recipient_area} #{login_area})
 	</insert>
+	
+	<!-- 대여한 블럭 수 카운트 -->
+	<select id="selectRentalListCount" parameterType="String" resultType="int">
+		select count(*) from blockMoveList
+		where moveList_recipient_area = #{searchArea}
+	</select>
 	
 	<!-- 대여한 블럭 리스트 -->
 	<select id="selectIdNumber" parameterType="String">
@@ -229,8 +238,13 @@
 	            #{id}
 	        </foreach>
     	</if>
-    	<if test="token != 'blockRentalList' and searchArea != '본사'">
+    	<if test="token != 'blockRentalList' and searchArea != '본사' and token != 'blockTotalList'">
     		and login_area = #{searchArea}
+    	</if>
+    	<if test="token == 'blockTotalList'">
+    		<if test="searchArea != '본사'">
+    			and login_area not like concat('%',#{searchArea},'%')
+    		</if>
     	</if>
 	</select>
 	
@@ -287,4 +301,64 @@
 		</foreach>
 		order by df_idNumber desc limit #{offset}, #{limit}
 	</select>
+	
+	<!-- 전체 블럭 보기 수 카운트 -->
+	<select id="selectBlockTotalCount" parameterType="String" resultType="int">
+		select count(*) from blockInformation where YN = 'Y'
+		<if test="searchArea != '본사'">
+			and login_area not like concat('%',#{searchArea},'%')
+		</if>
+	</select>
+	
+	<!-- 전체 블럭 리스트 -->
+	<select id="selectBlockTotalList" parameterType="Map">
+		select * from blockInformation where YN = 'Y'
+		<if test="searchArea != '본사'">
+			and login_area not like concat('%',#{searchArea},'%')
+		</if>
+		order by df_idNumber desc limit #{offset}, #{limit}
+	</select>
+	
+	<!-- 전체 블럭 리스트 검색 수 카운트 -->
+	<select id="selectSearchTotalList" parameterType="Map">
+		select * from blockInformation
+		<include refid="searchList" />
+		and YN = 'Y'
+		<if test="searchArea != '본사'">
+			and login_area not like concat('%',#{searchArea},'%')
+		</if>
+	</select>
+	
+	<!-- 승인 대기 수 카운트 -->
+	<select id="selectApprovalCount" parameterType="String" resultType="int">
+		select count(*) from approval
+		<if test="searchArea != '본사'">
+			where login_area = #{searchArea}
+		</if>
+	</select>
+	
+	<!-- 승인 대기 리스트 -->
+	<select id="selectApprovalList" parameterType="Map">
+		select * from approval
+		<if test="searchArea != '본사'">
+			where login_area = #{searchArea} or app_branch_area = #{searchArea}
+		</if>
+	</select>
+	
+	<!-- 이동 보고서 상세보기 -->
+	<select id="selectBlockApprovalView" parameterType="String">
+		select * from blockMoveList where df_idNumber = #{df_idNumber} and moveList_return_date is null
+	</select>
+	
+	<!-- 이동 승인 -->
+	<update id="updateApproval" parameterType="Map">
+		update Approval
+		<if test="searchArea != '본사'">
+			set app_branch_status = '승인'
+		</if>
+		<if test="searchArea = '본사'">
+			set app_head_status = '승인'
+		</if>
+		where df_idNumber = #{df_idNumber}
+	</update>
 </mapper>

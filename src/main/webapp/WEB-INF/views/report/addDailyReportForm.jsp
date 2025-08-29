@@ -21,21 +21,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="${contextPath}/resources/css/styles.css">
 	<link rel="stylesheet" href="${contextPath}/resources/css/styles2.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
 	<main class="first-container">
 		<article>
 			<section>
-				<form autocomplete="off" name="addDailyReport" onsubmit="return checkBeforeSubmit(this);" method="post" action="${contextPath}/report/addDailyReport.do">
+				<form onkeydown="return event.key != 'Enter';" autocomplete="off" name="addDailyReport" onsubmit="return checkBeforeSubmit(this);" method="post" action="${contextPath}/report/addDailyReport.do">
 					<section class="work-rate-flex"> 
 						<div class="work-basic">
 							<b> 1. 작업현황 </b>
 						</div>
-						<div class="work-basic2">
-							<a href="${contextPath}/sow/sowAddEmployeeForm.do" class="btn-style">근무인원설정</a>
+						<div style="width: 10%; height: 100%; display: flex;">
+<!--						<div class="work-basic2">-->
+<!--							<a href="${contextPath}/sow/sowAddBtEmployeeForm.do" class="btn-style">출장인원설정</a>-->
+<!--						</div>-->
 						</div>
 						<div class="work-basic2">
-							<a href="${contextPath}/sow/sowAddBtEmployeeForm.do" class="btn-style">출장인원설정</a>
+							<a href="${contextPath}/sow/sowAddEmployeeForm.do" class="btn-style">근무인원설정</a>
 						</div>
 					</section>
 					<label style="text-align:center;">날 짜 : </label><input type="date" id="work_date" name="work_date" style="text-align: center; border:1px solid black;">
@@ -325,8 +328,8 @@
 						</table>
 					</div>
 				</section>
-				<div style="height:30px;">
-					<button type="submit">전송</button>
+				<div style="width:100%; height:30px; text-align:center; display:flex; justify-content:flex-end;">
+					<button type="submit">작성하기</button>
 				</div>
 			</form>
 		</article>

@@ -72,6 +72,12 @@ public class BlockServiceImpl implements BlockService {
 		blockDAO.insertMoveBlockList(moveBlock, login_area, login_id);
 	}
 	
+	// 대여한 블럭 수 카운트
+	@Override
+	public int getRentalListCount(String searchArea) throws Exception {
+		return blockDAO.selectRentalListCount(searchArea);
+	}
+	
 	// 대여한 블럭 리스트
 	@Override
 	public List<BlockVO> selectBlockRentalList(String searchArea, int offset, int limit) throws Exception {
@@ -116,6 +122,8 @@ public class BlockServiceImpl implements BlockService {
 		} else if(token.equals("blockRentalList")) {
 			List<String> idNumber = blockDAO.selectRentalListId(searchArea);
 			return blockDAO.selectSearchRentalList(idNumber, searchType, searchQuery, offset, limit);
+		} else if(token.equals("blockTotalList")) {
+			return blockDAO.selectSearchTotalList(searchArea, searchType, searchQuery, offset, limit);
 		}
 		return new ArrayList<BlockVO>();
 	}
@@ -132,7 +140,45 @@ public class BlockServiceImpl implements BlockService {
 			return blockDAO.selectListCount(searchArea, searchType, searchQuery, token, idNumber);
 		} else if ("blockMoveList".equals(token)) {
 			return blockDAO.selectMoveListCount(searchArea, searchType, searchQuery);
+		} else if ("blockTotalList".equals(token)) {
+			return blockDAO.selectListCount(searchArea, searchType, searchQuery, token, null);
 		}
 		return blockDAO.selectListCount(searchArea, searchType, searchQuery, token, null);
+	}
+	
+	// 전체 블럭 보기 수 카운트
+	@Override
+	public int getBlockTotalCount(String searchArea) throws Exception {
+			return blockDAO.selectBlockTotalCount(searchArea);
+	}
+	
+	// 전체 블럭 리스트
+	@Override
+	public List<BlockVO> selectBlockTotalList(String searchArea, int offset, int limit) throws Exception {
+		return blockDAO.selectBlockTotalList(searchArea, offset, limit);
+	}
+	
+	// 승인 대기 수 카운트
+	@Override
+	public int getApprovalCount(String searchArea) throws Exception {
+		return blockDAO.selectApprovalCount(searchArea);
+	}
+	
+	// 승인 대기 리스트
+	@Override
+	public List<BlockVO> selectApprovalList(String searchArea, int offset, int limit) throws Exception {
+		return blockDAO.selectApprovalList(searchArea, offset, limit);
+	}
+	
+	// 이동 보고서 상세보기
+	@Override
+	public BlockVO selectBlockApprovalView(String df_idNumber) throws Exception {
+		return blockDAO.selectBlockApprovalView(df_idNumber);
+	}
+	
+	// 이동 승인
+	@Override
+	public int updateApproval(String df_idNumber, String searchArea) throws Exception {
+		return blockDAO.updateApproval(df_idNumber, searchArea);
 	}
 }

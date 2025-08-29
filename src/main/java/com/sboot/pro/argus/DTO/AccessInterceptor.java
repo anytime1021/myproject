@@ -14,7 +14,7 @@ public class AccessInterceptor implements HandlerInterceptor {
         HttpSession session = request.getSession(false);
 
         if (session == null || session.getAttribute("login") == null) {
-            response.sendRedirect(request.getContextPath() + "/login/loginForm.do");
+            response.sendRedirect(request.getContextPath() + "/argus/loginForm.do");
             return false;
         }
 

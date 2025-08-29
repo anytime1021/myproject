@@ -73,25 +73,25 @@ public class ReportControllerImpl implements ReportController{
 
 	
 	// 일일 보고서 게시판 접속
-	@Override
-	@GetMapping("/report/reportArea.do")
-	public ModelAndView reportArea(@RequestParam(value="page", defaultValue = "1") int page, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("/report/reportArea");
-		HttpSession session = request.getSession();
-		LoginVO login = (LoginVO) session.getAttribute("login");
-		String searchArea = login.getLogin_area();
-		
-		int token = 1;
-		
-		int limit = 20;
-		
-		int offset = (page-1) * limit;
-		
-		String tableName = BoardType.fromToken(token).getTableName();
-		List<WorkingDailyBaseVO> reportListJsp = commonService.reportListTotalJava(searchArea, tableName, offset, limit);
-		mav.addObject("reportListJsp", reportListJsp);
-		return mav;
-	}
+//	@Override
+//	@GetMapping("/report/reportArea.do")
+//	public ModelAndView reportArea(@RequestParam(value="page", defaultValue = "1") int page, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		ModelAndView mav = new ModelAndView("/report/reportArea");
+//		HttpSession session = request.getSession();
+//		LoginVO login = (LoginVO) session.getAttribute("login");
+//		String searchArea = login.getLogin_area();
+//		
+//		int token = 1;
+//		
+//		int limit = 20;
+//		
+//		int offset = (page-1) * limit;
+//		
+//		String tableName = BoardType.fromToken(token).getTableName();
+//		List<WorkingDailyBaseVO> reportListJsp = commonService.reportListTotalJava(searchArea, tableName, offset, limit);
+//		mav.addObject("reportListJsp", reportListJsp);
+//		return mav;
+//	}
 		
 	// 일일 보고서 글쓰기(게시판)
 	@Override
@@ -261,6 +261,8 @@ public class ReportControllerImpl implements ReportController{
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
+	// 일일 보고서 추가 폼
+	@Override
 	@GetMapping("/report/addDailyReportForm.do")
 	public ModelAndView addDailyReportForm(HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("/report/addDailyReportForm");
@@ -357,6 +359,8 @@ public class ReportControllerImpl implements ReportController{
 		return mav;
 	}
 	
+	// 일일 보고서 추가
+	@Override
 	@PostMapping("/report/addDailyReport.do")
 	public ModelAndView addDailyReport(@RequestParam("work_date") String work_date, 
 		@RequestParam("weather") String weather,
@@ -397,7 +401,7 @@ public class ReportControllerImpl implements ReportController{
 		@RequestParam(value = "results_fmonth_num", required = false) String[] results_fmonth_numArray,
 		HttpServletRequest request) throws Exception {
 		// 세션값받기
-		ModelAndView mav = new ModelAndView("redirect:/report/reportArea2.do");
+		ModelAndView mav = new ModelAndView("redirect:/report/reportArea.do");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
 		
@@ -553,6 +557,8 @@ public class ReportControllerImpl implements ReportController{
 		}
 	}
 	
+	// 일일 보고서 보기
+	@Override
 	@GetMapping("/report/reportView.do")
 	public ModelAndView reportView(@RequestParam("board_num") int board_num, @RequestParam("work_date") String work_date, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("/report/reportView");
@@ -655,6 +661,8 @@ public class ReportControllerImpl implements ReportController{
 		return mav;
 	}
 	
+	// 일일 보고서 수정폼
+	@Override
 	@PostMapping("/report/modDailyReportForm.do")
 	public ModelAndView modDailyReportForm(@RequestParam("board_num") int board_num, @RequestParam("area") String searchArea, @RequestParam("work_date") String work_date, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("/report/modDailyReportForm");
@@ -766,6 +774,7 @@ public class ReportControllerImpl implements ReportController{
 		return mav;
 	}
 	
+	// 일일 보고서 수정
 	@PostMapping("/report/modDailyReport.do")
 	public ModelAndView modDailyReport(@RequestParam(value = "work_date") String work_date, 
 		@RequestParam("weather") String weather,
@@ -918,6 +927,8 @@ public class ReportControllerImpl implements ReportController{
 		return mav;
 	}
 	
+	// 일일 보고서 삭제
+	@Override
 	@GetMapping("/report/deleteDailyReport.do")
 	public ModelAndView deleteDailyReport(@RequestParam("work_date") String work_date, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/report/reportArea.do");
@@ -942,10 +953,10 @@ public class ReportControllerImpl implements ReportController{
 		return mav;
 	}
 	
-
-	@GetMapping("/report/reportArea2.do")
-	public ModelAndView reportArea2(@RequestParam(value = "page", defaultValue = "1") int page, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("/report/reportArea2");
+	@Override
+	@GetMapping("/report/reportArea.do")
+	public ModelAndView reportArea(@RequestParam(value = "page", defaultValue = "1") int page, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView("/report/reportArea");
 		HttpSession session = request.getSession();
 		LoginVO login = (LoginVO) session.getAttribute("login");
 		String searchArea = login.getLogin_area();

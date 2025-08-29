@@ -33,7 +33,7 @@
 							<input type="hidden" name="board_num" value="${board_num}">
 						</div>
 					</section>
-					<label style="text-align:center;">날 짜 : </label><input type="date" name="work_date" value="${work_date}" placeholder="날짜를 입력해 주세요" style="text-align: center; border:1px solid black;"> 
+					<label style="text-align:center;">날 짜 : </label><input type="date" name="work_date" value="${work_date}" placeholder="날짜를 입력해 주세요" style="text-align: center; border:1px solid black;" readonly> 
 					<label style="text-align:center;">날 씨 : </label>
 					<select name="weather">
 						<option value="맑음" ${weatherDayOfWeek.weather == '맑음' ? 'selected' : ''}>맑음</option>
@@ -214,7 +214,7 @@
 								<tbody>
 									<tr>
 										<td style="width:3%">${j+1}</td>
-										<td style="width:4%"><input type="text" name="sowDWL_name_in" value="${btInEmpList.emp_name}" readonly></td>
+										<td style="width:4%"><input type="text" name="sowDWL_name_in" value="${btInEmpList.emp_name}"></td>
 										<td style="width:5%"><input type="text" name="sowDWL_work_name_in" class="sowDWL_work_name" value="${btInData.sowDWL_work_name}"></td>
 										<td style="width:4%"><input type="text" name="sowDWL_shift_in" class="sowDWL_shift" value="${btInData.sowDWL_shift}"></td>
 										<td style="width:2%"><input type="text" name="sowDWL_hours_in" value="${btInHoursList[status.index]}"></td>

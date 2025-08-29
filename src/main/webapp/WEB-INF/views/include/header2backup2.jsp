@@ -21,47 +21,34 @@
 	}
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<style>
-
-</style>
 <header>
-	<div class="login-right">
-		<div></div>
-		<div class="login-box">
-			<nav>
-				<ul class="login-menu">
-					<c:choose>
-						<c:when test="${logOn}">
-							<li class="border-right">${login.login_area} 님
-							</li>
-							<li class="border-right"><a href="${contextPath}/login/logout.do">로그아웃</a></li>
-							<li><a href="${contextPath}/user/umReserInfo.do?u_id=${user.u_id}">마이페이지</a></li>				
-						</c:when>
-						<c:otherwise>
-							<li><a href="${contextPath}/login/loginForm.do">로그인</a></li>
-						</c:otherwise>
-					</c:choose>
-				</ul>
-			</nav>
-		</div>
-	</div>
 	<input type="hidden" name="login_report_access" id="login_report_access" value="${sessionScope.login.login_report_access}">
 	<input type="hidden" name="login_block_access" id="login_block_access" value="${sessionScope.login.login_block_access}">
-	<div class="head-container">
-		<div class="logo">
-			<a href="${contextPath}/argus/main2.do"><img src="${contextPath}/resources/img/argusImage.jpg" alt="Argus Logo"></a>
-		</div>
-		<div class="board-title">
-			<nav>
-				<ul class="menu">
-					<li></li>
-					<li><a href="${contextPath}/report/reportArea.do" onclick="return checkAccess('report')">보고서게시판</a></li>
-					<li><a href="${contextPath}/blockManagement/blockList.do" onclick="return checkAccess('block')">시험편 관리</a></li>
-					<li>-</li>
-					<li>-</li>
-				</ul>
-			</nav>
-		</div>
+	<div class="logo">
+		<a href="${contextPath}/argus/main2.do"><img src="${contextPath}/resources/img/argusImage.jpg" alt="Argus Logo"></a>
+	</div>
+	<div class="board-title">
+		<nav>
+			<ul class="menu">
+				<li></li>
+				<li><a href="${contextPath}/report/reportArea2.do" onclick="return checkAccess('report')">보고서게시판</a></li>
+				<li><a href="${contextPath}/blockManagement/blockList.do" onclick="return checkAccess('block')">시험편 관리</a></li>
+				<li>-</li>
+				<li>-</li>
+				<c:choose>
+					<c:when test="${logOn}">
+						<li>${login.login_area} 님
+<!--						<span id="sessionTimer"></span>-->
+						</li>
+						<li><a href="${contextPath}/login/logout.do">로그아웃</a></li>
+						<li><a href="${contextPath}/user/umReserInfo.do?u_id=${user.u_id}">마이페이지</a></li>				
+					</c:when>
+					<c:otherwise>
+						<li><a href="${contextPath}/login/loginForm.do">로그인</a></li>
+					</c:otherwise>
+				</c:choose>
+			</ul>
+		</nav>
 	</div>
 </header>
 <script>

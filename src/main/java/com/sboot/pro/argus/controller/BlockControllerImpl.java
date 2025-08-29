@@ -4,6 +4,8 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -43,6 +45,9 @@ public class BlockControllerImpl implements BlockController {
 		int currentPage = page;
 		int pageBlockSize = 5;
 		int totalCount = blockService.getBlockCount(searchArea);
+		if (totalCount == 0) {
+			totalCount = 1;
+		}
 		
 		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
 				
@@ -230,8 +235,14 @@ public class BlockControllerImpl implements BlockController {
 	public ModelAndView moveBlockForm(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("/blockManagement/moveBlockForm");
 		LoginVO login = (LoginVO) request.getAttribute("login");
+		
 		String searchArea = login.getLogin_area();
 		BlockVO blockInformation = blockService.selectBlockView(df_idNumber);
+		LocalDateTime now = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		String timeNow = now.format(formatter);
+
+		mav.addObject("timeNow", timeNow);
 		mav.addObject("searchArea", searchArea);
 		mav.addObject("blockInformation", blockInformation);
 		return mav;
@@ -259,7 +270,10 @@ public class BlockControllerImpl implements BlockController {
 		int limit = 20;
 		int currentPage = page;
 		int pageBlockSize = 5;
-		int totalCount = blockService.getMoveListCount(searchArea);
+		int totalCount = blockService.getRentalListCount(searchArea);
+		if (totalCount == 0) {
+			totalCount = 1;
+		}
 		
 		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
 		
@@ -290,6 +304,9 @@ public class BlockControllerImpl implements BlockController {
 		int currentPage = page;
 		int pageBlockSize = 5;
 		int totalCount = blockService.getMoveListCount(searchArea);
+		if (totalCount == 0) {
+			totalCount = 1;
+		}
 		
 		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
 		
@@ -311,7 +328,10 @@ public class BlockControllerImpl implements BlockController {
 		int currentPage = page;
 		int pageBlockSize = 5;
 		int totalCount = blockService.getSearchListCount(searchArea, searchType, searchQuery, token);
-
+		if (totalCount == 0) {
+			totalCount = 1;
+		}
+		
 		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
 		
 		List<BlockVO> searchList = blockService.selectSearchList(searchArea, searchType, searchQuery, paging.getOffset(), limit, token);
@@ -329,6 +349,91 @@ public class BlockControllerImpl implements BlockController {
 		}
 		
 		return mav;
+	}
+	
+	// 전체 블럭 보기
+	@Override
+	@GetMapping("/blockManagement/blockTotalList.do")
+	public ModelAndView blockTotalList(@RequestParam(value="page", defaultValue="1") int page, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		
+		int limit = 20;
+		int currentPage = page;
+		int pageBlockSize = 5;
+		int totalCount = blockService.getBlockTotalCount(searchArea);
+		if (totalCount == 0) {
+			totalCount = 1;
+		}
+		
+		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
+		
+		List<BlockVO> blockTotalList = blockService.selectBlockTotalList(searchArea, paging.getOffset(), limit);
+		mav.addObject("paging", paging);
+		mav.addObject("blockTotalList", blockTotalList);
+		
+		return mav;
+	}
+	
+	// 승인 대기 리스트
+	@Override
+	@GetMapping("/blockManagement/blockApproval.do")
+	public ModelAndView blockApproval(@RequestParam(value="page", defaultValue="1") int page, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/blockManagement/blockApproval");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		
+		int limit = 20;
+		int currentPage = page;
+		int pageBlockSize = 5;
+		int totalCount = blockService.getApprovalCount(searchArea);
+		if (totalCount == 0) {
+			totalCount = 1;
+		}
+		
+		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
+		
+		List<BlockVO> ApprovalList = blockService.selectApprovalList(searchArea, paging.getOffset(), limit);
+		mav.addObject("paging", paging);
+		mav.addObject("ApprovalList", ApprovalList);
+		return mav;
+	}
+	
+	// 이동 보고서 상세보기
+	@Override
+	@PostMapping("/blockManagement/blockApprovalView.do")
+	public ModelAndView blockApprovalView(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/blockManagement/blockApprovalView");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		BlockVO ApprovalView = blockService.selectBlockApprovalView(df_idNumber);
+		
+		mav.addObject("searchArea", searchArea);
+		mav.addObject("ApprovalView", ApprovalView);
+		return mav;
+	}
+	
+	// 이동 승인
+	@Override
+	@PostMapping("/blockManagement/updateApproval.do")
+	public ModelAndView updateApproval(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockApproval.do");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		int result = blockService.updateApproval(df_idNumber, searchArea);
+		return mav;
+	}
+	
+	// 이동 거절
+	@Override
+	@PostMapping("/blockManagement/updateRejection.do")
+	public ModelAndView updateRejection(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockApproval.do");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		return mav;
+		// 거절시 테이블 행 / 컬럼 변경부터 추가하고 blockApprovalView 수정해야함
 	}
 	
 	@GetMapping("/blockManagement/test.do")

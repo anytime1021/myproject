@@ -4,10 +4,11 @@
 *{margin: 0; padding: 0; box-sizing: border-box; font-family: "vitoPrice", sans-serif; border-spacing: 0;}
 li{list-style: none;}
 a{text-decoration: none; color: #333;}
-input, button, a, label{border: 0; box-shadow: none; background: transparent;}
+input, a, label{border: 0; box-shadow: none; background: transparent;}
 body{background-color: #ebebeb; height: 100%; margin: 0; padding: 0;}
 .color-orange{color: #4B89DC;}
-button{cursor: pointer;}
+button {display: block; width: 10%; height: 100%; margin-top: 5px; background: #4a90e2; border: none; border-radius: 8px; color: #FFFFFF; font-size: 17px; font-weight: 700; cursor: pointer; transition: background 0.25s ease;}
+button:hover {background: blue;}
 /*공통 css*/
 
 /* 레포트 게시판 */

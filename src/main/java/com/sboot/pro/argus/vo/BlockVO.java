@@ -21,14 +21,23 @@ public class BlockVO extends WorkingDailyBaseVO {
 	// 이동 기록
 	private int moveList_num;
 	private String moveList_lender;
-	private String moveList_lender_area;
+	private String moveList_lender_rank;
 	private String moveList_recipient;
 	private String moveList_recipient_area;
+	private String moveList_recipient_rank;
 	private String moveList_rental_date;
 	private String moveList_return_date;
 	private String moveList_moveStatus;
 	private String created_at;
 	
+	// 승인 대기
+	private int app_int;
+	private String app_branch_status;
+	private String app_branch_comment;
+	private String app_branch_area;
+	private String app_head_status;
+	private String app_head_comment;
+	 
 	public int getDf_num() {
 		return df_num;
 	}
@@ -113,11 +122,11 @@ public class BlockVO extends WorkingDailyBaseVO {
 	public void setMoveList_lender(String moveList_lender) {
 		this.moveList_lender = moveList_lender;
 	}
-	public String getMoveList_lender_area() {
-		return moveList_lender_area;
+	public String getMoveList_lender_rank() {
+		return moveList_lender_rank;
 	}
-	public void setMoveList_lender_area(String moveList_lender_area) {
-		this.moveList_lender_area = moveList_lender_area;
+	public void setMoveList_lender_rank(String moveList_lender_rank) {
+		this.moveList_lender_rank = moveList_lender_rank;
 	}
 	public String getMoveList_recipient() {
 		return moveList_recipient;
@@ -130,6 +139,12 @@ public class BlockVO extends WorkingDailyBaseVO {
 	}
 	public void setMoveList_recipient_area(String moveList_recipient_area) {
 		this.moveList_recipient_area = moveList_recipient_area;
+	}
+	public String getMoveList_recipient_rank() {
+		return moveList_recipient_rank;
+	}
+	public void setMoveList_recipient_rank(String moveList_recipient_rank) {
+		this.moveList_recipient_rank = moveList_recipient_rank;
 	}
 	public String getMoveList_rental_date() {
 		return moveList_rental_date;
@@ -155,6 +170,42 @@ public class BlockVO extends WorkingDailyBaseVO {
 	public void setCreated_at(String created_at) {
 		this.created_at = created_at;
 	}
+	public int getApp_int() {
+		return app_int;
+	}
+	public void setApp_int(int app_int) {
+		this.app_int = app_int;
+	}
+	public String getApp_branch_status() {
+		return app_branch_status;
+	}
+	public void setApp_branch_status(String app_branch_status) {
+		this.app_branch_status = app_branch_status;
+	}
+	public String getApp_branch_comment() {
+		return app_branch_comment;
+	}
+	public void setApp_branch_comment(String app_branch_comment) {
+		this.app_branch_comment = app_branch_comment;
+	}
+	public String getApp_branch_area() {
+		return app_branch_area;
+	}
+	public void setApp_branch_area(String app_branch_area) {
+		this.app_branch_area = app_branch_area;
+	}
+	public String getApp_head_status() {
+		return app_head_status;
+	}
+	public void setApp_head_status(String app_head_status) {
+		this.app_head_status = app_head_status;
+	}
+	public String getApp_head_comment() {
+		return app_head_comment;
+	}
+	public void setApp_head_comment(String app_head_comment) {
+		this.app_head_comment = app_head_comment;
+	}
 	
 	@Override
 	public String toString() {
@@ -163,9 +214,10 @@ public class BlockVO extends WorkingDailyBaseVO {
 				+ ", df_usage=" + df_usage + ", df_form=" + df_form + ", df_defectType=" + df_defectType
 				+ ", df_manufacture=" + df_manufacture + ", df_itemStatus=" + df_itemStatus + ", df_moveStatus="
 				+ df_moveStatus + ", moveList_num=" + moveList_num + ", moveList_lender=" + moveList_lender
-				+ ", moveList_lender_area=" + moveList_lender_area + ", moveList_recipient=" + moveList_recipient
-				+ ", moveList_recipient_area=" + moveList_recipient_area + ", moveList_rental_date="
-				+ moveList_rental_date + ", moveList_return_date=" + moveList_return_date + ", moveList_moveStatus="
-				+ moveList_moveStatus + ", created_at=" + created_at + "]";
+				+ ", moveList_lender_rank=" + moveList_lender_rank + ", moveList_recipient=" + moveList_recipient
+				+ ", moveList_recipient_area=" + moveList_recipient_area + ", moveList_recipient_rank="
+				+ moveList_recipient_rank + ", moveList_rental_date=" + moveList_rental_date + ", moveList_return_date="
+				+ moveList_return_date + ", moveList_moveStatus=" + moveList_moveStatus + ", created_at=" + created_at
+				+ "]";
 	}
 }

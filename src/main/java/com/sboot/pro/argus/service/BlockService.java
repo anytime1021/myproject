@@ -26,10 +26,13 @@ public interface BlockService {
 	
 	// 블럭 삭제
 	public void removeBlock(String df_idNumber) throws Exception;
-	
+		
 	// 블럭 대여
 	public void modItemStatus(String df_idNumber, String df_moveStatus) throws Exception;
 	public void addMoveBlockList(BlockVO moveBlock, String login_area, String login_id) throws Exception;
+	
+	// 대여한 블럭 수 카운트
+	public int getRentalListCount(String searchArea) throws Exception;
 	
 	// 대여한 블럭 리스트
 	public List<BlockVO> selectBlockRentalList(String searchArea, int offset, int limit) throws Exception;
@@ -48,4 +51,22 @@ public interface BlockService {
 	
 	// 블럭 검색 수 카운트
 	public int getSearchListCount(String searchArea, String searchType, String searchQuery, String token) throws Exception;
+
+	// 전체 블럭 보기 수 카운트
+	public int getBlockTotalCount(String searchArea) throws Exception;
+	
+	// 전체 블럭 리스트
+	public List<BlockVO> selectBlockTotalList(String searchArea, int offset, int limit) throws Exception;
+
+	// 승인 대기 수 카운트
+	public int getApprovalCount(String searchArea) throws Exception;
+	
+	// 승인 대기 리스트
+	public List<BlockVO> selectApprovalList(String searchArea, int offset, int limit) throws Exception;
+
+	// 이동 보고서 상세보기
+	public BlockVO selectBlockApprovalView(String df_idNumber) throws Exception;
+	
+	// 이동 승인
+	public int updateApproval(String df_idNumber, String searchArea) throws Exception;
 }
