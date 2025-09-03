@@ -75,7 +75,7 @@
 					<c:if test="${blockView.login_area eq searchArea}">
 						<div class="btn-wrapper">
 							<c:if test="${blockView.df_itemStatus eq '사용중'}">
-								<a class="btn" href="${contextPath}/blockManagement/moveBlockForm.do?df_idNumber=${blockView.df_idNumber}">시험편 대여 등록</a>
+								<a class="btn" href="${contextPath}/blockManagement/moveBlockForm.do?df_idNumber=${blockView.df_idNumber}">시험편 이동</a>
 								<a class="btn" href="${contextPath}/blockManagement/modBlockForm.do?df_idNumber=${blockView.df_idNumber}">수정하기</a>
 							</c:if>
 							<c:if test="${blockView.df_itemStatus ne '대여중'}">

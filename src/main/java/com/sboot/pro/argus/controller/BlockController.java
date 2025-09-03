@@ -56,11 +56,11 @@ public interface BlockController {
 	public ModelAndView blockApproval(@RequestParam(value="page", defaultValue="1") int page, HttpServletRequest request) throws Exception;
 
 	// 이동 보고서 상세보기
-	public ModelAndView blockApprovalView(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception;
+	public ModelAndView blockApprovalView(@RequestParam("app_num_Str") String app_num_Str, HttpServletRequest request) throws Exception;
 
 	// 이동 승인
-	public ModelAndView updateApproval(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception;
+	public ModelAndView updateApproval(@RequestParam("app_num_Str") String app_num_Str, @RequestParam("app_comment") String app_comment, HttpServletRequest request) throws Exception;
 
 	// 이동 거절
-	public ModelAndView updateRejection(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception;
+	public ModelAndView updateRejection(@RequestParam("app_num_Str") String app_num_Str, @RequestParam("app_comment") String app_comment, HttpServletRequest request) throws Exception;
 }

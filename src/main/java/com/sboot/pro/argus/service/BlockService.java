@@ -38,7 +38,7 @@ public interface BlockService {
 	public List<BlockVO> selectBlockRentalList(String searchArea, int offset, int limit) throws Exception;
 	
 	// 블럭 반납
-	public void modStatusRecipient(String df_idNumber) throws Exception;
+	public void modStatusRecipient(int app_num) throws Exception;
 	
 	// 블럭 이동 기록 수 카운트
 	public int getMoveListCount(String searchArea) throws Exception;
@@ -65,8 +65,11 @@ public interface BlockService {
 	public List<BlockVO> selectApprovalList(String searchArea, int offset, int limit) throws Exception;
 
 	// 이동 보고서 상세보기
-	public BlockVO selectBlockApprovalView(String df_idNumber) throws Exception;
+	public BlockVO selectBlockApprovalView(int app_num) throws Exception;
 	
 	// 이동 승인
-	public int updateApproval(String df_idNumber, String searchArea) throws Exception;
+	public int updateApproval(int app_num, String app_comment, String searchArea) throws Exception;
+	
+	// 이동 거절
+	public int updateRejection(int app_num, String app_comment, String searchArea) throws Exception;
 }

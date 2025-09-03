@@ -32,7 +32,6 @@
 								<option value="manufacture">제작일자</option>
 								<option value="itemStatus">상태</option>
 								<option value="moveStatus">이동현황</option>
-								<option value="note">비고</option>
 							</select>
 							<div class="searchWithButton">
 								<input type="text" name="searchQuery" placeholder="검색어 입력">
@@ -50,7 +49,6 @@
 								<th style="width:15%;">대여일</th>
 								<th style="width:15%;">반납일</th>
 								<th style="width:11%;">상태</th>
-								<th style="width:8%;">비고</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -79,7 +77,6 @@
 									    </c:otherwise>
 									</c:choose>
 									</td>
-									<td>${blockMoveList.note}</td>
 								</tr>
 							</c:forEach>
                         </tbody>

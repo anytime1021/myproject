@@ -56,6 +56,7 @@
 							<c:forEach var="rentalList" items="${rentalList}">
 								<tr>
 									<td><button style="font-size: 15px; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">${rentalList.df_idNumber}</button></td>
+									<input type="hidden" id="app_num" name="app_num" value="${rentalList.app_num}">
 									<td>${rentalList.df_size}</td>
 									<td>${rentalList.df_material}</td>
 									<td>${rentalList.df_usage}</td>
@@ -126,10 +127,9 @@
 	}
 	
 	function returnBlock(button) {
-		const row = button.closest("tr");
-		const cells = row.getElementsByTagName("td");
+		const tr = button.closest("tr");
 		
-		const id = cells[0].innerText;
+		const app_num_Str = tr.querySelector("input[name='app_num']").value;
 		
 		const form = document.createElement("form");
 		form.method = "POST";
@@ -137,8 +137,8 @@
 		
 		const inputId = document.createElement("input");
 		inputId.type = "hidden";
-		inputId.name = "df_idNumber";
-		inputId.value = id;
+		inputId.name = "app_num_Str"
+		inputId.value = app_num_Str;
 		
 		form.appendChild(inputId);
 		document.body.appendChild(form);

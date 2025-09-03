@@ -31,7 +31,7 @@ public class BlockVO extends WorkingDailyBaseVO {
 	private String created_at;
 	
 	// 승인 대기
-	private int app_int;
+	private int app_num;
 	private String app_branch_status;
 	private String app_branch_comment;
 	private String app_branch_area;
@@ -170,11 +170,11 @@ public class BlockVO extends WorkingDailyBaseVO {
 	public void setCreated_at(String created_at) {
 		this.created_at = created_at;
 	}
-	public int getApp_int() {
-		return app_int;
+	public int getApp_num() {
+		return app_num;
 	}
-	public void setApp_int(int app_int) {
-		this.app_int = app_int;
+	public void setApp_num(int app_num) {
+		this.app_num = app_num;
 	}
 	public String getApp_branch_status() {
 		return app_branch_status;

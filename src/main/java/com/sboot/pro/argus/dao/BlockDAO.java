@@ -42,12 +42,12 @@ public interface BlockDAO {
 	public int selectRentalListCount(String searchArea) throws Exception;
 
 	// 대여한 블럭 리스트
-	public List<String> selectIdNumber(String searchArea) throws Exception;
-	public List<BlockVO> selectBlockRentalList(@Param("idNumber") List<String> idNumber, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
+	public List<BlockVO> selectBlockRentalList(@Param("searchArea") String searchArea, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
 	
 	// 블럭 반납
+	public String selectIdNumber(int app_num) throws Exception;
 	public void updateReturnStatus(String df_idNumber) throws Exception;
-	public void updateReturnRecipient(String df_idNumber) throws Exception;
+	public void updateReturnRecipient(int app_num) throws Exception;
 	
 	// 블럭 이동 기록 수 카운트
 	public int selectBlockMoveListCount(String searchArea) throws Exception;
@@ -81,8 +81,15 @@ public interface BlockDAO {
 	public List<BlockVO> selectApprovalList(@Param("searchArea") String searchArea, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
 
 	// 이동 보고서 상세보기
-	public BlockVO selectBlockApprovalView(String df_idNumber) throws Exception;
+	public BlockVO selectBlockApprovalView(int app_num) throws Exception;
+	public BlockVO ApprovalDivision(int app_num) throws Exception;
 	
 	// 이동 승인
-	public int updateApproval(@Param("df_idNumber") String df_idNumber, @Param("searchArea") String searchArea) throws Exception;
+	public int updateApproval(@Param("app_num") int app_num, @Param("app_comment") String app_comment, @Param("searchArea") String searchArea) throws Exception;
+	public int tnfCheck(int app_num) throws Exception;
+	public void finalApproval(int app_num) throws Exception;
+	
+	// 이동 거절
+	public int updateRejection(@Param("app_num") int app_num, @Param("app_comment") String app_comment, @Param("searchArea") String searchArea) throws Exception;
+	public void finalRejection(int app_num) throws Exception;
 }

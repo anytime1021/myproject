@@ -81,18 +81,14 @@ public class BlockServiceImpl implements BlockService {
 	// 대여한 블럭 리스트
 	@Override
 	public List<BlockVO> selectBlockRentalList(String searchArea, int offset, int limit) throws Exception {
-		List<String> idNumber = blockDAO.selectIdNumber(searchArea);
-		if (idNumber == null || idNumber.isEmpty()) {
-			idNumber = new ArrayList<>();
-			idNumber.add("1");
-		}
-		return blockDAO.selectBlockRentalList(idNumber, offset, limit);
+		return blockDAO.selectBlockRentalList(searchArea, offset, limit);
 	}
 	
 	// 블럭 반납
-	public void modStatusRecipient(String df_idNumber) throws Exception {
+	public void modStatusRecipient(int app_num) throws Exception {
+		String df_idNumber = blockDAO.selectIdNumber(app_num);
 		blockDAO.updateReturnStatus(df_idNumber);
-		blockDAO.updateReturnRecipient(df_idNumber);
+		blockDAO.updateReturnRecipient(app_num);
 	}
 	
 	// 블럭 이동 기록 수 카운트
@@ -172,13 +168,19 @@ public class BlockServiceImpl implements BlockService {
 	
 	// 이동 보고서 상세보기
 	@Override
-	public BlockVO selectBlockApprovalView(String df_idNumber) throws Exception {
-		return blockDAO.selectBlockApprovalView(df_idNumber);
+	public BlockVO selectBlockApprovalView(int app_num) throws Exception {
+		return blockDAO.selectBlockApprovalView(app_num);
 	}
 	
 	// 이동 승인
 	@Override
-	public int updateApproval(String df_idNumber, String searchArea) throws Exception {
-		return blockDAO.updateApproval(df_idNumber, searchArea);
+	public int updateApproval(int app_num, String app_comment, String searchArea) throws Exception {
+		return blockDAO.updateApproval(app_num, app_comment, searchArea);
+	}
+	
+	// 이동 거절
+	@Override
+	public int updateRejection(int app_num, String app_comment, String searchArea) throws Exception {
+		return blockDAO.updateRejection(app_num, app_comment, searchArea);
 	}
 }

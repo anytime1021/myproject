@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.sboot.pro.argus.DTO.PagingDTO;
+import com.sboot.pro.argus.dao.BlockDAO;
 import com.sboot.pro.argus.service.BlockService;
 import com.sboot.pro.argus.vo.BlockVO;
 import com.sboot.pro.argus.vo.LoginVO;
@@ -32,6 +33,9 @@ public class BlockControllerImpl implements BlockController {
 	
 	@Autowired
 	BlockService blockService;
+	
+	@Autowired
+	BlockDAO blockDAO;
 	
 	// 블럭 리스트
 	@Override
@@ -256,6 +260,7 @@ public class BlockControllerImpl implements BlockController {
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		blockService.modItemStatus(moveBlock.getDf_idNumber(), moveBlock.getMoveList_recipient_area());
 		blockService.addMoveBlockList(moveBlock, login.getLogin_area(), login.getLogin_id());
+		System.out.println("1");
 		return mav;
 	}
 	
@@ -286,9 +291,10 @@ public class BlockControllerImpl implements BlockController {
 	// 블럭 반납
 	@Override
 	@PostMapping("/blockManagement/returnBlock.do")
-	public ModelAndView retrunBlock(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception {
+	public ModelAndView retrunBlock(@RequestParam("app_num_Str") String app_num_Str, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockRentalList.do");
-		blockService.modStatusRecipient(df_idNumber);
+		int app_num = Integer.parseInt(app_num_Str);
+		blockService.modStatusRecipient(app_num);
 		return mav;
 	}
 	
@@ -403,35 +409,47 @@ public class BlockControllerImpl implements BlockController {
 	// 이동 보고서 상세보기
 	@Override
 	@PostMapping("/blockManagement/blockApprovalView.do")
-	public ModelAndView blockApprovalView(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception {
+	public ModelAndView blockApprovalView(@RequestParam("app_num_Str") String app_num_Str, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("/blockManagement/blockApprovalView");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
-		BlockVO ApprovalView = blockService.selectBlockApprovalView(df_idNumber);
-		
+		int app_num = Integer.parseInt(app_num_Str);
+		BlockVO ApprovalView = blockService.selectBlockApprovalView(app_num);
+		BlockVO ApprovalDivision = blockDAO.ApprovalDivision(app_num);
 		mav.addObject("searchArea", searchArea);
 		mav.addObject("ApprovalView", ApprovalView);
+		mav.addObject("ApprovalDivision", ApprovalDivision);
 		return mav;
 	}
 	
 	// 이동 승인
 	@Override
 	@PostMapping("/blockManagement/updateApproval.do")
-	public ModelAndView updateApproval(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception {
+	public ModelAndView updateApproval(@RequestParam("app_num_Str") String app_num_Str, @RequestParam("app_comment") String app_comment, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockApproval.do");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
-		int result = blockService.updateApproval(df_idNumber, searchArea);
+		int app_num = Integer.parseInt(app_num_Str);
+
+		int result = blockService.updateApproval(app_num, app_comment, searchArea);
+		int tnf = blockDAO.tnfCheck(app_num);
+		if (tnf == 1) {
+			blockDAO.finalApproval(app_num);
+		}
 		return mav;
 	}
 	
 	// 이동 거절
 	@Override
 	@PostMapping("/blockManagement/updateRejection.do")
-	public ModelAndView updateRejection(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception {
+	public ModelAndView updateRejection(@RequestParam("app_num_Str") String app_num_Str, @RequestParam("app_comment") String app_comment, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockApproval.do");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
+		int app_num = Integer.parseInt(app_num_Str);
+
+		int result = blockService.updateRejection(app_num, app_comment, searchArea);
+		blockDAO.finalRejection(app_num);
 		return mav;
 		// 거절시 테이블 행 / 컬럼 변경부터 추가하고 blockApprovalView 수정해야함
 	}

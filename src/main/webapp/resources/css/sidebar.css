@@ -1,6 +1,6 @@
 * {margin: 0; padding: 0; box-sizing: border-box;}
 html, body {overflow-x: hidden; margin: 0; padding: 0;}
-.sidebar {width: 200px; height: 700px; padding: 10px; font-family: sans-serif; background-color: white; border-right:1px solid black; z-index: 0;}
+.sidebar {width: 200px; height: 820px; padding: 10px; font-family: sans-serif; background-color: white; border-right:1px solid black; z-index: 0;}
 .sidebar .filter-group {margin-bottom: 15px;}
 .sidebar .filter-group .filter-title {font-weight: bold; cursor: pointer; padding: 5px 0;}
 .sidebar .filter-group .filter-options {display: none; margin-left: 10px;}

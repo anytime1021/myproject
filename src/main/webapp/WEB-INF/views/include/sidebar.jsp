@@ -26,9 +26,9 @@
 	        <div class="filter-options">
 				<label><a href="${contextPath}/blockManagement/blockTotalList.do">• 전체 시험편 </a></label>
 	            <label><a href="${contextPath}/blockManagement/blockList.do">• 사업소 보유 시험편 </a></label>
-				<label><a href="${contextPath}/blockManagement/blockRentalList.do">• 대여 시험편</a></label>
+				<label><a href="${contextPath}/blockManagement/blockRentalList.do">• 대여 시험편 </a></label>
 				<label><a href="${contextPath}/blockManagement/blockMoveList.do">• 이동 기록 </a></label>
-				<label><a href="${contextPath}/blockManagement/blockApproval.do">• 승인 대기</a></label>
+				<label><a href="${contextPath}/blockManagement/blockApproval.do">• 시험편 이동 보고서 </a></label>
 	        </div>
 	    </div>
 	</c:if>

@@ -41,7 +41,10 @@
 									<td>${ApprovalList.app_branch_area}</td>
 									<td>${ApprovalList.app_branch_status}</td>
 									<td>${ApprovalList.app_head_status}</td>
-									<td><button style="font-weight: bold; cursor: pointer; background-color: white; border: none;" onclick="detailViewApproval(this)">이동 보고서<br> 상세보기</button></td>
+									<td><button style="font-weight: bold; cursor: pointer; background-color: white; border: none;" 
+								        onclick="detailViewApproval(this)" 
+								        data-app-num="${ApprovalList.app_num}">이동 보고서<br> 상세보기</button>
+									</td>
 								</tr>
 							</c:forEach>
                         </tbody>
@@ -113,24 +116,20 @@
 		form.submit();
 	}
 	
-	function detailViewApproval(button) {
-		const row = button.closest("tr");
-		const cells = row.getElementsByTagName("td");
-		
-		const id = cells[0].innerText;
-		
-		const form = document.createElement("form");
-		form.method = "POST";
-		form.action = "/blockManagement/blockApprovalView.do";
-		
-		const inputId = document.createElement("input");
-		inputId.type = "hidden";
-		inputId.name = "df_idNumber";
-		inputId.value = id;
-		
-		form.appendChild(inputId);
-		document.body.appendChild(form);
-		form.submit();
+	function detailViewApproval(button) {	
+	    const appNum = button.dataset.appNum; // 클릭한 버튼의 data-app-num
+	    const form = document.createElement("form");
+	    form.method = "POST";
+	    form.action = "/blockManagement/blockApprovalView.do";
+	    
+	    const inputId = document.createElement("input");
+	    inputId.type = "hidden";
+	    inputId.name = "app_num_Str";
+	    inputId.value = appNum;
+	    
+	    form.appendChild(inputId);
+	    document.body.appendChild(form);
+	    form.submit();
 	}
 </script>
 </html>
