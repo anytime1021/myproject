@@ -83,7 +83,7 @@
 	</select>
 	
 	<!-- 대여한 블럭 리스트 -->
-	<select id="selectIdNumber" parameterType="String">
+	<select id="selectIdNumber" parameterType="int" resultType="String">
 		select df_idNumber from blockMoveList where app_num = #{app_num}
 	</select>
 	
