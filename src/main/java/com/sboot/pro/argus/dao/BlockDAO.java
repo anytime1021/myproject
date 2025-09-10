@@ -92,4 +92,8 @@ public interface BlockDAO {
 	// 이동 거절
 	public int updateRejection(@Param("app_num") int app_num, @Param("app_comment") String app_comment, @Param("searchArea") String searchArea) throws Exception;
 	public void finalRejection(int app_num) throws Exception;
+	
+	// 블럭 스펙 이미지 업로드
+	public void insertBlockSpec(@Param("df_IdNumber") String df_idNumber, @Param("file_Name") String file_Name, @Param("file_Path") String file_Path) throws Exception;
+	
 }

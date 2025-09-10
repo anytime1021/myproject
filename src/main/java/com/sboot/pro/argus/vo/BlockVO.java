@@ -37,7 +37,12 @@ public class BlockVO extends WorkingDailyBaseVO {
 	private String app_branch_area;
 	private String app_head_status;
 	private String app_head_comment;
-	 
+	
+	// 블럭 스펙 업로드
+	private int bs_num;
+	private String file_name;
+	private String file_path;
+	private String upload_date;
 	public int getDf_num() {
 		return df_num;
 	}
@@ -207,6 +212,31 @@ public class BlockVO extends WorkingDailyBaseVO {
 		this.app_head_comment = app_head_comment;
 	}
 	
+	public int getBs_num() {
+		return bs_num;
+	}
+	public void setBs_num(int bs_num) {
+		this.bs_num = bs_num;
+	}
+	public String getFile_name() {
+		return file_name;
+	}
+	public void setFile_name(String file_name) {
+		this.file_name = file_name;
+	}
+	public String getFile_path() {
+		return file_path;
+	}
+	public void setFile_path(String file_path) {
+		this.file_path = file_path;
+	}
+	public String getUpload_date() {
+		return upload_date;
+	}
+	public void setUpload_date(String upload_date) {
+		this.upload_date = upload_date;
+	}
+	
 	@Override
 	public String toString() {
 		return "BlockVO [df_num=" + df_num + ", df_idNumber=" + df_idNumber + ", df_picture=" + df_picture
@@ -218,6 +248,9 @@ public class BlockVO extends WorkingDailyBaseVO {
 				+ ", moveList_recipient_area=" + moveList_recipient_area + ", moveList_recipient_rank="
 				+ moveList_recipient_rank + ", moveList_rental_date=" + moveList_rental_date + ", moveList_return_date="
 				+ moveList_return_date + ", moveList_moveStatus=" + moveList_moveStatus + ", created_at=" + created_at
-				+ "]";
+				+ ", app_num=" + app_num + ", app_branch_status=" + app_branch_status + ", app_branch_comment="
+				+ app_branch_comment + ", app_branch_area=" + app_branch_area + ", app_head_status=" + app_head_status
+				+ ", app_head_comment=" + app_head_comment + ", bs_num=" + bs_num + ", file_name=" + file_name
+				+ ", file_path=" + file_path + ", upload_date=" + upload_date + "]";
 	}
 }

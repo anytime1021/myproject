@@ -2,9 +2,17 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sboot.pro.argus.dao.BlockDAO">
 	<!-- 블럭 리스트 -->
+<!--	<select id="selectBlockList">-->
+<!--		select * from blockinformation where login_area=#{searchArea} and YN='Y'-->
+<!--		order by df_idNumber desc limit #{offset}, #{limit}-->
+<!--	</select>-->
 	<select id="selectBlockList">
-		select * from blockinformation where login_area=#{searchArea} and YN='Y'
-		order by df_idNumber desc limit #{offset}, #{limit}
+		select * from (
+			select row_number() over (order by df_idNumber desc) as row_num, b.*
+			from blockInformation b	where login_area = #{searchArea} and YN='Y'
+			order by df_idNumber desc limit #{offset}, #{limit}
+		) sub
+		order by row_num
 	</select>
 	
 	<!-- 블럭 수 카운트 -->
@@ -391,4 +399,10 @@
 		df_moveStatus = '-'
 		where df_idNumber = (select df_idNumber from blockMoveList where app_num = #{app_num})
 	</update>
+	
+	<!-- 블럭 스펙 업로드 -->
+	<insert id="insertBlockSpec" parameterType="Map">
+		insert into blockSpec_image(df_idNumber, file_name, file_path)
+		values (#{df_idNumber}, #{file_Name}, #{file_Path})
+	</insert>
 </mapper>

@@ -2,6 +2,8 @@ package com.sboot.pro.argus.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.sboot.pro.argus.vo.BlockVO;
 
 public interface BlockService {
@@ -72,4 +74,7 @@ public interface BlockService {
 	
 	// 이동 거절
 	public int updateRejection(int app_num, String app_comment, String searchArea) throws Exception;
+	
+	// 블럭 스펙 업로드
+	public void insertBlockSpec(String df_idNumber, MultipartFile[] files) throws Exception;
 }

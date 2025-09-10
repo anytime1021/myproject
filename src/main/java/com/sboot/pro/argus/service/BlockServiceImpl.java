@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.sboot.pro.argus.dao.BlockDAO;
 import com.sboot.pro.argus.vo.BlockVO;
@@ -182,5 +183,11 @@ public class BlockServiceImpl implements BlockService {
 	@Override
 	public int updateRejection(int app_num, String app_comment, String searchArea) throws Exception {
 		return blockDAO.updateRejection(app_num, app_comment, searchArea);
+	}
+	
+	// 블럭 스펙 업로드
+	@Override
+	public void insertBlockSpec(String df_idNumber, MultipartFile[] files) throws Exception {
+		blockDAO.insertBlockSpec(df_idNumber, file_Name, file_path);
 	}
 }

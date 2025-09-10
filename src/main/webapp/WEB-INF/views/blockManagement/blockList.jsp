@@ -47,17 +47,19 @@
                     <table class="table-control">
                         <thead>
                             <tr>
-								<th style="width:20%;">식별번호</th>
-								<th style="width:20%;">크기</th>
+								<th style="width:6%;">번호</th>
+								<th style="width:18%;">식별번호</th>
+								<th style="width:18%;">크기</th>
 								<th style="width:15%;">재질</th>
 								<th style="width:15%;">용도</th>
-								<th style="width:15%;">상태</th>
-								<th style="width:15%;"></th>
+								<th style="width:14%;">상태</th>
+								<th style="width:14%;"></th>
                             </tr>
                         </thead>
                         <tbody>
 							<c:forEach var="blockList" items="${blockList}">
 								<tr>
+									<td>${blockList.row_num}</td>
 									<td><button style="font-size: 15px; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">${blockList.df_idNumber}</button></td>
 									<td>${blockList.df_size}</td>
 									<td>${blockList.df_material}</td>
@@ -119,7 +121,7 @@
 		const row = button.closest("tr");
 		const cells = row.getElementsByTagName("td");
 		
-		const id = cells[0].innerText;
+		const id = cells[1].innerText;
 		
 		const form = document.createElement("form");
 		form.method = "POST";

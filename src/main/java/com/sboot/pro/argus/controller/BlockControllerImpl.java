@@ -454,9 +454,20 @@ public class BlockControllerImpl implements BlockController {
 		// 거절시 테이블 행 / 컬럼 변경부터 추가하고 blockApprovalView 수정해야함
 	}
 	
+	// 블럭 스펙 업로드
+	@Override
+	@PostMapping("/uploadBlockSpec")
+	public ModelAndView uploadBlockSpec(@RequestParam("df_idNumber") String df_idNumber, @RequestParam("files") MultipartFile[] files) {
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockView.do?df_idNumber=" + df_idNumber);
+		blockService.insertBlockSpec(df_idNumber, files);
+		return mav;
+	}
+	
 	@GetMapping("/blockManagement/test.do")
 	public ModelAndView test(HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("/blockManagement/test");
 		return mav;
 	}
+	
+	
 }
