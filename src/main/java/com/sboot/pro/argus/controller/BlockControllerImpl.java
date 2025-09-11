@@ -457,7 +457,7 @@ public class BlockControllerImpl implements BlockController {
 	// 블럭 스펙 업로드
 	@Override
 	@PostMapping("/uploadBlockSpec")
-	public ModelAndView uploadBlockSpec(@RequestParam("df_idNumber") String df_idNumber, @RequestParam("files") MultipartFile[] files) {
+	public ModelAndView uploadBlockSpec(@RequestParam("df_idNumber") String df_idNumber, @RequestParam("files") MultipartFile[] files) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockView.do?df_idNumber=" + df_idNumber);
 		blockService.insertBlockSpec(df_idNumber, files);
 		return mav;

@@ -2,6 +2,7 @@ package com.sboot.pro.argus.controller;
 
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.sboot.pro.argus.vo.BlockVO;
@@ -63,4 +64,7 @@ public interface BlockController {
 
 	// 이동 거절
 	public ModelAndView updateRejection(@RequestParam("app_num_Str") String app_num_Str, @RequestParam("app_comment") String app_comment, HttpServletRequest request) throws Exception;
+
+	// 블럭 스펙 업로드
+	public ModelAndView uploadBlockSpec(@RequestParam("df_idNumber") String df_idNumber, @RequestParam("files") MultipartFile[] files) throws Exception;
 }

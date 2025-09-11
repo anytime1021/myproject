@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.sboot.pro.argus.vo.BlockVO;
 
@@ -94,6 +95,6 @@ public interface BlockDAO {
 	public void finalRejection(int app_num) throws Exception;
 	
 	// 블럭 스펙 이미지 업로드
-	public void insertBlockSpec(@Param("df_IdNumber") String df_idNumber, @Param("file_Name") String file_Name, @Param("file_Path") String file_Path) throws Exception;
+	public void insertBlockSpec(@Param("df_idNumber") String df_idNumber, @Param("file") MultipartFile[] file) throws Exception;
 	
 }

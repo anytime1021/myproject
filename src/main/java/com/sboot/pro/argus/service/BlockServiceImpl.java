@@ -188,6 +188,6 @@ public class BlockServiceImpl implements BlockService {
 	// 블럭 스펙 업로드
 	@Override
 	public void insertBlockSpec(String df_idNumber, MultipartFile[] files) throws Exception {
-		blockDAO.insertBlockSpec(df_idNumber, file_Name, file_path);
+		blockDAO.insertBlockSpec(df_idNumber, files);
 	}
 }

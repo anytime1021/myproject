@@ -70,14 +70,14 @@
         const blockAccess = document.getElementById("login_block_access").value;
 
         if (type === "report") {
-            if (reportAccess != "1") {
+            if (reportAccess != 1) {
                 alert("권한이 없습니다.");
                 return false;
             }
         }
 
         if (type === "block") {
-            if (blockAccess != "1") {
+            if (blockAccess != 1) {
                 alert("권한이 없습니다.");
                 return false;
             }
