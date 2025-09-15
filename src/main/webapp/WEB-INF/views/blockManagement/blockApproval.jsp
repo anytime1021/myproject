@@ -38,9 +38,29 @@
 								<tr>
 									<td><button style="font-size: 15px; cursor: pointer; background-color: white; border: none;" onclick="detailViewIdNumber(this)">${ApprovalList.df_idNumber}</button></td>
 									<td>${ApprovalList.login_area}</td>
-									<td>${ApprovalList.app_branch_area}</td>
-									<td>${ApprovalList.app_branch_status}</td>
-									<td>${ApprovalList.app_head_status}</td>
+									<td>${ApprovalList.app_rcv_area}</td>
+									<c:choose>
+										<c:when test="${ApprovalList.app_rcv_status eq 'W'}">
+											<td>대기</td>
+										</c:when>
+										<c:when test="${ApprovalList.app_rcv_status eq 'Y'}">
+											<td>승인</td>
+										</c:when>
+										<c:otherwise>
+											<td>거부</td>
+										</c:otherwise>
+									</c:choose>
+									<c:choose>
+										<c:when test="${ApprovalList.app_head_status eq 'W'}">
+											<td>대기</td>
+										</c:when>
+										<c:when test="${ApprovalList.app_head_status eq 'Y'}">
+											<td>승인</td>
+										</c:when>
+										<c:otherwise>
+											<td>거부</td>
+										</c:otherwise>
+									</c:choose>
 									<td><button style="font-weight: bold; cursor: pointer; background-color: white; border: none;" 
 								        onclick="detailViewApproval(this)" 
 								        data-app-num="${ApprovalList.app_num}">이동 보고서<br> 상세보기</button>

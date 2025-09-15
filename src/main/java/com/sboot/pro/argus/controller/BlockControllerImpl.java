@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -98,46 +99,49 @@ public class BlockControllerImpl implements BlockController {
 	// 블럭 추가
 	@Override
 	@PostMapping("/blockManagement/addBlock.do")
-	public ModelAndView addBlock(@ModelAttribute("addBlockForm") BlockVO addblockForm, HttpServletRequest request) throws Exception {
+	public ModelAndView addBlock(@ModelAttribute("addBlockForm") BlockVO addBlockForm, HttpServletRequest request) throws Exception {
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
 		
-		MultipartFile uploadFile = addblockForm.getDf_picture();
+		MultipartFile uploadFile = addBlockForm.getDf_picture();
 		
 		if (!uploadFile.isEmpty()) {
-			String uploadDir = request.getServletContext().getRealPath("/resources/img/");
-			File dir = new File(uploadDir);
-			if (!dir.exists()) dir.mkdirs();
-			
-			String savedName = System.currentTimeMillis() + "_" + addblockForm.getDf_idNumber();
-			
-			InputStream inputStream = uploadFile.getInputStream();
-			BufferedImage originalImage = ImageIO.read(inputStream);
-			
-			int originalWidth = originalImage.getWidth();
-			int originalHeight = originalImage.getHeight();
-			
-			int targetHeight = 300;
-			int targetWidth = (originalWidth * targetHeight) / originalHeight;
-
-			BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
-			Graphics2D g2d = resizedImage.createGraphics();
-			g2d.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
-			g2d.dispose();
-			
-			File outputFile = new File(uploadDir + File.separator + savedName);
-			ImageIO.write(resizedImage, "jpg", outputFile);
-			
-			addblockForm.setDf_pictureName(savedName);
+				String uploadDir = request.getServletContext().getRealPath("/resources/img/");
+				File dir = new File(uploadDir);
+				if (!dir.exists()) dir.mkdirs();
+				
+		        String originalName = addBlockForm.getDf_picture().getOriginalFilename();
+		        String ext = originalName.substring(originalName.lastIndexOf(".") + 1);
+		        String savedName = addBlockForm.getDf_idNumber() + "." + ext;
+		        
+				try (InputStream inputStream = uploadFile.getInputStream()) {
+				BufferedImage originalImage = ImageIO.read(inputStream);
+				
+				int originalWidth = originalImage.getWidth();
+				int originalHeight = originalImage.getHeight();
+				
+				int targetHeight = 300;
+				int targetWidth = (originalWidth * targetHeight) / originalHeight;
+	
+				BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+				Graphics2D g2d = resizedImage.createGraphics();
+				g2d.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
+				g2d.dispose();
+				
+				File outputFile = new File(uploadDir + File.separator + savedName);
+				ImageIO.write(resizedImage, "jpg", outputFile);
+				
+				addBlockForm.setDf_pictureName(savedName);
+			}
 		} else {
-			addblockForm.setDf_pictureName("A-NoImage.jpg");
+			addBlockForm.setDf_pictureName("A-NoImage.jpg");
 		}
 		
-		if (addblockForm.getDf_manufacture().isEmpty()) {
-			addblockForm.setDf_manufacture(null);
+		if (addBlockForm.getDf_manufacture().isEmpty()) {
+			addBlockForm.setDf_manufacture(null);
 		}
 		
-		blockService.addBlock(addblockForm, searchArea);
+		blockService.addBlock(addBlockForm, searchArea);
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/addBlockForm.do");
 		return mav;
 	}
@@ -189,36 +193,38 @@ public class BlockControllerImpl implements BlockController {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockList.do");
 		
 		if (!modBlockForm.getDf_picture().isEmpty()) {
-			
-			MultipartFile uploadFile = modBlockForm.getDf_picture();
-			
-			if (!uploadFile.isEmpty()) {
-				String uploadDir = request.getServletContext().getRealPath("/resources/img/");
-				File dir = new File(uploadDir);
-				if (!dir.exists()) dir.mkdirs();
-				
-//				String originalName = uploadFile.getOriginalFilename();
-				String savedName = System.currentTimeMillis() + "_" + modBlockForm.getDf_idNumber();
-				
-				InputStream inputStream = uploadFile.getInputStream();
-				BufferedImage originalImage = ImageIO.read(inputStream);
-				
-				int originalWidth = originalImage.getWidth();
-				int originalHeight = originalImage.getHeight();
-				
-				int targetHeight = 300;
-				int targetWidth = (originalWidth * targetHeight) / originalHeight;
-				
-				BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
-				Graphics2D g2d = resizedImage.createGraphics();
-				g2d.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
-				g2d.dispose();
-				
-				File outputFile = new File(uploadDir + File.separator + savedName);
-				ImageIO.write(resizedImage, "jpg", outputFile);
-				
-				modBlockForm.setDf_pictureName(savedName);
-			}
+
+		    MultipartFile uploadFile = modBlockForm.getDf_picture();
+
+		    if (!uploadFile.isEmpty()) {
+		        String uploadDir = request.getServletContext().getRealPath("/resources/img/");
+		        File dir = new File(uploadDir);
+		        if (!dir.exists()) dir.mkdirs();
+
+		        String originalName = modBlockForm.getDf_picture().getOriginalFilename();
+		        String ext = originalName.substring(originalName.lastIndexOf(".") + 1);
+		        String savedName = modBlockForm.getDf_idNumber() + "." + ext;
+
+		        try (InputStream inputStream = uploadFile.getInputStream()) {
+		            BufferedImage originalImage = ImageIO.read(inputStream);
+
+		            int originalWidth = originalImage.getWidth();
+		            int originalHeight = originalImage.getHeight();
+
+		            int targetHeight = 300;
+		            int targetWidth = (originalWidth * targetHeight) / originalHeight;
+
+		            BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+		            Graphics2D g2d = resizedImage.createGraphics();
+		            g2d.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
+		            g2d.dispose();
+
+		            File outputFile = new File(uploadDir + File.separator + savedName);
+		            ImageIO.write(resizedImage, "jpg", outputFile);
+
+		            modBlockForm.setDf_pictureName(savedName);
+		        }
+		    }
 		}
 		blockService.modBlock(modBlockForm);
 		return mav;
@@ -258,9 +264,12 @@ public class BlockControllerImpl implements BlockController {
 	public ModelAndView moveBlock(@ModelAttribute("moveBlock") BlockVO moveBlock, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockMoveList.do");
 		LoginVO login = (LoginVO) request.getAttribute("login");
+		if(moveBlock.getApp_rcv_create_at().equals("") || moveBlock.getApp_rcv_create_at().isEmpty()) {
+			moveBlock.setApp_rcv_create_at(null);
+		}
 		blockService.modItemStatus(moveBlock.getDf_idNumber(), moveBlock.getMoveList_recipient_area());
 		blockService.addMoveBlockList(moveBlock, login.getLogin_area(), login.getLogin_id());
-		System.out.println("1");
+		System.out.println("이동 완료");
 		return mav;
 	}
 	
@@ -454,12 +463,33 @@ public class BlockControllerImpl implements BlockController {
 		// 거절시 테이블 행 / 컬럼 변경부터 추가하고 blockApprovalView 수정해야함
 	}
 	
-	// 블럭 스펙 업로드
+	// 블럭 스펙 추가 폼
 	@Override
-	@PostMapping("/uploadBlockSpec")
-	public ModelAndView uploadBlockSpec(@RequestParam("df_idNumber") String df_idNumber, @RequestParam("files") MultipartFile[] files) throws Exception {
-		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockView.do?df_idNumber=" + df_idNumber);
-		blockService.insertBlockSpec(df_idNumber, files);
+	@GetMapping("/blockManagement/addBlockSpecForm.do")
+	public ModelAndView addBlockSpecForm(@RequestParam("df_idNumber") String df_idNumber) throws Exception {
+		ModelAndView mav = new ModelAndView("/blockManagement/addBlockSpecForm");
+		mav.addObject("df_idNumber", df_idNumber);
+		return mav;
+	}
+	
+	// 블럭 스펙 추가
+	@Override
+	@PostMapping("/blockManagement/addBlockSpec.do")
+	public ModelAndView addBlockSpec(@RequestParam("df_idNumber") String df_idNumber, @RequestParam("files") MultipartFile[] files, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("forward:/blockManagement/blockView.do");
+		blockService.insertBlockSpec(df_idNumber, files, request);
+		return mav;
+	}
+	
+	// 블럭 스펙 보기
+	@Override
+	@GetMapping("/blockManagement/blockSpecView.do")
+	public ModelAndView blockSpecView(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/blockManagement/blockSpecView");
+
+		List<BlockVO> blockSpecView = new ArrayList<BlockVO>();
+		blockSpecView = blockService.selectBlockSpecView(df_idNumber);
+		mav.addObject("blockSpecView", blockSpecView);
 		return mav;
 	}
 	

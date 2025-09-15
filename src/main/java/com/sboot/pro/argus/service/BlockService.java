@@ -6,6 +6,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.sboot.pro.argus.vo.BlockVO;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 public interface BlockService {
 	
 	// 블럭 수 카운트
@@ -75,6 +77,9 @@ public interface BlockService {
 	// 이동 거절
 	public int updateRejection(int app_num, String app_comment, String searchArea) throws Exception;
 	
-	// 블럭 스펙 업로드
-	public void insertBlockSpec(String df_idNumber, MultipartFile[] files) throws Exception;
+	// 블럭 스펙 추가
+	public void insertBlockSpec(String df_idNumber, MultipartFile[] files, HttpServletRequest request) throws Exception;
+
+	// 블럭 스펙 보기
+	public List<BlockVO> selectBlockSpecView(String df_idNumber) throws Exception;
 }

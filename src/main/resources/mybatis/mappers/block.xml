@@ -77,11 +77,11 @@
 	</update>
 	
 	<insert id="insertMoveBlockList">
-		insert into approval(df_idNumber, app_branch_area, login_area, created_at)
-		values(#{moveBlock.df_idNumber}, #{moveBlock.moveList_recipient_area}, #{login_area}, #{moveBlock.created_at});
+		insert into approval(df_idNumber, app_hnd_comment, login_area, app_hnd_name, app_hnd_create_at, app_rcv_area, app_rcv_name, app_rcv_create_at, app_isError)
+		values(#{moveBlock.df_idNumber}, #{moveBlock.app_hnd_comment}, #{moveBlock.login_area}, #{moveBlock.app_hnd_name}, #{moveBlock.app_hnd_create_at}, #{moveBlock.app_rcv_area}, #{moveBlock.app_rcv_name}, #{moveBlock.app_rcv_create_at}, #{moveBlock.app_isError})
 		
-		insert into blockMoveList(moveList_lender, moveList_lender_rank, moveList_recipient, moveList_recipient_area, moveList_recipient_rank, moveList_rental_date, df_itemStatus, df_idNumber, login_area, login_id, note, created_at, app_num)
-		select #{moveBlock.moveList_lender}, #{moveBlock.moveList_lender_rank}, #{moveBlock.moveList_recipient}, #{moveBlock.moveList_recipient_area}, #{moveBlock.moveList_recipient_rank}, #{moveBlock.moveList_rental_date}, '대여중', #{moveBlock.df_idNumber}, #{login_area}, #{login_id}, #{moveBlock.note}, #{moveBlock.created_at}, app_num from Approval where df_idNumber = #{moveBlock.df_idNumber} and created_at = #{moveBlock.created_at}
+<!--		insert into blockMoveList(moveList_lender, moveList_lender_rank, moveList_recipient, moveList_recipient_area, moveList_recipient_rank, moveList_rental_date, df_itemStatus, df_idNumber, login_area, login_id, note, created_at, app_num)-->
+<!--		select #{moveBlock.moveList_lender}, #{moveBlock.moveList_lender_rank}, #{moveBlock.moveList_recipient}, #{moveBlock.moveList_recipient_area}, #{moveBlock.moveList_recipient_rank}, #{moveBlock.moveList_rental_date}, '대여중', #{moveBlock.df_idNumber}, #{login_area}, #{login_id}, #{moveBlock.note}, #{moveBlock.created_at}, app_num from Approval where df_idNumber = #{moveBlock.df_idNumber} and created_at = #{moveBlock.created_at}-->
 	</insert>
 	
 	<!-- 대여한 블럭 수 카운트 -->
@@ -338,7 +338,7 @@
 	<select id="selectApprovalList" parameterType="Map">
 		select * from approval
 		<if test="searchArea != '본사'">
-			where login_area = #{searchArea} or app_branch_area = #{searchArea}
+			where login_area = #{searchArea} or app_rcv_area = #{searchArea}
 		</if>
 	</select>
 	
@@ -400,9 +400,14 @@
 		where df_idNumber = (select df_idNumber from blockMoveList where app_num = #{app_num})
 	</update>
 	
-	<!-- 블럭 스펙 업로드 -->
+	<!-- 블럭 스펙 추가 -->
 	<insert id="insertBlockSpec" parameterType="Map">
 		insert into blockSpec_image(df_idNumber, file_name, file_path)
-		values (#{df_idNumber}, #{file_Name}, #{file_Path})
+		values (#{df_idNumber}, #{img.file_name}, #{img.file_path})
 	</insert>
+	
+	<!-- 블럭 스펙 보기 -->
+	<select id="selectBlockSpecView" parameterType="String">
+		select * from blockSpec_Image where df_idNumber = #{df_idNumber}
+	</select>
 </mapper>

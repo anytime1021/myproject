@@ -1,7 +1,13 @@
 package com.sboot.pro.argus.service;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.sboot.pro.argus.dao.BlockDAO;
 import com.sboot.pro.argus.vo.BlockVO;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Service("blockService")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -187,7 +195,66 @@ public class BlockServiceImpl implements BlockService {
 	
 	// 블럭 스펙 업로드
 	@Override
-	public void insertBlockSpec(String df_idNumber, MultipartFile[] files) throws Exception {
-		blockDAO.insertBlockSpec(df_idNumber, files);
+	public void insertBlockSpec(String df_idNumber, MultipartFile[] files, HttpServletRequest request) throws Exception {
+		String uploadDir = request.getServletContext().getRealPath("/resources/img/");
+		File dir = new File(uploadDir);
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
+	
+		for (MultipartFile file : files) {
+		    if (!file.isEmpty()) {
+		        try (InputStream inputStream = file.getInputStream()) {
+		            BufferedImage originalImage = ImageIO.read(inputStream);
+		            if (originalImage == null) continue;
+
+		            int originalWidth = originalImage.getWidth();
+		            int originalHeight = originalImage.getHeight();
+		            int targetHeight = 300;
+		            int targetWidth = (originalWidth * targetHeight) / originalHeight;
+
+		            BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+		            Graphics2D g2d = resizedImage.createGraphics();
+		            g2d.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
+		            g2d.dispose();
+
+		            // 파일명 중복 방지 + 확장자 유지
+		            String originalName = file.getOriginalFilename();
+		            String ext = originalName.substring(originalName.lastIndexOf(".") + 1);
+		            String savedName = df_idNumber + "_" + System.currentTimeMillis() + "." + ext;
+
+		            File outputFile = new File(uploadDir, savedName);
+		            ImageIO.write(resizedImage, ext, outputFile);
+
+		            BlockVO img = new BlockVO();
+		            img.setDf_idNumber(df_idNumber);
+		            img.setFile_name(savedName);
+		            img.setFile_path(outputFile.getAbsolutePath());
+
+		            blockDAO.insertBlockSpec(df_idNumber, img);
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        }
+		    }
+		}
+//		for (MultipartFile file : files) {
+//			if (!file.isEmpty()) {
+//				try { 
+//					String filePath = uploadDir + file.getOriginalFilename(); 
+//					file.transferTo(new File(filePath)); BlockVO img = new BlockVO(); 
+//					img.setDf_idNumber(df_idNumber); 
+//					img.setFile_name(file.getOriginalFilename());
+//					img.setFile_path(filePath); 
+//					blockDAO.insertBlockSpec(df_idNumber, img); 
+//				}
+//			catch (Exception e) { 
+//				e.printStackTrace(); 
+//			} 
+//		} 
+	}
+	
+	// 블럭 스펙 보기
+	public List<BlockVO> selectBlockSpecView(String df_idNumber) throws Exception {
+		return blockDAO.selectBlockSpecView(df_idNumber);
 	}
 }

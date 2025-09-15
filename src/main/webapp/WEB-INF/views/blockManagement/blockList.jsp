@@ -47,7 +47,7 @@
                     <table class="table-control">
                         <thead>
                             <tr>
-								<th style="width:6%;">번호</th>
+								<th style="width:6%;"></th>
 								<th style="width:18%;">식별번호</th>
 								<th style="width:18%;">크기</th>
 								<th style="width:15%;">재질</th>
