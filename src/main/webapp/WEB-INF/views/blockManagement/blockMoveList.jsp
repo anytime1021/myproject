@@ -43,9 +43,9 @@
                         <thead>
                             <tr>
 								<th style="width:18%;">식별번호</th>
-								<th style="width:10%;">대여자</th>
-								<th style="width:10%;">수취자</th>
-								<th style="width:11%;">수취지역</th>
+								<th style="width:10%;">인계자</th>
+								<th style="width:10%;">인수자</th>
+								<th style="width:11%;">인수지역</th>
 								<th style="width:15%;">대여일</th>
 								<th style="width:15%;">반납일</th>
 								<th style="width:11%;">상태</th>
@@ -67,11 +67,14 @@
 									    </c:when>
 									    <c:otherwise>
 											<c:choose>
-												<c:when test="${searchArea eq blockMoveList.login_area}">
-									    			대여중(Lend)
+												<c:when test="${searchArea eq blockMoveList.login_area && searchArea ne '본사'}">
+									    			인계중
+												</c:when>
+												<c:when test="${searchArea ne blockMoveList.login_area && searchArea ne '본사'}">
+													인수중
 												</c:when>
 												<c:otherwise>
-													대여중(Borrow)
+													대여중
 												</c:otherwise>
 											</c:choose>
 									    </c:otherwise>

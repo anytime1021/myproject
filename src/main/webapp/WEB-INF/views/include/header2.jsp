@@ -12,11 +12,12 @@
 	function toggleOptions(el) {
 	    const options = el.nextElementSibling;
 
-	    // 토글
 	    if (options.style.display === 'block') {
 	        options.style.display = 'none';
+	        el.textContent = el.textContent.replace('▴', '▾');
 	    } else {
 	        options.style.display = 'block';
+	        el.textContent = el.textContent.replace('▾', '▴');
 	    }
 	}
 </script>

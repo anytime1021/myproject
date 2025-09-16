@@ -72,7 +72,7 @@ public interface BlockService {
 	public BlockVO selectBlockApprovalView(int app_num) throws Exception;
 	
 	// 이동 승인
-	public int updateApproval(int app_num, String app_comment, String searchArea) throws Exception;
+	public int updateApproval(int app_num, String searchArea) throws Exception;
 	
 	// 이동 거절
 	public int updateRejection(int app_num, String app_comment, String searchArea) throws Exception;

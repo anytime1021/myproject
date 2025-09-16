@@ -7,6 +7,27 @@ html, body {overflow-x: hidden; margin: 0; padding: 0;}
 .sidebar .filter-group .filter-options label {display: block; margin-top: 5px;}
 .sidebar .filter-group .filter-options a {text-decoration-line: none; color: black;}
 
+.sidebar .sub-filter-group {
+    margin-left: 15px;
+    margin-top: 8px;
+}
+
+.sidebar .sub-filter-title {
+    font-weight: bold;
+    cursor: pointer;
+    padding: 3px 0;
+    display: block;
+}
+
+.sidebar .sub-filter-options {
+    display: none;
+    margin-left: 15px;
+}
+
+.sidebar .sub-filter-options label {
+    display: block;
+    margin-top: 3px;
+}
 
 
 @media (max-width: 200px) {

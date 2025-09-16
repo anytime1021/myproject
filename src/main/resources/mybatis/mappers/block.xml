@@ -77,8 +77,8 @@
 	</update>
 	
 	<insert id="insertMoveBlockList">
-		insert into approval(df_idNumber, app_hnd_comment, login_area, app_hnd_name, app_hnd_create_at, app_rcv_area, app_rcv_name, app_rcv_create_at, app_isError)
-		values(#{moveBlock.df_idNumber}, #{moveBlock.app_hnd_comment}, #{moveBlock.login_area}, #{moveBlock.app_hnd_name}, #{moveBlock.app_hnd_create_at}, #{moveBlock.app_rcv_area}, #{moveBlock.app_rcv_name}, #{moveBlock.app_rcv_create_at}, #{moveBlock.app_isError})
+		insert into approval(df_idNumber, app_hnd_comment, login_area, app_hnd_name, app_hnd_create_at, app_rcv_area, app_rcv_name, app_rcv_create_at, app_isError, note)
+		values(#{moveBlock.df_idNumber}, #{moveBlock.app_hnd_comment}, #{moveBlock.login_area}, #{moveBlock.app_hnd_name}, #{moveBlock.app_hnd_create_at}, #{moveBlock.app_rcv_area}, #{moveBlock.app_rcv_name}, #{moveBlock.app_rcv_create_at}, #{moveBlock.app_isError}, #{moveBlock.note})
 		
 <!--		insert into blockMoveList(moveList_lender, moveList_lender_rank, moveList_recipient, moveList_recipient_area, moveList_recipient_rank, moveList_rental_date, df_itemStatus, df_idNumber, login_area, login_id, note, created_at, app_num)-->
 <!--		select #{moveBlock.moveList_lender}, #{moveBlock.moveList_lender_rank}, #{moveBlock.moveList_recipient}, #{moveBlock.moveList_recipient_area}, #{moveBlock.moveList_recipient_rank}, #{moveBlock.moveList_rental_date}, '대여중', #{moveBlock.df_idNumber}, #{login_area}, #{login_id}, #{moveBlock.note}, #{moveBlock.created_at}, app_num from Approval where df_idNumber = #{moveBlock.df_idNumber} and created_at = #{moveBlock.created_at}-->
@@ -87,7 +87,7 @@
 	<!-- 대여한 블럭 수 카운트 -->
 	<select id="selectRentalListCount" parameterType="String" resultType="int">
 		select count(*) from blockMoveList
-		where moveList_recipient_area = #{searchArea} and moveList_approval = 'Y'
+		where moveList_recipient_area = #{searchArea}
 	</select>
 	
 	<!-- 대여한 블럭 리스트 -->
@@ -117,7 +117,7 @@
 	
 	<!-- 블럭 이동 기록 수 카운트 -->
 	<select id="selectBlockMoveListCount" resultType="int">
-		select count(*) from blockMoveList where YN = 'Y' and moveList_approval = 'Y'
+		select count(*) from blockMoveList where YN = 'Y'
 		<if test="searchArea != '본사'">
 		and (login_area = #{searchArea} or moveList_recipient_area = #{searchArea})
 		</if>
@@ -127,10 +127,10 @@
 	<select id="selectBlockMoveList" parameterType="String">
 		<choose>
 			<when test="searchArea == '본사'">
-				select * from blockMoveList where YN = 'Y' and moveList_approval = 'Y' order by moveList_rental_date desc limit #{offset}, #{limit};
+				select * from blockMoveList where YN = 'Y' order by moveList_rental_date desc limit #{offset}, #{limit};
 			</when>
 			<otherwise>
-				select * from blockMoveList where (login_area = #{searchArea} or moveList_recipient_area = #{searchArea}) and YN = 'Y' and moveList_approval = 'Y'
+				select * from blockMoveList where (login_area = #{searchArea} or moveList_recipient_area = #{searchArea}) and YN = 'Y'
 				order by moveList_rental_date desc limit #{offset}, #{limit};
 			</otherwise>
 		</choose>
@@ -251,7 +251,7 @@
 		<include refid="aliasSearchList">
 			<property name="alias" value="a"/>
 		</include>
-		and a.YN = 'Y' and b.moveList_approval = 'Y'
+		and a.YN = 'Y'
 		<if test="searchArea != '본사'">
 		and (a.login_area = #{searchArea} or b.moveList_recipient_area = #{searchArea})
 		</if>
@@ -264,7 +264,7 @@
 		<include refid="aliasSearchList">
 			<property name="alias" value="a"/>
 		</include>
-		and a.YN = 'Y' and b.moveList_approval = 'Y'
+		and a.YN = 'Y'
 		<if test="searchArea != '본사'">
 			and (a.login_area = #{searchArea} or (b.moveList_recipient_area = #{searchArea} and b.moveList_return_date is null))
 		</if>
@@ -282,7 +282,7 @@
 	
 	<!-- 검색 식별번호 찾기 2-->
 	<select id="selectRentalListId" parameterType="Map">
-		select df_idNumber from blockMoveList where YN = 'Y' and moveList_approval = 'Y'
+		select df_idNumber from blockMoveList where YN = 'Y'
 			<if test="searchArea != '본사'">
 				and moveList_recipient_area = #{searchArea} and moveList_return_date is null
 			</if>
@@ -343,8 +343,12 @@
 	</select>
 	
 	<!-- 이동 보고서 상세보기 -->	
-	<select id="selectBlockApprovalView" parameterType="int">
-		select * from blockMoveList where app_num = #{app_num}
+	<select id="selectBlockApprovalView_df_idNumber" parameterType="int" resultType="String">
+		select df_idNumber from Approval where app_num = #{app_num};
+	</select>
+	
+	<select id="selectBlockApprovalView" parameterType="int" resultType="BlockVO">
+		select * from Approval where app_num = #{app_num}
 	</select>
 	
 	<select id="ApprovalDivision" parameterType="int">
@@ -355,25 +359,27 @@
 	<update id="updateApproval" parameterType="Map">
 		update Approval
 		<if test="searchArea != '본사'">
-			set app_branch_status = '승인',
-			app_branch_comment = #{app_comment}
+			set app_rcv_status = 'Y'
 		</if>
 		<if test="searchArea == '본사'">
-			set app_head_status = '승인',
-			app_head_comment = #{app_comment}
+			set app_head_status = 'Y'
 		</if>
 		where app_num = #{app_num}
 	</update>
 	
 	<select id="tnfCheck" parameterType="int" resultType="int">
-		select count(*) from Approval where app_num = #{app_num} and app_branch_status = '승인' and app_head_status = '승인'
+		select count(*) from Approval where app_num = #{app_num} and app_rcv_status = 'Y' and app_head_status = 'Y'
 	</select>
 	
-	<update id="finalApproval" parameterType="int">
-		update blockMoveList
-		set moveList_approval = 'Y'
-		where app_num = #{app_num}
-	</update>
+	<insert id="finalApproval" parameterType="Map">
+		insert into blockMoveList(moveList_lender, moveList_recipient, moveList_recipient_area, moveList_rental_date, df_itemStatus, df_idNumber, login_area, YN)
+		select app_hnd_name, app_rcv_name, app_rcv_area, app_hnd_create_at, '대여중', df_idNumber, login_area, 'Y' from Approval where app_num = #{app_num};
+		
+		update blockInformation
+		set df_itemStatus = '대여중',
+		set df_moveStatus = #{searchArea}
+		where df_idNumber = #{df_idNumber}
+	</insert>
 	
 	<!-- 이동 거절 -->
 	<update id="updateRejection" parameterType="Map">

@@ -61,7 +61,7 @@ public interface BlockController {
 	public ModelAndView blockApprovalView(@RequestParam("app_num_Str") String app_num_Str, HttpServletRequest request) throws Exception;
 
 	// 이동 승인
-	public ModelAndView updateApproval(@RequestParam("app_num_Str") String app_num_Str, @RequestParam("app_comment") String app_comment, HttpServletRequest request) throws Exception;
+	public ModelAndView updateApproval(@RequestParam("app_num") int app_num, HttpServletRequest request) throws Exception;
 
 	// 이동 거절
 	public ModelAndView updateRejection(@RequestParam("app_num_Str") String app_num_Str, @RequestParam("app_comment") String app_comment, HttpServletRequest request) throws Exception;

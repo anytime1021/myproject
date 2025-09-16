@@ -82,13 +82,14 @@ public interface BlockDAO {
 	public List<BlockVO> selectApprovalList(@Param("searchArea") String searchArea, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
 
 	// 이동 보고서 상세보기
+	public String selectBlockApprovalView_df_idNumber(int app_num) throws Exception;
 	public BlockVO selectBlockApprovalView(int app_num) throws Exception;
 	public BlockVO ApprovalDivision(int app_num) throws Exception;
 	
 	// 이동 승인
-	public int updateApproval(@Param("app_num") int app_num, @Param("app_comment") String app_comment, @Param("searchArea") String searchArea) throws Exception;
+	public int updateApproval(@Param("app_num") int app_num, @Param("searchArea") String searchArea) throws Exception;
 	public int tnfCheck(int app_num) throws Exception;
-	public void finalApproval(int app_num) throws Exception;
+	public void finalApproval(@Param("df_idNumber") String df_idNumber, @Param("searchArea") String searchArea, @Param("app_num") int app_num) throws Exception;
 	
 	// 이동 거절
 	public int updateRejection(@Param("app_num") int app_num, @Param("app_comment") String app_comment, @Param("searchArea") String searchArea) throws Exception;

@@ -433,24 +433,24 @@ public class BlockControllerImpl implements BlockController {
 	
 	// 이동 승인
 	@Override
-	@PostMapping("/blockManagement/updateApproval.do")
-	public ModelAndView updateApproval(@RequestParam("app_num_Str") String app_num_Str, @RequestParam("app_comment") String app_comment, HttpServletRequest request) throws Exception {
+	@GetMapping("/blockManagement/updateApproval.do")
+	public ModelAndView updateApproval(@RequestParam("app_num") int app_num, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockApproval.do");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
-		int app_num = Integer.parseInt(app_num_Str);
 
-		int result = blockService.updateApproval(app_num, app_comment, searchArea);
+		int result = blockService.updateApproval(app_num, searchArea);
 		int tnf = blockDAO.tnfCheck(app_num);
 		if (tnf == 1) {
-			blockDAO.finalApproval(app_num);
+			String df_idNumber = blockDAO.selectBlockApprovalView_df_idNumber(app_num);
+			blockDAO.finalApproval(df_idNumber, searchArea, app_num);
 		}
 		return mav;
 	}
 	
 	// 이동 거절
 	@Override
-	@PostMapping("/blockManagement/updateRejection.do")
+	@GetMapping("/blockManagement/updateRejection.do")
 	public ModelAndView updateRejection(@RequestParam("app_num_Str") String app_num_Str, @RequestParam("app_comment") String app_comment, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockApproval.do");
 		LoginVO login = (LoginVO) request.getAttribute("login");
@@ -460,7 +460,6 @@ public class BlockControllerImpl implements BlockController {
 		int result = blockService.updateRejection(app_num, app_comment, searchArea);
 		blockDAO.finalRejection(app_num);
 		return mav;
-		// 거절시 테이블 행 / 컬럼 변경부터 추가하고 blockApprovalView 수정해야함
 	}
 	
 	// 블럭 스펙 추가 폼

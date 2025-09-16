@@ -178,13 +178,15 @@ public class BlockServiceImpl implements BlockService {
 	// 이동 보고서 상세보기
 	@Override
 	public BlockVO selectBlockApprovalView(int app_num) throws Exception {
+//		String df_idNumber = blockDAO.selectBlockApprovalView_df_idNumber(app_num);
+//		return blockDAO.selectBlockApprovalView(df_idNumber);
 		return blockDAO.selectBlockApprovalView(app_num);
 	}
 	
 	// 이동 승인
 	@Override
-	public int updateApproval(int app_num, String app_comment, String searchArea) throws Exception {
-		return blockDAO.updateApproval(app_num, app_comment, searchArea);
+	public int updateApproval(int app_num, String searchArea) throws Exception {
+		return blockDAO.updateApproval(app_num, searchArea);
 	}
 	
 	// 이동 거절

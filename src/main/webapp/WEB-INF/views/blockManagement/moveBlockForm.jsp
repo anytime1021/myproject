@@ -45,7 +45,7 @@
 					    </tr>
 						<tr>
 							<td class="col-group" colspan="2">이동 사유</td>
-							<td class="col-value" colspan="4"><input type="text" name="app_hnd_comment" replace="이동 사유 입력"></td>
+							<td class="col-value" colspan="4"><input type="text" name="app_hnd_comment" placeholder="이동 사유 입력"></td>
 					    <tr>
 					    	<td class="col-group" rowspan="3">인계</td>
 					    	<td class="col-label">소 속</td>
@@ -53,7 +53,7 @@
 						</tr>
 						<tr>
 							<td class="col-label">성 명</td>
-							<td class="col-value" colspan="4"><input type="text" name="app_hnd_name"></td>
+							<td class="col-value" colspan="4"><input type="text" name="app_hnd_name" placeholder="성명 입력"></td>
 						</tr>
 						<tr>
 							<td class="col-label">인계일</td>
@@ -87,20 +87,20 @@
 						</tr>
 						<tr>
 							<td class="col-label">성 명</td>
-							<td class="col-value" colspan="4"><input type="text" name="app_rcv_name"></td>
+							<td class="col-value" colspan="4"><input type="text" name="app_rcv_name" placeholder="성명 입력"></td>
 						</tr>
 						<tr>
 							<td class="col-label">인수일</td>
-							<td class="col-value" colspan="4"><input type="text" name="app_rcv_create_at"></td>
+							<td class="col-value" colspan="4"><input type="text" name="app_rcv_create_at" placeholder="YYYY-MM-DD HH:mm:ss"></td>
 						</tr>
 						<tr>
 							<td class="col-label">이상유무</td>
-							<td class="col-value" colspan="4"><input type="text" name="app_isError"></td>
+							<td class="col-value" colspan="4"><input type="text" name="app_isError" placeholder="이상유무 입력"></td>
 						</tr>
 						<tr>
 					    	<td class="col-label" colspan="2">[특이사항]</td>
 					    	<td class="col-value" colspan="4">
-								<input type="text" name="note" style="height: 150px;">
+								<input type="text" name="note" style="height: 150px;" placeholder="특이사항 입력">
 							</td>
 					    </tr>
 					</table>
