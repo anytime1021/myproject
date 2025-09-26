@@ -82,4 +82,16 @@ public interface BlockService {
 
 	// 블럭 스펙 보기
 	public List<BlockVO> selectBlockSpecView(String df_idNumber) throws Exception;
+	
+	// 블럭 스펙 삭제
+	public void removeBlockSpec(String df_idNumber) throws Exception;
+	
+	// 블럭 점검 게시판 수 카운트
+	public int inspectionBoardCount(String searchArea) throws Exception;
+	
+	// 블럭 점검 게시판
+	public List<BlockVO> selectInspectionBoard(String searchArea, int offset, int limit) throws Exception;
+
+	// 블럭 점검 폼
+	public List<BlockVO> inspectionList(String searchArea) throws Exception;
 }

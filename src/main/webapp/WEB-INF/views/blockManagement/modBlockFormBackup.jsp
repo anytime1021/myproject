@@ -41,7 +41,7 @@
 						<input type="text" name="df_material" value="${blockView.df_material}">
 						<input type="text" name="df_size" value="${blockView.df_size}">
 						<input type="text" name="df_usage" value="${blockView.df_usage}">
-						<input type="text" name="df_form" value="${blockView.df_form}">
+						<input type="text" name="df_weld" value="${blockView.df_weld}">
 						<input type="date" name="df_manufacture" value="${blockView.df_manufacture}">
 						<input type="text" name="df_itemStatus" value="${blockView.df_itemStatus}">
 						<input type="text" name="df_moveStatus" value="${blockView.df_moveStatus}">

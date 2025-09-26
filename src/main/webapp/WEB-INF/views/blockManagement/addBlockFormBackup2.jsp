@@ -49,23 +49,18 @@
 							</select>
 							<span id="hyphen1">-</span>
 							<select id="form" style="flex: 2; width: 25%; padding: 8px 10px; font-size: 15px; border: 1.8px solid #ccc; border-radius: 6px; transition: border-color 0.3s ease;">
-								<option value="PP">PP</option>
-								<option value="TU">TU</option>
-								<option value="PL">PL</option>
+								<option value="UR">PP</option>
+								<option value="UQ">TU</option>
+								<option value="OT">PL</option>
 								<option value="ETC">ETC</option>
 							</select>
 							<span id="hyphen2">-</span>
 							<input type="text" id="number" style="flex: 2; width: 20%; padding: 8px 10px; font-size: 15px; border: 1.8px solid #ccc; border-radius: 6px; transition: border-color 0.3s ease;">
 							<br>
 						</div>
-						<div class="form-group">
-							<label></label>
-							<input type="text" id="df_idNumber_display" style="text-align:right; justify-content:right;" readonly>
-						</div>
 						<div style="text-align:right;">
 							<span id="checkMsg" style="width:180px; margin-left:0; align-items:center; text-align:right;"></span>
 						</div>
-						<input type="hidden" id="df_idNumber" name="df_idNumber">
 						<div class="form-group">
 							<label for="df_pictureName">사진 : </label>
 							<input type="file" id="df_picture" name="df_picture">
@@ -113,118 +108,63 @@
     <%@ include file="../include/footer2.jsp"%>
 </body>
 <script>
-	let idValid = false;
-	let idAvailable = false;
-	let material = false;
-	let size = false;
-	let manufacture = false;
+	// 요소 가져오기
+	const usageSelect = document.getElementById("usage");
+	const formSelect = document.getElementById("form");
+	const numberInput = document.getElementById("number");
+	const numberSpan = document.getElementById("numberspan");
+	const checkMsg = document.getElementById("checkMsg");
 
-	// 정규식 패턴: 접두어 + usage + form + 숫자(3자리)
-	const idPattern = /^A\((SS|MS|US|YS|CW)\)-(UR|UQ|OT)-(PP|TU|PL|ETC)-\d{3}$/;
+	// df_idNumber hidden input 추가
+	let hiddenInput = document.createElement("input");
+	hiddenInput.type = "hidden";
+	hiddenInput.name = "df_idNumber";
+	hiddenInput.id = "df_idNumber";
+	document.getElementById("numberspan").parentElement.appendChild(hiddenInput);
 
-	$(document).ready(function() {
-	    // 🔹 식별번호 조합 함수
-	    function updateDfNumber() {
-	        // prefix는 numberspan 안에 있는 텍스트 노드
-	        let prefix = $("#numberspan").contents().filter(function() {
-	            return this.nodeType === 3; // 텍스트 노드만 가져오기
-	        }).text().trim();
+	// df_idNumber 생성
+	function updateDfNumber() {
+	    let prefix = document.getElementById("prefix").textContent; // prefix 따로 가져오기
+	    let usage = usageSelect.value;
+	    let form = formSelect.value;
+	    let number = numberInput.value;
 
-	        let usage = $("#usage").val();
-	        let form = $("#form").val();
-	        let number = $("#number").val();
+	    let dfNumber = `${prefix}${usage}-${form}-${number}`;
+	    hiddenInput.value = dfNumber;
+	    return dfNumber;
+	}
 
-	        let fullNumber = prefix + usage + "-" + form + "-" + number;
+	function checkDuplicate() {
+	    let dfNumber = updateDfNumber();
 
-	        // 표시용 + hidden input에 반영
-	        $("#df_idNumber_display").val(fullNumber);
-	        $("#df_idNumber").val(fullNumber);
-
-	        // 정규식 체크
-	        if(!idPattern.test(fullNumber)) {
-	            $("#checkMsg").text("⚠ 형식 불일치").css("color","red");
-	            idValid = false;
-	            idAvailable = false;
-	        } else {
-	            idValid = true;
-	        }
-
-	        return fullNumber;
+	    if (dfNumber.endsWith('-')) {
+	        $("#checkMsg").text(""); 
+	        return;
 	    }
 
-	    // 🔹 중복체크 함수
-	    function checkDuplicate() {
-	        let dfNumber = updateDfNumber();
-
-	        if(!idValid) return; // 형식 안 맞으면 중복체크 안함
-
-	        $.ajax({
-	            url: "${contextPath}/blockManagement/checkDuplicateIdNumber.do",
-	            type: "GET",
-	            data: { df_idNumber: dfNumber },
-	            success: function(result) {
-	                if(result === "duplicate") {
-	                    $("#checkMsg").text("❌ 이미 사용중인 번호입니다.").css("color","red");
-	                    idAvailable = false;
-	                } else if(result === "available") {
-	                    $("#checkMsg").text("✅ 사용 가능한 번호입니다.").css("color","green");
-	                    idAvailable = true;
-	                }
-	            },
-	            error: function(err) {
-	                console.error("중복체크 오류:", err);
+	    $.ajax({
+	        url: "${contextPath}/blockManagement/checkDuplicateIdNumber.do",
+	        type: "GET",
+	        data: { df_idNumber: dfNumber },
+	        success: function(result) {
+	            if (result === 'duplicate') {
+	                $("#checkMsg").text("⚠ 이미 사용중인 번호입니다.").css("color", "red");
+	            } else if (result === 'available') {
+	                $("#checkMsg").text("✅ 사용 가능한 번호입니다.").css("color", "green");
 	            }
-	        });
-	    }
-
-	    // 🔹 이벤트 바인딩
-	    $("#usage, #form, #number").on("input change", function() {
-	        updateDfNumber();
-	        checkDuplicate();
-	    });
-
-	    $("#df_material").on("input", function() {
-	        material = $(this).val().trim().length > 0;
-	    });
-
-	    $("#df_size").on("input", function() {
-	        size = $(this).val().trim().length > 0;
-	    });
-
-	    $("#df_manufacture").on("input", function() {
-	        manufacture = $(this).val().trim().length > 0;
-	    });
-
-	    // 🔹 등록 버튼 클릭 시 검증
-	    $("#submitBtn").on("click", function(e){
-	        if(!idValid) {
-	            alert("식별번호 형식이 올바르지 않습니다.");
-	            e.preventDefault();
-	            return;
-	        }
-	        if(!idAvailable) {
-	            alert("이미 사용중인 식별번호입니다.");
-	            e.preventDefault();
-	            return;
-	        }
-	        if(!material) {
-	            alert("재질을 입력해주세요.");
-	            e.preventDefault();
-	            return;
-	        }
-	        if(!size) {
-	            alert("크기를 입력해주세요.");
-	            e.preventDefault();
-	            return;
-	        }
-	        if(!manufacture) {
-	            alert("날짜를 입력해주세요.");
-	            e.preventDefault();
+	        },
+	        error: function() {
+	            $("#checkMsg").text("서버 오류").css("color","red");
 	        }
 	    });
+	}
 
-	    // 페이지 로딩 시 초기 반영
-	    updateDfNumber();
-	});
+	// 이벤트 등록
+	usageSelect.addEventListener("change", checkDuplicate);
+	formSelect.addEventListener("change", checkDuplicate);
+	numberInput.addEventListener("input", checkDuplicate);
+
+	// 초기 상태 업데이트
+	checkDuplicate();
 </script>
 </html>

@@ -88,7 +88,7 @@ public class BlockControllerImpl implements BlockController {
 		return mav;
 	}
 	
-	// 블럭 추가 폼 일련번호 체크
+	// 블럭 추가 폼 일련번호 체크 - ajax
 	@ResponseBody
 	@GetMapping("/blockManagement/checkDuplicateIdNumber.do")
 	public String checkDuplicateIdNumber(@RequestParam("df_idNumber") String df_idNumber) throws Exception {
@@ -140,9 +140,9 @@ public class BlockControllerImpl implements BlockController {
 		if (addBlockForm.getDf_manufacture().isEmpty()) {
 			addBlockForm.setDf_manufacture(null);
 		}
-		
+		addBlockForm.setDf_usage(addBlockForm.getDf_idNumber().substring(6,8));
 		blockService.addBlock(addBlockForm, searchArea);
-		ModelAndView mav = new ModelAndView("redirect:/blockManagement/addBlockForm.do");
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockList.do");
 		return mav;
 	}
 	
@@ -226,6 +226,7 @@ public class BlockControllerImpl implements BlockController {
 		        }
 		    }
 		}
+		modBlockForm.setDf_usage(modBlockForm.getDf_idNumber().substring(6,8));
 		blockService.modBlock(modBlockForm);
 		return mav;
 	}
@@ -324,7 +325,6 @@ public class BlockControllerImpl implements BlockController {
 		}
 		
 		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
-		
 		List<BlockVO> blockMoveList = blockService.selectBlockMoveList(searchArea, paging.getOffset(), limit);
 		mav.addObject("searchArea", searchArea);
 		mav.addObject("paging", paging);
@@ -489,14 +489,78 @@ public class BlockControllerImpl implements BlockController {
 		List<BlockVO> blockSpecView = new ArrayList<BlockVO>();
 		blockSpecView = blockService.selectBlockSpecView(df_idNumber);
 		mav.addObject("blockSpecView", blockSpecView);
+		mav.addObject("df_idNumber", df_idNumber);
+		return mav;
+	}
+
+	// 블럭 스펙 삭제
+	@Override
+	@GetMapping("/blockManagement/removeBlockSpec.do")
+	public ModelAndView removeBlockSpec(@RequestParam("df_idNumber") String df_idNumber) throws Exception {
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockView.do");
+		blockService.removeBlockSpec(df_idNumber);
 		return mav;
 	}
 	
+	// 블럭 점검 게시판
+	@Override
+	@GetMapping("/blockManagement/selectInspectionBoard.do")
+	public ModelAndView blockInspectionList(@RequestParam(value="page", defaultValue="1") int page, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/blockManagement/blockInspectionBoard");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		
+		int limit = 20;
+		int currentPage = page;
+		int pageBlockSize = 5;
+		int totalCount = blockService.inspectionBoardCount(searchArea);
+		if (totalCount == 0) {
+			totalCount = 1;
+		}
+		
+		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
+
+		List<BlockVO> inspectionBoard = blockService.selectInspectionBoard(searchArea, paging.getOffset(), limit);
+		mav.addObject("inspectionBoard", inspectionBoard);
+		mav.addObject("paging", paging);
+		mav.addObject("searchArea", searchArea);
+		return mav;
+	}
+	
+	// 블럭 점검 폼
+	@Override
+	@GetMapping("/blockManagement/addInspectionForm.do")
+	public ModelAndView addInspectionForm(@RequestParam(value="page", defaultValue="1") int page, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/blockManagement/addInspectionForm");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		
+//		int limit = 20;
+//		int currentPage = page;
+//		int pageBlockSize = 5;
+//		int totalCount = blockService.getBlockCount(searchArea);
+//		if (totalCount == 0) {
+//			totalCount = 1;
+//		}
+//		
+//		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
+//		
+//		List<BlockVO> inspectionList = blockService.selectBlockList(searchArea, paging.getOffset(), limit);
+//
+//		mav.addObject("paging", paging);
+//		mav.addObject("searchArea", searchArea);
+//		mav.addObject("inspectionList", inspectionList);
+		
+		List<BlockVO> inspectionList = blockService.inspectionList(searchArea);
+		mav.addObject("inspectionList", inspectionList);
+		mav.addObject("searchArea", searchArea);
+		return mav;
+	}
+
 	@GetMapping("/blockManagement/test.do")
 	public ModelAndView test(HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("/blockManagement/test");
 		return mav;
 	}
-	
 	
 }

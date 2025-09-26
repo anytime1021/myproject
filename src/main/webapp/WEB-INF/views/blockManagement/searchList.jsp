@@ -44,12 +44,13 @@
                     <table class="table-control">
                         <thead>
                             <tr>
-								<th style="width:20%;">식별번호</th>
-								<th style="width:20%;">크기</th>
+								<th style="width:6%;"></th>
+								<th style="width:18%;">식별번호</th>
+								<th style="width:18%;">크기</th>
 								<th style="width:15%;">재질</th>
 								<th style="width:15%;">용도</th>
-								<th style="width:15%;">상태</th>
-								<th style="width:15%;"></th>
+								<th style="width:14%;">상태</th>
+								<th style="width:14%;"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -64,6 +65,7 @@
 								<c:otherwise>
 									<c:forEach var="searchList" items="${searchList}">
 										<tr>
+											<td>${searchList.row_num}</td>
 											<td><button style="font-size: 15px; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">${searchList.df_idNumber}</button></td>
 											<td>${searchList.df_size}</td>
 											<td>${searchList.df_material}</td>

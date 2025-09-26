@@ -34,6 +34,7 @@ form {background: white; max-width: 700px; padding: 30px 40px; margin: 0 auto; b
 .first-container .main-content .addBlock-container .addBlock .form-group {display: flex; margin-top: 9px; margin-bottom: 9px; align-items: center;}
 .first-container .main-content .addBlock-container .addBlock label {flex: 1 0 110px; font-weight: 600; color: #333;}
 .first-container .main-content .addBlock-container .addBlock input[type="text"], input[type="date"], select, input[type="file"] {flex: 2; width: 100%; padding: 8px 10px; font-size: 15px; border: 1.8px solid #ccc; border-radius: 6px; transition: border-color 0.3s ease;}
+/*.first-container .main-content .addBlock-container .addBlock span {flex: 2; width: 30%; padding: 8px 10px; font-size: 15px; border: 1.8px solid #ccc; border-radius: 6px; transition: border-color 0.3s ease;}*/
 input[type="file"] {flex: 2; width: 100%; padding: 8px 10px; font-size: 15px; border: 1.8px solid #ccc; border-radius: 6px; transition: border-color 0.3s ease;}
 .first-container .main-content .addBlock-container .addBlock input[type="text"]:focus, input[type="date"]:focus, select:focus {outline: none; border-color: #4a90e2; box-shadow: 0 0 6px #4a90e2;}
 .first-container .main-content .addBlock-container .addBlock button {display: block; width: 100%; padding: 12px 0; background: #4a90e2; border: none; border-radius: 8px; color: #FFFFFF; font-size: 17px; font-weight: 700; cursor: pointer; margin-top: 12px; transition: background 0.25s ease;}
@@ -41,6 +42,13 @@ input[type="file"] {flex: 2; width: 100%; padding: 8px 10px; font-size: 15px; bo
 
 /* 번외 */
 .first-container .main-content .addBlock-container .addBlock-label-border {width: 110px; height: auto; padding: 0px; border-left: 1px solid black; padding-left: 5px; margin-left: 5px;}
+
+/* blockSpecView */
+.slider {position: relative; width: 100%; height: 600px; display: flex; align-items: center; justify-content: center; background: #f8f8f8; overflow: hidden;}
+.slider img {max-height: 100%; max-width: 100%; object-fit: contain;}
+.slider button {position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); border: none; color: white; font-size: 24px; padding: 8px 12px; cursor: pointer; border-radius: 4px;}
+.slider .prev {left: 10px;}
+.slider .next {right: 10px;}
 
 /* 레포트 게시판 테이블 */
 #wrap {position: absolute; font-size:70px; color: black; text-align:center; top: 50%; left: 50%; transform: translate(-50%, -50%);}

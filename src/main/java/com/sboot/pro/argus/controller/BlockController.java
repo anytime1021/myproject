@@ -74,4 +74,13 @@ public interface BlockController {
 	
 	// 블럭 스펙 보기
 	public ModelAndView blockSpecView(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception;
+
+	// 블럭 스펙 삭제
+	public ModelAndView removeBlockSpec(@RequestParam("df_idNumber") String df_idNumber) throws Exception;
+
+	// 블럭 점검 리스트
+	public ModelAndView blockInspectionList(@RequestParam(value="page", defaultValue="1") int page, HttpServletRequest request) throws Exception;
+	
+	// 블럭 점검 폼
+	public ModelAndView addInspectionForm(@RequestParam(value="page", defaultValue="1") int page, HttpServletRequest request) throws Exception;
 }

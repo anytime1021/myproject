@@ -12,7 +12,7 @@ public class BlockVO extends WorkingDailyBaseVO {
 	private String df_material;
 	private String df_size;
 	private String df_usage;
-	private String df_form;
+	private String df_weld;
 	private String df_defectType;
 	private String df_manufacture;
 	private String df_itemStatus;
@@ -49,6 +49,16 @@ public class BlockVO extends WorkingDailyBaseVO {
 	private String file_name;
 	private String file_path;
 	private String upload_date;
+	
+	// 블럭 점검 게시판
+	private int bib_num;
+	private String bib_title;
+	private String bib_date;
+	
+	// 블럭 점검 리스트
+	private int bil_num;
+	private String bil_status;
+	private String bil_date;
 	
 	public int getDf_num() {
 		return df_num;
@@ -92,11 +102,11 @@ public class BlockVO extends WorkingDailyBaseVO {
 	public void setDf_usage(String df_usage) {
 		this.df_usage = df_usage;
 	}
-	public String getDf_form() {
-		return df_form;
+	public String getDf_weld() {
+		return df_weld;
 	}
-	public void setDf_form(String df_form) {
-		this.df_form = df_form;
+	public void setDf_weld(String df_weld) {
+		this.df_weld = df_weld;
 	}
 	public String getDf_defectType() {
 		return df_defectType;
@@ -278,12 +288,48 @@ public class BlockVO extends WorkingDailyBaseVO {
 	public void setApp_head_status(String app_head_status) {
 		this.app_head_status = app_head_status;
 	}
+	public int getBib_num() {
+		return bib_num;
+	}
+	public void setBib_num(int bib_num) {
+		this.bib_num = bib_num;
+	}
+	public String getBib_title() {
+		return bib_title;
+	}
+	public void setBib_title(String bib_title) {
+		this.bib_title = bib_title;
+	}
+	public String getBib_date() {
+		return bib_date;
+	}
+	public void setBib_date(String bib_date) {
+		this.bib_date = bib_date;
+	}
+	public int getBil_num() {
+		return bil_num;
+	}
+	public void setBil_num(int bil_num) {
+		this.bil_num = bil_num;
+	}
+	public String getBil_status() {
+		return bil_status;
+	}
+	public void setBil_status(String bil_status) {
+		this.bil_status = bil_status;
+	}
+	public String getBil_date() {
+		return bil_date;
+	}
+	public void setBil_date(String bil_date) {
+		this.bil_date = bil_date;
+	}
 	
 	@Override
 	public String toString() {
 		return "BlockVO [df_num=" + df_num + ", df_idNumber=" + df_idNumber + ", df_picture=" + df_picture
 				+ ", df_pictureName=" + df_pictureName + ", df_material=" + df_material + ", df_size=" + df_size
-				+ ", df_usage=" + df_usage + ", df_form=" + df_form + ", df_defectType=" + df_defectType
+				+ ", df_usage=" + df_usage + ", df_weld=" + df_weld + ", df_defectType=" + df_defectType
 				+ ", df_manufacture=" + df_manufacture + ", df_itemStatus=" + df_itemStatus + ", df_moveStatus="
 				+ df_moveStatus + ", moveList_num=" + moveList_num + ", moveList_lender=" + moveList_lender
 				+ ", moveList_lender_rank=" + moveList_lender_rank + ", moveList_recipient=" + moveList_recipient
@@ -293,8 +339,10 @@ public class BlockVO extends WorkingDailyBaseVO {
 				+ ", app_num=" + app_num + ", app_hnd_comment=" + app_hnd_comment + ", app_hnd_area=" + app_hnd_area
 				+ ", app_hnd_name=" + app_hnd_name + ", app_hnd_create_at=" + app_hnd_create_at + ", app_rcv_area="
 				+ app_rcv_area + ", app_rcv_name=" + app_rcv_name + ", app_rcv_create_at=" + app_rcv_create_at
-				+ ", app_isError=" + app_isError + ", bs_num=" + bs_num + ", file_name=" + file_name + ", file_path="
-				+ file_path + ", upload_date=" + upload_date + ", app_rank=" + app_rank + "]";
+				+ ", app_isError=" + app_isError + ", app_rank=" + app_rank + ", app_rcv_status=" + app_rcv_status
+				+ ", app_head_status=" + app_head_status + ", bs_num=" + bs_num + ", file_name=" + file_name
+				+ ", file_path=" + file_path + ", upload_date=" + upload_date + ", bib_num=" + bib_num + ", bib_title="
+				+ bib_title + ", bib_date=" + bib_date + ", bil_num=" + bil_num + ", bil_status=" + bil_status
+				+ ", bil_date=" + bil_date + "]";
 	}
-
 }

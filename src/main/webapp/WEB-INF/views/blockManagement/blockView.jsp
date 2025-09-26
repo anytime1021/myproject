@@ -24,49 +24,43 @@
 			        <table class="table-blockView">
 						<tbody>
 							<tr>
-								<td class="background" style="width:20%;">식별번호</td>
+								<td class="background" style="width:20%; height: 30px;">식별번호</td>
 								<td class="background" style="width:20%;">크기</td>
 								<td class="background" style="width:15%;">재질</td>
-								<td class="background" style="width:15%;">용도</td>
 								<td class="background" style="width:15%;">상태</td>
-								<td class="background" style="width:15%;">시험편정보</td>
+								<td class="background" style="width:15%;">제작일자</td>
+								<td class="background" style="width:15%;">용접형상</td>
 							</tr>
 							<tr>
 								<td style="width:20%;">${blockView.df_idNumber}</td>
 								<td style="width:20%;">${blockView.df_size}</td>
 								<td style="width:15%;">${blockView.df_material}</td>
-								<td style="width:15%;">${blockView.df_usage}</td>
 								<td style="width:15%;">${blockView.df_itemStatus}</td>
-								<td style="width:15%;">${blockView.df_form}</td>
+								<td style="width:15%;">${blockView.df_manufacture}</td>
+								<td style="width:15%;">${blockView.df_weld}</td>
 							</tr>
 							<tr>
-								<td class="background" colspan="5" style="width:85%;">사진</td>
-								<td class="background" style="width:15%;">제작일자</td>
+								<td class="background" colspan="5" style="width:85%; width:30px;">사진</td>
+								<td class="background" style="width:15%;">이동현황</td>
 							</tr>
 							<tr>
 								<td colspan="5" rowspan="7" style="width:85%; height:300px;"><img src="${contextPath}/resources/img/${blockView.df_pictureName}" style="object-fit:contain; display:block; margin: 0 auto;"></td>
-								<td width="15%">${blockView.df_manufacture}</td>
+								<td style="width:15%; height:30px;">${blockView.df_moveStatus}</td>
 							</tr>
 							<tr>
-								<td class="background" >이동현황</td>
-							</tr>
-							<tr>
-								<td>${blockView.df_moveStatus}</td>
-							</tr>
-							<tr>
-								<td class="background" >비고</td>
+								<td class="background" style="width:15%; height:30px;">비고</td>
 							</tr>
 							<c:choose>
 								<c:when test="${empty blockView.note}">
 									<tr>
-										<td>
+										<td rowspan="5">
 											-
 										</td>
 									</tr>
 								</c:when>
 								<c:otherwise>
 									<tr>
-										<td>${blockView.note}</td>
+										<td rowspan="5">${blockView.note}</td>
 									</tr>
 								</c:otherwise>
 							</c:choose>

@@ -39,6 +39,12 @@
 		                <label><a href="${contextPath}/blockManagement/blockApproval.do">• 시험편 이동 요청</a></label>
 		            </div>
 		        </div>
+				<div class="sub-filter-group">
+				    <div class="sub-filter-title" onclick="toggleOptions(this)">점검 관련 ▾</div>
+				    <div class="sub-filter-options">
+				        <label><a href="${contextPath}/blockManagement/selectInspectionBoard.do">• 시험편 점검</a></label>
+				    </div>
+				</div>
 		    </div>
 		</div>
 	</c:if>

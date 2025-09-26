@@ -47,17 +47,19 @@
                     <table class="table-control">
                         <thead>
                             <tr>
-								<th style="width:20%;">식별번호</th>
-								<th style="width:20%;">크기</th>
+								<th style="width:6%;"></th>
+								<th style="width:18%;">식별번호</th>
+								<th style="width:18%;">크기</th>
 								<th style="width:15%;">재질</th>
 								<th style="width:15%;">용도</th>
-								<th style="width:15%;">상태</th>
-								<th style="width:15%;"></th>
+								<th style="width:14%;">상태</th>
+								<th style="width:14%;"></th>
                             </tr>
                         </thead>
                         <tbody>
 							<c:forEach var="blockTotalList" items="${blockTotalList}">
 								<tr>
+									<td>${blockTotalList.row_num}</td>
 									<td><button style="font-size: 15px; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">${blockTotalList.df_idNumber}</button></td>
 									<td>${blockTotalList.df_size}</td>
 									<td>${blockTotalList.df_material}</td>
@@ -68,8 +70,6 @@
 							</c:forEach>
                         </tbody>
                     </table>
-					<button style="display: block; width: 50%; padding: 12px 0; background: #4a90e2; border: none; color: #FFFFFF; font-size: 17px; font-weight: 700; cursor: pointer; transition: background 0.25s ease;"> 승인 </button>
-					<button style="display: block; width: 50%; padding: 12px 0; background: #4a90e2; border: none; color: #FFFFFF; font-size: 17px; font-weight: 700; cursor: pointer; transition: background 0.25s ease;"> 거절 </button>
 				</div>
 				<div class="paging-list">
 					<ul class="pagination">
@@ -121,7 +121,7 @@
 		const row = button.closest("tr");
 		const cells = row.getElementsByTagName("td");
 		
-		const id = cells[0].innerText;
+		const id = cells[1].innerText;
 		
 		const form = document.createElement("form");
 		form.method = "POST";

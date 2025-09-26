@@ -100,4 +100,16 @@ public interface BlockDAO {
 	
 	// 블럭 스펙 보기
 	public List<BlockVO> selectBlockSpecView(String df_idNumber) throws Exception;
+
+	// 블럭 스펙 삭제
+	public void deleteBlockSpec(String df_idNumber) throws Exception;
+	
+	// 블럭 점검 게시판 수 카운트
+	public int inspectionBoardCount(String searchArea) throws Exception;
+	
+	// 블럭 점검 리스트
+	public List<BlockVO> selectInspectionBoard(@Param("searchArea") String searchArea, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
+
+	// 블럭 점검 폼
+	public List<BlockVO> inspectionList(String searchArea) throws Exception;
 }

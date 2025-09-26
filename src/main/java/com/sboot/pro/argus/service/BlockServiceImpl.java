@@ -256,7 +256,32 @@ public class BlockServiceImpl implements BlockService {
 	}
 	
 	// 블럭 스펙 보기
+	@Override
 	public List<BlockVO> selectBlockSpecView(String df_idNumber) throws Exception {
 		return blockDAO.selectBlockSpecView(df_idNumber);
+	}
+	
+	// 블럭 스펙 삭제
+	@Override
+	public void removeBlockSpec(String df_idNumber) throws Exception {
+		blockDAO.deleteBlockSpec(df_idNumber);
+	}
+	
+	// 블럭 점검 게시판 수 카운트
+	@Override
+	public int inspectionBoardCount(String searchArea) throws Exception {
+		return blockDAO.inspectionBoardCount(searchArea);
+	}
+	
+	// 블럭 점검 리스트
+	@Override
+	public List<BlockVO> selectInspectionBoard(String searchArea, int offset, int limit) throws Exception {
+		return blockDAO.selectInspectionBoard(searchArea, offset, limit);
+	}
+	
+	// 블럭 점검 폼
+	@Override
+	public List<BlockVO> inspectionList(String searchArea) throws Exception {
+		return blockDAO.inspectionList(searchArea);
 	}
 }

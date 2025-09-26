@@ -25,17 +25,19 @@
                     <table class="table-control">
                         <thead>
                             <tr>
-								<th style="width:20%;">식별번호</th>
-								<th style="width:17%;">인계 사업소</th>
+								<th style="width:6%;"></th>
+								<th style="width:18%;">식별번호</th>
+								<th style="width:15%;">인계 사업소</th>
 								<th style="width:17%;">인수 사업소</th>
 								<th style="width:15%;">인수자 승인</th>
-								<th style="width:15%;">본사 승인</th>
-								<th style="width:16%;"></th>
+								<th style="width:14%;">본사 승인</th>
+								<th style="width:15%;"></th>
                             </tr>
                         </thead>
                         <tbody>
 							<c:forEach var="ApprovalList" items="${ApprovalList}">
 								<tr>
+									<td>${ApprovalList.row_num}</td>
 									<td><button style="font-size: 15px; cursor: pointer; background-color: white; border: none;" onclick="detailViewIdNumber(this)">${ApprovalList.df_idNumber}</button></td>
 									<td>${ApprovalList.login_area}</td>
 									<td>${ApprovalList.app_rcv_area}</td>

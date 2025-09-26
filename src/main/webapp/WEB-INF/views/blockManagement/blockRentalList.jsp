@@ -44,17 +44,19 @@
                     <table class="table-control">
                         <thead>
                             <tr>
-								<th style="width:20%;">식별번호</th>
-								<th style="width:20%;">크기</th>
+								<th style="width:6%;"></th>
+								<th style="width:18%;">식별번호</th>
+								<th style="width:18%;">크기</th>
 								<th style="width:15%;">재질</th>
 								<th style="width:15%;">용도</th>
-								<th style="width:15%;">상태</th>
-								<th style="width:15%;"></th>
+								<th style="width:14%;">상태</th>
+								<th style="width:14%;"></th>
                             </tr>
                         </thead>
                         <tbody>
 							<c:forEach var="rentalList" items="${rentalList}">
 								<tr>
+									<td>${rentalList.row_num}</td>
 									<td><button style="font-size: 15px; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">${rentalList.df_idNumber}</button></td>
 									<input type="hidden" id="app_num" name="app_num" value="${rentalList.app_num}">
 									<td>${rentalList.df_size}</td>

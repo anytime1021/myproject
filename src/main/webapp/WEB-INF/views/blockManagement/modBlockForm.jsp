@@ -50,29 +50,20 @@
 							<input type="text" id="df_size" name="df_size" value="${blockView.df_size}">
 						</div>
 						<div class="form-group">
-							<label>용도 : </label>
-							<input type="text" id="df_usage" name="df_usage" value="${blockView.df_usage}" readonly>
-						</div>
-						<div class="form-group">
-							<label>시험편 정보 : </label>
-							<input type="text" id="df_form" name="df_form" value="${blockView.df_form}" readonly>
-						</div>
-						<div class="form-group">
 							<label>제작일자 : </label>
-							<input type="text" id="df_manufacture" name="df_manufacture" value= "${blockView.df_manufacture}" placeholder="yyyy-mm-dd">
+							<input type="text" id="df_manufacture" name="df_manufacture" value="${blockView.df_manufacture}" placeholder="yyyy-mm-dd">
 						</div>
 						<div class="form-group">
-							<label>사용여부 : </label>
-							<select id="df_itemStatus" name="df_itemStatus">
-								<option value="사용중" ${blockView.df_itemStatus == '사용중' ? 'selected' : ''}>사용중</option>
-								<option value="폐기" ${blockView.df_itemStatus == '폐기' ? 'selected' : ''}>폐기</option>
-								<option value="분실" ${blockView.df_itemStatus == '분실' ? 'selected' : ''}>분실</option>
-								<option value="대여중" ${blockView.df_itemStatus == '대여중' ? 'selected' : ''}>대여중</option>
-							</select>
+							<label>상태 : </label>
+							<input type="text" id="df_itemStatus" name="df_itemStatus" value="${blockView.df_itemStatus}" readonly>
 						</div>
 						<div class="form-group">
 							<label>이동현황 : </label>
-							<input type="text" name="df_moveStatus" name="df_moveStatus" value="-" readonly>
+							<input type="text" id="df_moveStatus" name="df_moveStatus" value="${blockView.df_moveStatus}" readonly>
+						</div>
+						<div class="form-group">
+							<label>용접현상 : </label>
+							<input type="text" id="df_weld" name="df_weld" value= "${blockView.df_weld}">
 						</div>
 						<div class="form-group">
 							<label>비고 : </label>

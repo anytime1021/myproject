@@ -42,18 +42,20 @@
                     <table class="table-control">
                         <thead>
                             <tr>
+								<th style="width:6%;"></th>
 								<th style="width:18%;">식별번호</th>
-								<th style="width:10%;">인계자</th>
-								<th style="width:10%;">인수자</th>
-								<th style="width:11%;">인수지역</th>
-								<th style="width:15%;">대여일</th>
-								<th style="width:15%;">반납일</th>
-								<th style="width:11%;">상태</th>
+								<th style="width:9%;">인계자</th>
+								<th style="width:9%;">인수자</th>
+								<th style="width:10%;">인수지역</th>
+								<th style="width:14%;">대여일</th>
+								<th style="width:14%;">반납일</th>
+								<th style="width:10%;">상태</th>
                             </tr>
                         </thead>
                         <tbody>
 							<c:forEach var="blockMoveList" items="${blockMoveList}"> 
 								<tr>
+									<td>${blockMoveList.row_num}</td>
 									<td><button style="font-size: 16px; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">${blockMoveList.df_idNumber}</button></td>
 									<td>${blockMoveList.moveList_lender}</td>
 									<td>${blockMoveList.moveList_recipient}</td>
