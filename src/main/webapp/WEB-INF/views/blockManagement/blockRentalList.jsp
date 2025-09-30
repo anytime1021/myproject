@@ -72,7 +72,7 @@
 										</c:otherwise>
 									</c:choose>
 									</td>
-									<td><button style="font-size: 16px; cursor: pointer; background-color: white; border: none;" onclick="returnBlock(this)">반납하기</button></td>
+									<td><button type="button" style="font-size: 16px; cursor: pointer; background-color: white; border: none;" onclick="returnBlock(this)">반납하기</button></td>
 								</tr>
 							</c:forEach>
                         </tbody>
@@ -112,7 +112,7 @@
 		const row = button.closest("tr");
 		const cells = row.getElementsByTagName("td");
 		
-		const id = cells[0].innerText;
+		const id = cells[1].innerText;
 		
 		const form = document.createElement("form");
 		form.method = "POST";
@@ -129,6 +129,11 @@
 	}
 	
 	function returnBlock(button) {
+		
+		if (!confirm("정말 반납하시겠습니까?")) {
+			return;
+		}
+		
 		const tr = button.closest("tr");
 		
 		const app_num_Str = tr.querySelector("input[name='app_num']").value;

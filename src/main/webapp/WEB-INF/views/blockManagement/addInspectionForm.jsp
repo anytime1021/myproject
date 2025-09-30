@@ -24,6 +24,12 @@
             <div class="contents-container">
 				<form autocomplete="off" name="addInspectionForm" method="post" action="${contextPath}/blockManagement/addInspection.do">
 	                <div class="contents-list">
+						<div style="width: 80%; margin: 10px auto; display: flex;">
+							<label style="display:flex;">게시글 제목 : </label>
+							<div class="searchWithButton" style="margin-left:10px;">
+								<input type="text" name="bib_title" style="width:250px;" placeholder="게시글 제목 입력">
+							</div>
+						</div>
 	                    <table class="table-control-special">
 	                        <thead>
 	                            <tr>
@@ -37,6 +43,7 @@
 									<tr>
 										<td style="border-bottom:1px solid:gray;">${inspectionList.row_num}</td>
 										<td style="border-bottom:1px solid:gray;">${inspectionList.df_idNumber}</td>
+										<input type="hidden" name="df_idNumber" value="${inspectionList.df_idNumber}">
 										<td><input type="text" name="bil_status" value="특이사항없음"></td>
 									</tr>
 								</c:forEach>

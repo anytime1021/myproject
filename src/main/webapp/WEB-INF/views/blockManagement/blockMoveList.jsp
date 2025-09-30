@@ -121,7 +121,7 @@
 		const row = button.closest("tr");
 		const cells = row.getElementsByTagName("td");
 		
-		const id = cells[0].innerText;
+		const id = cells[1].innerText;
 		
 		const form = document.createElement("form");
 		form.method = "POST";

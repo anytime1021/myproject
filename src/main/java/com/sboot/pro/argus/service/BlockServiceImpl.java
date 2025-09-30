@@ -95,6 +95,7 @@ public class BlockServiceImpl implements BlockService {
 	
 	// 블럭 반납
 	public void modStatusRecipient(int app_num) throws Exception {
+		System.out.println("success");
 		String df_idNumber = blockDAO.selectIdNumber(app_num);
 		blockDAO.updateReturnStatus(df_idNumber);
 		blockDAO.updateReturnRecipient(app_num);
@@ -283,5 +284,45 @@ public class BlockServiceImpl implements BlockService {
 	@Override
 	public List<BlockVO> inspectionList(String searchArea) throws Exception {
 		return blockDAO.inspectionList(searchArea);
+	}
+	
+	// 블럭 점검 추가 (정보저장)
+	@Override
+	public int addInspectionBoard(String bib_title, String searchArea) throws Exception {
+		return blockDAO.insertInspectionBoard(bib_title, searchArea);
+	}
+	
+	@Override
+	public int addInspectionList(List<BlockVO> blockInspectionList) throws Exception {
+		int bib_num = blockDAO.selectBib_num(blockInspectionList.get(0).getLogin_area());
+		
+		for (BlockVO vo : blockInspectionList) {
+			vo.setBib_num(bib_num);
+		}
+		
+		return blockDAO.insertInspectionList(blockInspectionList);
+	}
+	
+	// 블럭 점검 보기
+	@Override
+	public List<BlockVO> blockInspectionView(int bib_num) throws Exception {
+		return blockDAO.selectBlockInspectionView(bib_num);
+	}
+	
+	// 블럭 점검 삭제
+	@Override
+	public int removeInspectionView(int bib_num) throws Exception {
+		return blockDAO.deleteInspectionView(bib_num);
+	}
+	
+	// 블럭 점검 이력 보기
+	@Override
+	public int inspectionHistoryCount(String df_idNumber) throws Exception {
+		return blockDAO.inspectionHistoryCount(df_idNumber);
+	}
+	
+	@Override
+	public List<BlockVO> selectInspectionHistory(String df_idNumber, int offset, int limit) throws Exception {
+		return blockDAO.selectInspectionHistory(df_idNumber, offset, limit);
 	}
 }

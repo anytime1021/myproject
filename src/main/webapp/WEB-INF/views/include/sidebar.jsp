@@ -42,7 +42,7 @@
 				<div class="sub-filter-group">
 				    <div class="sub-filter-title" onclick="toggleOptions(this)">점검 관련 ▾</div>
 				    <div class="sub-filter-options">
-				        <label><a href="${contextPath}/blockManagement/selectInspectionBoard.do">• 시험편 점검</a></label>
+				        <label><a href="${contextPath}/blockManagement/blockInspectionBoard.do">• 시험편 점검</a></label>
 				    </div>
 				</div>
 		    </div>

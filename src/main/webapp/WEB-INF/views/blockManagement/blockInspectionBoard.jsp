@@ -49,7 +49,7 @@
                             <c:forEach var="inspectionBoard" items="${inspectionBoard}">
                                 <tr>
                                     <td>${inspectionBoard.row_num}</td>
-                                    <td><a href="${contextPath}/blockManagement/blockInspectionList.do?date=${inspectionBoard.bib_date}">${inspectionBoard.bib_title}</a></td>
+                                    <td><a href="${contextPath}/blockManagement/blockInspectionView.do?bib_num=${inspectionBoard.bib_num}">${inspectionBoard.bib_title}</a></td>
                                     <td>${inspectionBoard.bib_date}</td>
                                 </tr>
                             </c:forEach>

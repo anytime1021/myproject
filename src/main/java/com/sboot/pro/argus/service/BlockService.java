@@ -94,4 +94,18 @@ public interface BlockService {
 
 	// 블럭 점검 폼
 	public List<BlockVO> inspectionList(String searchArea) throws Exception;
+	
+	// 블럭 점검 추가 (정보저장)
+	public int addInspectionBoard(String bib_title, String searchArea) throws Exception;
+	public int addInspectionList(List<BlockVO> blockInspectionList) throws Exception;
+	
+	// 블럭 점검 보기
+	public List<BlockVO> blockInspectionView(int bib_num) throws Exception;
+	
+	// 블럭 점검 삭제
+	public int removeInspectionView(int bib_num) throws Exception;
+	
+	// 블럭 점검 이력 보기
+	public int inspectionHistoryCount(String df_idNumber) throws Exception;
+	public List<BlockVO> selectInspectionHistory(String df_idNumber, int offset, int limit) throws Exception;
 }

@@ -235,7 +235,7 @@ public class BlockControllerImpl implements BlockController {
 	@Override
 	@GetMapping("/blockManagement/removeBlock.do")
 	public ModelAndView removeBlock(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception {
-		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockList.do");
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockApproval.do");
 		blockService.removeBlock(df_idNumber);
 		return mav;
 	}
@@ -259,18 +259,17 @@ public class BlockControllerImpl implements BlockController {
 		return mav;
 	}
 	
-	// 블럭 대여
+	// 블럭 대여 (이동)
 	@Override
 	@PostMapping("/blockManagement/moveBlock.do")
 	public ModelAndView moveBlock(@ModelAttribute("moveBlock") BlockVO moveBlock, HttpServletRequest request) throws Exception {
-		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockMoveList.do");
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockApproval.do");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		if(moveBlock.getApp_rcv_create_at().equals("") || moveBlock.getApp_rcv_create_at().isEmpty()) {
 			moveBlock.setApp_rcv_create_at(null);
 		}
 		blockService.modItemStatus(moveBlock.getDf_idNumber(), moveBlock.getMoveList_recipient_area());
 		blockService.addMoveBlockList(moveBlock, login.getLogin_area(), login.getLogin_id());
-		System.out.println("이동 완료");
 		return mav;
 	}
 	
@@ -304,6 +303,7 @@ public class BlockControllerImpl implements BlockController {
 	public ModelAndView retrunBlock(@RequestParam("app_num_Str") String app_num_Str, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockRentalList.do");
 		int app_num = Integer.parseInt(app_num_Str);
+		System.out.println(app_num);
 		blockService.modStatusRecipient(app_num);
 		return mav;
 	}
@@ -442,8 +442,8 @@ public class BlockControllerImpl implements BlockController {
 		int result = blockService.updateApproval(app_num, searchArea);
 		int tnf = blockDAO.tnfCheck(app_num);
 		if (tnf == 1) {
-			String df_idNumber = blockDAO.selectBlockApprovalView_df_idNumber(app_num);
-			blockDAO.finalApproval(df_idNumber, searchArea, app_num);
+			BlockVO approval = blockDAO.selectBlockApprovalView_df_idNumber(app_num);
+			blockDAO.finalApproval(approval.getDf_idNumber(), approval.getApp_rcv_area(), searchArea, app_num);
 		}
 		return mav;
 	}
@@ -504,7 +504,7 @@ public class BlockControllerImpl implements BlockController {
 	
 	// 블럭 점검 게시판
 	@Override
-	@GetMapping("/blockManagement/selectInspectionBoard.do")
+	@GetMapping("/blockManagement/blockInspectionBoard.do")
 	public ModelAndView blockInspectionList(@RequestParam(value="page", defaultValue="1") int page, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("/blockManagement/blockInspectionBoard");
 		LoginVO login = (LoginVO) request.getAttribute("login");
@@ -535,28 +535,81 @@ public class BlockControllerImpl implements BlockController {
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
 		
-//		int limit = 20;
-//		int currentPage = page;
-//		int pageBlockSize = 5;
-//		int totalCount = blockService.getBlockCount(searchArea);
-//		if (totalCount == 0) {
-//			totalCount = 1;
-//		}
-//		
-//		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
-//		
-//		List<BlockVO> inspectionList = blockService.selectBlockList(searchArea, paging.getOffset(), limit);
-//
-//		mav.addObject("paging", paging);
-//		mav.addObject("searchArea", searchArea);
-//		mav.addObject("inspectionList", inspectionList);
-		
 		List<BlockVO> inspectionList = blockService.inspectionList(searchArea);
 		mav.addObject("inspectionList", inspectionList);
 		mav.addObject("searchArea", searchArea);
 		return mav;
 	}
 
+	// 블럭 점검 추가 (정보저장)
+	@Override
+	@PostMapping("/blockManagement/addInspection.do")
+	public ModelAndView addInspection(@RequestParam("bib_title") String bib_title,
+			@RequestParam(value = "df_idNumber", required = false) String[] df_idNumberArray,
+			@RequestParam(value = "bil_status", required = false) String[] bil_statusArray,
+			HttpServletRequest request) throws Exception{
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockInspectionBoard.do");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		
+		List<BlockVO> inspectionList = new ArrayList<>();
+		for (int i = 0; i < df_idNumberArray.length; i++) {
+			BlockVO inspectionStatus = new BlockVO();
+			inspectionStatus.setDf_idNumber(df_idNumberArray[i]);
+			inspectionStatus.setBil_status(bil_statusArray[i]);
+			inspectionStatus.setLogin_area(searchArea);
+			inspectionList.add(inspectionStatus);
+		}
+		
+		int result_title = blockService.addInspectionBoard(bib_title, searchArea);
+		int result_inspectionList = blockService.addInspectionList(inspectionList);
+		return mav;
+	}
+	
+	// 블럭 점검 보기
+	@Override
+	@GetMapping("/blockManagement/blockInspectionView.do")
+	public ModelAndView blockInspectionView(@RequestParam("bib_num") int bib_num) throws Exception {
+		ModelAndView mav = new ModelAndView("/blockManagement/blockInspectionView");
+		List<BlockVO> blockInspectionView = blockService.blockInspectionView(bib_num);
+		String inspectionTitle = blockDAO.selectInspectionTitle(bib_num);
+		mav.addObject("blockInspectionView", blockInspectionView);
+		mav.addObject("inspectionTitle", inspectionTitle);
+		mav.addObject("bib_num", blockInspectionView.get(0).getBib_num());
+		return mav;
+	}
+	
+	// 블럭 점검 삭제
+	@Override
+	@GetMapping("/blockManagement/removeInspectionView.do")
+	public ModelAndView removeInspectionView(@RequestParam("bib_num") int bib_num) throws Exception {
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockInspectionBoard.do");
+		int result = blockService.removeInspectionView(bib_num);
+		return mav;
+	}
+	
+	// 블럭 점검 이력 보기
+	@Override
+	@GetMapping("/blockManagement/inspectionHistory.do")
+	public ModelAndView inspectionHistory(@RequestParam(value="page", defaultValue = "1") int page, @RequestParam("df_idNumber") String df_idNumber) throws Exception {
+		ModelAndView mav = new ModelAndView("/blockManagement/inspectionHistory");
+	
+		int limit = 20;
+		int currentPage = page;
+		int pageBlockSize = 5;
+		int totalCount = blockService.inspectionHistoryCount(df_idNumber);
+		if(totalCount == 0) {
+			totalCount = 1;
+		}
+		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
+		
+		List<BlockVO> inspectionHistory = blockService.selectInspectionHistory(df_idNumber, paging.getOffset(), limit);
+		
+		mav.addObject("inspectionHistory", inspectionHistory);
+		mav.addObject("paging", paging);
+		return mav;
+	}
+	
 	@GetMapping("/blockManagement/test.do")
 	public ModelAndView test(HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("/blockManagement/test");

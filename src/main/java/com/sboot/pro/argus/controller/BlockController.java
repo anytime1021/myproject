@@ -2,6 +2,7 @@ package com.sboot.pro.argus.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -83,4 +84,19 @@ public interface BlockController {
 	
 	// 블럭 점검 폼
 	public ModelAndView addInspectionForm(@RequestParam(value="page", defaultValue="1") int page, HttpServletRequest request) throws Exception;
+	
+	// 블럭 점검 추가 (정보저장)
+	public ModelAndView addInspection(@RequestParam("bib_title") String bib_title,
+			@RequestParam(value = "df_idNumber", required = false) String[] df_idNumberArray,
+			@RequestParam(value = "bil_status", required = false) String[] bil_statusArray,
+			HttpServletRequest request) throws Exception;
+	
+	// 블럭 점검 보기
+	public ModelAndView blockInspectionView(@RequestParam("bib_num") int bib_num) throws Exception;
+	
+	// 블럭 점검 삭제
+	public ModelAndView removeInspectionView(@RequestParam("bib_num") int bib_num) throws Exception;
+	
+	// 블럭 점검 이력 보기
+	public ModelAndView inspectionHistory(@RequestParam(value="page", defaultValue = "1") int page, @RequestParam("df_idNumber") String df_idNumber) throws Exception;
 }
