@@ -79,8 +79,8 @@
 	</update>
 	
 	<insert id="insertMoveBlockList">
-		insert into approval(df_idNumber, app_hnd_comment, login_area, app_hnd_name, app_hnd_create_at, app_rcv_area, app_rcv_name, app_rcv_create_at, app_isError, note)
-		values(#{moveBlock.df_idNumber}, #{moveBlock.app_hnd_comment}, #{moveBlock.login_area}, #{moveBlock.app_hnd_name}, #{moveBlock.app_hnd_create_at}, #{moveBlock.app_rcv_area}, #{moveBlock.app_rcv_name}, #{moveBlock.app_rcv_create_at}, #{moveBlock.app_isError}, #{moveBlock.note})
+		insert into approval(df_idNumber, app_hnd_comment, login_area, app_hnd_name, app_hnd_create_at, app_hnd_transMethod app_rcv_area, app_rcv_name, app_rcv_create_at, app_isError, note)
+		values(#{moveBlock.df_idNumber}, #{moveBlock.app_hnd_comment}, #{moveBlock.login_area}, #{moveBlock.app_hnd_name}, #{moveBlock.app_hnd_create_at}, #{moveBlock.app_hnd_transMethod}, #{moveBlock.app_rcv_area}, #{moveBlock.app_rcv_name}, #{moveBlock.app_rcv_create_at}, #{moveBlock.app_isError}, #{moveBlock.note})
 		
 <!--		insert into blockMoveList(moveList_lender, moveList_lender_rank, moveList_recipient, moveList_recipient_area, moveList_recipient_rank, moveList_rental_date, df_itemStatus, df_idNumber, login_area, login_id, note, created_at, app_num)-->
 <!--		select #{moveBlock.moveList_lender}, #{moveBlock.moveList_lender_rank}, #{moveBlock.moveList_recipient}, #{moveBlock.moveList_recipient_area}, #{moveBlock.moveList_recipient_rank}, #{moveBlock.moveList_rental_date}, '대여중', #{moveBlock.df_idNumber}, #{login_area}, #{login_id}, #{moveBlock.note}, #{moveBlock.created_at}, app_num from Approval where df_idNumber = #{moveBlock.df_idNumber} and created_at = #{moveBlock.created_at}-->

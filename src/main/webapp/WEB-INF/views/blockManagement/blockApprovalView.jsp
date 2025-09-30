@@ -61,7 +61,7 @@
 							<td class="col-group" colspan="2">이동 사유</td>
 							<td class="col-value" colspan="4"><input type="text" value="${ApprovalView.app_hnd_comment}" readonly></td>
 					    <tr>
-					    	<td class="col-group" rowspan="3">인계</td>
+					    	<td class="col-group" rowspan="4">인계</td>
 					    	<td class="col-label">소 속</td>
 							<td class="col-value" colspan="4"><input type="text" name="login_area" value="${ApprovalView.login_area}" readonly></td>
 						</tr>
@@ -72,6 +72,10 @@
 						<tr>
 							<td class="col-label">인계일</td>
 							<td class="col-value" colspan="4"><input type="text" name="app_hnd_create_at" value="${ApprovalView.app_hnd_create_at}" readonly></td>
+						</tr>
+						<tr>
+							<td class="col-label">운송방법</td>
+							<td class="col-value" colspan="4"><input type="text" name="app_hnd_transMethod" value="${ApprovalView.app_hnd_transMethod}" readonly></td>
 						</tr>
 						<tr>
 							<td class="col-group" rowspan="4">인수</td>

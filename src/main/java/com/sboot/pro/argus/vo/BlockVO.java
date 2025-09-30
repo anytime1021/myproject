@@ -36,6 +36,7 @@ public class BlockVO extends WorkingDailyBaseVO {
 	private String app_hnd_area;
 	private String app_hnd_name;
 	private String app_hnd_create_at;
+	private String app_hnd_transMethod;
 	private String app_rcv_area;
 	private String app_rcv_name;
 	private String app_rcv_create_at;
@@ -59,7 +60,6 @@ public class BlockVO extends WorkingDailyBaseVO {
 	private int bil_num;
 	private String bil_status;
 	private String bil_date;
-	
 	public int getDf_num() {
 		return df_num;
 	}
@@ -222,6 +222,12 @@ public class BlockVO extends WorkingDailyBaseVO {
 	public void setApp_hnd_create_at(String app_hnd_create_at) {
 		this.app_hnd_create_at = app_hnd_create_at;
 	}
+	public String getApp_hnd_transMethod() {
+		return app_hnd_transMethod;
+	}
+	public void setApp_hnd_transMethod(String app_hnd_transMethod) {
+		this.app_hnd_transMethod = app_hnd_transMethod;
+	}
 	public String getApp_rcv_area() {
 		return app_rcv_area;
 	}
@@ -246,6 +252,24 @@ public class BlockVO extends WorkingDailyBaseVO {
 	public void setApp_isError(String app_isError) {
 		this.app_isError = app_isError;
 	}
+	public int getApp_rank() {
+		return app_rank;
+	}
+	public void setApp_rank(int app_rank) {
+		this.app_rank = app_rank;
+	}
+	public String getApp_rcv_status() {
+		return app_rcv_status;
+	}
+	public void setApp_rcv_status(String app_rcv_status) {
+		this.app_rcv_status = app_rcv_status;
+	}
+	public String getApp_head_status() {
+		return app_head_status;
+	}
+	public void setApp_head_status(String app_head_status) {
+		this.app_head_status = app_head_status;
+	}
 	public int getBs_num() {
 		return bs_num;
 	}
@@ -269,24 +293,6 @@ public class BlockVO extends WorkingDailyBaseVO {
 	}
 	public void setUpload_date(String upload_date) {
 		this.upload_date = upload_date;
-	}
-	public int getApp_rank() {
-		return app_rank;
-	}
-	public void setApp_rank(int app_rank) {
-		this.app_rank = app_rank;
-	}
-	public String getApp_rcv_status() {
-		return app_rcv_status;
-	}
-	public void setApp_rcv_status(String app_rcv_status) {
-		this.app_rcv_status = app_rcv_status;
-	}
-	public String getApp_head_status() {
-		return app_head_status;
-	}
-	public void setApp_head_status(String app_head_status) {
-		this.app_head_status = app_head_status;
 	}
 	public int getBib_num() {
 		return bib_num;
@@ -337,12 +343,12 @@ public class BlockVO extends WorkingDailyBaseVO {
 				+ moveList_recipient_rank + ", moveList_rental_date=" + moveList_rental_date + ", moveList_return_date="
 				+ moveList_return_date + ", moveList_moveStatus=" + moveList_moveStatus + ", created_at=" + created_at
 				+ ", app_num=" + app_num + ", app_hnd_comment=" + app_hnd_comment + ", app_hnd_area=" + app_hnd_area
-				+ ", app_hnd_name=" + app_hnd_name + ", app_hnd_create_at=" + app_hnd_create_at + ", app_rcv_area="
-				+ app_rcv_area + ", app_rcv_name=" + app_rcv_name + ", app_rcv_create_at=" + app_rcv_create_at
-				+ ", app_isError=" + app_isError + ", app_rank=" + app_rank + ", app_rcv_status=" + app_rcv_status
-				+ ", app_head_status=" + app_head_status + ", bs_num=" + bs_num + ", file_name=" + file_name
-				+ ", file_path=" + file_path + ", upload_date=" + upload_date + ", bib_num=" + bib_num + ", bib_title="
-				+ bib_title + ", bib_date=" + bib_date + ", bil_num=" + bil_num + ", bil_status=" + bil_status
-				+ ", bil_date=" + bil_date + "]";
+				+ ", app_hnd_name=" + app_hnd_name + ", app_hnd_create_at=" + app_hnd_create_at
+				+ ", app_hnd_transMethod=" + app_hnd_transMethod + ", app_rcv_area=" + app_rcv_area + ", app_rcv_name="
+				+ app_rcv_name + ", app_rcv_create_at=" + app_rcv_create_at + ", app_isError=" + app_isError
+				+ ", app_rank=" + app_rank + ", app_rcv_status=" + app_rcv_status + ", app_head_status="
+				+ app_head_status + ", bs_num=" + bs_num + ", file_name=" + file_name + ", file_path=" + file_path
+				+ ", upload_date=" + upload_date + ", bib_num=" + bib_num + ", bib_title=" + bib_title + ", bib_date="
+				+ bib_date + ", bil_num=" + bil_num + ", bil_status=" + bil_status + ", bil_date=" + bil_date + "]";
 	}
 }
