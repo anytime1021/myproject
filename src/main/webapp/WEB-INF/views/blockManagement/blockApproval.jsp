@@ -27,11 +27,11 @@
                             <tr>
 								<th style="width:6%;"></th>
 								<th style="width:18%;">식별번호</th>
-								<th style="width:15%;">인계 사업소</th>
-								<th style="width:17%;">인수 사업소</th>
-								<th style="width:15%;">인수자 승인</th>
-								<th style="width:14%;">본사 승인</th>
-								<th style="width:15%;"></th>
+								<th style="width:16%;">인계 사업소</th>
+								<th style="width:16%;">인수 사업소</th>
+								<th style="width:16%;">인수자 승인</th>
+								<th style="width:16%;">본사 승인</th>
+								<th style="width:12%;"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -49,7 +49,7 @@
 											<td>승인</td>
 										</c:when>
 										<c:otherwise>
-											<td>거부</td>
+											<td>거절</td>
 										</c:otherwise>
 									</c:choose>
 									<c:choose>
@@ -60,7 +60,7 @@
 											<td>승인</td>
 										</c:when>
 										<c:otherwise>
-											<td>거부</td>
+											<td>거절</td>
 										</c:otherwise>
 									</c:choose>
 									<td><button style="font-weight: bold; cursor: pointer; background-color: white; border: none;" 

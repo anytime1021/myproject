@@ -259,6 +259,20 @@ public class BlockControllerImpl implements BlockController {
 		return mav;
 	}
 	
+	// 블럭 외부 반출 폼
+	@Override
+	@GetMapping("/blockManagement/expertBlockForm.do")
+	public ModelAndView expertBlockForm(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/blockManagement/expertBlockForm");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		
+		String searchArea = login.getLogin_area();
+		BlockVO blockInformation = blockService.selectBlockView(df_idNumber);
+		LocalDateTime now = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		String timeNow = now.format(formatter);
+	}
+	
 	// 블럭 대여 (이동)
 	@Override
 	@PostMapping("/blockManagement/moveBlock.do")
@@ -268,8 +282,8 @@ public class BlockControllerImpl implements BlockController {
 		if(moveBlock.getApp_rcv_create_at().equals("") || moveBlock.getApp_rcv_create_at().isEmpty()) {
 			moveBlock.setApp_rcv_create_at(null);
 		}
-		blockService.modItemStatus(moveBlock.getDf_idNumber(), moveBlock.getMoveList_recipient_area());
-		blockService.addMoveBlockList(moveBlock, login.getLogin_area(), login.getLogin_id());
+		moveBlock.setApp_type("rental");
+		blockService.addMoveBlockList(moveBlock, login.getLogin_area());
 		return mav;
 	}
 	
@@ -297,13 +311,60 @@ public class BlockControllerImpl implements BlockController {
 		return mav;
 	}
 	
-	// 블럭 반납
+	// 블럭 반납 폼
+	@Override
+	@PostMapping("/blockManagement/returnBlockForm.do")
+	public ModelAndView returnBlockForm(@RequestParam("app_num_Str") String app_num_Str, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/blockManagement/returnBlockForm");
+		int app_num = Integer.parseInt(app_num_Str);
+		BlockVO returnBlockForm = blockService.selectBlockApprovalView(app_num);
+		LocalDateTime now = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		String timeNow = now.format(formatter);
+
+		mav.addObject("timeNow", timeNow);
+		mav.addObject("returnBlockForm", returnBlockForm);
+		return mav;
+	}
+	
+	// 블럭 반납 - 폼 작성 후 정보저장
+	@Override
+	@PostMapping("/blockManagement/returnBlockApproval.do")
+	public ModelAndView returnBlockApproval(@ModelAttribute("returnBlockApproval") BlockVO returnBlockApproval, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockRentalList.do");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		if(returnBlockApproval.getApp_rcv_create_at().equals("")||returnBlockApproval.getApp_rcv_create_at().isEmpty()) {
+			returnBlockApproval.setApp_rcv_create_at(null);
+		}
+		returnBlockApproval.setApp_type("return");
+		blockService.addMoveBlockList(returnBlockApproval, login.getLogin_area());
+		blockDAO.updateReturnWaiting(returnBlockApproval.getApp_num());
+		return mav;
+	}
+	
+	// 블럭 반납 - 반납 승인(결재) 관련
+	@Override
+	@GetMapping("/blockManagement/returnApproval.do")
+	public ModelAndView returnApproval(@RequestParam("app_num") int app_num, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockApproval.do");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		int result = blockService.updateApproval(app_num, searchArea);
+		int tnf = blockDAO.tnfCheck(app_num);
+		if (tnf == 1) {
+			BlockVO returnBlockInfo = blockDAO.selectBlockApprovalView_df_idNumber(app_num);
+//			blockDAO.finalApprovalReturn(returnBlockInfo.getDf_idNumber(), returnBlockInfo.getApp_rcv_area(), searchArea, app_num);
+			blockService.modStatusRecipient(app_num);
+		}
+		return mav;
+	}
+	
+	// 블럭 반납 - 구
 	@Override
 	@PostMapping("/blockManagement/returnBlock.do")
-	public ModelAndView retrunBlock(@RequestParam("app_num_Str") String app_num_Str, HttpServletRequest request) throws Exception {
+	public ModelAndView returnBlock(@RequestParam("app_num_Str") String app_num_Str, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockRentalList.do");
 		int app_num = Integer.parseInt(app_num_Str);
-		System.out.println(app_num);
 		blockService.modStatusRecipient(app_num);
 		return mav;
 	}
@@ -443,6 +504,7 @@ public class BlockControllerImpl implements BlockController {
 		int tnf = blockDAO.tnfCheck(app_num);
 		if (tnf == 1) {
 			BlockVO approval = blockDAO.selectBlockApprovalView_df_idNumber(app_num);
+//			blockService.modItemStatus(approval.getDf_idNumber(), approval.getApp_rcv_area()); - 관련 삭제 가능성 있음
 			blockDAO.finalApproval(approval.getDf_idNumber(), approval.getApp_rcv_area(), searchArea, app_num);
 		}
 		return mav;
@@ -451,13 +513,12 @@ public class BlockControllerImpl implements BlockController {
 	// 이동 거절
 	@Override
 	@GetMapping("/blockManagement/updateRejection.do")
-	public ModelAndView updateRejection(@RequestParam("app_num_Str") String app_num_Str, @RequestParam("app_comment") String app_comment, HttpServletRequest request) throws Exception {
+	public ModelAndView updateRejection(@RequestParam("app_num") int app_num, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockApproval.do");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
-		int app_num = Integer.parseInt(app_num_Str);
 
-		int result = blockService.updateRejection(app_num, app_comment, searchArea);
+		int result = blockService.updateRejection(app_num, searchArea);
 		blockDAO.finalRejection(app_num);
 		return mav;
 	}
@@ -609,6 +670,19 @@ public class BlockControllerImpl implements BlockController {
 		mav.addObject("paging", paging);
 		return mav;
 	}
+	
+	// 블럭 제작 요청 폼
+	@Override
+	@GetMapping("/blockManagement/produceBlockForm.do")
+	public ModelAndView produceBlockForm(HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/blockManagement/produceBlockForm");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		mav.addObject("login_area", searchArea);
+		return mav;
+	}
+	
+	// 
 	
 	@GetMapping("/blockManagement/test.do")
 	public ModelAndView test(HttpServletRequest request) throws Exception {

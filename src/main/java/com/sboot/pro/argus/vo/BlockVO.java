@@ -44,6 +44,7 @@ public class BlockVO extends WorkingDailyBaseVO {
 	private int app_rank;
 	private String app_rcv_status;
 	private String app_head_status;
+	private String app_type;
 	
 	// 블럭 스펙 업로드
 	private int bs_num;
@@ -269,6 +270,12 @@ public class BlockVO extends WorkingDailyBaseVO {
 	}
 	public void setApp_head_status(String app_head_status) {
 		this.app_head_status = app_head_status;
+	}
+	public String getApp_type() {
+		return app_type;
+	}
+	public void setApp_type(String app_type) {
+		this.app_type = app_type;
 	}
 	public int getBs_num() {
 		return bs_num;

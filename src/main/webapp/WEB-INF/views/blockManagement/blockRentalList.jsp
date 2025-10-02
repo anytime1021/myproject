@@ -64,7 +64,7 @@
 									<td>${rentalList.df_usage}</td>
 									<td>
 									<c:choose>
-										<c:when test="${rentalList.df_itemStatus eq '사용중'}">
+										<c:when test="${rentalList.df_itemStatus eq '이상없음'}">
 											반납완료
 										</c:when>
 										<c:otherwise>
@@ -72,7 +72,11 @@
 										</c:otherwise>
 									</c:choose>
 									</td>
-									<td><button type="button" style="font-size: 16px; cursor: pointer; background-color: white; border: none;" onclick="returnBlock(this)">반납하기</button></td>
+									<td>
+										<c:if test="${rentalList.df_itemStatus eq '대여중'}">
+											<button type="button" style="font-size: 16px; cursor: pointer; background-color: white; border: none;" onclick="returnBlock(this)">반납하기</button>
+										</c:if>
+									</td>
 								</tr>
 							</c:forEach>
                         </tbody>
@@ -140,7 +144,7 @@
 		
 		const form = document.createElement("form");
 		form.method = "POST";
-		form.action = "/blockManagement/returnBlock.do";
+		form.action = "/blockManagement/returnBlockForm.do";
 		
 		const inputId = document.createElement("input");
 		inputId.type = "hidden";

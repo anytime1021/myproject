@@ -37,19 +37,19 @@
 					    </tr>
 						<tr>
 							<th class="title-sub">
-								<img src="${contextPath}/resources/img/sign-yeosu.png" style="width:80%; height:100%;">
+								<img src="${contextPath}/resources/img/sign-yeosu.png" style="width:100%; height:100%;">
 							</th>
 							<th class="title-sub">
 								<c:choose>
 									<c:when test="${ApprovalView.app_rcv_status eq 'Y'}">
-										<img src="${contextPath}/resources/img/sign-seosan.png" style="width:80%; height:100%;">
+										<img src="${contextPath}/resources/img/sign-seosan.png" style="width:100%; height:100%;">
 									</c:when>
 								</c:choose>
 							</th>
 							<th class="title-sub">
 								<c:choose>
 									<c:when test="${ApprovalView.app_head_status eq 'Y'}">
-										<img src="${contextPath}/resources/img/sign-qualityTeam.png" style="width:80%; height:100%;">
+										<img src="${contextPath}/resources/img/sign-qualityTeam.png" style="width:100%; height:100%;">
 									</c:when>
 								</c:choose>
 							</th>
@@ -108,7 +108,12 @@
 								<a href="${contextPath}/blockManagement/updateRejection.do?app_num=${ApprovalView.app_num}" style="display:flex; width:120px; padding:12px 0; color: black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">거절</a>
 							</c:when>
 							<c:when test="${searchArea eq '본사' && ApprovalView.app_rcv_status eq 'Y' && ApprovalView.app_head_status eq 'W'}">
-								<a href="${contextPath}/blockManagement/updateApproval.do?app_num=${ApprovalView.app_num}" style="display:flex; width:120px; padding:12px 0; color: black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">승인</a>
+								<c:if test="${ApprovalView.app_type eq 'rental'}">
+									<a href="${contextPath}/blockManagement/updateApproval.do?app_num=${ApprovalView.app_num}" style="display:flex; width:120px; padding:12px 0; color: black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">승인</a>
+								</c:if>
+								<c:if test="${ApprovalView.app_type eq 'return'}">
+									<a href="${contextPath}/blockManagement/returnApproval.do?app_num=${ApprovalView.app_num}" style="display:flex; width:120px; padding:12px 0; color: black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">승인</a>
+								</c:if>
 								<a href="${contextPath}/blockManagement/updateRejection.do?app_num=${ApprovalView.app_num}" style="display:flex; width:120px; padding:12px 0; color: black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">거절</a>
 							</c:when>
 						</c:choose>

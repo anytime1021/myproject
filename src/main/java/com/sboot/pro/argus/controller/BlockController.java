@@ -43,8 +43,15 @@ public interface BlockController {
 	// 대여한 블럭 리스트
 	public ModelAndView blockRentalList(@RequestParam(value="page", defaultValue="1") int page, HttpServletRequest request) throws Exception;
 	
+	// 블럭 반납 폼
+	public ModelAndView returnBlockForm(@RequestParam("app_num_Str") String app_num_str, HttpServletRequest request) throws Exception;
+	
 	// 블럭 반납
-	public ModelAndView retrunBlock(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception;
+	public ModelAndView returnBlockApproval(@ModelAttribute("returnBlockApproval") BlockVO returnBlockApproval, HttpServletRequest request) throws Exception;
+	public ModelAndView returnApproval(@RequestParam("app_num") int app_num, HttpServletRequest request) throws Exception;
+	
+	// 블럭 반납 - 구
+	public ModelAndView returnBlock(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception;
 	
 	// 블럭 이동 기록
 	public ModelAndView blockMoveList(@RequestParam(value="page", defaultValue="1") int page, HttpServletRequest request) throws Exception;
@@ -65,7 +72,7 @@ public interface BlockController {
 	public ModelAndView updateApproval(@RequestParam("app_num") int app_num, HttpServletRequest request) throws Exception;
 
 	// 이동 거절
-	public ModelAndView updateRejection(@RequestParam("app_num_Str") String app_num_Str, @RequestParam("app_comment") String app_comment, HttpServletRequest request) throws Exception;
+	public ModelAndView updateRejection(@RequestParam("app_num") int app_num, HttpServletRequest request) throws Exception;
 
 	// 블럭 스펙 추가 폼
 	public ModelAndView addBlockSpecForm(@RequestParam("df_idNumber") String df_idNumber) throws Exception;
@@ -99,4 +106,7 @@ public interface BlockController {
 	
 	// 블럭 점검 이력 보기
 	public ModelAndView inspectionHistory(@RequestParam(value="page", defaultValue = "1") int page, @RequestParam("df_idNumber") String df_idNumber) throws Exception;
+
+	// 블럭 제작 요청 폼
+	public ModelAndView produceBlockForm(HttpServletRequest request) throws Exception;
 }

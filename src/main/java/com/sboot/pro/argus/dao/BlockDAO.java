@@ -37,7 +37,7 @@ public interface BlockDAO {
 	
 	// 블럭 대여
 	public void updateItemStatus(@Param("df_idNumber") String df_idNumber, @Param("df_moveStatus") String df_moveStatus) throws Exception;
-	public void insertMoveBlockList(@Param("moveBlock") BlockVO moveBlock, @Param("login_area") String login_area, @Param("login_id") String login_id) throws Exception;
+	public void insertMoveBlockList(@Param("moveBlock") BlockVO moveBlock, @Param("login_area") String login_area) throws Exception;
 	
 	// 대여한 블럭 수 카운트
 	public int selectRentalListCount(String searchArea) throws Exception;
@@ -46,9 +46,13 @@ public interface BlockDAO {
 	public List<BlockVO> selectBlockRentalList(@Param("searchArea") String searchArea, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
 	
 	// 블럭 반납
+	public void updateReturnWaiting(int app_num) throws Exception;
+	public void finalApprovalReturn(@Param("df_idNumber") String df_idNumber, @Param("app_rcv_area") String app_rcv_area, @Param("searchArea") String searchArea, @Param("app_num") int app_num) throws Exception;
+	
+	// 블럭 반납 - 구
 	public String selectIdNumber(int app_num) throws Exception;
 	public void updateReturnStatus(String df_idNumber) throws Exception;
-	public void updateReturnRecipient(int app_num) throws Exception;
+	public void updateReturnRecipient(String df_idNumber) throws Exception;
 	
 	// 블럭 이동 기록 수 카운트
 	public int selectBlockMoveListCount(String searchArea) throws Exception;
@@ -92,7 +96,7 @@ public interface BlockDAO {
 	public void finalApproval(@Param("df_idNumber") String df_idNumber, @Param("app_rcv_area") String app_rcv_area, @Param("searchArea") String searchArea, @Param("app_num") int app_num) throws Exception;
 	
 	// 이동 거절
-	public int updateRejection(@Param("app_num") int app_num, @Param("app_comment") String app_comment, @Param("searchArea") String searchArea) throws Exception;
+	public int updateRejection(@Param("app_num") int app_num, @Param("searchArea") String searchArea) throws Exception;
 	public void finalRejection(int app_num) throws Exception;
 	
 	// 블럭 스펙 추가

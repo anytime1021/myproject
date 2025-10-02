@@ -33,7 +33,7 @@ public interface BlockService {
 		
 	// 블럭 대여
 	public void modItemStatus(String df_idNumber, String df_moveStatus) throws Exception;
-	public void addMoveBlockList(BlockVO moveBlock, String login_area, String login_id) throws Exception;
+	public void addMoveBlockList(BlockVO moveBlock, String login_area) throws Exception;
 	
 	// 대여한 블럭 수 카운트
 	public int getRentalListCount(String searchArea) throws Exception;
@@ -75,7 +75,7 @@ public interface BlockService {
 	public int updateApproval(int app_num, String searchArea) throws Exception;
 	
 	// 이동 거절
-	public int updateRejection(int app_num, String app_comment, String searchArea) throws Exception;
+	public int updateRejection(int app_num, String searchArea) throws Exception;
 	
 	// 블럭 스펙 추가
 	public void insertBlockSpec(String df_idNumber, MultipartFile[] files, HttpServletRequest request) throws Exception;

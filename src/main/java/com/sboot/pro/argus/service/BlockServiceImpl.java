@@ -77,8 +77,8 @@ public class BlockServiceImpl implements BlockService {
 	}
 	
 	@Override
-	public void addMoveBlockList(BlockVO moveBlock, String login_area, String login_id) throws Exception {
-		blockDAO.insertMoveBlockList(moveBlock, login_area, login_id);
+	public void addMoveBlockList(BlockVO moveBlock, String login_area) throws Exception {
+		blockDAO.insertMoveBlockList(moveBlock, login_area);
 	}
 	
 	// 대여한 블럭 수 카운트
@@ -95,10 +95,9 @@ public class BlockServiceImpl implements BlockService {
 	
 	// 블럭 반납
 	public void modStatusRecipient(int app_num) throws Exception {
-		System.out.println("success");
 		String df_idNumber = blockDAO.selectIdNumber(app_num);
 		blockDAO.updateReturnStatus(df_idNumber);
-		blockDAO.updateReturnRecipient(app_num);
+		blockDAO.updateReturnRecipient(df_idNumber);
 	}
 	
 	// 블럭 이동 기록 수 카운트
@@ -192,8 +191,8 @@ public class BlockServiceImpl implements BlockService {
 	
 	// 이동 거절
 	@Override
-	public int updateRejection(int app_num, String app_comment, String searchArea) throws Exception {
-		return blockDAO.updateRejection(app_num, app_comment, searchArea);
+	public int updateRejection(int app_num, String searchArea) throws Exception {
+		return blockDAO.updateRejection(app_num, searchArea);
 	}
 	
 	// 블럭 스펙 업로드

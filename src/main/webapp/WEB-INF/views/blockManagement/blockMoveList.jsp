@@ -64,7 +64,7 @@
 									<td>${blockMoveList.moveList_return_date}</td>
 									<td>
 									<c:choose>
-										<c:when test="${blockMoveList.df_itemStatus eq '사용중'}">
+										<c:when test="${blockMoveList.df_itemStatus eq '이상없음'}">
 									    	반납완료
 									    </c:when>
 									    <c:otherwise>

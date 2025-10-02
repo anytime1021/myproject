@@ -10,7 +10,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-	<title>시험편 이동 보고서</title>
+	<title>시험편 반출증</title>
 	<link rel="stylesheet" href="${contextPath}/resources/css/moveBlockForm.css">
 </head>
 <body>
@@ -22,18 +22,18 @@
 				<form name="moveBlockList" autocomplete="off" method="post" action="${contextPath}/blockManagement/moveBlock.do">
 					<table class="report">
 						<colgroup>
-							<col style="width: 16%;">
-							<col style="width: 16%;">
-							<col style="width: 16%;">
-							<col style="width: 16%;">
-							<col style="width: 16%;">
-							<col style="width: 16%;">
+							<col style="width:16%;">
+							<col style="width:16%;">
+							<col style="width:16%;">
+							<col style="width:16%;">
+							<col style="width:16%;">
+							<col style="width:16%;">
 						</colgroup>
 					    <tr>
-					    	<th class="title" colspan="3" rowspan="2">시험편 이동 보고서</th>
+					    	<th class="title" colspan="3" rowspan="2">시험편 반출증</th>
 							<th class="title-sub">인계</th>
-							<th class="title-sub">인수</th>
 							<th class="title-sub">품질팀</th>
+							<th class="title-sub">인수</th>
 					    </tr>
 						<tr>
 							<th class="title-sub"></th>
@@ -44,9 +44,13 @@
 					    	<td class="col-value" colspan="4"><input type="text" name="df_idNumber" value="${blockInformation.df_idNumber}"></td>
 					    </tr>
 						<tr>
-							<td class="col-group" colspan="2">이동 사유</td>
+							<td class="col-group" colspan="2">반출 사유</td>
 							<td class="col-value" colspan="4"><input type="text" name="app_hnd_comment" placeholder="이동 사유 입력"></td>
-					    <tr>
+						<tr>
+						<tr>
+							<td class="col-group" colspan="2">반출 기간</td>
+							<td class="col-value" colspan="4"><input type="text" name="app_hnd_comment" placeholder="이동 사유 입력"></td>
+						<tr>
 					    	<td class="col-group" rowspan="4">인계</td>
 					    	<td class="col-label">소 속</td>
 							<td class="col-value" colspan="4"><input type="text" name="login_area" value="${blockInformation.login_area}"></td>
@@ -66,28 +70,7 @@
 						<tr>
 							<td class="col-group" rowspan="4">인수</td>
 							<td class="col-label">소 속</td>
-							<td class="col-value" colspan="4">
-								<select name="app_rcv_area">
-									<c:if test="${blockInformation.login_area ne '서산'}">
-										<option value="서산">서산</option>
-									</c:if>
-									<c:if test="${blockInformation.login_area ne '울산'}">
-										<option value="울산">울산</option>
-									</c:if>
-									<c:if test="${blockInformation.login_area ne '여수'}">
-										<option value="여수">여수</option>
-									</c:if>
-									<c:if test="${blockInformation.login_area ne '창원'}">
-										<option value="창원">창원</option>
-									</c:if>
-									<c:if test="${blockInformation.login_area ne '마산'}">
-										<option value="마산">마산</option>
-									</c:if>
-									<c:if test="${blockInformation.login_area ne '본사'}">
-										<option value="본사">본사</option>
-									</c:if>
-								</select>
-							</td>
+							<td class="col-value" colspan="4"><input type="text" name="app_rcv_area"></td>
 						</tr>
 						<tr>
 							<td class="col-label">성 명</td>
