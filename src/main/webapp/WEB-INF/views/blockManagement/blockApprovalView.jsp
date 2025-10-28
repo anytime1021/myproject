@@ -92,7 +92,7 @@
 						</tr>
 						<tr>
 							<td class="col-label">이상유무</td>
-							<td class="col-value" colspan="4"><input type="text" name="app_isError" value="${ApprovalView.app_isError}" readonly></td>
+							<td class="col-value" colspan="4"><textarea name="app_isError" value="${ApprovalView.app_isError}"></textarea></td>
 						</tr>
 						<tr>
 					    	<td class="col-label" colspan="2">[특이사항]</td>
@@ -104,17 +104,37 @@
 					<div style="display:flex; justify-content:right;">
 						<c:choose>
 							<c:when test="${searchArea eq ApprovalView.app_rcv_area && ApprovalView.app_rcv_status eq 'W'}">
-								<a href="${contextPath}/blockManagement/updateApproval.do?app_num=${ApprovalView.app_num}" style="display:flex; width:120px; padding:12px 0; color: black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">승인</a>
-								<a href="${contextPath}/blockManagement/updateRejection.do?app_num=${ApprovalView.app_num}" style="display:flex; width:120px; padding:12px 0; color: black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">거절</a>
+								<a href="#"
+								   onclick="submitApproval('${contextPath}/blockManagement/updateApproval.do', '${ApprovalView.app_num}')"
+								   style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
+								   승인
+								</a>
+								<a href="#"
+								   onclick="submitApproval('${contextPath}/blockManagement/updateRejection.do', '${ApprovalView.app_num}')"
+								   style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
+								   거절
+								</a>
 							</c:when>
 							<c:when test="${searchArea eq '본사' && ApprovalView.app_rcv_status eq 'Y' && ApprovalView.app_head_status eq 'W'}">
 								<c:if test="${ApprovalView.app_type eq 'rental'}">
-									<a href="${contextPath}/blockManagement/updateApproval.do?app_num=${ApprovalView.app_num}" style="display:flex; width:120px; padding:12px 0; color: black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">승인</a>
+									<a href="#"
+									   onclick="submitApproval('${contextPath}/blockManagement/updateApproval.do', '${ApprovalView.app_num}')"
+									   style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
+									   승인
+									</a>
 								</c:if>
 								<c:if test="${ApprovalView.app_type eq 'return'}">
-									<a href="${contextPath}/blockManagement/returnApproval.do?app_num=${ApprovalView.app_num}" style="display:flex; width:120px; padding:12px 0; color: black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">승인</a>
+									<a href="#"
+									   onclick="submitApproval('${contextPath}/blockManagement/returnApproval.do', '${ApprovalView.app_num}')"
+									   style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
+									   승인
+									</a>
 								</c:if>
-								<a href="${contextPath}/blockManagement/updateRejection.do?app_num=${ApprovalView.app_num}" style="display:flex; width:120px; padding:12px 0; color: black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">거절</a>
+								<a href="#"
+								   onclick="submitApproval('${contextPath}/blockManagement/updateRejection.do', '${ApprovalView.app_num}')"
+								   style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
+								   거절
+								</a>
 							</c:when>
 						</c:choose>
 					</div>
@@ -124,4 +144,34 @@
 	</div>
 	<%@ include file="../include/footer2.jsp"%>
 </body>
+<script>
+const form = document.forms["moveBlockList"];
+
+form.addEventListener("submit", function(e) {
+    if (!form.dataset.allowSubmit) {
+        e.preventDefault();
+        return false;
+    }
+});
+
+function submitApproval(url, appNum) {
+    // 기존 hidden input 중복 방지
+    let existing = form.querySelector('input[name="app_num"]');
+    if (existing) form.removeChild(existing);
+
+    let hiddenAppNum = document.createElement("input");
+    hiddenAppNum.type = "hidden";
+    hiddenAppNum.name = "app_num";
+    hiddenAppNum.value = appNum;
+    form.appendChild(hiddenAppNum);
+
+    form.action = url;
+    form.method = "get";
+	
+	form.dataset.allowSubmit = "true";
+	form.submit();
+	
+    form.dataset.allowSubmit = "false";
+}
+</script>
 </html>

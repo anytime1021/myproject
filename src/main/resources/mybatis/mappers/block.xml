@@ -90,6 +90,16 @@
 <!--		select #{moveBlock.moveList_lender}, #{moveBlock.moveList_lender_rank}, #{moveBlock.moveList_recipient}, #{moveBlock.moveList_recipient_area}, #{moveBlock.moveList_recipient_rank}, #{moveBlock.moveList_rental_date}, '대여중', #{moveBlock.df_idNumber}, #{login_area}, #{login_id}, #{moveBlock.note}, #{moveBlock.created_at}, app_num from Approval where df_idNumber = #{moveBlock.df_idNumber} and created_at = #{moveBlock.created_at}-->
 	</insert>
 	
+	<!-- 블럭 외부 반출 -->
+	<insert id="insertExpertBlock">
+		insert into expertBlockApproval(df_idNumber, app_hnd_comment, app_period, login_area, app_hnd_name, app_hnd_create_at, app_hnd_transMethod, app_rcv_area, app_rcv_name, app_rcv_create_at, app_isError, note, app_type)
+		values(#{expertBlock.df_idNumber}, #{expertBlock.app_hnd_comment}, #{expertBlock.app_period} #{expertBlock.login_area}, #{expertBlock.app_hnd_name}, #{expertBlock.app_hnd_create_at}, #{expertBlock.app_hnd_transMethod}, #{expertBlock.app_rcv_area}, #{expertBlock.app_rcv_name}, #{expertBlock.app_rcv_create_at}, #{expertBlock.app_isError}, #{expertBlock.note}, #{expertBlock.app_type});
+		
+		update blockInformation
+		set df_itemStatus = '승인대기중'
+		where df_idNumber = #{moveBlock.df_idNumber}
+	</insert>
+	
 	<!-- 대여한 블럭 수 카운트 -->
 	<select id="selectRentalListCount" parameterType="String" resultType="int">
 		select count(*) from blockMoveList
@@ -413,10 +423,12 @@
 		update Approval
 		<if test="searchArea != '본사'">
 			set app_rcv_status = 'Y',
+			app_isError = #{app_isError},
 			app_rcv_create_at = now()
 		</if>
 		<if test="searchArea == '본사'">
-			set app_head_status = 'Y'
+			set app_head_status = 'Y',
+			app_isError = #{app_isError}
 		</if>
 		where app_num = #{app_num}
 	</update>
@@ -439,8 +451,7 @@
 	<update id="updateRejection" parameterType="Map">
 		update Approval
 		<if test="searchArea != '본사'">
-			set app_rcv_status = 'N',
-			set app_head_status = '-'
+			set app_rcv_status = 'N'
 		</if>
 		<if test="searchArea == '본사'">
 			set app_head_status = 'N'
@@ -452,7 +463,7 @@
 		update blockInformation
 		set df_itemStatus = '이상없음',
 		df_moveStatus = '-'
-		where df_idNumber = (select df_idNumber from Approval where app_num = #{app_num})
+		where df_idNumber = (select df_idNumber from Approval where app_num = #{app_num});
 	</update>
 	
 	<!-- 블럭 스펙 추가 -->
@@ -472,7 +483,7 @@
 	</select>
 	
 	<!-- 블럭 점검 게시판 수 카운트 -->
-	<select id="inspectionBoardCount" parameterType="String">
+	<select id="inspectionListCount" parameterType="String">
 		select count(*) from blockInspectionBoard
 		<if test="searchArea != '본사'">
 			where login_area = #{searchArea}
@@ -480,7 +491,7 @@
 	</select>
 	
 	<!-- 블럭 점검 리스트 -->
-	<select id="selectInspectionBoard" parameterType="String">
+	<select id="selectInspectionList" parameterType="String">
 		select * from (
 			select row_number() over (order by bib_date asc) as row_num, blockInspectionBoard.* from blockInspectionBoard 
 			<if test="searchArea != '본사'">

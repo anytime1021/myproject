@@ -46,11 +46,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach var="inspectionBoard" items="${inspectionBoard}">
+                            <c:forEach var="blockInspectionList" items="${blockInspectionList}">
                                 <tr>
-                                    <td>${inspectionBoard.row_num}</td>
-                                    <td><a href="${contextPath}/blockManagement/blockInspectionView.do?bib_num=${inspectionBoard.bib_num}">${inspectionBoard.bib_title}</a></td>
-                                    <td>${inspectionBoard.bib_date}</td>
+                                    <td>${blockInspectionList.row_num}</td>
+                                    <td><a href="${contextPath}/blockManagement/blockInspectionView.do?bib_num=${blockInspectionList.bib_num}">${blockInspectionList.bib_title}</a></td>
+                                    <td>${blockInspectionList.bib_date}</td>
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -59,12 +59,12 @@
 				<div class="paging-list">
 					<ul class="pagination">
 						<li>
-					  		<a href="${contextPath}/blockManagement/inspectionBoard.do?page=1">&lt;&lt; First</a>
+					  		<a href="${contextPath}/blockManagement/blockInspectionList.do?page=1">&lt;&lt; First</a>
 						</li>
 						
 						<c:if test="${paging.startPage > 1}">
 							<fmt:formatNumber var="prevPage" value="${paging.startPage - 1}" type="number" maxFractionDigits="0" />
-						    <a href="${contextPath}/blockManagement/inspectionBoard.do?page=${prevPage}">&lt; Previous</a>
+						    <a href="${contextPath}/blockManagement/blockInspectionList.do?page=${prevPage}">&lt; Previous</a>
 						</c:if>
 		
 						<c:forEach var="i" begin="${paging.startPage}" end="${paging.endPage}">
@@ -76,7 +76,7 @@
 						    	</c:when>
 							    <c:otherwise>
 									<li>
-							        	<a href="${contextPath}/blockManagement/inspectionBoard.do?page=${i}">${i}</a>
+							        	<a href="${contextPath}/blockManagement/blockInspectionList.do?page=${i}">${i}</a>
 							    	</li>
 								</c:otherwise>
 						  	</c:choose>
@@ -85,12 +85,12 @@
 						<c:if test="${paging.endPage < paging.totalPage}">
 							<fmt:formatNumber var="nextPage" value="${paging.endPage + 1}" type="number" maxFractionDigits="0" />
 						    <li>
-								<a href="${contextPath}/blockManagement/inspectionBoard.do?page=${nextPage}">Next &gt;</a>
+								<a href="${contextPath}/blockManagement/blockInspectionList.do?page=${nextPage}">Next &gt;</a>
 							</li>
 						</c:if>
 					
 						<li>
-							<a href="${contextPath}/blockManagement/inspectionBoard.do?page=${paging.totalPage}">Last &gt;&gt;</a>
+							<a href="${contextPath}/blockManagement/blockInspectionList.do?page=${paging.totalPage}">Last &gt;&gt;</a>
 						</li>
 					</ul>
 	            </div>

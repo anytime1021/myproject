@@ -36,13 +36,14 @@
 		            <div class="sub-filter-title" onclick="toggleOptions(this)">이동 관련 ▾</div>
 		            <div class="sub-filter-options">
 		                <label><a href="${contextPath}/blockManagement/blockMoveList.do">• 이동 기록</a></label>
-		                <label><a href="${contextPath}/blockManagement/blockApproval.do">• 이동 요청 승인</a></label>
+		                <label><a href="${contextPath}/blockManagement/blockApproval.do">• 이동 요청(사업소)</a></label>
+						<label><a href="${contectPath}/blockManagement/blockExpertList.do">• 이동 요청(외부)</a></label>
 		            </div>
 		        </div>
 				<div class="sub-filter-group">
 				    <div class="sub-filter-title" onclick="toggleOptions(this)">점검 관련 ▾</div>
 				    <div class="sub-filter-options">
-				        <label><a href="${contextPath}/blockManagement/blockInspectionBoard.do">• 시험편 점검</a></label>
+				        <label><a href="${contextPath}/blockManagement/blockInspectionList.do">• 시험편 점검</a></label>
 				    </div>
 				</div>
 				<div class="sub-filter-group">

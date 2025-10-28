@@ -76,11 +76,11 @@
 						</tr>
 						<tr>
 							<td class="col-label">인수일</td>
-							<td class="col-value" colspan="4"><input type="text" name="app_rcv_create_at" placeholder="YYYY-MM-DD HH:mm:ss" readonly></td>
+							<td class="col-value" colspan="4"><input type="text" name="app_rcv_create_at" readonly></td>
 						</tr>
 						<tr>
 							<td class="col-label">이상유무</td>
-							<td class="col-value" colspan="4"><input type="text" name="app_isError" placeholder="이상유무 입력"></td>
+							<td class="col-value" colspan="4"><input type="text" name="app_isError" readonly></td>
 						</tr>
 						<tr>
 					    	<td class="col-label" colspan="2">[특이사항]</td>

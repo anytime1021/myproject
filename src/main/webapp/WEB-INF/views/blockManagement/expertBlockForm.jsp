@@ -19,7 +19,7 @@
 		<%@ include file="../include/sidebar.jsp" %>
 		<div class="moveReport-container">
 			<div class="moveReport">
-				<form name="moveBlockList" autocomplete="off" method="post" action="${contextPath}/blockManagement/moveBlock.do">
+				<form name="expertBlock" autocomplete="off" method="post" action="${contextPath}/blockManagement/expertBlock.do">
 					<table class="report">
 						<colgroup>
 							<col style="width:16%;">
@@ -49,7 +49,7 @@
 						<tr>
 						<tr>
 							<td class="col-group" colspan="2">반출 기간</td>
-							<td class="col-value" colspan="4"><input type="text" name="app_hnd_comment" placeholder="이동 사유 입력"></td>
+							<td class="col-value" colspan="4"><input type="text" name="app_period" placeholder="반출 기간 입력"></td>
 						<tr>
 					    	<td class="col-group" rowspan="4">인계</td>
 					    	<td class="col-label">소 속</td>
@@ -70,7 +70,28 @@
 						<tr>
 							<td class="col-group" rowspan="4">인수</td>
 							<td class="col-label">소 속</td>
-							<td class="col-value" colspan="4"><input type="text" name="app_rcv_area"></td>
+							<td class="col-value" colspan="4">
+								<select name="app_rcv_area">
+									<c:if test="${blockInformation.login_area ne '서산'}">
+										<option value="서산">서산</option>
+									</c:if>
+									<c:if test="${blockInformation.login_area ne '울산'}">
+										<option value="울산">울산</option>
+									</c:if>
+									<c:if test="${blockInformation.login_area ne '여수'}">
+										<option value="여수">여수</option>
+									</c:if>
+									<c:if test="${blockInformation.login_area ne '창원'}">
+										<option value="창원">창원</option>
+									</c:if>
+									<c:if test="${blockInformation.login_area ne '마산'}">
+										<option value="마산">마산</option>
+									</c:if>
+									<c:if test="${blockInformation.login_area ne '본사'}">
+										<option value="본사">본사</option>
+									</c:if>
+								</select>
+							</td>
 						</tr>
 						<tr>
 							<td class="col-label">성 명</td>
@@ -78,7 +99,7 @@
 						</tr>
 						<tr>
 							<td class="col-label">인수일</td>
-							<td class="col-value" colspan="4"><input type="text" name="app_rcv_create_at" placeholder="YYYY-MM-DD HH:mm:ss" readonly></td>
+							<td class="col-value" colspan="4"><input type="text" name="app_rcv_create_at" readonly></td>
 						</tr>
 						<tr>
 							<td class="col-label">이상유무</td>
@@ -91,7 +112,7 @@
 							</td>
 					    </tr>
 					</table>
-					<button type="submit">시험편 이동 등록</button>
+					<button type="submit">시험편 반출 등록</button>
 				</form>
 			</div>
 		</div>

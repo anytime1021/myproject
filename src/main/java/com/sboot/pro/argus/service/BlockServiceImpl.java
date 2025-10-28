@@ -81,6 +81,11 @@ public class BlockServiceImpl implements BlockService {
 		blockDAO.insertMoveBlockList(moveBlock, login_area);
 	}
 	
+	// 블럭 외부 반출
+	public int addExpertBlock(BlockVO expertBlock) throws Exception {
+		return blockDAO.insertExpertBlock(expertBlock);
+	}
+	
 	// 대여한 블럭 수 카운트
 	@Override
 	public int getRentalListCount(String searchArea) throws Exception {
@@ -185,8 +190,8 @@ public class BlockServiceImpl implements BlockService {
 	
 	// 이동 승인
 	@Override
-	public int updateApproval(int app_num, String searchArea) throws Exception {
-		return blockDAO.updateApproval(app_num, searchArea);
+	public int updateApproval(int app_num, String app_isError, String searchArea) throws Exception {
+		return blockDAO.updateApproval(app_num, app_isError, searchArea);
 	}
 	
 	// 이동 거절
@@ -269,14 +274,14 @@ public class BlockServiceImpl implements BlockService {
 	
 	// 블럭 점검 게시판 수 카운트
 	@Override
-	public int inspectionBoardCount(String searchArea) throws Exception {
-		return blockDAO.inspectionBoardCount(searchArea);
+	public int inspectionListCount(String searchArea) throws Exception {
+		return blockDAO.inspectionListCount(searchArea);
 	}
 	
 	// 블럭 점검 리스트
 	@Override
-	public List<BlockVO> selectInspectionBoard(String searchArea, int offset, int limit) throws Exception {
-		return blockDAO.selectInspectionBoard(searchArea, offset, limit);
+	public List<BlockVO> selectInspectionList(String searchArea, int offset, int limit) throws Exception {
+		return blockDAO.selectInspectionList(searchArea, offset, limit);
 	}
 	
 	// 블럭 점검 폼

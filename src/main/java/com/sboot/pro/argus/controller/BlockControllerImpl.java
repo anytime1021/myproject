@@ -259,6 +259,20 @@ public class BlockControllerImpl implements BlockController {
 		return mav;
 	}
 	
+	// 블럭 대여 (이동)
+	@Override
+	@PostMapping("/blockManagement/moveBlock.do")
+	public ModelAndView moveBlock(@ModelAttribute("moveBlock") BlockVO moveBlock, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockApproval.do");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		if(moveBlock.getApp_rcv_create_at().equals("") || moveBlock.getApp_rcv_create_at().isEmpty()) {
+			moveBlock.setApp_rcv_create_at(null);
+		}
+		moveBlock.setApp_type("rental");
+		blockService.addMoveBlockList(moveBlock, login.getLogin_area());
+		return mav;
+	}
+	
 	// 블럭 외부 반출 폼
 	@Override
 	@GetMapping("/blockManagement/expertBlockForm.do")
@@ -271,19 +285,27 @@ public class BlockControllerImpl implements BlockController {
 		LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		String timeNow = now.format(formatter);
+		mav.addObject("blockInformation", blockInformation);
+		mav.addObject("searchArea", searchArea);
+		mav.addObject("timeNow", timeNow);
+		return mav;
 	}
 	
-	// 블럭 대여 (이동)
-	@Override
-	@PostMapping("/blockManagement/moveBlock.do")
-	public ModelAndView moveBlock(@ModelAttribute("moveBlock") BlockVO moveBlock, HttpServletRequest request) throws Exception {
-		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockApproval.do");
+	// 블럭 외부 반출
+	@PostMapping("/blockManagement/expertBlock.do")
+	public ModelAndView expertBlock(@ModelAttribute("expertBlockList") BlockVO expertBlock, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockMoveList.do");
 		LoginVO login = (LoginVO) request.getAttribute("login");
-		if(moveBlock.getApp_rcv_create_at().equals("") || moveBlock.getApp_rcv_create_at().isEmpty()) {
-			moveBlock.setApp_rcv_create_at(null);
-		}
-		moveBlock.setApp_type("rental");
-		blockService.addMoveBlockList(moveBlock, login.getLogin_area());
+		String searchArea = login.getLogin_area();
+		expertBlock.setLogin_area(searchArea);
+		
+		LocalDateTime now = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		String timeNow = now.format(formatter);
+		
+		int result = blockService.addExpertBlock(expertBlock);
+
+		
 		return mav;
 	}
 	
@@ -345,11 +367,11 @@ public class BlockControllerImpl implements BlockController {
 	// 블럭 반납 - 반납 승인(결재) 관련
 	@Override
 	@GetMapping("/blockManagement/returnApproval.do")
-	public ModelAndView returnApproval(@RequestParam("app_num") int app_num, HttpServletRequest request) throws Exception {
+	public ModelAndView returnApproval(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockApproval.do");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
-		int result = blockService.updateApproval(app_num, searchArea);
+		int result = blockService.updateApproval(app_num, app_isError, searchArea);
 		int tnf = blockDAO.tnfCheck(app_num);
 		if (tnf == 1) {
 			BlockVO returnBlockInfo = blockDAO.selectBlockApprovalView_df_idNumber(app_num);
@@ -495,12 +517,12 @@ public class BlockControllerImpl implements BlockController {
 	// 이동 승인
 	@Override
 	@GetMapping("/blockManagement/updateApproval.do")
-	public ModelAndView updateApproval(@RequestParam("app_num") int app_num, HttpServletRequest request) throws Exception {
+	public ModelAndView updateApproval(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockApproval.do");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
 
-		int result = blockService.updateApproval(app_num, searchArea);
+		int result = blockService.updateApproval(app_num, app_isError, searchArea);
 		int tnf = blockDAO.tnfCheck(app_num);
 		if (tnf == 1) {
 			BlockVO approval = blockDAO.selectBlockApprovalView_df_idNumber(app_num);
@@ -565,24 +587,24 @@ public class BlockControllerImpl implements BlockController {
 	
 	// 블럭 점검 게시판
 	@Override
-	@GetMapping("/blockManagement/blockInspectionBoard.do")
+	@GetMapping("/blockManagement/blockInspectionList.do")
 	public ModelAndView blockInspectionList(@RequestParam(value="page", defaultValue="1") int page, HttpServletRequest request) throws Exception {
-		ModelAndView mav = new ModelAndView("/blockManagement/blockInspectionBoard");
+		ModelAndView mav = new ModelAndView("/blockManagement/blockInspectionList");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
 		
 		int limit = 20;
 		int currentPage = page;
 		int pageBlockSize = 5;
-		int totalCount = blockService.inspectionBoardCount(searchArea);
+		int totalCount = blockService.inspectionListCount(searchArea);
 		if (totalCount == 0) {
 			totalCount = 1;
 		}
 		
 		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
 
-		List<BlockVO> inspectionBoard = blockService.selectInspectionBoard(searchArea, paging.getOffset(), limit);
-		mav.addObject("inspectionBoard", inspectionBoard);
+		List<BlockVO> blockInspectionList = blockService.selectInspectionList(searchArea, paging.getOffset(), limit);
+		mav.addObject("blockInspectionList", blockInspectionList);
 		mav.addObject("paging", paging);
 		mav.addObject("searchArea", searchArea);
 		return mav;

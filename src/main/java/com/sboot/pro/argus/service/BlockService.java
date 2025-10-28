@@ -35,6 +35,9 @@ public interface BlockService {
 	public void modItemStatus(String df_idNumber, String df_moveStatus) throws Exception;
 	public void addMoveBlockList(BlockVO moveBlock, String login_area) throws Exception;
 	
+	// 블럭 외부 반출
+	public int addExpertBlock(BlockVO expertBlock) throws Exception;
+	
 	// 대여한 블럭 수 카운트
 	public int getRentalListCount(String searchArea) throws Exception;
 	
@@ -72,7 +75,7 @@ public interface BlockService {
 	public BlockVO selectBlockApprovalView(int app_num) throws Exception;
 	
 	// 이동 승인
-	public int updateApproval(int app_num, String searchArea) throws Exception;
+	public int updateApproval(int app_num, String app_isError, String searchArea) throws Exception;
 	
 	// 이동 거절
 	public int updateRejection(int app_num, String searchArea) throws Exception;
@@ -87,10 +90,10 @@ public interface BlockService {
 	public void removeBlockSpec(String df_idNumber) throws Exception;
 	
 	// 블럭 점검 게시판 수 카운트
-	public int inspectionBoardCount(String searchArea) throws Exception;
+	public int inspectionListCount(String searchArea) throws Exception;
 	
 	// 블럭 점검 게시판
-	public List<BlockVO> selectInspectionBoard(String searchArea, int offset, int limit) throws Exception;
+	public List<BlockVO> selectInspectionList(String searchArea, int offset, int limit) throws Exception;
 
 	// 블럭 점검 폼
 	public List<BlockVO> inspectionList(String searchArea) throws Exception;
