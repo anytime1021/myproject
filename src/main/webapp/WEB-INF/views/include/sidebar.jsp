@@ -37,7 +37,7 @@
 		            <div class="sub-filter-options">
 		                <label><a href="${contextPath}/blockManagement/blockMoveList.do">• 이동 기록</a></label>
 		                <label><a href="${contextPath}/blockManagement/blockApproval.do">• 이동 요청(사업소)</a></label>
-						<label><a href="${contectPath}/blockManagement/blockExpertList.do">• 이동 요청(외부)</a></label>
+						<label><a href="${contectPath}/blockManagement/expertApproval.do">• 이동 요청(외부)</a></label>
 		            </div>
 		        </div>
 				<div class="sub-filter-group">

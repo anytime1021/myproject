@@ -46,6 +46,9 @@ public class BlockVO extends WorkingDailyBaseVO {
 	private String app_head_status;
 	private String app_type;
 	
+	// 시험편 반출 관련
+	private String app_period;
+	
 	// 블럭 스펙 업로드
 	private int bs_num;
 	private String file_name;
@@ -276,6 +279,12 @@ public class BlockVO extends WorkingDailyBaseVO {
 	}
 	public void setApp_type(String app_type) {
 		this.app_type = app_type;
+	}
+	public String getApp_period() {
+		return app_period;
+	}
+	public void setApp_period(String app_period) {
+		this.app_period = app_period;
 	}
 	public int getBs_num() {
 		return bs_num;

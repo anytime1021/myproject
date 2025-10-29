@@ -19,7 +19,7 @@
 		<%@ include file="../include/sidebar.jsp" %>
 		<div class="moveReport-container">
 			<div class="moveReport">
-				<form name="expertBlock" autocomplete="off" method="post" action="${contextPath}/blockManagement/expertBlock.do">
+				<form name="expertBlockList" autocomplete="off" method="post" action="${contextPath}/blockManagement/expertBlock.do">
 					<table class="report">
 						<colgroup>
 							<col style="width:16%;">
@@ -70,28 +70,7 @@
 						<tr>
 							<td class="col-group" rowspan="4">인수</td>
 							<td class="col-label">소 속</td>
-							<td class="col-value" colspan="4">
-								<select name="app_rcv_area">
-									<c:if test="${blockInformation.login_area ne '서산'}">
-										<option value="서산">서산</option>
-									</c:if>
-									<c:if test="${blockInformation.login_area ne '울산'}">
-										<option value="울산">울산</option>
-									</c:if>
-									<c:if test="${blockInformation.login_area ne '여수'}">
-										<option value="여수">여수</option>
-									</c:if>
-									<c:if test="${blockInformation.login_area ne '창원'}">
-										<option value="창원">창원</option>
-									</c:if>
-									<c:if test="${blockInformation.login_area ne '마산'}">
-										<option value="마산">마산</option>
-									</c:if>
-									<c:if test="${blockInformation.login_area ne '본사'}">
-										<option value="본사">본사</option>
-									</c:if>
-								</select>
-							</td>
+							<td class="col-value" colspan="4"><input type="text" name="app_rcv_area" placeholder="소속 입력"></td>
 						</tr>
 						<tr>
 							<td class="col-label">성 명</td>

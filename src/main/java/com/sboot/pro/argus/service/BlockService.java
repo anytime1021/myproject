@@ -71,8 +71,17 @@ public interface BlockService {
 	// 승인 대기 리스트
 	public List<BlockVO> selectApprovalList(String searchArea, int offset, int limit) throws Exception;
 
+	// 반출 승인 대기 수 카운트
+	public int getExpertApprovalCount(String searchArea) throws Exception;
+	
+	// 반출 승인 대기 리스트
+	public List<BlockVO> selectExpertApprovalList(String searchArea, int offset, int limit) throws Exception;
+	
 	// 이동 보고서 상세보기
 	public BlockVO selectBlockApprovalView(int app_num) throws Exception;
+	
+	// 반출 이동 보고서 상세보기
+	public BlockVO selectExpertBlockApprovalView(int app_num) throws Exception;
 	
 	// 이동 승인
 	public int updateApproval(int app_num, String app_isError, String searchArea) throws Exception;

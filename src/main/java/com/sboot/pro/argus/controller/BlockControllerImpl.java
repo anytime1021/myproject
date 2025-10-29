@@ -292,19 +292,19 @@ public class BlockControllerImpl implements BlockController {
 	}
 	
 	// 블럭 외부 반출
+	@Override
 	@PostMapping("/blockManagement/expertBlock.do")
-	public ModelAndView expertBlock(@ModelAttribute("expertBlockList") BlockVO expertBlock, HttpServletRequest request) throws Exception {
+	public ModelAndView expertBlock(@ModelAttribute("expertBlock") BlockVO expertBlock, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockMoveList.do");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
 		expertBlock.setLogin_area(searchArea);
 		
-		LocalDateTime now = LocalDateTime.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		String timeNow = now.format(formatter);
+		if(expertBlock.getApp_rcv_create_at().equals("") || expertBlock.getApp_rcv_create_at().isEmpty()) {
+			expertBlock.setApp_rcv_create_at(null);
+		}
 		
 		int result = blockService.addExpertBlock(expertBlock);
-
 		
 		return mav;
 	}
@@ -498,6 +498,30 @@ public class BlockControllerImpl implements BlockController {
 		return mav;
 	}
 	
+	// 반출 승인 대기 리스트
+	@Override
+	@GetMapping("/blockManagement/expertApproval.do")
+	public ModelAndView expertApproval(@RequestParam(value="page", defaultValue="1") int page, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/blockManagement/expertApproval");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		
+		int limit = 20;
+		int currentPage = page;
+		int pageBlockSize = 5;
+		int totalCount = blockService.getExpertApprovalCount(searchArea);
+		if (totalCount == 0) {
+			totalCount = 1;
+		}
+		
+		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
+		
+		List<BlockVO> expertApprovalList = blockService.selectExpertApprovalList(searchArea, paging.getOffset(), limit);
+		mav.addObject("paging", paging);
+		mav.addObject("expertApprovalList", expertApprovalList);
+		return mav;
+	}
+	
 	// 이동 보고서 상세보기
 	@Override
 	@PostMapping("/blockManagement/blockApprovalView.do")
@@ -507,10 +531,26 @@ public class BlockControllerImpl implements BlockController {
 		String searchArea = login.getLogin_area();
 		int app_num = Integer.parseInt(app_num_Str);
 		BlockVO ApprovalView = blockService.selectBlockApprovalView(app_num);
-		BlockVO ApprovalDivision = blockDAO.ApprovalDivision(app_num);
+//		BlockVO ApprovalDivision = blockDAO.ApprovalDivision(app_num);
 		mav.addObject("searchArea", searchArea);
 		mav.addObject("ApprovalView", ApprovalView);
-		mav.addObject("ApprovalDivision", ApprovalDivision);
+//		mav.addObject("ApprovalDivision", ApprovalDivision);
+		return mav;
+	}
+	
+	// 반출 이동 보고서 상세보기
+	@Override
+	@PostMapping("/blockManagement/blockExpertApprovalView.do")
+	public ModelAndView blockExpertApprovalView(@RequestParam("app_num_Str") String app_num_Str, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/blockManagement/blockExpertApprovalView");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		int app_num = Integer.parseInt(app_num_Str);
+		BlockVO expertApprovalView = blockService.selectExpertBlockApprovalView(app_num);
+//		BlockVO ApprovalDivision = blockDAO.ApprovalDivision(app_num);
+		mav.addObject("searchArea", searchArea);
+		mav.addObject("expertApprovalView", expertApprovalView);
+//		mav.addObject("ApprovalDivision", ApprovalDivision);
 		return mav;
 	}
 	

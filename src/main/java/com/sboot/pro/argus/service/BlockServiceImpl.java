@@ -180,12 +180,30 @@ public class BlockServiceImpl implements BlockService {
 		return blockDAO.selectApprovalList(searchArea, offset, limit);
 	}
 	
+	// 반출 승인 대기 수 카운트
+	@Override
+	public int getExpertApprovalCount(String searchArea) throws Exception {
+		return blockDAO.selectExpertApprovalCount(searchArea);
+	}
+	
+	// 반출 승인 대기 리스트
+	@Override
+	public List<BlockVO> selectExpertApprovalList(String searchArea, int offset, int limit) throws Exception {
+		return blockDAO.selectExpertApprovalList(searchArea, offset, limit);
+	}
+	
 	// 이동 보고서 상세보기
 	@Override
 	public BlockVO selectBlockApprovalView(int app_num) throws Exception {
 //		String df_idNumber = blockDAO.selectBlockApprovalView_df_idNumber(app_num);
 //		return blockDAO.selectBlockApprovalView(df_idNumber);
 		return blockDAO.selectBlockApprovalView(app_num);
+	}
+	
+	// 반출 이동 보고서 상세보기
+	@Override
+	public BlockVO selectExpertBlockApprovalView(int app_num) throws Exception {
+		return blockDAO.selectExpertBlockApprovalView(app_num);
 	}
 	
 	// 이동 승인

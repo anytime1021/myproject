@@ -87,7 +87,7 @@
   </div>
   <div class="form-group">
     <label for="material">재질 :</label>
-    <input type="text" id="material" name="material" />
+    <input type="text" id="material" name="material" value="${count}" />
   </div>
   <div class="form-group">
     <label for="size">크기 :</label>

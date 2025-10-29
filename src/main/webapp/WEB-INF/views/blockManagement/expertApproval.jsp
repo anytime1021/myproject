@@ -35,17 +35,17 @@
                             </tr>
                         </thead>
                         <tbody>
-							<c:forEach var="ApprovalList" items="${ApprovalList}">
+							<c:forEach var="expertApprovalList" items="${expertApprovalList}">
 								<tr>
-									<td>${ApprovalList.row_num}</td>
-									<td><button style="font-size: 15px; cursor: pointer; background-color: white; border: none;" onclick="detailViewIdNumber(this)">${ApprovalList.df_idNumber}</button></td>
-									<td>${ApprovalList.login_area}</td>
-									<td>${ApprovalList.app_rcv_area}</td>
+									<td>${expertApprovalList.row_num}</td>
+									<td><button style="font-size: 15px; cursor: pointer; background-color: white; border: none;" onclick="detailViewIdNumber(this)">${expertApprovalList.df_idNumber}</button></td>
+									<td>${expertApprovalList.login_area}</td>
+									<td>${expertApprovalList.app_rcv_area}</td>
 									<c:choose>
-										<c:when test="${ApprovalList.app_rcv_status eq 'W'}">
+										<c:when test="${expertApprovalList.app_rcv_status eq 'W'}">
 											<td>대기</td>
 										</c:when>
-										<c:when test="${ApprovalList.app_rcv_status eq 'Y'}">
+										<c:when test="${expertApprovalList.app_rcv_status eq 'Y'}">
 											<td>승인</td>
 										</c:when>
 										<c:otherwise>
@@ -53,10 +53,10 @@
 										</c:otherwise>
 									</c:choose>
 									<c:choose>
-										<c:when test="${ApprovalList.app_head_status eq 'W'}">
+										<c:when test="${expertApprovalList.app_head_status eq 'W'}">
 											<td>대기</td>
 										</c:when>
-										<c:when test="${ApprovalList.app_head_status eq 'Y'}">
+										<c:when test="${expertApprovalList.app_head_status eq 'Y'}">
 											<td>승인</td>
 										</c:when>
 										<c:otherwise>
@@ -65,7 +65,7 @@
 									</c:choose>
 									<td><button style="font-weight: bold; cursor: pointer; background-color: white; border: none;" 
 								        onclick="detailViewApproval(this)" 
-								        data-app-num="${ApprovalList.app_num}">이동 보고서<br> 상세보기</button>
+								        data-app-num="${expertApprovalList.app_num}">이동 보고서<br> 상세보기</button>
 									</td>
 								</tr>
 							</c:forEach>
@@ -75,13 +75,13 @@
 				<div class="paging-list">
 					<ul class="pagination">
 					    <li>
-					        <a href="${contextPath}/blockManagement/blockApproval.do?page=1">&lt;&lt; First</a>
+					        <a href="${contextPath}/blockManagement/expertApprovalList.do?page=1">&lt;&lt; First</a>
 					    </li>
 
 					    <c:if test="${paging.startPage > 1}">
 					        <fmt:formatNumber var="prevPage" value="${paging.startPage - 1}" type="number" maxFractionDigits="0" />
 					        <li>
-					            <a href="${contextPath}/blockManagement/blockApproval.do?page=${prevPage}">&lt; Previous</a>
+					            <a href="${contextPath}/blockManagement/expertApprovalList.do?page=${prevPage}">&lt; Previous</a>
 					        </li>
 					    </c:if>
 
@@ -94,7 +94,7 @@
 					            </c:when>
 					            <c:otherwise>
 					                <li>
-					                    <a href="${contextPath}/blockManagement/blockApproval.do?page=${i}">${i}</a>
+					                    <a href="${contextPath}/blockManagement/expertApprovalList.do?page=${i}">${i}</a>
 					                </li>
 					            </c:otherwise>
 					        </c:choose>
@@ -103,12 +103,12 @@
 					    <c:if test="${paging.endPage < paging.totalPage}">
 					        <fmt:formatNumber var="nextPage" value="${paging.endPage + 1}" type="number" maxFractionDigits="0" />
 					        <li>
-					            <a href="${contextPath}/blockManagement/blockApproval.do?page=${nextPage}">Next &gt;</a>
+					            <a href="${contextPath}/blockManagement/expertApprovalList.do?page=${nextPage}">Next &gt;</a>
 					        </li>
 					    </c:if>
 
 					    <li>
-					        <a href="${contextPath}/blockManagement/blockApproval.do?page=${paging.totalPage}">Last &gt;&gt;</a>
+					        <a href="${contextPath}/blockManagement/expertApprovalList.do?page=${paging.totalPage}">Last &gt;&gt;</a>
 					    </li>
 					</ul>
             	</div>
@@ -142,7 +142,7 @@
 	    const appNum = button.dataset.appNum; // 클릭한 버튼의 data-app-num
 	    const form = document.createElement("form");
 	    form.method = "POST";
-	    form.action = "/blockManagement/blockApprovalView.do";
+	    form.action = "/blockManagement/blockExpertApprovalView.do";
 	    
 	    const inputId = document.createElement("input");
 	    inputId.type = "hidden";

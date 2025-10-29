@@ -92,12 +92,12 @@
 	
 	<!-- 블럭 외부 반출 -->
 	<insert id="insertExpertBlock">
-		insert into expertBlockApproval(df_idNumber, app_hnd_comment, app_period, login_area, app_hnd_name, app_hnd_create_at, app_hnd_transMethod, app_rcv_area, app_rcv_name, app_rcv_create_at, app_isError, note, app_type)
-		values(#{expertBlock.df_idNumber}, #{expertBlock.app_hnd_comment}, #{expertBlock.app_period} #{expertBlock.login_area}, #{expertBlock.app_hnd_name}, #{expertBlock.app_hnd_create_at}, #{expertBlock.app_hnd_transMethod}, #{expertBlock.app_rcv_area}, #{expertBlock.app_rcv_name}, #{expertBlock.app_rcv_create_at}, #{expertBlock.app_isError}, #{expertBlock.note}, #{expertBlock.app_type});
+		insert into expertApproval(df_idNumber, app_hnd_comment, app_period, login_area, app_hnd_name, app_hnd_create_at, app_hnd_transMethod, app_rcv_area, app_rcv_name, app_rcv_create_at, app_isError, note, app_type)
+		values(#{df_idNumber}, #{app_hnd_comment}, #{app_period}, #{login_area}, #{app_hnd_name}, #{app_hnd_create_at}, #{app_hnd_transMethod}, #{app_rcv_area}, #{app_rcv_name}, #{app_rcv_create_at}, #{app_isError}, #{note}, #{app_type});
 		
 		update blockInformation
 		set df_itemStatus = '승인대기중'
-		where df_idNumber = #{moveBlock.df_idNumber}
+		where df_idNumber = #{df_idNumber}
 	</insert>
 	
 	<!-- 대여한 블럭 수 카운트 -->
@@ -405,6 +405,26 @@
 		order by row_num desc
 	</select>
 	
+	<!-- 반출 승인 대기 수 카운트 -->
+	<select id="selectExpertApprovalCount" parameterType="String" resultType="int">
+		select count(*) from expertApproval
+		<if test="searchArea != '본사'">
+			where login_area = #{searchArea}
+		</if>
+	</select>
+	
+	<!-- 반출 승인 대기 리스트 -->
+	<select id="selectExpertApprovalList" parameterType="Map">
+		select * from (
+			select row_number() over (order by app_hnd_create_at asc) as row_num, expertApproval.* from expertApproval
+			<if test="searchArea != '본사'">
+				where login_area = #{searchArea} or app_rcv_area = #{searchArea}
+			</if>
+			order by row_num desc, app_hnd_create_at desc limit #{offset}, #{limit}
+		) sub
+		order by row_num desc
+	</select>
+	
 	<!-- 이동 보고서 상세보기 -->	
 	<select id="selectBlockApprovalView_df_idNumber" parameterType="int" resultType="com.sboot.pro.argus.vo.BlockVO">
 		select df_idNumber, app_rcv_area from Approval where app_num = #{app_num};
@@ -416,6 +436,10 @@
 	
 	<select id="ApprovalDivision" parameterType="int">
 		select * from Approval where app_num = #{app_num}
+	</select>
+	
+	<select id="selectExpertBlockApprovalView" parameterType="int" resultType="BlockVO">
+		select * from expertApproval where app_num = #{app_num}
 	</select>
 	
 	<!-- 이동 승인 -->

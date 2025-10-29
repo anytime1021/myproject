@@ -43,6 +43,9 @@ public interface BlockController {
 	// 블럭 외부 반출 폼
 	public ModelAndView expertBlockForm(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception;
 
+	// 블럭 외부 반출
+	public ModelAndView expertBlock(@ModelAttribute("expertBlock") BlockVO expertBlock, HttpServletRequest request) throws Exception;
+
 	// 대여한 블럭 리스트
 	public ModelAndView blockRentalList(@RequestParam(value="page", defaultValue="1") int page, HttpServletRequest request) throws Exception;
 	
@@ -68,9 +71,15 @@ public interface BlockController {
 	// 승인 대기 리스트
 	public ModelAndView blockApproval(@RequestParam(value="page", defaultValue="1") int page, HttpServletRequest request) throws Exception;
 
+	// 반출 승인 대기 리스트
+	public ModelAndView expertApproval(@RequestParam(value="page", defaultValue="1") int page, HttpServletRequest request) throws Exception;
+
 	// 이동 보고서 상세보기
 	public ModelAndView blockApprovalView(@RequestParam("app_num_Str") String app_num_Str, HttpServletRequest request) throws Exception;
 
+	// 반출 이동 보고서 상세보기
+	public ModelAndView blockExpertApprovalView(@RequestParam("app_num_Str") String app_num_Str, HttpServletRequest request) throws Exception;
+	
 	// 이동 승인
 	public ModelAndView updateApproval(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError, HttpServletRequest request) throws Exception;
 
