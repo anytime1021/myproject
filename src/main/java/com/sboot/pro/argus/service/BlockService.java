@@ -86,6 +86,9 @@ public interface BlockService {
 	// 이동 승인
 	public int updateApproval(int app_num, String app_isError, String searchArea) throws Exception;
 	
+	// 반출 이동 승인
+	public int updateExpertApproval(int app_num, String app_isError, String searchArea) throws Exception;
+	
 	// 이동 거절
 	public int updateRejection(int app_num, String searchArea) throws Exception;
 	

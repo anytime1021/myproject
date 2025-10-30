@@ -37,6 +37,9 @@
 						</tr>
 						<tr>
 							<th class="title-sub">
+								<img src="${contextPath}/resources/img/sign-${hndArea}.png" style="width:100%; height:100%;">
+							</th>
+							<th class="title-sub">
 								<c:choose>
 									<c:when test="${expertApprovalView.app_head_status eq 'Y'}">
 										<img src="${contextPath}/resources/img/sign-qualityTeam.png" style="width:100%; height:100%;">
@@ -44,12 +47,9 @@
 								</c:choose>
 							</th>
 							<th class="title-sub">
-<!--								<img src="${contextPath}/resources/img/sign-yeosu.png" style="width:100%; height:100%;">-->
-							</th>
-							<th class="title-sub">
 								<c:choose>
 									<c:when test="${expertApprovalView.app_rcv_status eq 'Y'}">
-										<img src="${contextPath}/resources/img/sign-seosan.png" style="width:100%; height:100%;">
+										<img src="${contextPath}/resources/img/sign-${expertSign}.png" style="width:100%; height:100%;">
 									</c:when>
 								</c:choose>
 							</th>
@@ -101,25 +101,25 @@
 						<tr>
 					    	<td class="col-label" colspan="2">[특이사항]</td>
 					    	<td class="col-value" colspan="4">
-								<input type="text" name="note" value="${expertApprovalView.note}" style="height: 150px;" readonly>
+								<input type="text" name="note" value="${expertApprovalView.note}" style="height: 130px;" readonly>
 							</td>
 					    </tr>
 					</table>
 					<div style="display:flex; justify-content:right;">
 						<c:choose>
-							<c:when test="${searchArea eq expertApprovalView.app_rcv_area && expertApprovalView.app_rcv_status eq 'W'}">
+							<c:when test="${searchArea eq '본사' && expertApprovalView.app_head_status ne 'Y'}">
 								<a href="#"
-								   onclick="submitApproval('${contextPath}/blockManagement/updateApproval.do', '${expertApprovalView.app_num}')"
+								   onclick="submitApproval('${contextPath}/blockManagement/updateExpertApproval.do', '${expertApprovalView.app_num}')"
 								   style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
 								   승인
 								</a>
 								<a href="#"
-								   onclick="submitApproval('${contextPath}/blockManagement/updateRejection.do', '${expertApprovalView.app_num}')"
+								   onclick="submitApproval('${contextPath}/blockManagement/updateExpertRejection.do', '${expertApprovalView.app_num}')"
 								   style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
 								   거절
 								</a>
 							</c:when>
-							<c:when test="${searchArea eq '본사' && expertApprovalView.app_rcv_status eq 'Y' && expertApprovalView.app_head_status eq 'W'}">
+							<c:when test="${searchArea eq '본사' && expertApprovalView.app_head_status eq 'Y'}">
 								<c:if test="${expertApprovalView.app_type eq 'rental'}">
 									<a href="#"
 									   onclick="submitApproval('${contextPath}/blockManagement/updateApproval.do', '${expertApprovalView.app_num}')"
@@ -134,6 +134,11 @@
 									   승인
 									</a>
 								</c:if>
+								<a href="#"
+								   onclick="submitApproval('${contextPath}/blockManagement/updateRejection.do', '${expertApprovalView.app_num}')"
+								   style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
+								   거절
+								</a>
 								<a href="#"
 								   onclick="submitApproval('${contextPath}/blockManagement/updateRejection.do', '${expertApprovalView.app_num}')"
 								   style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">

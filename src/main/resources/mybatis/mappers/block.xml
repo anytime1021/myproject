@@ -471,6 +471,21 @@
 		where df_idNumber = #{df_idNumber}
 	</insert>
 	
+	<!-- 반출 이동 승인 -->
+	<update id="updateExpertApproval" parameterType="Map">
+		update expertApproval
+		<if test="searchArea != '본사'">
+			set app_rcv_status = 'Y',
+			app_isError = #{app_isError},
+			app_rcv_create_at = now()
+		</if>
+		<if test="searchArea == '본사'">
+			set app_head_status = 'Y',
+			app_isError = #{app_isError}
+		</if>
+		where app_num = #{app_num}
+	</update>
+	
 	<!-- 이동 거절 -->
 	<update id="updateRejection" parameterType="Map">
 		update Approval

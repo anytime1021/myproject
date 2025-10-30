@@ -212,6 +212,12 @@ public class BlockServiceImpl implements BlockService {
 		return blockDAO.updateApproval(app_num, app_isError, searchArea);
 	}
 	
+	// 반출 이동 승인
+	@Override
+	public int updateExpertApproval(int app_num, String app_isError, String searchArea) throws Exception {
+		return blockDAO.updateExpertApproval(app_num, app_isError, searchArea);
+	}
+	
 	// 이동 거절
 	@Override
 	public int updateRejection(int app_num, String searchArea) throws Exception {

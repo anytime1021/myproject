@@ -28,9 +28,9 @@
 								<th style="width:6%;"></th>
 								<th style="width:18%;">식별번호</th>
 								<th style="width:16%;">인계 사업소</th>
-								<th style="width:16%;">인수 사업소</th>
-								<th style="width:16%;">인수자 승인</th>
+								<th style="width:16%;">인수업체</th>
 								<th style="width:16%;">본사 승인</th>
+								<th style="width:16%;">인수자 승인</th>
 								<th style="width:12%;"></th>
                             </tr>
                         </thead>
@@ -42,10 +42,10 @@
 									<td>${expertApprovalList.login_area}</td>
 									<td>${expertApprovalList.app_rcv_area}</td>
 									<c:choose>
-										<c:when test="${expertApprovalList.app_rcv_status eq 'W'}">
+										<c:when test="${expertApprovalList.app_head_status eq 'W'}">
 											<td>대기</td>
 										</c:when>
-										<c:when test="${expertApprovalList.app_rcv_status eq 'Y'}">
+										<c:when test="${expertApprovalList.app_head_status eq 'Y'}">
 											<td>승인</td>
 										</c:when>
 										<c:otherwise>
@@ -53,10 +53,10 @@
 										</c:otherwise>
 									</c:choose>
 									<c:choose>
-										<c:when test="${expertApprovalList.app_head_status eq 'W'}">
+										<c:when test="${expertApprovalList.app_rcv_status eq 'W'}">
 											<td>대기</td>
 										</c:when>
-										<c:when test="${expertApprovalList.app_head_status eq 'Y'}">
+										<c:when test="${expertApprovalList.app_rcv_status eq 'Y'}">
 											<td>승인</td>
 										</c:when>
 										<c:otherwise>

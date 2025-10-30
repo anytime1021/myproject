@@ -7,7 +7,9 @@ import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 
@@ -532,8 +534,16 @@ public class BlockControllerImpl implements BlockController {
 		int app_num = Integer.parseInt(app_num_Str);
 		BlockVO ApprovalView = blockService.selectBlockApprovalView(app_num);
 //		BlockVO ApprovalDivision = blockDAO.ApprovalDivision(app_num);
+		AreaMap areaMap = new AreaMap();
+		String hndArea = areaMap.getEnglishArea(ApprovalView.getLogin_area());
+		String rcvArea = "";
+		if (ApprovalView.getApp_rcv_status().equals("Y")) {
+			rcvArea = areaMap.getEnglishArea(ApprovalView.getApp_rcv_area());
+		}
 		mav.addObject("searchArea", searchArea);
 		mav.addObject("ApprovalView", ApprovalView);
+		mav.addObject("hndArea", hndArea);
+		mav.addObject("rcvArea", rcvArea);
 //		mav.addObject("ApprovalDivision", ApprovalDivision);
 		return mav;
 	}
@@ -548,8 +558,11 @@ public class BlockControllerImpl implements BlockController {
 		int app_num = Integer.parseInt(app_num_Str);
 		BlockVO expertApprovalView = blockService.selectExpertBlockApprovalView(app_num);
 //		BlockVO ApprovalDivision = blockDAO.ApprovalDivision(app_num);
+		AreaMap areaMap = new AreaMap();
+		String hndArea = areaMap.getEnglishArea(expertApprovalView.getLogin_area());
 		mav.addObject("searchArea", searchArea);
 		mav.addObject("expertApprovalView", expertApprovalView);
+		mav.addObject("hndArea", hndArea);
 //		mav.addObject("ApprovalDivision", ApprovalDivision);
 		return mav;
 	}
@@ -563,6 +576,23 @@ public class BlockControllerImpl implements BlockController {
 		String searchArea = login.getLogin_area();
 
 		int result = blockService.updateApproval(app_num, app_isError, searchArea);
+		int tnf = blockDAO.tnfCheck(app_num);
+		if (tnf == 1) {
+			BlockVO approval = blockDAO.selectBlockApprovalView_df_idNumber(app_num);
+//			blockService.modItemStatus(approval.getDf_idNumber(), approval.getApp_rcv_area()); - 관련 삭제 가능성 있음
+			blockDAO.finalApproval(approval.getDf_idNumber(), approval.getApp_rcv_area(), searchArea, app_num);
+		}
+		return mav;
+	}
+	
+	// 반출 이동 승인
+	@Override
+	@GetMapping("/blockManagement/updateExpertApproval.do")
+	public ModelAndView updateExpertApproval(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/expertApproval.do");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		int result = blockService.updateExpertApproval(app_num, app_isError, searchArea);
 		int tnf = blockDAO.tnfCheck(app_num);
 		if (tnf == 1) {
 			BlockVO approval = blockDAO.selectBlockApprovalView_df_idNumber(app_num);
@@ -744,8 +774,25 @@ public class BlockControllerImpl implements BlockController {
 		return mav;
 	}
 	
-	// 
+	// 영문 파일명 바꾸기
+	public class AreaMap {
+		private Map<String, String> areaMap;
+		
+		public AreaMap() {
+			areaMap = new HashMap<>();
+			areaMap.put("울산", "ulsan");
+			areaMap.put("서산", "seosan");
+			areaMap.put("마산", "masan");
+			areaMap.put("창원", "changwon");
+			areaMap.put("여수", "yeosu");
+		}
+		
+		public String getEnglishArea(String koreanArea) {
+			return areaMap.getOrDefault(koreanArea, "default");
+		}
+	}
 	
+	// 테스트
 	@GetMapping("/blockManagement/test.do")
 	public ModelAndView test(HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("/blockManagement/test");

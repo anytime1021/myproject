@@ -107,6 +107,9 @@ public interface BlockDAO {
 	public int tnfCheck(int app_num) throws Exception;
 	public void finalApproval(@Param("df_idNumber") String df_idNumber, @Param("app_rcv_area") String app_rcv_area, @Param("searchArea") String searchArea, @Param("app_num") int app_num) throws Exception;
 	
+	// 반출 이동 승인
+	public int updateExpertApproval(@Param("app_num") int app_num, @Param("app_isError") String app_isError, @Param("searchArea") String searchArea) throws Exception;
+	
 	// 이동 거절
 	public int updateRejection(@Param("app_num") int app_num, @Param("searchArea") String searchArea) throws Exception;
 	public void finalRejection(int app_num) throws Exception;
