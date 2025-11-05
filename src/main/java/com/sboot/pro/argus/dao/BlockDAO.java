@@ -110,6 +110,11 @@ public interface BlockDAO {
 	// 반출 이동 승인
 	public int updateExpertApproval(@Param("app_num") int app_num, @Param("app_isError") String app_isError, @Param("searchArea") String searchArea) throws Exception;
 	
+	// 반출 이동 사인 업로드
+	public int distinctCheckExpertSign(@Param("expSign_name") String expSign_name, @Param("app_rcv_area") String app_rcv_area) throws Exception;
+	public int insertExpertSignUpload(@Param("expSign_name") String expSign_name, @Param("app_rcv_area") String app_rcv_area) throws Exception;
+	public int updateExpertSign(@Param("app_num") int app_num, @Param("expSign_name") String expSign_name, @Param("app_rcv_area") String app_rcv_area) throws Exception;
+	
 	// 이동 거절
 	public int updateRejection(@Param("app_num") int app_num, @Param("searchArea") String searchArea) throws Exception;
 	public void finalRejection(int app_num) throws Exception;

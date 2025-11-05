@@ -19,7 +19,7 @@
 		<%@ include file="../include/sidebar.jsp" %>
 		<div class="moveReport-container">
 			<div class="moveReport">
-				<form name="expertBlockList" autocomplete="off" method="post" action="${contextPath}/blockManagement/expertBlockList.do">
+				<form name="expertBlockList" autocomplete="off" method="post" action="${contextPath}/blockManagement/expertBlockList.do" enctype="multipart/form-data">
 					<table class="report">
 						<colgroup>
 							<col style="width: 16%;">
@@ -49,7 +49,7 @@
 							<th class="title-sub">
 								<c:choose>
 									<c:when test="${expertApprovalView.app_rcv_status eq 'Y'}">
-										<img src="${contextPath}/resources/img/sign-${expertSign}.png" style="width:100%; height:100%;">
+										<img src="${contextPath}/resources/img/${expertApprovalView.expSign_name}" style="width:100%; height:100%;">
 									</c:when>
 								</c:choose>
 							</th>
@@ -119,28 +119,31 @@
 								   거절
 								</a>
 							</c:when>
-							<c:when test="${searchArea eq '본사' && expertApprovalView.app_head_status eq 'Y'}">
+							<c:when test="${searchArea eq '본사' && expertApprovalView.app_head_status eq 'Y' && empty expertApprovalView.expSign_name}">
+								<input type="file" name="expertSign">
+								<a href="#"
+									onclick="submitExpertSign('${contextPath}/blockManagement/updateExpertSign.do', '${expertApprovalView.app_num}')"
+									style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
+									사인등록
+								</a>
+							</c:when>
+							<c:when test="${searchArea eq '본사' && expertApprovalView.app_head_status eq 'Y' && not empty expertApprovalView.expSign_name && expertApprovalView.app_rcv_status eq 'W'}">
 								<c:if test="${expertApprovalView.app_type eq 'rental'}">
 									<a href="#"
-									   onclick="submitApproval('${contextPath}/blockManagement/updateApproval.do', '${expertApprovalView.app_num}')"
+									   onclick="submitApproval('${contextPath}/blockManagement/updateExpertApproval.do', '${expertApprovalView.app_num}')"
 									   style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
 									   승인
 									</a>
 								</c:if>
 								<c:if test="${expertApprovalView.app_type eq 'return'}">
 									<a href="#"
-									   onclick="submitApproval('${contextPath}/blockManagement/returnApproval.do', '${expertApprovalView.app_num}')"
+									   onclick="submitApproval('${contextPath}/blockManagement/returnExpertApproval.do', '${expertApprovalView.app_num}')"
 									   style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
 									   승인
 									</a>
 								</c:if>
 								<a href="#"
-								   onclick="submitApproval('${contextPath}/blockManagement/updateRejection.do', '${expertApprovalView.app_num}')"
-								   style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
-								   거절
-								</a>
-								<a href="#"
-								   onclick="submitApproval('${contextPath}/blockManagement/updateRejection.do', '${expertApprovalView.app_num}')"
+								   onclick="submitApproval('${contextPath}/blockManagement/updateExpertRejection.do', '${expertApprovalView.app_num}')"
 								   style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
 								   거절
 								</a>
@@ -156,6 +159,10 @@
 <script>
 const form = document.forms["expertBlockList"];
 
+const searchArea = "${searchArea}";
+const appHeadStatus = "${expertApprovalView.app_head_status}";
+const app_rcv_area = "${expertApprovalView.app_rcv_area}";
+
 form.addEventListener("submit", function(e) {
     if (!form.dataset.allowSubmit) {
         e.preventDefault();
@@ -165,8 +172,7 @@ form.addEventListener("submit", function(e) {
 
 function submitApproval(url, appNum) {
     // 기존 hidden input 중복 방지
-    let existing = form.querySelector('input[name="app_num"]');
-    if (existing) form.removeChild(existing);
+	form.querySelectorAll('input[name="app_num"], input[name="token"]').forEach(el => el.remove());
 
     let hiddenAppNum = document.createElement("input");
     hiddenAppNum.type = "hidden";
@@ -174,6 +180,21 @@ function submitApproval(url, appNum) {
     hiddenAppNum.value = appNum;
     form.appendChild(hiddenAppNum);
 
+	let tokenValue = null;
+	if (searchArea === "본사" && appHeadStatus !== "Y") {
+		tokenValue = 1;
+	} else if (searchArea === "본사" && appHeadStatus === "Y") {
+		tokenValue = 2;
+	}
+	
+	if (tokenValue !== null) {
+		let hiddenToken = document.createElement("input");
+		hiddenToken.type = "hidden";
+		hiddenToken.name = "token";
+		hiddenToken.value = tokenValue;
+		form.appendChild(hiddenToken);
+	}
+	
     form.action = url;
     form.method = "get";
 	
@@ -181,6 +202,34 @@ function submitApproval(url, appNum) {
 	form.submit();
 	
     form.dataset.allowSubmit = "false";
+}
+
+function submitExpertSign(url, appNum) {
+	const fileInput = form.querySelector('input[name="expertSign"]');
+	if (!fileInput || !fileInput.files.length) {
+		alert("사인 파일을 선택해주세요.");
+		return;
+	}
+
+	form.querySelectorAll('input[name="app_num"], input[name="app_rcv_area"]').forEach(el => el.remove());
+	
+	const hiddenAppNum = document.createElement("input");
+	hiddenAppNum.type = "hidden";
+	hiddenAppNum.name = "app_num";
+	hiddenAppNum.value = appNum;
+	form.appendChild(hiddenAppNum);
+	
+	const hiddenArea = document.createElement("input");
+	hiddenArea.type = "hidden";
+	hiddenArea.name = "app_rcv_area";
+	hiddenArea.value = app_rcv_area;
+	form.appendChild(hiddenArea);
+
+	form.action = url;
+	form.method = "post";
+	form.enctype = "multipart/form-data";
+
+	form.submit();
 }
 </script>
 </html>

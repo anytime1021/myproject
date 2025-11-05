@@ -89,6 +89,9 @@ public interface BlockService {
 	// 반출 이동 승인
 	public int updateExpertApproval(int app_num, String app_isError, String searchArea) throws Exception;
 	
+	// 반출 이동 사인 업로드
+	public int expertSignUpload(String expSign_name, String app_rcv_area) throws Exception ;
+	public int updateExpertSign(int app_num, String expSign_name, String app_rcv_area) throws Exception;
 	// 이동 거절
 	public int updateRejection(int app_num, String searchArea) throws Exception;
 	

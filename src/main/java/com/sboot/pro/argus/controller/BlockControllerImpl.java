@@ -293,7 +293,7 @@ public class BlockControllerImpl implements BlockController {
 		return mav;
 	}
 	
-	// 블럭 외부 반출
+	// 블럭 외부 반출 (이동)
 	@Override
 	@PostMapping("/blockManagement/expertBlock.do")
 	public ModelAndView expertBlock(@ModelAttribute("expertBlock") BlockVO expertBlock, HttpServletRequest request) throws Exception {
@@ -301,13 +301,13 @@ public class BlockControllerImpl implements BlockController {
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
 		expertBlock.setLogin_area(searchArea);
-		
+		expertBlock.setApp_type("rental");
+
 		if(expertBlock.getApp_rcv_create_at().equals("") || expertBlock.getApp_rcv_create_at().isEmpty()) {
 			expertBlock.setApp_rcv_create_at(null);
 		}
-		
-		int result = blockService.addExpertBlock(expertBlock);
-		
+
+			int result = blockService.addExpertBlock(expertBlock);
 		return mav;
 	}
 	
@@ -588,11 +588,19 @@ public class BlockControllerImpl implements BlockController {
 	// 반출 이동 승인
 	@Override
 	@GetMapping("/blockManagement/updateExpertApproval.do")
-	public ModelAndView updateExpertApproval(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError, HttpServletRequest request) throws Exception {
+	public ModelAndView updateExpertApproval(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError, @RequestParam("token") String token_Str, 
+			@RequestParam("app_rcv_name") String app_rcv_name, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/expertApproval.do");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
-		int result = blockService.updateExpertApproval(app_num, app_isError, searchArea);
+		
+		int token = Integer.parseInt(token_Str);
+		if (token == 1) {
+			int result = blockService.updateExpertApproval(app_num, app_isError, searchArea);
+		} else if (token == 2) {
+			searchArea = app_rcv_name;
+			int result = blockService.updateExpertApproval(app_num, app_isError, searchArea);
+		}
 		int tnf = blockDAO.tnfCheck(app_num);
 		if (tnf == 1) {
 			BlockVO approval = blockDAO.selectBlockApprovalView_df_idNumber(app_num);
@@ -600,6 +608,46 @@ public class BlockControllerImpl implements BlockController {
 			blockDAO.finalApproval(approval.getDf_idNumber(), approval.getApp_rcv_area(), searchArea, app_num);
 		}
 		return mav;
+	}
+	
+	// 반출 이동 사인 업로드
+	@PostMapping("/blockManagement/updateExpertSign.do")
+	public ModelAndView updateExpertSign(@RequestParam("app_num") int app_num, @RequestParam("expertSign") MultipartFile expertSign, @RequestParam("app_rcv_area") String app_rcv_area, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/expertApproval.do");
+		String expSign_name = "";
+		System.out.println(app_rcv_area);
+		if (!expertSign.isEmpty()) {
+		    String originalName = expertSign.getOriginalFilename();
+		    String savedName = originalName;
+		    String uploadDir = request.getServletContext().getRealPath("/resources/img/");
+		    File dir = new File(uploadDir);
+		    if (!dir.exists()) dir.mkdirs();
+
+		    try (InputStream inputStream = expertSign.getInputStream()) {
+		        BufferedImage originalImage = ImageIO.read(inputStream);
+		        int targetHeight = 300;
+		        int targetWidth = (originalImage.getWidth() * targetHeight) / originalImage.getHeight();
+
+		        BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+		        Graphics2D g2d = resizedImage.createGraphics();
+		        g2d.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
+		        g2d.dispose();
+
+		        File outputFile = new File(uploadDir + File.separator + savedName);
+		        ImageIO.write(resizedImage, "jpg", outputFile);
+
+		        expSign_name = savedName;
+		    }
+		}
+		int distinctCheck = blockDAO.distinctCheckExpertSign(expSign_name, app_rcv_area);
+		if (distinctCheck == 1) {
+			int result_updateExpertSign = blockService.updateExpertSign(app_num, expSign_name, app_rcv_area);
+			return mav;
+		} else {
+			int result_signUpload = blockService.expertSignUpload(expSign_name, app_rcv_area);
+			int result_updateExpertSign = blockService.updateExpertSign(app_num, expSign_name, app_rcv_area);
+			return mav;
+		}
 	}
 	
 	// 이동 거절
@@ -796,7 +844,7 @@ public class BlockControllerImpl implements BlockController {
 	@GetMapping("/blockManagement/test.do")
 	public ModelAndView test(HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("/blockManagement/test");
+
 		return mav;
 	}
-	
 }

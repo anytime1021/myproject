@@ -439,7 +439,7 @@
 	</select>
 	
 	<select id="selectExpertBlockApprovalView" parameterType="int" resultType="BlockVO">
-		select * from expertApproval where app_num = #{app_num}
+		select * from expertApproval a inner join expertSignList b on a.expSign_num = b.expSign_num where a.app_num = #{app_num};
 	</select>
 	
 	<!-- 이동 승인 -->
@@ -483,6 +483,21 @@
 			set app_head_status = 'Y',
 			app_isError = #{app_isError}
 		</if>
+		where app_num = #{app_num}
+	</update>
+	
+	<!-- 반출 이동 사인 업로드 -->
+	<select id="distinctCheckExpertSign" parameterType="Map">
+		select count(*) from expertSignList where expSign_name = #{expSign_name} and app_rcv_area = #{app_rcv_area}
+	</select>
+	
+	<insert id="insertExpertSignUpload" parameterType="Map">
+		insert into expertSignList(expSign_name, app_rcv_area) values(#{expSign_name}, #{app_rcv_area})
+	</insert>
+	
+	<update id="updateExpertSign" parameterType="Map">
+		update expertApproval
+		set expSign_num = (select expSign_num from expertSignList where expSign_name = #{expSign_name} and app_rcv_area = #{app_rcv_area})
 		where app_num = #{app_num}
 	</update>
 	

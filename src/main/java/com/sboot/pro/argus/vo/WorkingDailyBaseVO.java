@@ -42,6 +42,7 @@ public class WorkingDailyBaseVO {
 	
 	// 비고
 	private String note;
+	private String token;
 	
 	public LoginVO getLoginVO() {
 		return loginVO;
@@ -163,6 +164,12 @@ public class WorkingDailyBaseVO {
 	}
 	public void setNote(String note) {
 		this.note = note;
+	}
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
 	}
 	
 	@Override

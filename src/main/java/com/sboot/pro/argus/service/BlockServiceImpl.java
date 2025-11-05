@@ -218,6 +218,17 @@ public class BlockServiceImpl implements BlockService {
 		return blockDAO.updateExpertApproval(app_num, app_isError, searchArea);
 	}
 	
+	// 반출 이동 사인 업로드
+	@Override
+	public int expertSignUpload(String expSign_name, String app_rcv_area) throws Exception {
+		return blockDAO.insertExpertSignUpload(expSign_name, app_rcv_area);
+	}
+	
+	@Override
+	public int updateExpertSign(int app_num, String expSign_name, String app_rcv_area) throws Exception {
+		return blockDAO.updateExpertSign(app_num, expSign_name, app_rcv_area);
+	}
+	
 	// 이동 거절
 	@Override
 	public int updateRejection(int app_num, String searchArea) throws Exception {

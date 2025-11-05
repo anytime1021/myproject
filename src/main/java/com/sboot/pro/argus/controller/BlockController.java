@@ -84,8 +84,13 @@ public interface BlockController {
 	public ModelAndView updateApproval(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError, HttpServletRequest request) throws Exception;
 
 	// 반출 이동 승인
-	public ModelAndView updateExpertApproval(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError, HttpServletRequest request) throws Exception;
-
+	public ModelAndView updateExpertApproval(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError, @RequestParam("token") String token_Str, 
+			@RequestParam("app_rcv_name") String app_rcv_name, HttpServletRequest request) throws Exception;
+	
+	// 반출 이동 사인 업로드
+	@PostMapping("/blockManagement/updateExpertSign.do")
+	public ModelAndView updateExpertSign(@RequestParam("app_num") int app_num, @RequestParam("expertSign") MultipartFile expertSign, @RequestParam("app_rcv_area") String app_rcv_area, HttpServletRequest request) throws Exception;
+	
 	// 이동 거절
 	public ModelAndView updateRejection(@RequestParam("app_num") int app_num, HttpServletRequest request) throws Exception;
 

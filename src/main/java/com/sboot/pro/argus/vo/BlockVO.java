@@ -45,6 +45,9 @@ public class BlockVO extends WorkingDailyBaseVO {
 	private String app_rcv_status;
 	private String app_head_status;
 	private String app_type;
+	private int expSign_num;
+	private String expSign_name;
+	private MultipartFile expertSignName;
 	
 	// 시험편 반출 관련
 	private String app_period;
@@ -279,6 +282,24 @@ public class BlockVO extends WorkingDailyBaseVO {
 	}
 	public void setApp_type(String app_type) {
 		this.app_type = app_type;
+	}
+	public int getExpSign_num() {
+		return expSign_num;
+	}
+	public void setExpSign_num(int expSign_num) {
+		this.expSign_num = expSign_num;
+	}
+	public String getExpSign_name() {
+		return expSign_name;
+	}
+	public void setExpSign_name(String expSign_name) {
+		this.expSign_name = expSign_name;
+	}
+	public MultipartFile getExpertSignName() {
+		return expertSignName;
+	}
+	public void setExpertSignName(MultipartFile expertSignName) {
+		this.expertSignName = expertSignName;
 	}
 	public String getApp_period() {
 		return app_period;
