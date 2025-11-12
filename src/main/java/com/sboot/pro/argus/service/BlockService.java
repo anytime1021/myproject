@@ -44,6 +44,10 @@ public interface BlockService {
 	// 대여한 블럭 리스트
 	public List<BlockVO> selectBlockRentalList(String searchArea, int offset, int limit) throws Exception;
 	
+	// 블럭 반출 반납요청
+	public int modReturnRequest(int app_num) throws Exception;
+	public int addReturnRequestFormData(int app_num) throws Exception;
+	
 	// 블럭 반납
 	public void modStatusRecipient(int app_num) throws Exception;
 	

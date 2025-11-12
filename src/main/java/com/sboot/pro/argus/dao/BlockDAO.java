@@ -48,6 +48,10 @@ public interface BlockDAO {
 	// 대여한 블럭 리스트
 	public List<BlockVO> selectBlockRentalList(@Param("searchArea") String searchArea, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
 	
+	// 블럭 반출 반납요청
+	public int updateReturnRequest(int app_num) throws Exception;
+	public int insertReturnRequestFormData(int app_num) throws Exception;
+	
 	// 블럭 반납
 	public void updateReturnWaiting(int app_num) throws Exception;
 	public void finalApprovalReturn(@Param("df_idNumber") String df_idNumber, @Param("app_rcv_area") String app_rcv_area, @Param("searchArea") String searchArea, @Param("app_num") int app_num) throws Exception;
@@ -100,7 +104,9 @@ public interface BlockDAO {
 //	public BlockVO ApprovalDivision(int app_num) throws Exception;
 	
 	// 반출 이동 보고서 상세보기
-	public BlockVO selectExpertBlockApprovalView(int app_num) throws Exception;
+	public BlockVO selectExpertBlockApprovalView_df_idNumber(int app_num) throws Exception;
+	public int selectExpSign_num(int app_num) throws Exception;
+	public BlockVO selectExpertBlockApprovalView(@Param("app_num") int app_num, @Param("expSign_num") int expSign_num) throws Exception;
 	
 	// 이동 승인
 	public int updateApproval(@Param("app_num") int app_num, @Param("app_isError") String app_isError, @Param("searchArea") String searchArea) throws Exception;
@@ -109,7 +115,9 @@ public interface BlockDAO {
 	
 	// 반출 이동 승인
 	public int updateExpertApproval(@Param("app_num") int app_num, @Param("app_isError") String app_isError, @Param("searchArea") String searchArea) throws Exception;
-	
+	public int tnfExpertCheck(int app_num) throws Exception;
+	public void finalExpertApproval(@Param("df_idNumber") String df_idNumber, @Param("app_rcv_area") String app_rcv_area, @Param("searchArea") String searchArea, @Param("app_num") int app_num) throws Exception;
+
 	// 반출 이동 사인 업로드
 	public int distinctCheckExpertSign(@Param("expSign_name") String expSign_name, @Param("app_rcv_area") String app_rcv_area) throws Exception;
 	public int insertExpertSignUpload(@Param("expSign_name") String expSign_name, @Param("app_rcv_area") String app_rcv_area) throws Exception;

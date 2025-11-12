@@ -52,6 +52,9 @@ public interface BlockController {
 	// 블럭 반납 폼
 	public ModelAndView returnBlockForm(@RequestParam("app_num_Str") String app_num_str, HttpServletRequest request) throws Exception;
 	
+	// 블럭 반출 반납 폼
+	public ModelAndView returnExpertBlockForm(@RequestParam("app_num") int app_num, HttpServletRequest request) throws Exception;
+	
 	// 블럭 반납
 	public ModelAndView returnBlockApproval(@ModelAttribute("returnBlockApproval") BlockVO returnBlockApproval, HttpServletRequest request) throws Exception;
 	public ModelAndView returnApproval(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError, HttpServletRequest request) throws Exception;

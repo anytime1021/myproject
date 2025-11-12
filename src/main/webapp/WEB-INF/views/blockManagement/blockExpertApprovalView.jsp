@@ -148,6 +148,11 @@
 								   거절
 								</a>
 							</c:when>
+							<c:when test="${searchArea eq expertApprovalView.login_area && expertApprovalView.app_head_status eq 'Y' && not empty expertApprovalView.expSign_name && expertApprovalView.app_rcv_status eq 'Y' && expertApprovalView.returnRequest eq 'N'}">
+								<a href="${contextPath}/blockManagement/returnExpertApprovalForm.do?app_num=${expertApprovalView.app_num}">
+									반납요청
+								</a>
+							</c:when>
 						</c:choose>
 					</div>
 				</form>

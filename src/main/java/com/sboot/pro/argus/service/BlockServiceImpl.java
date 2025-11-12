@@ -98,6 +98,17 @@ public class BlockServiceImpl implements BlockService {
 		return blockDAO.selectBlockRentalList(searchArea, offset, limit);
 	}
 	
+	// 블럭 반출 반납요청
+	@Override
+	public int modReturnRequest(int app_num) throws Exception {
+		return blockDAO.updateReturnRequest(app_num);
+	}
+	
+	@Override
+	public int addReturnRequestFormData(int app_num) throws Exception {
+		return blockDAO.insertReturnRequestFormData(app_num);
+	}
+	
 	// 블럭 반납
 	public void modStatusRecipient(int app_num) throws Exception {
 		String df_idNumber = blockDAO.selectIdNumber(app_num);
@@ -203,7 +214,8 @@ public class BlockServiceImpl implements BlockService {
 	// 반출 이동 보고서 상세보기
 	@Override
 	public BlockVO selectExpertBlockApprovalView(int app_num) throws Exception {
-		return blockDAO.selectExpertBlockApprovalView(app_num);
+		int expSign_num = blockDAO.selectExpSign_num(app_num);
+		return blockDAO.selectExpertBlockApprovalView(app_num, expSign_num);
 	}
 	
 	// 이동 승인
