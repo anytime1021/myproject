@@ -620,13 +620,27 @@ public class BlockControllerImpl implements BlockController {
 		} else if (token == 2) {
 			searchArea = app_rcv_name;
 			int result = blockService.updateExpertApproval(app_num, app_isError, searchArea);
-		}
+		} 
 		int tnf = blockDAO.tnfExpertCheck(app_num);
 		if (tnf == 1) {
 			BlockVO expertApproval = blockDAO.selectExpertBlockApprovalView_df_idNumber(app_num);
 //			blockService.modItemStatus(approval.getDf_idNumber(), approval.getApp_rcv_area()); - 관련 삭제 가능성 있음
 			blockDAO.finalExpertApproval(expertApproval.getDf_idNumber(), expertApproval.getApp_rcv_area(), searchArea, app_num);
 		}
+		return mav;
+	}
+	
+	// 반출 이동 승인 (return, final, transMethod 입력(추가))
+	@PostMapping("/blockManagement/updateFinalExpertApproval.do")
+	public ModelAndView updateFinalExpertApproval(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError, @RequestParam("app_hnd_transMethod") String app_hnd_transMethod,
+			HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/expertApproval.do");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		
+		int updateFinal = blockService.updateFinalExpertApproval(app_num, app_hnd_transMethod, app_isError);
+		
+		
 		return mav;
 	}
 	
@@ -678,6 +692,20 @@ public class BlockControllerImpl implements BlockController {
 		String searchArea = login.getLogin_area();
 
 		int result = blockService.updateRejection(app_num, searchArea);
+		blockDAO.finalRejection(app_num);
+		return mav;
+	}
+	
+	// 반출 거절
+	@Override
+	@GetMapping("/blockManagement/updateExpertRejection.do")
+	public ModelAndView updateExpertRejection(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError, @RequestParam("token") String token_Str, 
+			@RequestParam("app_rcv_name") String app_rcv_name, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/expertApproval.do");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+
+		int result = blockService.updateExpertRejection(app_num, searchArea);
 		blockDAO.finalRejection(app_num);
 		return mav;
 	}

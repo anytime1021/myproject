@@ -118,6 +118,9 @@ public interface BlockDAO {
 	public int tnfExpertCheck(int app_num) throws Exception;
 	public void finalExpertApproval(@Param("df_idNumber") String df_idNumber, @Param("app_rcv_area") String app_rcv_area, @Param("searchArea") String searchArea, @Param("app_num") int app_num) throws Exception;
 
+	// 반출 이동 승인 (return, final, transMethod 입력(추가))
+	public int updateFinalExpertApproval(@Param("app_num") int app_num, @Param("app_hnd_transMethod") String app_hnd_transMethod, @Param("app_isError") String app_isError) throws Exception;
+
 	// 반출 이동 사인 업로드
 	public int distinctCheckExpertSign(@Param("expSign_name") String expSign_name, @Param("app_rcv_area") String app_rcv_area) throws Exception;
 	public int insertExpertSignUpload(@Param("expSign_name") String expSign_name, @Param("app_rcv_area") String app_rcv_area) throws Exception;
@@ -126,6 +129,10 @@ public interface BlockDAO {
 	// 이동 거절
 	public int updateRejection(@Param("app_num") int app_num, @Param("searchArea") String searchArea) throws Exception;
 	public void finalRejection(int app_num) throws Exception;
+	
+	// 반출 거절
+	public int updateExpertRejection(@Param("app_num") int app_num, @Param("searchArea") String searchArea) throws Exception;
+//	public void finalRejection(int app_num) throws Exception;
 	
 	// 블럭 스펙 추가
 	public void insertBlockSpec(@Param("df_idNumber") String df_idNumber, @Param("img") BlockVO img) throws Exception;

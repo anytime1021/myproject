@@ -37,7 +37,12 @@
 						</tr>
 						<tr>
 							<th class="title-sub">
-								<img src="${contextPath}/resources/img/sign-${hndArea}.png" style="width:100%; height:100%;">
+								<c:if test="${expertApprovalView.app_type eq 'rental'}">
+									<img src="${contextPath}/resources/img/sign-${hndArea}.png" style="width:100%; height:100%;">
+								</c:if>
+								<c:if test="${expertApprovalView.app_type eq 'return'}">
+									<img src="${contextPath}/resources/img/${expertApprovalView.expSign_name}" style="width:100%; height:100%;">
+								</c:if>
 							</th>
 							<th class="title-sub">
 								<c:choose>
@@ -149,8 +154,21 @@
 								</a>
 							</c:when>
 							<c:when test="${searchArea eq expertApprovalView.login_area && expertApprovalView.app_head_status eq 'Y' && not empty expertApprovalView.expSign_name && expertApprovalView.app_rcv_status eq 'Y' && expertApprovalView.returnRequest eq 'N'}">
-								<a href="${contextPath}/blockManagement/returnExpertApprovalForm.do?app_num=${expertApprovalView.app_num}">
+								<a href="${contextPath}/blockManagement/returnExpertApprovalForm.do?app_num=${expertApprovalView.app_num}"
+								style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
 									반납요청
+								</a>
+							</c:when>
+							<c:when test="${searchArea ne '본사' && expertApprovalView.app_type eq 'return' && expertApprovalView.app_head_status eq 'Y' && expertApprovalView.app_rcv_status eq 'N'}">
+								<a href="#"
+								   onclick="returnSubmit('${contextPath}/blockManagement/updateFinalExpertApproval.do', '${expertApprovalView.app_num}')"
+								   style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
+								   승인
+								</a>
+								<a href="#"
+									onclick="submitReject('${contextPath}/blockManagement/updateExpertRejection.do', '${expertApprovalView.app_num'})"
+									style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
+									거절
 								</a>
 							</c:when>
 						</c:choose>
@@ -167,6 +185,7 @@ const form = document.forms["expertBlockList"];
 const searchArea = "${searchArea}";
 const appHeadStatus = "${expertApprovalView.app_head_status}";
 const app_rcv_area = "${expertApprovalView.app_rcv_area}";
+const app_type = "${expertApprovalView.app_type}";
 
 form.addEventListener("submit", function(e) {
     if (!form.dataset.allowSubmit) {
@@ -235,6 +254,55 @@ function submitExpertSign(url, appNum) {
 	form.enctype = "multipart/form-data";
 
 	form.submit();
+}
+
+function returnSubmit(url, appNum) {
+	const form = document.querySelector('form');
+	
+	form.querySelectorAll('input[name="app_num"]').forEach(el => el.remove());
+	
+	const hiddenAppNum = document.createElement("input");
+	hiddenAppNum.type = "hidden";
+	hiddenAppNum.name = "app_num";
+	hiddenAppNum.value = appNum;
+	form.appendChild(hiddenAppNum);
+	
+	form.action = url;
+	form.method = "post";
+	form.submit();
+}
+
+function submitReject(url, appNum) {
+	form.querySelectorAll('input[name="app_num"], input[name="token"]').forEach(el => el.remove());
+
+	let hiddenAppNum = document.createElement("input");
+	hiddenAppNum.type = "hidden";
+	hiddenAppNum.name = "app_num";
+	hiddenAppNum.value = appNum;
+	form.appendChild(hiddenAppNum);
+
+	let tokenValue = null;
+	if (searchArea === "본사" && appHeadStatus !== "Y") {
+		tokenValue = 1;
+	} else if (searchArea === "본사" && appHeadStatus === "Y") {
+		tokenValue = 2;
+	}
+
+	if (tokenValue !== null) {
+		let hiddenToken = document.createElement("input");
+		hiddenToken.type = "hidden";
+		hiddenToken.name = "token";
+		hiddenToken.value = tokenValue;
+		form.appendChild(hiddenToken);
+	}
+
+	form.action = url;
+	form.method = "get";
+
+	form.dataset.allowSubmit = "true";
+	form.submit();
+
+	form.dataset.allowSubmit = "false";
 }
 </script>
 </html>

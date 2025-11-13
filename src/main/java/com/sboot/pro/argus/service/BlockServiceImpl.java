@@ -230,6 +230,12 @@ public class BlockServiceImpl implements BlockService {
 		return blockDAO.updateExpertApproval(app_num, app_isError, searchArea);
 	}
 	
+	// 반출 이동 승인 (return, final, transMethod 입력(추가))
+	@Override
+	public int updateFinalExpertApproval(int app_num, String app_hnd_transMethod, String app_isError) throws Exception {
+		return blockDAO.updateFinalExpertApproval(app_num, app_hnd_transMethod, app_isError);
+	}
+	
 	// 반출 이동 사인 업로드
 	@Override
 	public int expertSignUpload(String expSign_name, String app_rcv_area) throws Exception {
@@ -245,6 +251,12 @@ public class BlockServiceImpl implements BlockService {
 	@Override
 	public int updateRejection(int app_num, String searchArea) throws Exception {
 		return blockDAO.updateRejection(app_num, searchArea);
+	}
+	
+	// 반출 거절
+	@Override
+	public int updateExpertRejection(int app_num, String searchArea) throws Exception {
+		return blockDAO.updateExpertRejection(app_num, searchArea);
 	}
 	
 	// 블럭 스펙 업로드

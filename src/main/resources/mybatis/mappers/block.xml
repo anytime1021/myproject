@@ -127,8 +127,8 @@
 	</update>
 	
 	<insert id="insertReturnRequestFormData" parameterType="int">
-		insert into expertApproval(df_idNumber, app_hnd_comment, app_period, login_area, app_hnd_name, app_hnd_create_at, app_rcv_area, app_rcv_name, app_type)
-		select df_idNumber, '반납', app_period, app_rcv_area, app_rcv_name, now(), login_area, app_hnd_name, 'return' from expertApproval where app_num = #{app_num}
+		insert into expertApproval(df_idNumber, app_hnd_comment, app_period, login_area, app_hnd_name, app_hnd_create_at, app_rcv_area, app_rcv_name, app_type, expSign_num, returnRequest)
+		select df_idNumber, '반납', app_period, app_rcv_area, app_rcv_name, now(), login_area, app_hnd_name, 'return', expSign_num, 'Y' from expertApproval where app_num = #{app_num}
 	</insert>
 	
 	<!-- 블럭 반납 -->
@@ -525,6 +525,26 @@
 		df_moveStatus = #{app_rcv_area}
 		where df_idNumber = #{df_idNumber}
 	</insert>
+	
+	<!-- 반출 이동 승인 (return, final, transMethod 입력(추가)) -->
+	<update id="updateFinalExpertApproval" parameterType="Map">
+		update expertApproval
+		set app_hnd_transMethod = #{app_hnd_transMethod},
+		app_rcv_create_at = now(),
+		app_isError = #{app_isError},
+		app_rcv_status = 'Y'
+		where app_num = #{app_num};
+		
+		update blockInformation
+		set df_itemStatus = '이상없음',
+		df_moveStatus = '-'
+		where df_idNumber = (select df_idNumber from expertApproval where app_num = #{app_num});
+		
+		update blockMoveList
+		set moveList_return_date = now()
+		where moveList_return_date is null and
+		df_idNumber = (select df_idNumber from expertApproval where app_num = #{app_num})
+	</update>
 	
 	<!-- 반출 이동 사인 업로드 -->
 	<select id="distinctCheckExpertSign" parameterType="Map">
