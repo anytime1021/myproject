@@ -796,7 +796,7 @@ public class BlockControllerImpl implements BlockController {
 			@RequestParam(value = "df_idNumber", required = false) String[] df_idNumberArray,
 			@RequestParam(value = "bil_status", required = false) String[] bil_statusArray,
 			HttpServletRequest request) throws Exception{
-		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockInspectionBoard.do");
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockInspectionList.do");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
 		

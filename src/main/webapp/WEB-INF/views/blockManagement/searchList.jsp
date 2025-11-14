@@ -57,7 +57,7 @@
 							<c:choose>
 								<c:when test="${empty searchList}">
 									<tr>
-										<td colspan="6" style="text-align:center; padding:20px;">
+										<td colspan="7" style="text-align:center; padding:20px;">
 											검색 결과가 없습니다.
 										</td>
 									</tr>
