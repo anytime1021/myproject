@@ -255,8 +255,11 @@ public class BlockServiceImpl implements BlockService {
 	
 	// 반출 거절
 	@Override
-	public int updateExpertRejection(int app_num, String searchArea) throws Exception {
-		return blockDAO.updateExpertRejection(app_num, searchArea);
+	public int updateExpertRejection(int app_num, String app_isError, int token, String app_type) throws Exception {
+		int result1 = blockDAO.updateExpertRejection(app_num, app_isError, token, app_type);
+		int count = blockDAO.countExpertRejection(app_num);
+		int result2 = blockDAO.rejectionRollbackData(app_num, count);
+		return result1;
 	}
 	
 	// 블럭 스펙 업로드

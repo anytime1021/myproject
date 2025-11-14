@@ -127,8 +127,8 @@
 	</update>
 	
 	<insert id="insertReturnRequestFormData" parameterType="int">
-		insert into expertApproval(df_idNumber, app_hnd_comment, app_period, login_area, app_hnd_name, app_hnd_create_at, app_rcv_area, app_rcv_name, app_type, expSign_num, returnRequest)
-		select df_idNumber, '반납', app_period, app_rcv_area, app_rcv_name, now(), login_area, app_hnd_name, 'return', expSign_num, 'Y' from expertApproval where app_num = #{app_num}
+		insert into expertApproval(df_idNumber, app_hnd_comment, app_period, login_area, app_hnd_name, app_hnd_create_at, app_rcv_area, app_rcv_name, note, app_type, expSign_num, returnRequest, request_reject_num)
+		select df_idNumber, '반납', app_period, app_rcv_area, app_rcv_name, now(), login_area, app_hnd_name, note, 'return', expSign_num, 'Y', app_num from expertApproval where app_num = #{app_num}
 	</insert>
 	
 	<!-- 블럭 반납 -->
@@ -578,6 +578,52 @@
 		set df_itemStatus = '이상없음',
 		df_moveStatus = '-'
 		where df_idNumber = (select df_idNumber from Approval where app_num = #{app_num});
+	</update>
+	
+	<!-- 반출 거절 -->
+	<update id="updateExpertRejection" parameterType="Map">
+	<if test="app_type == 'rental'"> 
+		update expertApproval
+		<if test="token == 1">
+			set app_head_status = 'N',
+		</if>
+		<if test="token == 2">
+			set app_rcv_status = 'N',
+		</if>
+		app_isError = #{app_isError}
+		where app_num = #{app_num}
+	</if>
+	
+	<if test="app_type == 'return'">
+		update expertApproval
+		<if test="token == 1">
+			set app_head_status = 'N',
+		</if>
+		<if test="token == 2">
+			set app_rcv_status = 'N',
+		</if>
+		app_isError = #{app_isError}
+		where app_num = #{app_num}
+	</if>
+	</update>
+	
+	<select id="countExpertRejection" parameterType="int" resultType="int">
+		select count(*) from expertApproval where (app_head_status = 'N' or app_rcv_status = 'N') and app_num = #{app_num}
+	</select>
+	
+	<update id="rejectionRollbackData" parameterType="Map">
+		<if test="count == 0">
+			update blockInformation
+			set df_itemStatus = '이상없음',
+			df_moveStatus = '-'
+			where df_idNumber = (select df_idNumber from expertApproval where app_num = #{app_num})
+		</if>
+		<if test="count == 1">
+			update expertApproval a inner join 
+			(select request_reject_num from expertApproval where app_num = #{app_num}) b 
+			on a.app_num = b.request_reject_num
+			set returnRequest = 'N'
+		</if>
 	</update>
 	
 	<!-- 블럭 스펙 추가 -->

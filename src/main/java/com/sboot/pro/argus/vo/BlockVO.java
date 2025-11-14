@@ -52,6 +52,7 @@ public class BlockVO extends WorkingDailyBaseVO {
 	// 시험편 반출 관련
 	private String app_period;
 	private String returnRequest;
+	private int request_reject_num;
 	
 	// 블럭 스펙 업로드
 	private int bs_num;
@@ -313,6 +314,12 @@ public class BlockVO extends WorkingDailyBaseVO {
 	}
 	public void setReturnRequest(String returnRequest) {
 		this.returnRequest = returnRequest;
+	}
+	public int getRequest_reject_num() {
+		return request_reject_num;
+	}
+	public void setRequest_reject_num(int request_reject_num) {
+		this.request_reject_num = request_reject_num;
 	}
 	public int getBs_num() {
 		return bs_num;

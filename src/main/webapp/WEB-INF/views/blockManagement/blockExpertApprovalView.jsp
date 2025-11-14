@@ -13,6 +13,9 @@
 	<title>시험편 이동 보고서</title>
 	<link rel="stylesheet" href="${contextPath}/resources/css/moveBlockForm.css">
 </head>
+<style>
+	.submitButton {display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;};
+</style>
 <body>
 	<%@ include file="../include/header2.jsp" %>
 	<div class="moveForm-container">
@@ -82,10 +85,20 @@
 							<td class="col-label">인계일</td>
 							<td class="col-value" colspan="4"><input type="text" name="app_hnd_create_at" value="${expertApprovalView.app_hnd_create_at}" readonly></td>
 						</tr>
-						<tr>
-							<td class="col-label">운송방법</td>
-							<td class="col-value" colspan="4"><input type="text" name="app_hnd_transMethod" value="${expertApprovalView.app_hnd_transMethod}" readonly></td>
-						</tr>
+						<c:choose>
+							<c:when test="${expertApprovalView.app_type eq 'rental'}">
+								<tr>
+									<td class="col-label">운송방법</td>
+									<td class="col-value" colspan="4"><input type="text" name="app_hnd_transMethod" value="${expertApprovalView.app_hnd_transMethod}" readonly></td>
+								</tr>
+							</c:when>
+							<c:when test="${expertApprovalView.app_type eq 'return'}">
+								<tr>
+									<td class="col-label">운송방법</td>
+									<td class="col-value" colspan="4"><input type="text" name="app_hnd_transMethod"></td>
+								</tr>
+							</c:when>
+						</c:choose>
 						<tr>
 							<td class="col-group" rowspan="4">인수</td>
 							<td class="col-label">소 속</td>
@@ -101,26 +114,27 @@
 						</tr>
 						<tr>
 							<td class="col-label">이상유무</td>
-							<td class="col-value" colspan="4"><textarea name="app_isError" value="${expertApprovalView.app_isError}"></textarea></td>
+							<td class="col-value" colspan="4"><textarea name="app_isError"><c:out value="${expertApprovalView.app_isError}"/></textarea></td>
 						</tr>
 						<tr>
 					    	<td class="col-label" colspan="2">[특이사항]</td>
 					    	<td class="col-value" colspan="4">
-								<input type="text" name="note" value="${expertApprovalView.note}" style="height: 130px;" readonly>
+								<input type="text" name="note" value="${expertApprovalView.note}" style="height: 130px;">
 							</td>
 					    </tr>
+						<input type="hidden" name="app_type" value="${expertApprovalView.app_type}">
 					</table>
 					<div style="display:flex; justify-content:right;">
 						<c:choose>
-							<c:when test="${searchArea eq '본사' && expertApprovalView.app_head_status ne 'Y'}">
+							<c:when test="${searchArea eq '본사' && expertApprovalView.app_head_status eq 'W'}">
 								<a href="#"
 								   onclick="submitApproval('${contextPath}/blockManagement/updateExpertApproval.do', '${expertApprovalView.app_num}')"
-								   style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
+								   class="submitButton">
 								   승인
 								</a>
 								<a href="#"
 								   onclick="submitApproval('${contextPath}/blockManagement/updateExpertRejection.do', '${expertApprovalView.app_num}')"
-								   style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
+								   class="submitButton">
 								   거절
 								</a>
 							</c:when>
@@ -128,47 +142,38 @@
 								<input type="file" name="expertSign">
 								<a href="#"
 									onclick="submitExpertSign('${contextPath}/blockManagement/updateExpertSign.do', '${expertApprovalView.app_num}')"
-									style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
+									class="submitButton">
 									사인등록
 								</a>
 							</c:when>
-							<c:when test="${searchArea eq '본사' && expertApprovalView.app_head_status eq 'Y' && not empty expertApprovalView.expSign_name && expertApprovalView.app_rcv_status eq 'W'}">
-								<c:if test="${expertApprovalView.app_type eq 'rental'}">
-									<a href="#"
-									   onclick="submitApproval('${contextPath}/blockManagement/updateExpertApproval.do', '${expertApprovalView.app_num}')"
-									   style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
-									   승인
-									</a>
-								</c:if>
-								<c:if test="${expertApprovalView.app_type eq 'return'}">
-									<a href="#"
-									   onclick="submitApproval('${contextPath}/blockManagement/returnExpertApproval.do', '${expertApprovalView.app_num}')"
-									   style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
-									   승인
-									</a>
-								</c:if>
+							<c:when test="${searchArea eq '본사' && expertApprovalView.app_head_status eq 'Y' && not empty expertApprovalView.expSign_name && expertApprovalView.app_rcv_status eq 'W' && expertApprovalView.app_type eq 'rental'}">
+								<a href="#"
+								   onclick="submitApproval('${contextPath}/blockManagement/updateExpertApproval.do', '${expertApprovalView.app_num}')"
+								   class="submitButton">
+								   승인
+								</a>
 								<a href="#"
 								   onclick="submitApproval('${contextPath}/blockManagement/updateExpertRejection.do', '${expertApprovalView.app_num}')"
-								   style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
+								   class="submitButton">
 								   거절
 								</a>
 							</c:when>
 							<c:when test="${searchArea eq expertApprovalView.login_area && expertApprovalView.app_head_status eq 'Y' && not empty expertApprovalView.expSign_name && expertApprovalView.app_rcv_status eq 'Y' && expertApprovalView.returnRequest eq 'N'}">
 								<a href="${contextPath}/blockManagement/returnExpertApprovalForm.do?app_num=${expertApprovalView.app_num}"
-								style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
+								class="submitButton">
 									반납요청
 								</a>
 							</c:when>
-							<c:when test="${searchArea ne '본사' && expertApprovalView.app_type eq 'return' && expertApprovalView.app_head_status eq 'Y' && expertApprovalView.app_rcv_status eq 'N'}">
+							<c:when test="${searchArea ne '본사' && expertApprovalView.app_type eq 'return' && expertApprovalView.app_head_status eq 'Y' && expertApprovalView.app_rcv_status eq 'W'}">
 								<a href="#"
 								   onclick="returnSubmit('${contextPath}/blockManagement/updateFinalExpertApproval.do', '${expertApprovalView.app_num}')"
-								   style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
+								   class="submitButton">
 								   승인
 								</a>
 								<a href="#"
-									onclick="submitReject('${contextPath}/blockManagement/updateExpertRejection.do', '${expertApprovalView.app_num'})"
-									style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
-									거절
+    							   onclick="submitReject('${contextPath}/blockManagement/updateExpertRejection.do', '${expertApprovalView.app_num}')"
+								   class="submitButton">
+								   거절
 								</a>
 							</c:when>
 						</c:choose>
@@ -282,9 +287,9 @@ function submitReject(url, appNum) {
 	form.appendChild(hiddenAppNum);
 
 	let tokenValue = null;
-	if (searchArea === "본사" && appHeadStatus !== "Y") {
+	if (searchArea !== "본사" && appHeadStatus !== "Y") {
 		tokenValue = 1;
-	} else if (searchArea === "본사" && appHeadStatus === "Y") {
+	} else if (searchArea !== "본사" && appHeadStatus === "Y") {
 		tokenValue = 2;
 	}
 

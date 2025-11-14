@@ -33,12 +33,18 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Controller("blockManagementController")
 public class BlockControllerImpl implements BlockController {
+
+    private final ReportControllerImpl reportController;
 	
 	@Autowired
 	BlockService blockService;
 	
 	@Autowired
 	BlockDAO blockDAO;
+
+    BlockControllerImpl(ReportControllerImpl reportController) {
+        this.reportController = reportController;
+    }
 	
 	// 블럭 리스트
 	@Override
@@ -571,18 +577,12 @@ public class BlockControllerImpl implements BlockController {
 		String searchArea = login.getLogin_area();
 		int app_num = Integer.parseInt(app_num_Str);
 		BlockVO expertApprovalView = blockService.selectExpertBlockApprovalView(app_num);
-		System.out.println(app_num);
 //		BlockVO ApprovalDivision = blockDAO.ApprovalDivision(app_num);
 		AreaMap areaMap = new AreaMap();
 		String hndArea = areaMap.getEnglishArea(expertApprovalView.getLogin_area());
 		mav.addObject("searchArea", searchArea);
 		mav.addObject("expertApprovalView", expertApprovalView);
 		mav.addObject("hndArea", hndArea);
-		System.out.println(hndArea);
-		System.out.println(expertApprovalView.getApp_head_status());
-		System.out.println(expertApprovalView.getExpSign_name());
-		System.out.println(expertApprovalView.getApp_rcv_status());
-		System.out.println(expertApprovalView.getLogin_area());
 //		mav.addObject("ApprovalDivision", ApprovalDivision);
 		return mav;
 	}
@@ -700,13 +700,13 @@ public class BlockControllerImpl implements BlockController {
 	@Override
 	@GetMapping("/blockManagement/updateExpertRejection.do")
 	public ModelAndView updateExpertRejection(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError, @RequestParam("token") String token_Str, 
-			@RequestParam("app_rcv_name") String app_rcv_name, HttpServletRequest request) throws Exception {
+			@RequestParam("app_rcv_name") String app_rcv_name, @RequestParam("app_type") String app_type, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/expertApproval.do");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
-
-		int result = blockService.updateExpertRejection(app_num, searchArea);
-		blockDAO.finalRejection(app_num);
+		int token = Integer.parseInt(token_Str);
+		System.out.println(token);
+		int result = blockService.updateExpertRejection(app_num, app_isError, token, app_type);
 		return mav;
 	}
 	

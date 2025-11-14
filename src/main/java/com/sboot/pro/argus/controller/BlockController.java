@@ -99,7 +99,7 @@ public interface BlockController {
 	
 	// 반출 거절
 	public ModelAndView updateExpertRejection(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError, @RequestParam("token") String token_Str, 
-			@RequestParam("app_rcv_name") String app_rcv_name, HttpServletRequest request) throws Exception;
+			@RequestParam("app_rcv_name") String app_rcv_name, @RequestParam("app_type") String app_type, HttpServletRequest request) throws Exception;
 	
 	// 블럭 스펙 추가 폼
 	public ModelAndView addBlockSpecForm(@RequestParam("df_idNumber") String df_idNumber) throws Exception;

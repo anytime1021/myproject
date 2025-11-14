@@ -104,7 +104,7 @@ public interface BlockService {
 	public int updateRejection(int app_num, String searchArea) throws Exception;
 	
 	// 반출 거절
-	public int updateExpertRejection(int app_num, String searchArea) throws Exception; 
+	public int updateExpertRejection(int app_num, String app_isError, int token, String app_type) throws Exception; 
 	
 	// 블럭 스펙 추가
 	public void insertBlockSpec(String df_idNumber, MultipartFile[] files, HttpServletRequest request) throws Exception;

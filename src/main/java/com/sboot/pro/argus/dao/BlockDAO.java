@@ -131,8 +131,10 @@ public interface BlockDAO {
 	public void finalRejection(int app_num) throws Exception;
 	
 	// 반출 거절
-	public int updateExpertRejection(@Param("app_num") int app_num, @Param("searchArea") String searchArea) throws Exception;
-//	public void finalRejection(int app_num) throws Exception;
+	public int updateExpertRejection(@Param("app_num") int app_num, @Param("app_isError") String app_isError, @Param("token") int token, @Param("app_type") String app_type) throws Exception;
+	public int countExpertRejection(int app_num) throws Exception;
+	public int rejectionRollbackData(@Param("app_num") int app_num, @Param("count") int count) throws Exception;
+	//	public void finalRejection(int app_num) throws Exception;
 	
 	// 블럭 스펙 추가
 	public void insertBlockSpec(@Param("df_idNumber") String df_idNumber, @Param("img") BlockVO img) throws Exception;
