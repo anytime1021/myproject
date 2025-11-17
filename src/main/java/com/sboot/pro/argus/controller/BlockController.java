@@ -135,5 +135,8 @@ public interface BlockController {
 	public ModelAndView inspectionHistory(@RequestParam(value="page", defaultValue = "1") int page, @RequestParam("df_idNumber") String df_idNumber) throws Exception;
 
 	// 블럭 제작 요청 폼
-	public ModelAndView produceBlockForm(HttpServletRequest request) throws Exception;
+	public ModelAndView createBlockList(@RequestParam(value="page", defaultValue = "1") int page, HttpServletRequest request) throws Exception;
+	
+	// 블럭 제작 요청 폼
+	public ModelAndView createBlockForm(HttpServletRequest request) throws Exception;
 }

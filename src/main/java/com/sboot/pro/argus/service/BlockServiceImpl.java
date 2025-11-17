@@ -387,6 +387,17 @@ public class BlockServiceImpl implements BlockService {
 		return blockDAO.inspectionHistoryCount(df_idNumber);
 	}
 	
+	// 블럭 제작 요청 게시판
+	@Override
+	public int createBlockListCount(String searchArea) throws Exception {
+		return blockDAO.createBlockListCount(searchArea);
+	}
+	
+	@Override
+	public List<BlockVO> selectCreateBlockList(String searchArea, int offset, int limit) throws Exception {
+		return blockDAO.selectCreateBlockList(searchArea, offset, limit);
+	}
+	
 	@Override
 	public List<BlockVO> selectInspectionHistory(String df_idNumber, int offset, int limit) throws Exception {
 		return blockDAO.selectInspectionHistory(df_idNumber, offset, limit);

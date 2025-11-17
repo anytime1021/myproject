@@ -169,4 +169,8 @@ public interface BlockDAO {
 	// 블럭 점검 이력 보기
 	public int inspectionHistoryCount(String df_idNumber) throws Exception;
 	public List<BlockVO> selectInspectionHistory(@Param("df_idNumber") String df_idNumber, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
+	
+	// 블럭 제작 요청 게시판
+	public int createBlockListCount(String searchArea) throws Exception;
+	public List<BlockVO> selectCreateBlockList(@Param("searchArea") String searchArea, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
 }

@@ -137,4 +137,8 @@ public interface BlockService {
 	// 블럭 점검 이력 보기
 	public int inspectionHistoryCount(String df_idNumber) throws Exception;
 	public List<BlockVO> selectInspectionHistory(String df_idNumber, int offset, int limit) throws Exception;
+
+	// 블럭 제작 요청 게시판
+	public int createBlockListCount(String searchArea) throws Exception;
+	public List<BlockVO> selectCreateBlockList(String searchArea, int offset, int limit) throws Exception;
 }

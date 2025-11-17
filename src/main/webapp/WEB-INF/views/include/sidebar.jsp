@@ -9,16 +9,16 @@
 <%-- sidebar.jsp --%>
 
 <div class="sidebar">
-	<c:if test="${sessionScope.login.login_report_access == 1}">
-	    <div class="filter-group">
-	        <div class="filter-title" onclick="toggleOptions(this)">보고서 게시판 ▾</div>
-	        <div class="filter-options">
-	            <label><a href="${contextPath}/report/reportArea.do"> 작업일보 </a></label>
-	            <label><a href="${contextPath}/report/followingMonth.do"> 익월예상보고(임시) </a></label>
-				<label><a href="${contextPath}/sow/sowAddEmployeeForm.do"> 근무인원설정 </a></label>
-	        </div>
-	    </div>
-	</c:if>
+<!--	<c:if test="${sessionScope.login.login_report_access == 1}">-->
+<!--	    <div class="filter-group">-->
+<!--	        <div class="filter-title" onclick="toggleOptions(this)">보고서 게시판 ▾</div>-->
+<!--	        <div class="filter-options">-->
+<!--	            <label><a href="${contextPath}/report/reportArea.do"> 작업일보 </a></label>-->
+<!--	            <label><a href="${contextPath}/report/followingMonth.do"> 익월예상보고(임시) </a></label>-->
+<!--				<label><a href="${contextPath}/sow/sowAddEmployeeForm.do"> 근무인원설정 </a></label>-->
+<!--	        </div>-->
+<!--	    </div>-->
+<!--	</c:if>-->
 	
 	<c:if test="${sessionScope.login.login_block_access == 1}">
 		<div class="filter-group">
@@ -49,7 +49,7 @@
 				<div class="sub-filter-group">
 				    <div class="sub-filter-title" onclick="toggleOptions(this)">제작 관련 ▾</div>
 				    <div class="sub-filter-options">
-				        <label><a href="${contextPath}/blockManagement/produceBlockForm.do">• 제작 요청</a></label>
+				        <label><a href="${contextPath}/blockManagement/createBlockList.do">• 제작 요청 게시판</a></label>
 				    </div>
 				</div>
 		    </div>

@@ -11,8 +11,11 @@ public class LoginVO {
 	private String login_id;
 	private String login_pwd;
 	private String login_area;
+	private String login_name;
 	private int login_report_access;
 	private int login_block_access;
+	private String login_position;
+	private String login_department;
 	
 	public int getLogin_num() {
 		return login_num;
@@ -38,6 +41,12 @@ public class LoginVO {
 	public void setLogin_area(String login_area) {
 		this.login_area = login_area;
 	}
+	public String getLogin_name() {
+		return login_name;
+	}
+	public void setLogin_name(String login_name) {
+		this.login_name = login_name;
+	}
 	public int getLogin_report_access() {
 		return login_report_access;
 	}
@@ -50,5 +59,16 @@ public class LoginVO {
 	public void setLogin_block_access(int login_block_access) {
 		this.login_block_access = login_block_access;
 	}
-
+	public String getLogin_position() {
+		return login_position;
+	}
+	public void setLogin_position(String login_position) {
+		this.login_position = login_position;
+	}
+	public String getLogin_department() {
+		return login_department;
+	}
+	public void setLogin_department(String login_department) {
+		this.login_department = login_department;
+	}
 }

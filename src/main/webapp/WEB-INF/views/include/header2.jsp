@@ -50,14 +50,15 @@
 	<input type="hidden" name="login_block_access" id="login_block_access" value="${sessionScope.login.login_block_access}">
 	<div class="head-container">
 		<div class="logo">
-			<a href="${contextPath}/argus/main2.do"><img src="${contextPath}/resources/img/argusImage.jpg" alt="Argus Logo"></a>
+			<a href="${contextPath}/blockManagement/blockList.do"><img src="${contextPath}/resources/img/argusImage.jpg" alt="Argus Logo"></a>
 		</div>
 		<div class="board-title">
 			<nav>
 				<ul class="menu">
 					<li></li>
-					<li><a href="${contextPath}/report/reportArea.do" onclick="return checkAccess('report')">보고서게시판</a></li>
-					<li><a href="${contextPath}/blockManagement/blockList.do" onclick="return checkAccess('block')">시험편 관리</a></li>
+<!--					<li><a href="${contextPath}/report/reportArea.do" onclick="return checkAccess('report')">보고서게시판</a></li>-->
+<!--					<li><a href="${contextPath}/blockManagement/blockList.do" onclick="return checkAccess('block')">시험편 관리</a></li>-->
+						<li><a href="${contextPath}/blockManagement/blockList.do">시험편 관리</a></li>
 					<li>-</li>
 					<li>-</li>
 				</ul>

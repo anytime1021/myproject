@@ -716,4 +716,23 @@
 			order by row_num desc limit #{offset}, #{limit}
 		) sub order by row_num desc
 	</select>
+	
+	<!-- 블럭 제작 요청 게시판 -->
+	<select id="createBlockListCount" parameterType="String">
+		select count(*) from createBlockBoard
+		<if test="searchArea != '본사'">
+		 where login_area = #{searchArea}
+		</if>
+	</select>
+	
+	<select id="selectCreateBlockList" parameterType="Map">
+		select * from (
+			select row_number() over (order by createBlockBoard_date asc) as row_num, createBlockBoard.*
+			from createBlockBoard 
+			<if test="searchArea != '본사'">
+				where login_area = #{searchArea}
+			</if>
+			order by row_num desc limit #{offset}, #{limit}
+		) sub order by row_num desc
+	</select>
 </mapper>

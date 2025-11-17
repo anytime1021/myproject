@@ -19,7 +19,7 @@
 		<%@ include file="../include/sidebar.jsp" %>
 		<div class="moveReport-container">
 			<div class="moveReport">
-				<form name="produceBlockForm" autocomplete="off" method="post" action="${contextPath}/blockManagement/produceBlockForm.do">
+				<form name="createBlockForm" autocomplete="off" method="post" action="${contextPath}/blockManagement/createBlock.do">
 					<table class="report">
 						<colgroup>
 							<col style="width: 16%;">

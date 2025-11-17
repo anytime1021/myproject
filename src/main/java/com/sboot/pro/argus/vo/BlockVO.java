@@ -69,6 +69,24 @@ public class BlockVO extends WorkingDailyBaseVO {
 	private int bil_num;
 	private String bil_status;
 	private String bil_date;
+	
+	// 블럭 추가 요청
+	private int createBlock_num;
+	private String createBlock;
+	private String blockSpec;
+	private String blockSpec_material;
+	private String blockSpec_thick;
+	private String blockSpec_diameter;
+	private String blockSpec_weld;
+	private String blockSpec_drawing;
+	private String technical_team_comment;
+	private String comment_date;
+	private String createBlock_status;
+	
+	private int createBlockBoard_num;
+	private String createBlockBoard_title;
+	private String createBlockBoard_date;
+	
 	public int getDf_num() {
 		return df_num;
 	}
@@ -381,25 +399,88 @@ public class BlockVO extends WorkingDailyBaseVO {
 	public void setBil_date(String bil_date) {
 		this.bil_date = bil_date;
 	}
-	
-	@Override
-	public String toString() {
-		return "BlockVO [df_num=" + df_num + ", df_idNumber=" + df_idNumber + ", df_picture=" + df_picture
-				+ ", df_pictureName=" + df_pictureName + ", df_material=" + df_material + ", df_size=" + df_size
-				+ ", df_usage=" + df_usage + ", df_weld=" + df_weld + ", df_defectType=" + df_defectType
-				+ ", df_manufacture=" + df_manufacture + ", df_itemStatus=" + df_itemStatus + ", df_moveStatus="
-				+ df_moveStatus + ", moveList_num=" + moveList_num + ", moveList_lender=" + moveList_lender
-				+ ", moveList_lender_rank=" + moveList_lender_rank + ", moveList_recipient=" + moveList_recipient
-				+ ", moveList_recipient_area=" + moveList_recipient_area + ", moveList_recipient_rank="
-				+ moveList_recipient_rank + ", moveList_rental_date=" + moveList_rental_date + ", moveList_return_date="
-				+ moveList_return_date + ", moveList_moveStatus=" + moveList_moveStatus + ", created_at=" + created_at
-				+ ", app_num=" + app_num + ", app_hnd_comment=" + app_hnd_comment + ", app_hnd_area=" + app_hnd_area
-				+ ", app_hnd_name=" + app_hnd_name + ", app_hnd_create_at=" + app_hnd_create_at
-				+ ", app_hnd_transMethod=" + app_hnd_transMethod + ", app_rcv_area=" + app_rcv_area + ", app_rcv_name="
-				+ app_rcv_name + ", app_rcv_create_at=" + app_rcv_create_at + ", app_isError=" + app_isError
-				+ ", app_rank=" + app_rank + ", app_rcv_status=" + app_rcv_status + ", app_head_status="
-				+ app_head_status + ", bs_num=" + bs_num + ", file_name=" + file_name + ", file_path=" + file_path
-				+ ", upload_date=" + upload_date + ", bib_num=" + bib_num + ", bib_title=" + bib_title + ", bib_date="
-				+ bib_date + ", bil_num=" + bil_num + ", bil_status=" + bil_status + ", bil_date=" + bil_date + "]";
+	public int getCreateBlock_num() {
+		return createBlock_num;
+	}
+	public void setCreateBlock_num(int createBlock_num) {
+		this.createBlock_num = createBlock_num;
+	}
+	public String getCreateBlock() {
+		return createBlock;
+	}
+	public void setCreateBlock(String createBlock) {
+		this.createBlock = createBlock;
+	}
+	public String getBlockSpec() {
+		return blockSpec;
+	}
+	public void setBlockSpec(String blockSpec) {
+		this.blockSpec = blockSpec;
+	}
+	public String getBlockSpec_material() {
+		return blockSpec_material;
+	}
+	public void setBlockSpec_material(String blockSpec_material) {
+		this.blockSpec_material = blockSpec_material;
+	}
+	public String getBlockSpec_thick() {
+		return blockSpec_thick;
+	}
+	public void setBlockSpec_thick(String blockSpec_thick) {
+		this.blockSpec_thick = blockSpec_thick;
+	}
+	public String getBlockSpec_diameter() {
+		return blockSpec_diameter;
+	}
+	public void setBlockSpec_diameter(String blockSpec_diameter) {
+		this.blockSpec_diameter = blockSpec_diameter;
+	}
+	public String getBlockSpec_weld() {
+		return blockSpec_weld;
+	}
+	public void setBlockSpec_weld(String blockSpec_weld) {
+		this.blockSpec_weld = blockSpec_weld;
+	}
+	public String getBlockSpec_drawing() {
+		return blockSpec_drawing;
+	}
+	public void setBlockSpec_drawing(String blockSpec_drawing) {
+		this.blockSpec_drawing = blockSpec_drawing;
+	}
+	public String getTechnical_team_comment() {
+		return technical_team_comment;
+	}
+	public void setTechnical_team_comment(String technical_team_comment) {
+		this.technical_team_comment = technical_team_comment;
+	}
+	public String getComment_date() {
+		return comment_date;
+	}
+	public void setComment_date(String comment_date) {
+		this.comment_date = comment_date;
+	}
+	public String getCreateBlock_status() {
+		return createBlock_status;
+	}
+	public void setCreateBlock_status(String createBlock_status) {
+		this.createBlock_status = createBlock_status;
+	}
+	public int getCreateBlockBoard_num() {
+		return createBlockBoard_num;
+	}
+	public void setCreateBlockBoard_num(int createBlockBoard_num) {
+		this.createBlockBoard_num = createBlockBoard_num;
+	}
+	public String getCreateBlockBoard_title() {
+		return createBlockBoard_title;
+	}
+	public void setCreateBlockBoard_title(String createBlockBoard_title) {
+		this.createBlockBoard_title = createBlockBoard_title;
+	}
+	public String getCreateBlockBoard_date() {
+		return createBlockBoard_date;
+	}
+	public void setCreateBlockBoard_date(String createBlockBoard_date) {
+		this.createBlockBoard_date = createBlockBoard_date;
 	}
 }

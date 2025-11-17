@@ -858,14 +858,37 @@ public class BlockControllerImpl implements BlockController {
 		return mav;
 	}
 	
-	// 블럭 제작 요청 폼
+	// 블럭 제작 요청 게시판
 	@Override
-	@GetMapping("/blockManagement/produceBlockForm.do")
-	public ModelAndView produceBlockForm(HttpServletRequest request) throws Exception {
-		ModelAndView mav = new ModelAndView("/blockManagement/produceBlockForm");
+	@GetMapping("/blockManagement/createBlockList.do")
+	public ModelAndView createBlockList(@RequestParam(value="page", defaultValue = "1") int page, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/blockManagement/createBlockList");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
-		mav.addObject("login_area", searchArea);
+		List<BlockVO> createBlockList = new ArrayList<>();
+		
+		int limit = 20;
+		int currentPage = page;
+		int pageBlockSize = 5;
+		int totalCount = blockService.createBlockListCount(searchArea);
+		if(totalCount == 0) {
+			totalCount = 1;
+		}
+		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
+		createBlockList = blockService.selectCreateBlockList(searchArea, paging.getOffset(), limit);
+		mav.addObject("createBlockList", createBlockList);
+		mav.addObject("paging", paging);
+		return mav;
+	}
+	
+	// 블럭 제작 요청 폼
+	@Override
+	@GetMapping("/blockManagement/createBlockForm.do")
+	public ModelAndView createBlockForm(HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/blockManagement/createBlockForm");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		mav.addObject("searchArea", searchArea);
 		return mav;
 	}
 	
