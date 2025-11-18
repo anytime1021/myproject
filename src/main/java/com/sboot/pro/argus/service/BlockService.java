@@ -141,4 +141,11 @@ public interface BlockService {
 	// 블럭 제작 요청 게시판
 	public int createBlockListCount(String searchArea) throws Exception;
 	public List<BlockVO> selectCreateBlockList(String searchArea, int offset, int limit) throws Exception;
+
+	// 블럭 제작 (정보 저장)
+	public int addCreateBlock(BlockVO createBlockForm, MultipartFile[] cbd_drawings, String searchArea, HttpServletRequest request) throws Exception;
+
+	// 블럭 제작 상세보기
+	public BlockVO selectCreateBlockView(int createBlockBoard_num) throws Exception;
+	
 }

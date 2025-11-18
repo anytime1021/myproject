@@ -677,6 +677,16 @@ public class BlockControllerImpl implements BlockController {
 			int result_updateExpertSign = blockService.updateExpertSign(app_num, expSign_name, app_rcv_area);
 			return mav;
 		} else {
+			int i = 1;
+			String originalName = expSign_name;
+			while(true) {
+				int result = blockDAO.checkFileName(expSign_name);
+				if (result == 0) {
+					break;
+				}
+				expSign_name = originalName + "_" + i;
+				i++;
+			}
 			int result_signUpload = blockService.expertSignUpload(expSign_name, app_rcv_area);
 			int result_updateExpertSign = blockService.updateExpertSign(app_num, expSign_name, app_rcv_area);
 			return mav;
@@ -892,6 +902,36 @@ public class BlockControllerImpl implements BlockController {
 		return mav;
 	}
 	
+	// 블럭 제작 (정보 저장)
+	@Override
+	@PostMapping("/blockManagement/createBlock.do")
+	public ModelAndView createBlock(@ModelAttribute("createBlockForm") BlockVO createBlockForm, 
+			@RequestParam("cbd_drawings") MultipartFile[] cbd_drawings, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/createBlockList.do");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		int result = blockService.addCreateBlock(createBlockForm, cbd_drawings, searchArea, request);
+		return mav;
+	}
+	
+	// 블럭 제작 상세보기
+	@Override
+	@PostMapping("/blockManagement/createBlockView.do")
+	public ModelAndView createBlockView(@RequestParam("createBlockBoard_num") int createBlockBoard_num, HttpServletRequest request) throws Exception{
+		ModelAndView mav = new ModelAndView("/blockManagement/createBlockView");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		String department = login.getLogin_department();
+		BlockVO createBlockView = blockService.selectCreateBlockView(createBlockBoard_num);
+		
+		AreaMap areaMap = new AreaMap();
+		String hndArea = areaMap.getEnglishArea(searchArea);
+		mav.addObject("createBlockView", createBlockView);
+		mav.addObject("hndArea", hndArea);
+		mav.addObject("department", department);
+		return mav;
+	}
+	
 	// 영문 파일명 바꾸기
 	public class AreaMap {
 		private Map<String, String> areaMap;
@@ -903,6 +943,8 @@ public class BlockControllerImpl implements BlockController {
 			areaMap.put("마산", "masan");
 			areaMap.put("창원", "changwon");
 			areaMap.put("여수", "yeosu");
+			areaMap.put("품질", "quality_team");
+			areaMap.put("기술", "technical_team");
 		}
 		
 		public String getEnglishArea(String koreanArea) {

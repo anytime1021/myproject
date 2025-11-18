@@ -139,4 +139,11 @@ public interface BlockController {
 	
 	// 블럭 제작 요청 폼
 	public ModelAndView createBlockForm(HttpServletRequest request) throws Exception;
+	
+	// 블럭 제작 (정보 저장)
+	public ModelAndView createBlock(@ModelAttribute("createBlockForm") BlockVO createBlockForm, 
+			@RequestParam("cbd_drawings") MultipartFile[] cbd_drawings, HttpServletRequest request) throws Exception;
+
+	// 블럭 제작 상세보기
+	public ModelAndView createBlockView(@RequestParam("createBlockBoard_num") int createBlockBoard_num, HttpServletRequest request) throws Exception;
 }

@@ -48,8 +48,9 @@
                         <tbody>
                             <c:forEach var="createBlockList" items="${createBlockList}">
                                 <tr>
-                                    <td>${createBlockList.createBlockBoard_num}</td>
+                                    <td>${createBlockList.row_num}</td>
                                     <td><a href="${contextPath}/blockManagement/createBlockView.do?createBlockBoard_num=${createBlockList.createBlockBoard_num}">${createBlockList.createBlockBoard_title}</a></td>
+									<td><button style="font-size: 15px; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">${createBlockList.createBlockBoard_title}</button></td>
                                     <td>${createBlockList.createBlockBoard_date}</td>
                                 </tr>
                             </c:forEach>
@@ -99,4 +100,25 @@
     </main>
     <%@ include file="../include/footer2.jsp"%>
 </body>
+<script>
+	function detailView(button) {
+		const row = button.closest("tr");
+		const cells = row.getElementsByTagName("td");
+		
+		const id = cells[1].innerText;
+		
+		const form = document.createElement("form");
+		form.method = "POST";
+		form.action = "/blockManagement/createBlockView.do";
+		
+		const inputId = document.createElement("input");
+		inputId.type = "hidden";
+		inputId.name = "createBlockBoard_num";
+		inputId.value = id;
+		
+		form.appendChild(inputId);
+		document.body.appendChild(form);
+		form.submit();
+	}
+</script>
 </html>

@@ -402,4 +402,60 @@ public class BlockServiceImpl implements BlockService {
 	public List<BlockVO> selectInspectionHistory(String df_idNumber, int offset, int limit) throws Exception {
 		return blockDAO.selectInspectionHistory(df_idNumber, offset, limit);
 	}
+	
+	// 블럭 제작 (정보 저장)
+	@Override
+	@Transactional
+	public int addCreateBlock(BlockVO createBlockForm, MultipartFile[] cbd_drawings, String searchArea, HttpServletRequest request) throws Exception {
+		
+		blockDAO.insertCreateBlockBoard(createBlockForm, searchArea);
+		blockDAO.insertCreateBlockInformation(createBlockForm, searchArea);
+		
+		String uploadDir = request.getServletContext().getRealPath("/resources/img/");
+		File dir = new File(uploadDir);
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
+		
+		List<BlockVO> imgList = new ArrayList<>();
+		for (MultipartFile cbd_drawing : cbd_drawings) {
+		    if (!cbd_drawing.isEmpty()) {
+		        try (InputStream inputStream = cbd_drawing.getInputStream()) {
+		            BufferedImage originalImage = ImageIO.read(inputStream);
+		            if (originalImage == null) continue;
+
+		            int originalWidth = originalImage.getWidth();
+		            int originalHeight = originalImage.getHeight();
+		            int targetHeight = 300;
+		            int targetWidth = (originalWidth * targetHeight) / originalHeight;
+
+		            BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+		            Graphics2D g2d = resizedImage.createGraphics();
+		            g2d.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
+		            g2d.dispose();
+
+		            // 파일명 중복 방지 + 확장자 유지
+		            String originalName = cbd_drawing.getOriginalFilename();
+		            String ext = originalName.substring(originalName.lastIndexOf(".") + 1);
+		            String savedName = "blockNumber" + createBlockForm.getCreateBlock_num() + "_" + System.currentTimeMillis() + "." + ext;
+
+		            File outputFile = new File(uploadDir, savedName);
+		            ImageIO.write(resizedImage, ext, outputFile);
+
+		            BlockVO img = new BlockVO();
+		            img.setCbd_drawing(savedName);
+		            img.setCreateBlock_num(createBlockForm.getCreateBlock_num());
+		            imgList.add(img);
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        }
+		    }
+		}
+		return blockDAO.insertCreateBlockDrawing(imgList);
+	}
+	
+	@Override
+	public BlockVO selectCreateBlockView(int createBlockBoard_num) throws Exception {
+		return blockDAO.selectCreateBlockView(createBlockBoard_num);
+	}
 }

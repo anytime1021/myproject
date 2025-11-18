@@ -561,6 +561,10 @@
 		where app_num = #{app_num}
 	</update>
 	
+	<select id="checkFileName" parameterType="String" resultType="int">
+		select count(*) from expertSignList where expSign_name = #{expSign_name}
+	</select>
+	
 	<!-- 이동 거절 -->
 	<update id="updateRejection" parameterType="Map">
 		update Approval
@@ -734,5 +738,26 @@
 			</if>
 			order by row_num desc limit #{offset}, #{limit}
 		) sub order by row_num desc
+	</select>
+	
+	<!-- 블럭 제작 (정보 저장) -->
+	<insert id="insertCreateBlockBoard" parameterType="Map" useGeneratedKeys="true" keyProperty="createBlockForm.createBlockBoard_num">
+		insert into createBlockBoard(createBlockBoard_title, createBlockBoard_date, login_area)
+		values(#{createBlockForm.createBlockBoard_title}, now(), #{searchArea});
+	</insert>
+	<insert id="insertCreateBlockInformation" parameterType="Map" useGeneratedKeys="true" keyProperty="createBlockForm.createBlock_num">
+		insert into createBlock(blockSpec, df_usage, blockSpec_material, blockSpec_thick, blockSpec_diameter, blockSpec_weld, login_area, createBlockBoard_num)
+		values(#{createBlockForm.blockSpec}, #{createBlockForm.df_usage}, #{createBlockForm.blockSpec_material}, #{createBlockForm.blockSpec_thick}, #{createBlockForm.blockSpec_diameter}, #{createBlockForm.blockSpec_weld}, #{searchArea}, #{createBlockForm.createBlockBoard_num});
+	</insert>
+	<insert id="insertCreateBlockDrawing" parameterType="Map">
+		insert into createBlockDrawing(cbd_drawing, createBlock_num) values
+		<foreach collection="imgList" item="img" separator=",">
+			(#{img.cbd_drawing}, #{img.createBlock_num})
+		</foreach>
+	</insert>
+	
+	<!-- 블럭 제작 상세보기 -->
+	<select id="selectCreateBlockView" parameterType="int">
+		select * from createBlock where createBlockBoard_num = #{createBlockBoard_num}
 	</select>
 </mapper>

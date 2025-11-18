@@ -13,9 +13,6 @@
 	<title>시험편 제작 승인 요청서</title>
 	<link rel="stylesheet" href="${contextPath}/resources/css/moveBlockForm.css">
 </head>
-<style>
-	.submitButton {display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;};
-</style>
 <body>
 	<%@ include file="../include/header2.jsp" %>
 	<div class="moveForm-container">
@@ -38,43 +35,50 @@
 							<col style="width: 16%;">
 							<col style="width: 16%;">
 						</colgroup>
-						<input type="hidden" name="createBlock_num" value="${createBlockView.createBlock_num}">
 					    <tr>
 					    	<th class="title" colspan="4" rowspan="2">시험편 제작 승인 요청서</th>
 							<th class="title-sub">사업소</th>
 							<th class="title-sub">기술팀</th>
 					    </tr>
 						<tr>
-							<th class="title-sub"></th>
-							<th class="title-sub"></th>
+							<th class="title-sub">
+								<img src="${contextPath}/resources/img/sign-${hndArea}.png" style="width:100%; height:100%;">
+							</th>
+							<th class="title-sub">
+								<c:choose>
+									<c:when test="${createBlockView.createBlock_status eq 'Y'}">
+										<img src="${contextPath}/resources/img/sign-technical_team.png" style="width:100%; height:100%;">
+									</c:when>
+								</c:choose>
+							</th>
 					    <tr>
 					    	<td class="col-group" colspan="2">사업소 명</td>
-					    	<td class="col-value" colspan="4"><input type="text" name="login_area" value="${searchArea}"></td>
+					    	<td class="col-value" colspan="4"><input type="text" name="login_area" value="${createBlockView.login_area}" readonly></td>
 					    </tr>
 						<tr>
 							<td class="col-group" colspan="2">작성 날짜</td>
-							<td class="col-value" colspan="4"><input type="text" name="createBlock_date" readonly></td>
+							<td class="col-value" colspan="4"><input type="text" name="createBlock_date" value="${createBlockView.createBlock_date}" readonly></td>
 						<tr>
 						<tr>
 							<td class="col-group" colspan="2">적용 규격</td>
-							<td class="col-value" colspan="4"><input type="text" name="blockSpec"></td>
+							<td class="col-value" colspan="4"><input type="text" name="blockSpec" value="${createBlockView.blockSpec}" readonly></td>
 						<tr>
 						<tr>
 							<td class="col-group" colspan="2">사용 용도</td>
-							<td class="col-value" colspan="4"><input type="text" name="df_usage"></td>
+							<td class="col-value" colspan="4"><input type="text" name="df_usage" value="${createBlockView.df_usage}" readonly></td>
 						<tr>
 						<tr>
 							<td class="col-group" colspan="2" rowspan="2">Block Spec.</td>
 							<td class="col-value">재질</td>
-							<td class="col-value"><input type="text" name="blockSpec_material"></td>
+							<td class="col-value"><input type="text" name="blockSpec_material" value="${createBlockView.blockSpec_material}" readonly></td>
 							<td class="col-value">두께</td>
-							<td class="col-value"><input type="text" name="blockSpec_thick"></td>
+							<td class="col-value"><input type="text" name="blockSpec_thick" value="${createBlockView.blockSpec_thick}" readonly></td>
 						</tr>
 						<tr>
 							<td class="col-value">관경</td>
-							<td class="col-value"><input type="text" name="blockSpec_diameter"></td>
+							<td class="col-value"><input type="text" name="blockSpec_diameter" value="${createBlockView.blockSpec_diameter}" readonly></td>
 							<td class="col-value">용접 형상</td>
-							<td class="col-value"><input type="text" name="blockSpec_weld"></td>
+							<td class="col-value"><input type="text" name="blockSpec_weld" value="${createBlockView.blockSpec_weld}" readonly></td>
 						</tr>
 						<tr>
 					    	<td class="col-label" colspan="2">[도면]</td>
@@ -84,60 +88,14 @@
 					    </tr>
 						<tr>
 							<td class="col-group" colspan="2">기술팀 검토 결과</td>
-							<td class="col-value" colspan="4"><input type="text" name="technical_team_comment" style="height:100px;" readonly></td>
+							<td class="col-value" colspan="4"><input type="text" name="technical_team_comment" style="height:100px;" <c:if test="${department ne '기술'}"> readonly </c:if>></td>
 						</tr>
 					</table>
-					<c:if test="${department eq '기술'}">
-						<a href="#" onclick="submitApproval('${contextPath}/blockManagement/createBlockApproval.do', '${createBlockView.createBlock_num}')"
-						class="submitButton">
-						승인
-						</a>
-						<a href="#" onclick="submitRejection('${contextPath}/blockManagement/createBlockRejection.do', '${createBlockView.createBlock_num}')"
-						class="submitButton">
-						거절
-						</a>
-					</c:if>
+					<button type="submit">승인 요청</button>
 				</form>
 			</div>
 		</div>
 	</div>
 	<%@ include file="../include/footer2.jsp"%>
 </body>
-<script>
-	const form = document.forms["createBlockForm"];
-	
-	const createBlock_num = "${createBlockView.createBlock_num}";
-	const technical_team_comment = "${createBlockView.technical_team_comment}";
-	
-	form.addEventListener("submit", function(e) {
-		if (!form.dataset.allowSubmit) {}
-		e.preventDefault();
-		return false;
-		}
-	});
-	
-	function submitApproval(url, createBlock_num) {
-		form.querySelectorAll('input[name="createBlock_num"], input[name="technical_team_comment"]').forEach(el => el.remove());
-		
-		let hiddenCreateBlock_num = document.createElement("input");
-		hiddenCreateBlock_num.type = "hidden";
-		hiddenCreateBlock_num.name = "createBlock_num";
-		hiddenCreateBlock_num.value = createBlock_num;
-		form.appendChild(hiddenCreateBlock_num);
-		
-		let hiddenTechnical_comment = document.createElement("input");
-		hiddenTechnical_comment.type = "hidden";
-		hiddenTechnical_comment.name = "techical_team_comment";
-		hiddenTechnical_comment.value = technical_team_comment;
-		form.appendChild(hiddenTechnical_comment);
-	}
-	
-	form.action = url;
-	form.method = "post"
-	
-	form.dataset.allowSubmit = "true";
-	form.submit();
-	
-	form.dataset.allowSubmit = "false";
-}
 </html>

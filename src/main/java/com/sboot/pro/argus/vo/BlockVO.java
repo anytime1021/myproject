@@ -78,14 +78,18 @@ public class BlockVO extends WorkingDailyBaseVO {
 	private String blockSpec_thick;
 	private String blockSpec_diameter;
 	private String blockSpec_weld;
-	private String blockSpec_drawing;
 	private String technical_team_comment;
 	private String comment_date;
 	private String createBlock_status;
 	
+	// 블럭 추가 요청 게시판
 	private int createBlockBoard_num;
 	private String createBlockBoard_title;
 	private String createBlockBoard_date;
+	
+	// 블럭 추가 요청 파일 업로드 table
+	private int cbd_num;
+	private String cbd_drawing;
 	
 	public int getDf_num() {
 		return df_num;
@@ -441,12 +445,6 @@ public class BlockVO extends WorkingDailyBaseVO {
 	public void setBlockSpec_weld(String blockSpec_weld) {
 		this.blockSpec_weld = blockSpec_weld;
 	}
-	public String getBlockSpec_drawing() {
-		return blockSpec_drawing;
-	}
-	public void setBlockSpec_drawing(String blockSpec_drawing) {
-		this.blockSpec_drawing = blockSpec_drawing;
-	}
 	public String getTechnical_team_comment() {
 		return technical_team_comment;
 	}
@@ -482,5 +480,17 @@ public class BlockVO extends WorkingDailyBaseVO {
 	}
 	public void setCreateBlockBoard_date(String createBlockBoard_date) {
 		this.createBlockBoard_date = createBlockBoard_date;
+	}
+	public int getCbd_num() {
+		return cbd_num;
+	}
+	public void setCbd_num(int cbd_num) {
+		this.cbd_num = cbd_num;
+	}
+	public String getCbd_drawing() {
+		return cbd_drawing;
+	}
+	public void setCbd_drawing(String cbd_drawing) {
+		this.cbd_drawing = cbd_drawing;
 	}
 }

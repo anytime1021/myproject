@@ -126,6 +126,7 @@ public interface BlockDAO {
 	public int insertExpertSignUpload(@Param("expSign_name") String expSign_name, @Param("app_rcv_area") String app_rcv_area) throws Exception;
 	public int updateExpertSign(@Param("app_num") int app_num, @Param("expSign_name") String expSign_name, @Param("app_rcv_area") String app_rcv_area) throws Exception;
 	
+	public int checkFileName(String expSign_name) throws Exception;
 	// 이동 거절
 	public int updateRejection(@Param("app_num") int app_num, @Param("searchArea") String searchArea) throws Exception;
 	public void finalRejection(int app_num) throws Exception;
@@ -173,4 +174,12 @@ public interface BlockDAO {
 	// 블럭 제작 요청 게시판
 	public int createBlockListCount(String searchArea) throws Exception;
 	public List<BlockVO> selectCreateBlockList(@Param("searchArea") String searchArea, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
+	
+	// 블럭 제작 (정보 저장)
+	public void insertCreateBlockBoard(@Param("createBlockForm") BlockVO createBlockForm, @Param("searchArea") String searchArea) throws Exception;
+	public void insertCreateBlockInformation(@Param("createBlockForm") BlockVO createBlockForm, @Param("searchArea") String searchArea) throws Exception;
+	public int insertCreateBlockDrawing(@Param("imgList") List<BlockVO> imgList) throws Exception;
+
+	// 블럭 제작 상세보기
+	public BlockVO selectCreateBlockView(int createBlockBoard_num) throws Exception;
 }
