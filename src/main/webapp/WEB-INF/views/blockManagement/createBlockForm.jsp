@@ -87,57 +87,11 @@
 							<td class="col-value" colspan="4"><input type="text" name="technical_team_comment" style="height:100px;" readonly></td>
 						</tr>
 					</table>
-					<c:if test="${department eq '기술'}">
-						<a href="#" onclick="submitApproval('${contextPath}/blockManagement/createBlockApproval.do', '${createBlockView.createBlock_num}')"
-						class="submitButton">
-						승인
-						</a>
-						<a href="#" onclick="submitRejection('${contextPath}/blockManagement/createBlockRejection.do', '${createBlockView.createBlock_num}')"
-						class="submitButton">
-						거절
-						</a>
-					</c:if>
+					<button type="submit">승인 요청</button>
 				</form>
 			</div>
 		</div>
 	</div>
 	<%@ include file="../include/footer2.jsp"%>
 </body>
-<script>
-	const form = document.forms["createBlockForm"];
-	
-	const createBlock_num = "${createBlockView.createBlock_num}";
-	const technical_team_comment = "${createBlockView.technical_team_comment}";
-	
-	form.addEventListener("submit", function(e) {
-		if (!form.dataset.allowSubmit) {}
-		e.preventDefault();
-		return false;
-		}
-	});
-	
-	function submitApproval(url, createBlock_num) {
-		form.querySelectorAll('input[name="createBlock_num"], input[name="technical_team_comment"]').forEach(el => el.remove());
-		
-		let hiddenCreateBlock_num = document.createElement("input");
-		hiddenCreateBlock_num.type = "hidden";
-		hiddenCreateBlock_num.name = "createBlock_num";
-		hiddenCreateBlock_num.value = createBlock_num;
-		form.appendChild(hiddenCreateBlock_num);
-		
-		let hiddenTechnical_comment = document.createElement("input");
-		hiddenTechnical_comment.type = "hidden";
-		hiddenTechnical_comment.name = "techical_team_comment";
-		hiddenTechnical_comment.value = technical_team_comment;
-		form.appendChild(hiddenTechnical_comment);
-	}
-	
-	form.action = url;
-	form.method = "post"
-	
-	form.dataset.allowSubmit = "true";
-	form.submit();
-	
-	form.dataset.allowSubmit = "false";
-}
 </html>

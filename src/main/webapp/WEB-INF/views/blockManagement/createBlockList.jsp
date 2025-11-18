@@ -41,17 +41,31 @@
                         <thead>
                             <tr>
                                 <th style="width:10%;">NO</th>
-                                <th style="width:70%;">제 목</th>
+                                <th style="width:60%;">제 목</th>
                                 <th style="width:20%;">요청일</th>
+								<th style="width:10%;">상태</th>
                             </tr>
                         </thead>
                         <tbody>
                             <c:forEach var="createBlockList" items="${createBlockList}">
                                 <tr>
                                     <td>${createBlockList.row_num}</td>
-                                    <td><a href="${contextPath}/blockManagement/createBlockView.do?createBlockBoard_num=${createBlockList.createBlockBoard_num}">${createBlockList.createBlockBoard_title}</a></td>
-									<td><button style="font-size: 15px; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">${createBlockList.createBlockBoard_title}</button></td>
+ 									<td><button style="font-size: 15px; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">${createBlockList.createBlockBoard_title}</button></td>
                                     <td>${createBlockList.createBlockBoard_date}</td>
+									<td>
+										<c:choose>
+											<c:when test="${createBlockList.createBlock_status eq 'W'}">
+												승인대기
+											</c:when>
+											<c:when test="${createBlockList.createBlock_status eq 'Y'}">
+												승인
+											</c:when>
+											<c:when test="${createBlockList.createBlock_status eq 'N'}">
+												거절
+											</c:when>
+										</c:choose>
+									</td>
+									<input type="hidden" class="createBlockBoard_num" value="${createBlockList.createBlockBoard_num}">
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -102,23 +116,21 @@
 </body>
 <script>
 	function detailView(button) {
-		const row = button.closest("tr");
-		const cells = row.getElementsByTagName("td");
-		
-		const id = cells[1].innerText;
-		
-		const form = document.createElement("form");
-		form.method = "POST";
-		form.action = "/blockManagement/createBlockView.do";
-		
-		const inputId = document.createElement("input");
-		inputId.type = "hidden";
-		inputId.name = "createBlockBoard_num";
-		inputId.value = id;
-		
-		form.appendChild(inputId);
-		document.body.appendChild(form);
-		form.submit();
+	    const row = button.closest("tr");
+	    const id = row.querySelector(".createBlockBoard_num").innerText;
+
+	    const form = document.createElement("form");
+	    form.method = "POST";
+	    form.action = "/blockManagement/createBlockView.do";
+
+	    const inputId = document.createElement("input");
+	    inputId.type = "hidden";
+	    inputId.name = "createBlockBoard_numStr";
+	    inputId.value = id;
+
+	    form.appendChild(inputId);
+	    document.body.appendChild(form);
+	    form.submit();
 	}
 </script>
 </html>

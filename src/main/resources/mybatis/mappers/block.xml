@@ -731,10 +731,10 @@
 	
 	<select id="selectCreateBlockList" parameterType="Map">
 		select * from (
-			select row_number() over (order by createBlockBoard_date asc) as row_num, createBlockBoard.*
-			from createBlockBoard 
+			select row_number() over (order by createBlockBoard_date asc) as row_num, a.*, b.createBlock_status 
+			from createBlockBoard a inner join createBlock b on a.createBlockBoard_num = b.createBlockBoard_num
 			<if test="searchArea != '본사'">
-				where login_area = #{searchArea}
+				where a.login_area = #{searchArea}
 			</if>
 			order by row_num desc limit #{offset}, #{limit}
 		) sub order by row_num desc
@@ -760,4 +760,20 @@
 	<select id="selectCreateBlockView" parameterType="int">
 		select * from createBlock where createBlockBoard_num = #{createBlockBoard_num}
 	</select>
+	
+	<!-- 블럭 제작 승인 -->
+	<update id="updateCreateBlockApproval" parameterType="Map">
+		update createBlock
+		set createBlock_status = 'Y',
+		technical_team_comment = #{technical_team_comment}
+		where createBlock_num = #{createBlock_num}
+	</update>
+	
+	<!-- 블럭 제작 거절 -->
+	<update id="updateCreateBlockRejection" parameterType="Map">
+		update createBlock
+		set createBlock_status = 'N',
+		technical_team_comment = #{technical_team_comment}
+		where createBlock_num = #{createBlock_num}
+	</update>
 </mapper>

@@ -454,8 +454,21 @@ public class BlockServiceImpl implements BlockService {
 		return blockDAO.insertCreateBlockDrawing(imgList);
 	}
 	
+	// 블럭 제작 상세보기
 	@Override
 	public BlockVO selectCreateBlockView(int createBlockBoard_num) throws Exception {
 		return blockDAO.selectCreateBlockView(createBlockBoard_num);
+	}
+	
+	// 블럭 제작 승인
+	@Override
+	public int modCreateBlockApproval(int createBlock_num, String technical_team_comment) throws Exception {
+		return blockDAO.updateCreateBlockApproval(createBlock_num, technical_team_comment);
+	}
+	
+	// 블럭 제작 거절
+	@Override
+	public int modCreateBlockRejection(int createBlock_num, String technical_team_comment) throws Exception {
+		return blockDAO.updateCreateBlockRejection(createBlock_num, technical_team_comment);
 	}
 }

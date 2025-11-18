@@ -917,11 +917,13 @@ public class BlockControllerImpl implements BlockController {
 	// 블럭 제작 상세보기
 	@Override
 	@PostMapping("/blockManagement/createBlockView.do")
-	public ModelAndView createBlockView(@RequestParam("createBlockBoard_num") int createBlockBoard_num, HttpServletRequest request) throws Exception{
+	public ModelAndView createBlockView(@RequestParam("createBlockBoard_numStr") String createBlockBoard_numStr, HttpServletRequest request) throws Exception{
 		ModelAndView mav = new ModelAndView("/blockManagement/createBlockView");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
 		String department = login.getLogin_department();
+		int createBlockBoard_num = Integer.parseInt(createBlockBoard_numStr);
+		System.out.println(createBlockBoard_num);
 		BlockVO createBlockView = blockService.selectCreateBlockView(createBlockBoard_num);
 		
 		AreaMap areaMap = new AreaMap();
@@ -929,6 +931,26 @@ public class BlockControllerImpl implements BlockController {
 		mav.addObject("createBlockView", createBlockView);
 		mav.addObject("hndArea", hndArea);
 		mav.addObject("department", department);
+		return mav;
+	}
+	
+	// 블럭 제작 승인
+	@Override
+	@GetMapping("/blockManagement/createBlockApproval.do")
+	public ModelAndView createBlockApproval(@RequestParam("createBlock_num") int createBlock_num, @RequestParam("technical_team_comment") String technical_team_comment,
+			HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/createBlockList.do");
+		int result = blockService.modCreateBlockApproval(createBlock_num, technical_team_comment);
+		return mav;
+	}
+	
+	// 블럭 제작 거절
+	@Override
+	@GetMapping("/blockManagement/createBlockRejection.do")
+	public ModelAndView createBlockRejection(@RequestParam("createBlock_num") int createBlock_num, @RequestParam("technical_team_comment") String technical_team_comment,
+			HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/createBlockList.do");
+		int result = blockService.modCreateBlockRejection(createBlock_num, technical_team_comment);
 		return mav;
 	}
 	

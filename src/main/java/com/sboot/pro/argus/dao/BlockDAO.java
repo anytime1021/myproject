@@ -182,4 +182,11 @@ public interface BlockDAO {
 
 	// 블럭 제작 상세보기
 	public BlockVO selectCreateBlockView(int createBlockBoard_num) throws Exception;
+	
+	// 블럭 제작 승인
+	public int updateCreateBlockApproval(@Param("createBlock_num") int createBlock_num, @Param("technical_team_comment") String technical_team_comment) throws Exception;
+
+	// 블럭 제작 거절
+	public int updateCreateBlockRejection(@Param("createBlock_num") int createBlock_num, @Param("technical_team_comment") String technical_team_comment) throws Exception;
+
 }

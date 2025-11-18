@@ -19,13 +19,7 @@
 		<%@ include file="../include/sidebar.jsp" %>
 		<div class="moveReport-container">
 			<div class="moveReport">
-				<form name="createBlockForm" autocomplete="off" method="post" action="${contextPath}/blockManagement/createBlock.do" enctype="multipart/form-data">
-					<div style="width: 80%; margin: 10px 0 0 0; display: flex;">
-						<label style="display:flex;">요청서 제목 : </label>
-						<div class="searchWithButton" style="margin-left:10px;">
-							<input type="text" name="createBlockBoard_title" style="width:250px; border:1px solid black;" placeholder="게시글 제목 입력">
-						</div>
-					</div>
+				<form name="createBlockForm" autocomplete="off" method="post">
 					<table class="report">
 						<colgroup>
 							<col style="width: 16%;">
@@ -81,21 +75,65 @@
 							<td class="col-value"><input type="text" name="blockSpec_weld" value="${createBlockView.blockSpec_weld}" readonly></td>
 						</tr>
 						<tr>
-					    	<td class="col-label" colspan="2">[도면]</td>
-					    	<td class="col-value" colspan="4">
-								<input type="file" name="cbd_drawings" multiple>
-							</td>
-					    </tr>
-						<tr>
 							<td class="col-group" colspan="2">기술팀 검토 결과</td>
 							<td class="col-value" colspan="4"><input type="text" name="technical_team_comment" style="height:100px;" <c:if test="${department ne '기술'}"> readonly </c:if>></td>
 						</tr>
 					</table>
-					<button type="submit">승인 요청</button>
+					<c:if test="${department eq '기술' && createBlockView.createBlock_status eq 'W'}">
+						<a href="#" onclick="submitApproval('${contextPath}/blockManagement/createBlockApproval.do', '${createBlockView.createBlock_num}')"
+						class="submitButton">
+						승인
+						</a>
+						<a href="#" onclick="submitRejection('${contextPath}/blockManagement/createBlockRejection.do', '${createBlockView.createBlock_num}')"
+						class="submitButton">
+						거절
+						</a>
+					</c:if>
 				</form>
+				<a href="#">
+					도면보기
+				</a>
 			</div>
 		</div>
 	</div>
 	<%@ include file="../include/footer2.jsp"%>
 </body>
+<script>
+	const form = document.forms["createBlockForm"];
+	
+	const createBlock_num = "${createBlockView.createBlock_num}";
+	const technical_team_comment = "${createBlockView.technical_team_comment}";
+	
+	form.addEventListener("submit", function(e) {
+		if (!form.dataset.allowSubmit) {}
+		e.preventDefault();
+		return false;
+		}
+	});
+	
+	function submitApproval(url, createBlock_num) {
+		form.querySelectorAll('input[name="createBlock_num"], input[name="technical_team_comment"]').forEach(el => el.remove());
+		
+		let hiddenCreateBlock_num = document.createElement("input");
+		hiddenCreateBlock_num.type = "hidden";
+		hiddenCreateBlock_num.name = "createBlock_num";
+		hiddenCreateBlock_num.value = createBlock_num;
+		form.appendChild(hiddenCreateBlock_num);
+		
+		let hiddenTechnical_comment = document.createElement("input");
+		hiddenTechnical_comment.type = "hidden";
+		hiddenTechnical_comment.name = "techical_team_comment";
+		hiddenTechnical_comment.value = technical_team_comment;
+		form.appendChild(hiddenTechnical_comment);
+	}
+	
+	form.action = url;
+	form.method = "post"
+	
+	form.dataset.allowSubmit = "true";
+	form.submit();
+	
+	form.dataset.allowSubmit = "false";
+}
+</script>
 </html>
