@@ -13,6 +13,10 @@
 	<title>시험편 제작 승인 요청서</title>
 	<link rel="stylesheet" href="${contextPath}/resources/css/moveBlockForm.css">
 </head>
+<style>
+	.submitButton {display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;};
+	a:active {} 
+</style>
 <body>
 	<%@ include file="../include/header2.jsp" %>
 	<div class="moveForm-container">
@@ -75,24 +79,27 @@
 							<td class="col-value"><input type="text" name="blockSpec_weld" value="${createBlockView.blockSpec_weld}" readonly></td>
 						</tr>
 						<tr>
+							<td class="col-group" colspan="2">[도면]</td>
+							<td class="col-value" colspan="4"><a href="#" onclick="submitDrawingView('${contextPath}/blockManagement/drawingView.do', '${createBlockView.createBlock_num}')">도면보기</a></td>
+						<tr>
 							<td class="col-group" colspan="2">기술팀 검토 결과</td>
-							<td class="col-value" colspan="4"><input type="text" name="technical_team_comment" style="height:100px;" <c:if test="${department ne '기술'}"> readonly </c:if>></td>
+							<td class="col-value" colspan="4"><input type="text" name="technical_team_comment" style="height:100px;" value="${createBlockView.technical_team_comment}" <c:if test="${department ne '기술' && createBlockView.createBlock_status eq 'W'}"> readonly </c:if>></td>
 						</tr>
+						<input type="hidden" name="createBlock_num" value="${createBlockView.createBlock_num}">
 					</table>
-					<c:if test="${department eq '기술' && createBlockView.createBlock_status eq 'W'}">
-						<a href="#" onclick="submitApproval('${contextPath}/blockManagement/createBlockApproval.do', '${createBlockView.createBlock_num}')"
-						class="submitButton">
-						승인
-						</a>
-						<a href="#" onclick="submitRejection('${contextPath}/blockManagement/createBlockRejection.do', '${createBlockView.createBlock_num}')"
-						class="submitButton">
-						거절
-						</a>
-					</c:if>
+					<div style="display:flex; justify-content:right;">
+						<c:if test="${department eq '기술' && createBlockView.createBlock_status eq 'W'}">
+							<a href="#" onclick="submitApproval('${contextPath}/blockManagement/createBlockApproval.do', '${createBlockView.createBlock_num}')"
+							class="submitButton">
+							승인
+							</a>
+							<a href="#" onclick="submitApproval('${contextPath}/blockManagement/createBlockRejection.do', '${createBlockView.createBlock_num}')"
+							class="submitButton">
+							거절
+							</a>
+						</c:if>
+					</div>
 				</form>
-				<a href="#">
-					도면보기
-				</a>
 			</div>
 		</div>
 	</div>
@@ -101,39 +108,34 @@
 <script>
 	const form = document.forms["createBlockForm"];
 	
-	const createBlock_num = "${createBlockView.createBlock_num}";
-	const technical_team_comment = "${createBlockView.technical_team_comment}";
+	const createBlock_numStr = "${createBlockView.createBlock_num}";
 	
 	form.addEventListener("submit", function(e) {
-		if (!form.dataset.allowSubmit) {}
-		e.preventDefault();
-		return false;
+		if (!form.dataset.allowSubmit) {
+			e.preventDefault();
+			return false;
 		}
 	});
-	
+
 	function submitApproval(url, createBlock_num) {
-		form.querySelectorAll('input[name="createBlock_num"], input[name="technical_team_comment"]').forEach(el => el.remove());
-		
-		let hiddenCreateBlock_num = document.createElement("input");
-		hiddenCreateBlock_num.type = "hidden";
-		hiddenCreateBlock_num.name = "createBlock_num";
-		hiddenCreateBlock_num.value = createBlock_num;
-		form.appendChild(hiddenCreateBlock_num);
-		
-		let hiddenTechnical_comment = document.createElement("input");
-		hiddenTechnical_comment.type = "hidden";
-		hiddenTechnical_comment.name = "techical_team_comment";
-		hiddenTechnical_comment.value = technical_team_comment;
-		form.appendChild(hiddenTechnical_comment);
+
+
+        form.action = url;
+        form.method = "get";
+
+        form.dataset.allowSubmit = "true";
+        form.submit();
+        form.dataset.allowSubmit = "false";
 	}
 	
-	form.action = url;
-	form.method = "post"
-	
-	form.dataset.allowSubmit = "true";
-	form.submit();
-	
-	form.dataset.allowSubmit = "false";
-}
+	function submitDrawingView(url, createBlock_num) {
+
+        form.action = url;
+        form.method = "get";
+
+        form.dataset.allowSubmit = "true";
+        form.submit();
+        form.dataset.allowSubmit = "false";
+	}
 </script>
 </html>

@@ -923,14 +923,29 @@ public class BlockControllerImpl implements BlockController {
 		String searchArea = login.getLogin_area();
 		String department = login.getLogin_department();
 		int createBlockBoard_num = Integer.parseInt(createBlockBoard_numStr);
-		System.out.println(createBlockBoard_num);
 		BlockVO createBlockView = blockService.selectCreateBlockView(createBlockBoard_num);
 		
+		
 		AreaMap areaMap = new AreaMap();
-		String hndArea = areaMap.getEnglishArea(searchArea);
+		String hndArea = areaMap.getEnglishArea(createBlockView.getLogin_area());
 		mav.addObject("createBlockView", createBlockView);
 		mav.addObject("hndArea", hndArea);
 		mav.addObject("department", department);
+		return mav;
+	}
+	
+	// 블럭 제작 도면 보기
+	@Override
+	@GetMapping("/blockManagement/drawingView.do")
+	public ModelAndView drawingView(@RequestParam("createBlock_num") int createBlock_num, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/blockManagement/drawingView");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		String department = login.getLogin_department();
+		List<BlockVO> drawingView = blockService.selectDrawingView(createBlock_num);
+		mav.addObject("searchArea", searchArea);
+		mav.addObject("department", department);
+		mav.addObject("drawingView", drawingView);
 		return mav;
 	}
 	
@@ -940,6 +955,8 @@ public class BlockControllerImpl implements BlockController {
 	public ModelAndView createBlockApproval(@RequestParam("createBlock_num") int createBlock_num, @RequestParam("technical_team_comment") String technical_team_comment,
 			HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/createBlockList.do");
+		System.out.println(technical_team_comment);
+
 		int result = blockService.modCreateBlockApproval(createBlock_num, technical_team_comment);
 		return mav;
 	}
@@ -950,6 +967,8 @@ public class BlockControllerImpl implements BlockController {
 	public ModelAndView createBlockRejection(@RequestParam("createBlock_num") int createBlock_num, @RequestParam("technical_team_comment") String technical_team_comment,
 			HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/createBlockList.do");
+		System.out.println(technical_team_comment);
+
 		int result = blockService.modCreateBlockRejection(createBlock_num, technical_team_comment);
 		return mav;
 	}
@@ -971,6 +990,19 @@ public class BlockControllerImpl implements BlockController {
 		
 		public String getEnglishArea(String koreanArea) {
 			return areaMap.getOrDefault(koreanArea, "default");
+		}
+	}
+	
+	public class DepartmentMap {
+		private Map<String,String> depMap;
+		
+		public DepartmentMap() {
+			depMap.put("품질", "quality_team");
+			depMap.put("기술", "technical_team");
+		}
+		
+		public String getEnglishDepartment(String koreanDep) {
+			return depMap.getOrDefault(koreanDep, "default");
 		}
 	}
 	

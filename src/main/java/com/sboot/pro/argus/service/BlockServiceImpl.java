@@ -460,6 +460,12 @@ public class BlockServiceImpl implements BlockService {
 		return blockDAO.selectCreateBlockView(createBlockBoard_num);
 	}
 	
+	// 블럭 제작 도면 보기
+	@Override
+	public List<BlockVO> selectDrawingView(int createBlock_num) throws Exception {
+		return blockDAO.selectDrawingView(createBlock_num);
+	}
+	
 	// 블럭 제작 승인
 	@Override
 	public int modCreateBlockApproval(int createBlock_num, String technical_team_comment) throws Exception {

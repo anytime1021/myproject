@@ -117,7 +117,7 @@
 <script>
 	function detailView(button) {
 	    const row = button.closest("tr");
-	    const id = row.querySelector(".createBlockBoard_num").innerText;
+	    const id = row.querySelector(".createBlockBoard_num").value;
 
 	    const form = document.createElement("form");
 	    form.method = "POST";

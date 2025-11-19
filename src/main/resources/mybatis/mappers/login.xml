@@ -4,4 +4,25 @@
 	<select id="login" parameterType="String" resultType="loginVO">
 		select * from login where login_id=#{login_id} and login_pwd=#{login_pwd};
 	</select>
+	
+	<!-- 마이 페이지 -->
+	<select id="selectMyPage" parameterType="String">
+		select * from login where login_id=#{myId}
+	</select>
+	
+	<!-- 마이페이지 수정 -->
+	<update id="updateMyPage" parameterType="LoginVO">
+		update login
+		set login_name = #{login_name},
+		login_department = #{login_department},
+		login_position = #{login_position}
+		where login_id = #{login_id}
+	</update>
+	
+	<!-- 비밀번호 저장 -->
+	<update id="updatePassword" parameterType="Map">
+		update login
+		set login_pwd = #{changePassword}
+		where login_id = #{myId}
+	</update>
 </mapper>

@@ -147,6 +147,9 @@ public interface BlockController {
 	// 블럭 제작 상세보기
 	public ModelAndView createBlockView(@RequestParam("createBlockBoard_numStr") String createBlockBoard_numStr, HttpServletRequest request) throws Exception;
 	
+	// 블럭 제작 도면 보기
+	public ModelAndView drawingView(@RequestParam("createBlock_num") int createBlock_num, HttpServletRequest request) throws Exception;
+
 	// 블럭 제작 승인
 	public ModelAndView createBlockApproval(@RequestParam("createBlock_num") int createBlock_num, @RequestParam("technical_team_comment") String technical_team_comment,
 			HttpServletRequest request) throws Exception;

@@ -14,3 +14,4 @@ button:hover {background: blue;}
 .col-label {width: 60px; background: #fafafa; font-weight: 700;}
 .col-value {width: auto;}
 .notes {height: 150px; vertical-align: top;}
+a:visited {color: inherit;}

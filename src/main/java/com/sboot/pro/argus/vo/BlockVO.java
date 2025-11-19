@@ -72,7 +72,7 @@ public class BlockVO extends WorkingDailyBaseVO {
 	
 	// 블럭 추가 요청
 	private int createBlock_num;
-	private String createBlock;
+	private String createBlock_date;
 	private String blockSpec;
 	private String blockSpec_material;
 	private String blockSpec_thick;
@@ -409,11 +409,11 @@ public class BlockVO extends WorkingDailyBaseVO {
 	public void setCreateBlock_num(int createBlock_num) {
 		this.createBlock_num = createBlock_num;
 	}
-	public String getCreateBlock() {
-		return createBlock;
+	public String getCreateBlock_date() {
+		return createBlock_date;
 	}
-	public void setCreateBlock(String createBlock) {
-		this.createBlock = createBlock;
+	public void setCreateBlock_date(String createBlock_date) {
+		this.createBlock_date = createBlock_date;
 	}
 	public String getBlockSpec() {
 		return blockSpec;

@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -134,6 +135,75 @@ public class MainControllerImpl implements MainController {
 			rAttr.addAttribute("result","loginFailed");
 			mav.setViewName("redirect:/argus/loginForm.do");
 		}
+		return mav;
+	}
+	
+	// 마이페이지
+	@Override
+	@GetMapping("/login/myPage.do")
+	public ModelAndView mypage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView("/login/myPage");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String myId = login.getLogin_id();
+		LoginVO myPage = loginDAO.selectMyPage(myId);
+		mav.addObject("myPage", myPage);
+		return mav;
+	}
+	
+	// 마이페이지 수정 폼
+	@Override
+	@GetMapping("/login/modMyPageForm.do")
+	public ModelAndView modMyPageForm(HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/login/modMyPageForm");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String myId = login.getLogin_id();
+		LoginVO myPageForm = loginDAO.selectMyPage(myId);
+		mav.addObject("myPageForm", myPageForm);
+		return mav;
+	}
+	
+	// 마이페이지 수정
+	@Override
+	@GetMapping("/login/modMyPage.do")
+	public ModelAndView modMyPage(@ModelAttribute("modMyPage") LoginVO modMyPage, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("redirect:/login/myPage.do");
+		loginDAO.updateMyPage(modMyPage);
+		return mav;
+	}
+	
+//	// 마이페이지 수정
+//	@Override
+//	@GetMapping("/login/modMyPage.do")
+//	public ModelAndView modMyPage(@RequestParam("login_id") String login_id, @RequestParam("login_name") String login_name,
+//			@RequestParam("login_department") String login_department, @RequestParam("login_position") String login_position,
+//			@RequestParam("login_area") String login_area, HttpServletRequest request) throws Exception {
+//		ModelAndView mav = new ModelAndView("redirect:/login/myPage.do");
+//		System.out.println(login_id);
+////		loginDAO.updateMyPage(modMyPage);
+//		return mav;
+//	}
+	
+	// 비밀번호 수정 폼
+	@Override
+	@GetMapping("/login/modPasswordForm.do")
+	public ModelAndView modPasswordForm(HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/login/modPasswordForm");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String myId = login.getLogin_id();
+		LoginVO passwordForm = loginDAO.selectMyPage(myId);
+		System.out.println(passwordForm.getLogin_pwd());
+		mav.addObject("passwordForm", passwordForm);
+		return mav;
+	}
+	
+	// 비밀번호 수정 (정보 저장)
+	@Override
+	@PostMapping("/login/modPassword.do")
+	public ModelAndView modPassword(@RequestParam("changePassword") String changePassword, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("redirect:/login/modMyPage.do");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String myId = login.getLogin_id();
+		int result = loginDAO.updatePassword(myId, changePassword);
 		return mav;
 	}
 	

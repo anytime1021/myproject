@@ -761,6 +761,11 @@
 		select * from createBlock where createBlockBoard_num = #{createBlockBoard_num}
 	</select>
 	
+	<!-- 블럭 제작 도면 보기 -->
+	<select id="selectDrawingView" parameterType="int">
+		select * from createBlockDrawing where createBlock_num = #{createBlock_num}
+	</select>
+	
 	<!-- 블럭 제작 승인 -->
 	<update id="updateCreateBlockApproval" parameterType="Map">
 		update createBlock

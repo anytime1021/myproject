@@ -148,6 +148,9 @@ public interface BlockService {
 	// 블럭 제작 상세보기
 	public BlockVO selectCreateBlockView(int createBlockBoard_num) throws Exception;
 	
+	// 블럭 제작 도면 보기
+	public List<BlockVO> selectDrawingView(int createBlock_num) throws Exception;
+	
 	// 블럭 제작 승인
 	public int modCreateBlockApproval(int createBlock_num, String technical_team_comment) throws Exception;
 

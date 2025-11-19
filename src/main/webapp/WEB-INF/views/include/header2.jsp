@@ -33,10 +33,11 @@
 				<ul class="login-menu">
 					<c:choose>
 						<c:when test="${logOn}">
-							<li class="border-right">${login.login_area} 님
+							<li class="border-right">${login.login_department} 님
 							</li>
 							<li class="border-right"><a href="${contextPath}/login/logout.do">로그아웃</a></li>
-							<li><a href="${contextPath}/user/umReserInfo.do?u_id=${user.u_id}">마이페이지</a></li>				
+<!--							<li><a href="#" onclick="linkMyPage('${contextPath}/login/mypage.do','${login.login_id}')">마이페이지</a></li> -->
+								<li><a href="${contextPath}/login/myPage.do">마이페이지</a></li>					
 						</c:when>
 						<c:otherwise>
 							<li><a href="${contextPath}/login/loginForm.do">로그인</a></li>
@@ -86,4 +87,20 @@
         }
         return true;
     }
+	
+	function linkMyPage(url, login_id) {
+		const form = document.createElement("form");
+		form.method = "POST";
+		form.action = url;
+		
+		const input = document.createElement("input");
+		input.type = "hidden";
+		input.name = "login_id";
+		input.value = login_id;
+		
+		form.appendChild(input);
+		document.body.appendChild(form);
+		
+		form.submit();
+	}
 </script>

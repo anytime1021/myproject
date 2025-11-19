@@ -13,6 +13,9 @@
 	<title>시험편 이동 보고서</title>
 	<link rel="stylesheet" href="${contextPath}/resources/css/moveBlockForm.css">
 </head>
+<style>
+	.submitButton {display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;};
+</style>
 <body>
 	<%@ include file="../include/header2.jsp" %>
 	<div class="moveForm-container">
@@ -145,33 +148,33 @@
 	<%@ include file="../include/footer2.jsp"%>
 </body>
 <script>
-const form = document.forms["moveBlockList"];
-
-form.addEventListener("submit", function(e) {
-    if (!form.dataset.allowSubmit) {
-        e.preventDefault();
-        return false;
-    }
-});
-
-function submitApproval(url, appNum) {
-    // 기존 hidden input 중복 방지
-    let existing = form.querySelector('input[name="app_num"]');
-    if (existing) form.removeChild(existing);
-
-    let hiddenAppNum = document.createElement("input");
-    hiddenAppNum.type = "hidden";
-    hiddenAppNum.name = "app_num";
-    hiddenAppNum.value = appNum;
-    form.appendChild(hiddenAppNum);
-
-    form.action = url;
-    form.method = "get";
+	const form = document.forms["moveBlockList"];
 	
-	form.dataset.allowSubmit = "true";
-	form.submit();
+	form.addEventListener("submit", function(e) {
+	    if (!form.dataset.allowSubmit) {
+	        e.preventDefault();
+	        return false;
+	    }
+	});
 	
-    form.dataset.allowSubmit = "false";
-}
+	function submitApproval(url, appNum) {
+	    // 기존 hidden input 중복 방지
+	    let existing = form.querySelector('input[name="app_num"]');
+	    if (existing) form.removeChild(existing);
+	
+	    let hiddenAppNum = document.createElement("input");
+	    hiddenAppNum.type = "hidden";
+	    hiddenAppNum.name = "app_num";
+	    hiddenAppNum.value = appNum;
+	    form.appendChild(hiddenAppNum);
+	
+	    form.action = url;
+	    form.method = "get";
+		
+		form.dataset.allowSubmit = "true";
+		form.submit();
+		
+	    form.dataset.allowSubmit = "false";
+	}
 </script>
 </html>

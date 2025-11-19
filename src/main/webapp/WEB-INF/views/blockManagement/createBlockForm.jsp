@@ -38,7 +38,6 @@
 							<col style="width: 16%;">
 							<col style="width: 16%;">
 						</colgroup>
-						<input type="hidden" name="createBlock_num" value="${createBlockView.createBlock_num}">
 					    <tr>
 					    	<th class="title" colspan="4" rowspan="2">시험편 제작 승인 요청서</th>
 							<th class="title-sub">사업소</th>
