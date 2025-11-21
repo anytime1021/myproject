@@ -53,7 +53,7 @@
 						</tr>
 						<tr>
 							<td class="col-label">성 명</td>
-							<td class="col-value" colspan="4"><input type="text" name="app_hnd_name" placeholder="성명 입력"></td>
+							<td class="col-value" colspan="4"><input type="text" name="app_hnd_name" value="${login_name}"></td>
 						</tr>
 						<tr>
 							<td class="col-label">인계일</td>

@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.sboot.pro.argus.dao.BlockDAO;
 import com.sboot.pro.argus.vo.BlockVO;
+import com.sboot.pro.argus.vo.LoginVO;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -270,7 +271,8 @@ public class BlockServiceImpl implements BlockService {
 		if (!dir.exists()) {
 			dir.mkdirs();
 		}
-	
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
 		for (MultipartFile file : files) {
 		    if (!file.isEmpty()) {
 		        try (InputStream inputStream = file.getInputStream()) {
@@ -300,7 +302,7 @@ public class BlockServiceImpl implements BlockService {
 		            img.setFile_name(savedName);
 		            img.setFile_path(outputFile.getAbsolutePath());
 
-		            blockDAO.insertBlockSpec(df_idNumber, img);
+		            blockDAO.insertBlockSpec(df_idNumber, img, searchArea);
 		        } catch (Exception e) {
 		            e.printStackTrace();
 		        }

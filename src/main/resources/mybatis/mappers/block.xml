@@ -64,8 +64,8 @@
 	<!-- 블럭 삭제 -->
 	<delete id="deleteBlock">
 		insert into blockInformation_deleteLog(df_idNumber, df_pictureName, df_material, df_size, df_usage, df_weld, df_manufacture, df_itemStatus, df_moveStatus, note, login_area)
-		select df_idNumber, df_pictureName, df_material, df_size, df_usage, df_weld, df_manufacture, df_itemStatus, df_moveStatus, note, login_area where df_idNumber = #{df_idNumber} 
-
+		select df_idNumber, df_pictureName, df_material, df_size, df_usage, df_weld, df_manufacture, df_itemStatus, df_moveStatus, note, login_area from blockInformation where df_idNumber = #{df_idNumber};
+		
 		delete from blockInformation
 		where df_idNumber = #{df_idNumber}	
 	</delete>
@@ -632,8 +632,8 @@
 	
 	<!-- 블럭 스펙 추가 -->
 	<insert id="insertBlockSpec" parameterType="Map">
-		insert into blockSpec_image(df_idNumber, file_name, file_path)
-		values (#{df_idNumber}, #{img.file_name}, #{img.file_path})
+		insert into blockSpec_image(df_idNumber, file_name, file_path, login_area)
+		values (#{df_idNumber}, #{img.file_name}, #{img.file_path}, #{searchArea})
 	</insert>
 	
 	<!-- 블럭 스펙 보기 -->

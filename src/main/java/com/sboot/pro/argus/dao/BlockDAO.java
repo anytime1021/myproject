@@ -138,7 +138,7 @@ public interface BlockDAO {
 	//	public void finalRejection(int app_num) throws Exception;
 	
 	// 블럭 스펙 추가
-	public void insertBlockSpec(@Param("df_idNumber") String df_idNumber, @Param("img") BlockVO img) throws Exception;
+	public void insertBlockSpec(@Param("df_idNumber") String df_idNumber, @Param("img") BlockVO img, @Param("searchArea") String searchArea) throws Exception;
 	
 	// 블럭 스펙 보기
 	public List<BlockVO> selectBlockSpecView(String df_idNumber) throws Exception;

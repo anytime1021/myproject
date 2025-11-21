@@ -95,7 +95,7 @@
 						</tr>
 						<tr>
 							<td class="col-label">이상유무</td>
-							<td class="col-value" colspan="4"><textarea name="app_isError" value="${ApprovalView.app_isError}"></textarea></td>
+							<td class="col-value" colspan="4"><textarea name="app_isError">${ApprovalView.app_isError}</textarea></td>
 						</tr>
 						<tr>
 					    	<td class="col-label" colspan="2">[특이사항]</td>

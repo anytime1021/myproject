@@ -243,7 +243,7 @@ public class BlockControllerImpl implements BlockController {
 	@Override
 	@GetMapping("/blockManagement/removeBlock.do")
 	public ModelAndView removeBlock(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception {
-		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockApproval.do");
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockInformation.do");
 		blockService.removeBlock(df_idNumber);
 		return mav;
 	}
@@ -264,6 +264,7 @@ public class BlockControllerImpl implements BlockController {
 		mav.addObject("timeNow", timeNow);
 		mav.addObject("searchArea", searchArea);
 		mav.addObject("blockInformation", blockInformation);
+		mav.addObject("login", login);
 		return mav;
 	}
 	
@@ -346,12 +347,14 @@ public class BlockControllerImpl implements BlockController {
 	@PostMapping("/blockManagement/returnBlockForm.do")
 	public ModelAndView returnBlockForm(@RequestParam("app_num_Str") String app_num_Str, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("/blockManagement/returnBlockForm");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String login_name = login.getLogin_name();
 		int app_num = Integer.parseInt(app_num_Str);
 		BlockVO returnBlockForm = blockService.selectBlockApprovalView(app_num);
 		LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		String timeNow = now.format(formatter);
-
+		mav.addObject("login_name", login_name);
 		mav.addObject("timeNow", timeNow);
 		mav.addObject("returnBlockForm", returnBlockForm);
 		return mav;
@@ -734,6 +737,8 @@ public class BlockControllerImpl implements BlockController {
 	@PostMapping("/blockManagement/addBlockSpec.do")
 	public ModelAndView addBlockSpec(@RequestParam("df_idNumber") String df_idNumber, @RequestParam("files") MultipartFile[] files, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("forward:/blockManagement/blockView.do");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
 		blockService.insertBlockSpec(df_idNumber, files, request);
 		return mav;
 	}
@@ -743,11 +748,13 @@ public class BlockControllerImpl implements BlockController {
 	@GetMapping("/blockManagement/blockSpecView.do")
 	public ModelAndView blockSpecView(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("/blockManagement/blockSpecView");
-
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
 		List<BlockVO> blockSpecView = new ArrayList<BlockVO>();
 		blockSpecView = blockService.selectBlockSpecView(df_idNumber);
 		mav.addObject("blockSpecView", blockSpecView);
 		mav.addObject("df_idNumber", df_idNumber);
+		mav.addObject("searchArea", searchArea);
 		return mav;
 	}
 

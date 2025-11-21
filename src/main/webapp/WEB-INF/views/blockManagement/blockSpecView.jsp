@@ -28,7 +28,9 @@
 			<div class="contents-container">
 				<div class="contents-list">
 					<div class="btn-wrapper">
-						<a class="btn" style="display:inline-block; width:100px; text-align:center; height:30px; border:1px solid black; align-items:right;" href="${contextPath}/blockManagement/removeBlockSpec.do?df_idNumber=${df_idNumber}">삭제하기</a>
+						<c:if test="${blockSpecView[0].login_area eq searchArea}">
+							<a class="btn" style="display:inline-block; width:100px; text-align:center; height:30px; border:1px solid black; align-items:right;" href="${contextPath}/blockManagement/removeBlockSpec.do?df_idNumber=${df_idNumber}">삭제하기</a>
+						</c:if>
 					</div>
 				</div>
         	</div>

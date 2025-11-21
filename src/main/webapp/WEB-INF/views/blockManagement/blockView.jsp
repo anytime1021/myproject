@@ -66,9 +66,9 @@
 							</c:choose>
 						</tbody>
 					</table>
-					<c:if test="${blockView.login_area eq searchArea}">
-						<div class="btn-wrapper">
-							<a class="btn" href="${contextPath}/blockManagement/blockSpecView.do?df_idNumber=${blockView.df_idNumber}">시험편 스펙 보기</a>
+					<div class="btn-wrapper">
+						<a class="btn" href="${contextPath}/blockManagement/blockSpecView.do?df_idNumber=${blockView.df_idNumber}">시험편 스펙 보기</a>
+						<c:if test="${blockView.login_area eq searchArea}">
 							<c:if test="${blockView.df_itemStatus eq '이상없음'}">
 								<a class="btn" href="${contextPath}/blockManagement/inspectionHistory.do?df_idNumber=${blockView.df_idNumber}">점검 이력 보기</a>
 								<a class="btn" href="${contextPath}/blockManagement/addBlockSpecForm.do?df_idNumber=${blockView.df_idNumber}">시험편 스펙 등록</a>
@@ -79,8 +79,8 @@
 							<c:if test="${blockView.df_itemStatus ne '대여중'}">
 								<a class="btn" onclick="return confirm('정말 삭제하시겠습니까?');" href="${contextPath}/blockManagement/removeBlock.do?df_idNumber=${blockView.df_idNumber}">삭제하기</a>
 							</c:if>
-						</div>
-					</c:if>
+						</c:if>
+					</div>
 				</div>
 			</div>
         </div>
