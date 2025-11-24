@@ -28,7 +28,6 @@
 								<option value="idNumber">식별번호</option>
 								<option value="material">재질</option>
 								<option value="usage">용도</option>
-								<option value="form">형태</option>
 								<option value="manufacture">제작일자</option>
 								<option value="itemStatus">상태</option>
 								<option value="moveStatus">이동현황</option>
@@ -43,13 +42,13 @@
                         <thead>
                             <tr>
 								<th style="width:6%;"></th>
-								<th style="width:18%;">식별번호</th>
-								<th style="width:9%;">인계자</th>
-								<th style="width:9%;">인수자</th>
-								<th style="width:10%;">인수지역</th>
+								<th style="width:20%;">식별번호</th>
+								<th style="width:11%;">인계자</th>
+								<th style="width:11%;">인수자</th>
+								<th style="width:12%;">인수지역</th>
 								<th style="width:14%;">대여일</th>
 								<th style="width:14%;">반납일</th>
-								<th style="width:10%;">상태</th>
+								<th style="width:13%;">상태</th>
                             </tr>
                         </thead>
                         <tbody>

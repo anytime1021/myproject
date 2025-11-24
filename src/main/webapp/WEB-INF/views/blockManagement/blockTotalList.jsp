@@ -28,7 +28,6 @@
 									<option value="idNumber">식별번호</option>
 									<option value="material">재질</option>
 									<option value="usage">용도</option>
-									<option value="form">형태</option>
 									<option value="manufacture">제작일자</option>
 									<option value="itemStatus">상태</option>
 									<option value="moveStatus">이동현황</option>
@@ -39,9 +38,6 @@
 									<button type="submit" title="검색">&#128269;</button>
 								</div>
 							</form>
-						</div>
-						<div>
-							<a style="display:inline-block; width:100px; text-align:center; height:30px; border:1px solid black;" href="${contextPath}/blockManagement/addBlockForm.do">시험편 등록</a>
 						</div>
 					</div>
                     <table class="table-control">

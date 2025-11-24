@@ -96,7 +96,7 @@
 							<input type="text" id="df_moveStatus" name="df_moveStatus" value="-" readonly>
 						</div>
 						<div class="form-group">
-							<label>용접현상 : </label>
+							<label>용접여부 : </label>
 							<input type="text" id="df_weld" name="df_weld">
 						</div>
 

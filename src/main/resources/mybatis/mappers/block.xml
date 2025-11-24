@@ -204,9 +204,6 @@
 	            <when test="searchType == 'usage'">
 	                df_usage LIKE CONCAT('%', #{searchQuery}, '%')
 	            </when>
-	            <when test="searchType == 'form'">
-	                df_weld LIKE CONCAT('%', #{searchQuery}, '%')
-	            </when>
 	            <when test="searchType == 'manufacture'">
 	                df_manufacture LIKE CONCAT('%', #{searchQuery}, '%')
 	            </when>
@@ -237,9 +234,6 @@
 	            </when>
 	            <when test="searchType == 'usage'">
 	                ${alias}.df_usage LIKE CONCAT('%', #{searchQuery}, '%')
-	            </when>
-	            <when test="searchType == 'form'">
-	                ${alias}.df_weld LIKE CONCAT('%', #{searchQuery}, '%')
 	            </when>
 	            <when test="searchType == 'manufacture'">
 	                ${alias}.df_manufacture LIKE CONCAT('%', #{searchQuery}, '%')
@@ -335,12 +329,16 @@
 	
 	<!-- 검색 이동 기록 -->
 	<select id="selectSearchMoveList" parameterType="Map">
-		select * from blockMoveList
-		where YN = 'Y' and df_idNumber in 
-		<foreach item="id" collection="idNumber" open="(" separator="," close=")">
-			#{id}
-		</foreach>
-		order by moveList_rental_date desc limit #{offset}, #{limit};
+		select * from (
+			select row_number() over (order by a.moveList_rental_date asc) as row_num, a.*, b.df_size, b.df_material, b.df_usage from blockMoveList a inner join blockInformation b on 
+			a.df_idNumber = b.df_idNumber
+			where a.YN = 'Y' and a.df_idNumber in 
+			<foreach item="id" collection="idNumber" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+			order by row_num desc limit #{offset}, #{limit}
+		) sub
+		order by row_num desc;
 	</select>
 	
 	<!-- 검색 식별번호 찾기 2-->
@@ -352,14 +350,21 @@
 	</select>
 	
 	<!-- 검색 대여 기록 -->
-	<select id="selectSearchRentalList" parameterType="Map">
-		select * from blockInformation
-		<include refid="searchList" />
-		and YN = 'Y' and df_idNumber in
-		<foreach item="id" collection="idNumber" open="(" separator="," close=")">
-			#{id}
-		</foreach>
-		order by df_idNumber desc limit #{offset}, #{limit}
+	<select id="selectSearchRentalList" parameterType="list">
+		select * from (
+			select row_number() over (order by a.moveList_rental_date asc) as row_num, a.*, b.df_size, b.df_material, b.df_usage from blockMoveList a inner join blockInformation b on 
+			a.df_idNumber = b.df_idNumber 
+			<include refid="aliasSearchList">
+				<property name="alias" value="b"/>
+			</include>
+			and a.YN = 'Y' and moveList_return_date is null 
+			and a.df_idNumber in
+			<foreach item="id" collection="idNumber" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+			order by row_num desc limit #{offset}, #{limit}
+		) sub
+		order by row_num desc
 	</select>
 	
 	<!-- 전체 블럭 보기 수 카운트 -->
@@ -781,4 +786,43 @@
 		technical_team_comment = #{technical_team_comment}
 		where createBlock_num = #{createBlock_num}
 	</update>
+	
+	<!-- 2025-11-24 이후 기능 구현 - 검색, 삭제 등 (시간 여건상 바로 DAO 직행, 필요시 Service 경유) -->
+	<sql id="searchApproval">
+		<where>
+	        <choose>
+	            <when test="searchType == 'idNumber'">
+	                df_idNumber LIKE CONCAT('%', #{searchQuery}, '%')
+	            </when>
+				<when test="searchType == 'login_area'">
+					login_area LIKE CONCAT('%', #{searchQuery}, '%')
+				</when>
+				<when test="searchType == 'app_rcv_area">
+					app_rcv_area LIKE CONCAT('%', #{searchQuery}, '%')
+				</when>
+				<when test="searchType == 'approval_status'">
+					<choose>
+						<when test="searchType == '승인'">
+							app_rcv_status = 'Y' and app_head_status = 'Y'
+						</when>
+						<when test="searchType == '거절'">
+							app_rcv_status = 'N' or app_head_status = 'N'
+						</when>
+						<otherwise>
+							1=1
+						</otherwise>
+					</choose>			
+				</when>
+				<otherwise>
+	                1 = 1
+	            </otherwise>
+	        </choose>
+	    </where>
+	</sql>
+	
+	<!-- 승인 대기 리스트 검색기능 -->
+	<select id="searchApprovalCount" parameterType="Map" resultType="int">
+		select count(*) from Approval
+		where 
+	</select>
 </mapper>

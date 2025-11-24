@@ -43,10 +43,11 @@
                     <table class="table-control">
                         <thead>
                             <tr>
+								<th style="width:6%;"></th>
 								<th style="width:20%;">식별번호</th>
-								<th style="width:13%;">대여자</th>
-								<th style="width:13%;">수취자</th>
-								<th style="width:13%;">수취지역</th>
+								<th style="width:11%;">인계자</th>
+								<th style="width:11%;">인수자</th>
+								<th style="width:12%;">인수지역</th>
 								<th style="width:14%;">대여일</th>
 								<th style="width:14%;">반납일</th>
 								<th style="width:13%;">상태</th>
@@ -56,7 +57,7 @@
 							<c:choose>
 								<c:when test="${empty searchList}">
 									<tr>
-										<td colspan="7" style="text-align:center; padding:20px;">
+										<td colspan="8" style="text-align:center; padding:20px;">
 											검색 결과가 없습니다.
 										</td>
 									</tr>
@@ -64,6 +65,7 @@
 								<c:otherwise>
 									<c:forEach var="searchList" items="${searchList}"> 
 										<tr>
+											<td>${searchList.row_num}</td>
 											<td><button style="font-size: 16px; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">${searchList.df_idNumber}</button></td>
 											<td>${searchList.moveList_lender}</td>
 											<td>${searchList.moveList_recipient}</td>
@@ -123,7 +125,7 @@
 		const row = button.closest("tr");
 		const cells = row.getElementsByTagName("td");
 		
-		const id = cells[0].innerText;
+		const id = cells[1].innerText;
 		
 		const form = document.createElement("form");
 		form.method = "POST";

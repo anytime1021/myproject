@@ -157,4 +157,11 @@ public interface BlockController {
 	// 블럭 제작 거절
 	public ModelAndView createBlockRejection(@RequestParam("createBlock_num") int createBlock_num, @RequestParam("technical_team_comment") String technical_team_comment,
 			HttpServletRequest request) throws Exception;
+	
+	// 2025-11-24 이후 기능 구현 - 검색, 삭제 등 (시간 여건상 바로 DAO 직행, 필요시 Service 경유)
+	
+	// 승인 대기 리스트 검색기능
+	public ModelAndView searchApproval(@RequestParam(value="page", defaultValue="1") int page, @RequestParam("searchType") String searchType,
+	@RequestParam("searchQuery") String searchQuery, HttpServletRequest request) throws Exception;
+
 }

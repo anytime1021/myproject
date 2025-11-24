@@ -18,6 +18,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -73,7 +75,7 @@ public class BlockControllerImpl implements BlockController {
 	
 	// 블럭 상세보기
 	@Override
-	@PostMapping("/blockManagement/blockView.do")
+	@RequestMapping(value="/blockManagement/blockView.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView blockView(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("/blockManagement/blockView");
 		LoginVO login = (LoginVO) request.getAttribute("login");
@@ -243,7 +245,7 @@ public class BlockControllerImpl implements BlockController {
 	@Override
 	@GetMapping("/blockManagement/removeBlock.do")
 	public ModelAndView removeBlock(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception {
-		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockInformation.do");
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockList.do");
 		blockService.removeBlock(df_idNumber);
 		return mav;
 	}
@@ -456,7 +458,6 @@ public class BlockControllerImpl implements BlockController {
 		}
 		
 		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
-		
 		List<BlockVO> searchList = blockService.selectSearchList(searchArea, searchType, searchQuery, paging.getOffset(), limit, token);
 
 		mav.addObject("token", token);
@@ -762,7 +763,7 @@ public class BlockControllerImpl implements BlockController {
 	@Override
 	@GetMapping("/blockManagement/removeBlockSpec.do")
 	public ModelAndView removeBlockSpec(@RequestParam("df_idNumber") String df_idNumber) throws Exception {
-		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockView.do");
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockView.do?df_idNumber="+df_idNumber);
 		blockService.removeBlockSpec(df_idNumber);
 		return mav;
 	}
@@ -1011,6 +1012,34 @@ public class BlockControllerImpl implements BlockController {
 		public String getEnglishDepartment(String koreanDep) {
 			return depMap.getOrDefault(koreanDep, "default");
 		}
+	}
+	
+	
+	
+	// 2025-11-24 이후 기능 구현 - 검색, 삭제 등 (시간 여건상 바로 DAO 직행, 필요시 Service 경유)
+	
+	// 승인 대기 리스트 검색기능
+	@Override
+	@GetMapping("/blockManagement/searchApproval.do")
+	public ModelAndView searchApproval(@RequestParam(value="page", defaultValue="1") int page, @RequestParam("searchType") String searchType,
+	@RequestParam("searchQuery") String searchQuery, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/blockManagement/searchApproval");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		
+		int limit = 20;
+		int currentPage = page;
+		int pageBlockSize = 5;
+		int totalCount = blockDAO.searchApprovalCount(searchArea, searchType, searchQuery);
+		
+		if (totalCount == 0) {
+			totalCount = 1;
+		}
+		
+		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
+		
+		List<BlockVO> searchApproval = blockDAO.searchApproval(searchArea, searchType, searchQuery, paging.getOffset(), limit);
+		return mav;
 	}
 	
 	// 테스트

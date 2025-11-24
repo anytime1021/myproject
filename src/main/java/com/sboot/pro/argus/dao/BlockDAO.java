@@ -192,4 +192,13 @@ public interface BlockDAO {
 	// 블럭 제작 거절
 	public int updateCreateBlockRejection(@Param("createBlock_num") int createBlock_num, @Param("technical_team_comment") String technical_team_comment) throws Exception;
 
+	
+	// 2025-11-24 이후 기능 구현 - 검색, 삭제 등 (시간 여건상 바로 DAO 직행, 필요시 Service 경유)
+
+	// 승인 대기 리스트 검색기능
+	public int searchApprovalCount(@Param("searchArea") String searchArea, @Param("searchType") String searchType, @Param("searchQuery") String searchQuery) throws Exception;
+	public List<BlockVO> searchApproval(@Param("searchArea") String searchArea, @Param("searchType") String searchType, @Param("searchQuery") String searchQuery,
+			@Param("offset") int offset, @Param("limit") int limit) throws Exception;
+	
+	
 }

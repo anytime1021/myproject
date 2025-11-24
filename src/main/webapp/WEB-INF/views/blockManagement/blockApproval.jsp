@@ -21,6 +21,20 @@
             <div class="contents-container">
                 <div class="contents-list">
 					<div class="search-write">
+						<div>
+							<form class="search-box" method="get" action="${contextPath}/blockManagement/searchApproval.do">
+								<select name="searchType">
+									<option value="idNumber">식별번호</option>
+									<option value="login_area">인계 사업소</option>
+									<option value="app_rcv_area">인수 사업소</option>
+									<option value="approval_status">승인상태</option>
+								</select>
+								<div class="searchWithButton">
+									<input type="text" name="searchQuery" placeholder="검색어 입력">
+									<button type="submit" title="검색">&#128269;</button>
+								</div>
+							</form>
+						</div>
 					</div>
                     <table class="table-control">
                         <thead>
@@ -43,24 +57,24 @@
 									<td>${ApprovalList.app_rcv_area}</td>
 									<c:choose>
 										<c:when test="${ApprovalList.app_rcv_status eq 'W'}">
-											<td>대기</td>
+											<td style="font-color:yellow;">대기</td>
 										</c:when>
 										<c:when test="${ApprovalList.app_rcv_status eq 'Y'}">
-											<td>승인</td>
+											<td style="font-color:blue;">승인</td>
 										</c:when>
 										<c:otherwise>
-											<td>거절</td>
+											<td style="font-color:red;">거절</td>
 										</c:otherwise>
 									</c:choose>
 									<c:choose>
 										<c:when test="${ApprovalList.app_head_status eq 'W'}">
-											<td>대기</td>
+											<td style="font-color:yellow;">대기</td>
 										</c:when>
 										<c:when test="${ApprovalList.app_head_status eq 'Y'}">
-											<td>승인</td>
+											<td style="font-color:blue;">승인</td>
 										</c:when>
 										<c:otherwise>
-											<td>거절</td>
+											<td style="font-color:red;">거절</td>
 										</c:otherwise>
 									</c:choose>
 									<td><button style="font-weight: bold; cursor: pointer; background-color: white; border: none;" 

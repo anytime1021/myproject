@@ -39,7 +39,7 @@ a {text-decoration: none; color: black;}
 .searchWithButton input[type="text"] {border: none; padding: 0 8px; flex: 1; height: 100%; box-sizing: border-box; outline: none;}
 .searchWithButton button {border: none; background-color: white; width: 40px; height: 100%; font-size: 16px; cursor: pointer;}
 .contents-container .btn-wrapper {text-align: right; margin-top: 10px; width: 100%; margin-left: auto; margin-right: auto;}
-.contents-container .btn {display: inline-block; width: 15%; height: 30px; background-color: white; font-weight: bold; border: 1px solid black; text-align: center; margin-left: 5px;}
+.contents-container .btn {display: inline-block; width: 12%; height: 30px; background-color: white; font-weight: bold; border: 1px solid black; text-align: center; margin-left: 5px;}
 
 /* 블럭 추가 폼 */
 .first-container .main-content .addBlock-container {padding: 20px; height: auto; justify-content: center; display: flex;}

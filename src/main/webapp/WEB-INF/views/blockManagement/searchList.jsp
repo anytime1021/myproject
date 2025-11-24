@@ -27,7 +27,6 @@
 									<option value="idNumber" ${searchType == 'idNumber' ? 'selected' : ''}>식별번호</option>
 									<option value="material" ${searchType == 'material' ? 'selected' : ''}>재질</option>
 									<option value="usage" ${searchType == 'usage' ? 'selected' : ''}>용도</option>
-									<option value="form" ${searchType == 'form' ? 'selected' : ''}>형태</option>
 									<option value="manufacture" ${searchType == 'manufacture' ? 'selected' : ''}>제작일자</option>
 									<option value="itemStatus" ${searchType == 'itemStatus' ? 'selected' : ''}>상태</option>
 									<option value="moveStatus" ${searchType == 'moveStatus' ? 'selected' : ''}>이동현황</option>
