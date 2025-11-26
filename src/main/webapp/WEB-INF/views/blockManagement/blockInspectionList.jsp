@@ -22,15 +22,16 @@
                 <div class="contents-list">
 					<div class="search-write">
 						<div>
-							<form class="search-box" method="get" action="#">
+							<form autocomplete="off" class="search-box" method="get" action="${contextPath}/blockManagement/searchInspectionList.do">
 								<select name="searchType">
-									<option value="-">게시글 제목</option>
-									<option value="-">-</option>
+									<option value="bib_title">게시글 제목</option>
+									<option value="bil_status">점검내용</option>
 								</select>
 								<div class="searchWithButton">
 									<input type="text" name="searchQuery" placeholder="검색어 입력">
 									<button type="submit" title="검색">&#128269;</button>
 								</div>
+								<input type="date" id="startDate" name="startDate">~<input type="date" id="endDate" name="endDate">
 							</form>
 						</div>
 						<div>
@@ -99,4 +100,17 @@
     </main>
     <%@ include file="../include/footer2.jsp"%>
 </body>
+<script>
+	function formatDate(date) {
+		return date.toISOString().substring(0,10);
+	}
+	
+	const today = new Date();
+	
+	const standard_Date = new Date();
+	standard_Date.setMonth(standard_Date.getMonth()-3);
+	
+	document.getElementById('startDate').value = formatDate(standard_Date);
+	document.getElementById('endDate').value = formatDate(today);
+</script>
 </html>

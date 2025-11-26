@@ -25,6 +25,22 @@ public class PagingDTO {
             this.endPage = totalPage;
         }
     }
+    
+    public PagingDTO(int totalCount, int currentPage) {
+    	this.totalCount = totalCount;
+    	this.currentPage = currentPage;
+    	this.limit = 20;
+    	this.pageBlockSize = 5;
+    	
+        this.totalPage = (int) Math.ceil((double) totalCount / limit);
+        this.offset = (currentPage - 1) * limit;
+
+        this.startPage = ((currentPage - 1) / pageBlockSize) * pageBlockSize + 1;
+        this.endPage = startPage + pageBlockSize - 1;
+        if (endPage > totalPage) {
+            this.endPage = totalPage;
+        }
+    }
 
 	public int getTotalCount() {
 		return totalCount;

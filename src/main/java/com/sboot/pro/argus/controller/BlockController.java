@@ -164,4 +164,10 @@ public interface BlockController {
 	public ModelAndView searchApproval(@RequestParam(value="page", defaultValue="1") int page, @RequestParam("searchType") String searchType,
 	@RequestParam("searchQuery") String searchQuery, HttpServletRequest request) throws Exception;
 
+	// 반출 승인 대기 리스트 검색기능
+	public ModelAndView searchExpertApproval(@RequestParam(value="page", defaultValue="1") int page, @RequestParam("searchType") String searchType,
+			@RequestParam("searchQuery") String searchQuery, HttpServletRequest request) throws Exception;
+	// 점검 기록 삭제
+	public ModelAndView searchInspectionList(@RequestParam(value="page", defaultValue="1") int page, @RequestParam("searchType") String searchType,
+			@RequestParam("searchQuery") String searchQuery, @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, HttpServletRequest request) throws Exception;
 }

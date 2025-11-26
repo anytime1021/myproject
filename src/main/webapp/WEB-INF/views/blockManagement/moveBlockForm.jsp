@@ -49,7 +49,7 @@
 					    <tr>
 					    	<td class="col-group" rowspan="4">인계</td>
 					    	<td class="col-label">소 속</td>
-							<td class="col-value" colspan="4"><input type="text" name="login_area" value="${blockInformation.login_area}"></td>
+							<td class="col-value" colspan="4"><input type="text" name="app_hnd_area" value="${blockInformation.login_area}"></td>
 						</tr>
 						<tr>
 							<td class="col-label">성 명</td>

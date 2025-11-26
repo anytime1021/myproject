@@ -49,7 +49,7 @@
 					    <tr>
 					    	<td class="col-group" rowspan="4">인계</td>
 					    	<td class="col-label">소 속</td>
-							<td class="col-value" colspan="4"><input type="text" name="login_area" value="${returnBlockForm.app_rcv_area}" readonly></td>
+							<td class="col-value" colspan="4"><input type="text" name="app_hnd_area" value="${returnBlockForm.app_rcv_area}" readonly></td>
 						</tr>
 						<tr>
 							<td class="col-label">성 명</td>
@@ -67,7 +67,7 @@
 							<td class="col-group" rowspan="4">인수</td>
 							<td class="col-label">소 속</td>
 							<td class="col-value" colspan="4">
-								<input type="text" name="app_rcv_area" value="${returnBlockForm.login_area}" readonly>
+								<input type="text" name="app_rcv_area" value="${returnBlockForm.app_hnd_area}" readonly>
 							</td>
 						</tr>
 						<tr>

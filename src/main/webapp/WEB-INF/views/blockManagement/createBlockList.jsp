@@ -55,13 +55,13 @@
 									<td>
 										<c:choose>
 											<c:when test="${createBlockList.createBlock_status eq 'W'}">
-												승인대기
+												<span style="color:green">승인대기</span>
 											</c:when>
 											<c:when test="${createBlockList.createBlock_status eq 'Y'}">
-												승인
+												<span style="color:blue">승인</span>
 											</c:when>
 											<c:when test="${createBlockList.createBlock_status eq 'N'}">
-												거절
+												<span style="color:red">거절</span>
 											</c:when>
 										</c:choose>
 									</td>

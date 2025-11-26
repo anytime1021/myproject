@@ -85,20 +85,10 @@
 							<td class="col-label">인계일</td>
 							<td class="col-value" colspan="4"><input type="text" name="app_hnd_create_at" value="${expertApprovalView.app_hnd_create_at}" readonly></td>
 						</tr>
-						<c:choose>
-							<c:when test="${expertApprovalView.app_type eq 'rental'}">
-								<tr>
-									<td class="col-label">운송방법</td>
-									<td class="col-value" colspan="4"><input type="text" name="app_hnd_transMethod" value="${expertApprovalView.app_hnd_transMethod}" readonly></td>
-								</tr>
-							</c:when>
-							<c:when test="${expertApprovalView.app_type eq 'return'}">
-								<tr>
-									<td class="col-label">운송방법</td>
-									<td class="col-value" colspan="4"><input type="text" name="app_hnd_transMethod"></td>
-								</tr>
-							</c:when>
-						</c:choose>
+						<tr>
+							<td class="col-label">운송방법</td>
+							<td class="col-value" colspan="4"><input type="text" name="app_hnd_transMethod" value="${expertApprovalView.app_hnd_transMethod}" <c:if test="${expertApprovalView.app_type eq 'rental'}"> readonly </c:if>></td>
+						</tr>
 						<tr>
 							<td class="col-group" rowspan="4">인수</td>
 							<td class="col-label">소 속</td>

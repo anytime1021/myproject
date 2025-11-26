@@ -64,18 +64,18 @@
 									<td>
 									<c:choose>
 										<c:when test="${blockMoveList.df_itemStatus eq '이상없음'}">
-									    	반납완료
+									    	<span style="color:blue;">반납완료</span>
 									    </c:when>
 									    <c:otherwise>
 											<c:choose>
 												<c:when test="${searchArea eq blockMoveList.login_area && searchArea ne '본사'}">
-									    			인계중
+									    			<span style="color:green;">인계중</span>
 												</c:when>
 												<c:when test="${searchArea ne blockMoveList.login_area && searchArea ne '본사'}">
-													인수중
+													<span style="color:green;">인수중</span>
 												</c:when>
 												<c:otherwise>
-													대여중
+													<span style="color:green;">대여중</span>
 												</c:otherwise>
 											</c:choose>
 									    </c:otherwise>
