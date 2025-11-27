@@ -11,14 +11,13 @@
 <head>
     <meta charset="UTF-8">
     <title>아거스 리포트</title>
-    <link rel="stylesheet" href="${contextPath}/resources/css/myPage.css">
+    <link rel="stylesheet" href="${contextPath}/resources/css/memberList.css">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <%@ include file="../include/header2.jsp" %>
     <main class="first-container">
         <%@ include file="../include/sidebar.jsp" %>
-
         <div class="mypage-container">
             <h2>아이디 목록</h2>
             <table class="mypage-table">

@@ -7,3 +7,4 @@
 .mypage-table td {width: 70%;}
 .modMyPage {display: inline-block; margin-top: 20px; padding: 10px 18px; background-color: #007BFF; color: white; border-radius: 6px; text-decoration: none; font-weight: 500;}
 .modMyPage:hover {background-color: #0056b3;}
+input[type="text"] {border: none;}

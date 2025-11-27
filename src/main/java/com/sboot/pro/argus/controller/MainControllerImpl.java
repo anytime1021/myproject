@@ -255,7 +255,7 @@ public class MainControllerImpl implements MainController {
 	// 회원가입 폼
 	@GetMapping("/login/signUpForm.do")
 	public ModelAndView signUpForm() throws Exception {
-		ModelAndView mav = new ModelAndView("/login/signUpForm.do");
+		ModelAndView mav = new ModelAndView("/login/signUpForm");
 		List<String> departmentList = loginDAO.departmentList();
 		mav.addObject("departmentList", departmentList);
 		return mav;
@@ -271,9 +271,10 @@ public class MainControllerImpl implements MainController {
 		return mav;
 	}
 	
+	// 아이디 목록
 	@GetMapping("/login/memberList.do")
 	public ModelAndView memberList() throws Exception {
-		ModelAndView mav = new ModelAndView("/login/memberList.do");
+		ModelAndView mav = new ModelAndView("/login/memberList");
 		List<LoginVO> memberList = loginDAO.memberList();
 		mav.addObject("memberList", memberList);
 		return mav;

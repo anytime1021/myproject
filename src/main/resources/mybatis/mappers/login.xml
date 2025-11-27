@@ -37,4 +37,9 @@
 		insert into login(login_id, login_pwd, login_area, login_name, login_position, login_department)
 		values (#{login_id}, #{login_pwd}, #{login_area}, #{login_name}, #{login_position}, #{login_department})
 	</insert>
+	
+	<!-- 아이디 목록 -->
+	<select id="memberList">
+		select * from login;
+	</select>
 </mapper>
