@@ -586,10 +586,17 @@ public class BlockControllerImpl implements BlockController {
 		BlockVO expertApprovalView = blockService.selectExpertBlockApprovalView(app_num);
 //		BlockVO ApprovalDivision = blockDAO.ApprovalDivision(app_num);
 		AreaMap areaMap = new AreaMap();
-		String hndArea = areaMap.getEnglishArea(expertApprovalView.getLogin_area());
+		String hndArea = "";
+		String rcvArea = "";
+		if(expertApprovalView.getApp_type().equals("rental")) {
+			hndArea = areaMap.getEnglishArea(expertApprovalView.getApp_hnd_area());
+		} else if(expertApprovalView.getApp_type().equals("return")) {
+			rcvArea = areaMap.getEnglishArea(expertApprovalView.getApp_rcv_area());
+		}
 		mav.addObject("searchArea", searchArea);
 		mav.addObject("expertApprovalView", expertApprovalView);
 		mav.addObject("hndArea", hndArea);
+		mav.addObject("rcvArea", rcvArea);
 //		mav.addObject("ApprovalDivision", ApprovalDivision);
 		return mav;
 	}
@@ -658,10 +665,18 @@ public class BlockControllerImpl implements BlockController {
 		String expSign_name = "";
 		if (!expertSign.isEmpty()) {
 		    String originalName = expertSign.getOriginalFilename();
-		    String checkName = "";
+		    String checkName = originalName;
 		    int i = 1;
-		    while(blockDAO.checkFileName(expSign_name) == 1) {
-		    	checkName = originalName + "_" + i;
+		    int dotIndex = originalName.lastIndexOf(".");
+		    
+		    String ext = "";
+		    String baseName = originalName;
+		    if (dotIndex != -1) {
+		    	ext = originalName.substring(dotIndex + 1).toLowerCase();
+		    	baseName = originalName.substring(0, dotIndex);
+		    }
+		    while(blockDAO.checkFileName(checkName) == 1) {
+		    	checkName = baseName + "_" + i + "." + ext;
 		    	i++;
 		    }
 		    String savedName = checkName;

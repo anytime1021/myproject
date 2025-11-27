@@ -26,7 +26,7 @@
 								<select name="searchType">
 									<option value="idNumber" ${searchType == 'idNumber' ? 'selected' : ''}>식별번호</option>
 									<option value="app_hnd_area" ${searchType == 'app_hnd_area' ? 'selected' : ''}>인계 사업소</option>
-									<option value="app_rcv_area" ${searchType == 'app_rcv_area' ? 'selected' : ''}>인수업체</option>
+									<option value="app_rcv_area" ${searchType == 'app_rcv_area' ? 'selected' : ''}>인수 사업소</option>
 									<option value="approval_status" ${searchType == 'approval_status' ? 'selected' : ''}>승인상태</option>
 								</select>
 								<div class="searchWithButton">
@@ -42,7 +42,7 @@
 								<th style="width:6%;"></th>
 								<th style="width:18%;">식별번호</th>
 								<th style="width:16%;">인계 사업소</th>
-								<th style="width:16%;">인수업체</th>
+								<th style="width:16%;">인수 사업소</th>
 								<th style="width:16%;">본사 승인</th>
 								<th style="width:16%;">인수자 승인</th>
 								<th style="width:12%;"></th>

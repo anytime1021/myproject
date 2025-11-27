@@ -57,7 +57,12 @@
 							<th>
 								<c:choose>
 									<c:when test="${expertApprovalView.app_rcv_status eq 'Y'}">
-										<img src="${contextPath}/resources/img/${expertApprovalView.expSign_name}" style="width:100%; height:100%;">
+										<c:if test="${expertApprovalView.app_type eq 'rental'}">
+											<img src="${contextPath}/resources/img/${expertApprovalView.expSign_name}" style="width:100%; height:100%;">
+										</c:if>
+										<c:if test="${expertApprovalView.app_type eq 'return'}">
+											<img src="${contextPath}/resources/img/sign-${rcvArea}.png" style="width:100%; height:100%;">
+										</c:if>
 									</c:when>
 								</c:choose>
 							</th>

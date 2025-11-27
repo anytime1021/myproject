@@ -37,7 +37,11 @@
 							</li>
 							<li class="border-right"><a href="${contextPath}/login/logout.do">로그아웃</a></li>
 <!--							<li><a href="#" onclick="linkMyPage('${contextPath}/login/mypage.do','${login.login_id}')">마이페이지</a></li> -->
-								<li><a href="${contextPath}/login/myPage.do">마이페이지</a></li>					
+								<li><a href="${contextPath}/login/myPage.do">마이페이지</a></li>
+								<c:if test="${login.login_area eq '본사'}">
+									<li><a href="${contextPath}/login/signUp.do">아이디 생성</a></li>
+									<li><a href="${contextPath}/login/memberList.do">아이디 목록</a></li>
+								</c:if>
 						</c:when>
 						<c:otherwise>
 							<li><a href="${contextPath}/login/loginForm.do">로그인</a></li>

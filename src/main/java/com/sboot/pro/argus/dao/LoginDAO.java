@@ -1,5 +1,7 @@
 package com.sboot.pro.argus.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -19,4 +21,13 @@ public interface LoginDAO {
 	
 	// 비밀번호 저장
 	public int updatePassword(@Param("myId") String myId, @Param("changePassword") String changePassword) throws Exception;
+
+	// 2025-11-26
+	
+	// 회원가입
+	public List<String> departmentList() throws Exception;
+	public int insertSignUp(LoginVO signUp) throws Exception;
+	
+	// 아이디 목록
+	public List<LoginVO> memberList() throws Exception;
 }

@@ -25,4 +25,16 @@
 		set login_pwd = #{changePassword}
 		where login_id = #{myId}
 	</update>
+	
+	
+	<!-- 2025-11-26 -->
+	<!-- 회원가입 -->
+	<select id="departmentList">
+		select distinct login_department from login;
+	</select>
+	
+	<insert id="insertSignUp">
+		insert into login(login_id, login_pwd, login_area, login_name, login_position, login_department)
+		values (#{login_id}, #{login_pwd}, #{login_area}, #{login_name}, #{login_position}, #{login_department})
+	</insert>
 </mapper>

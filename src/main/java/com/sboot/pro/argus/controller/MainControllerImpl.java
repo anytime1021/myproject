@@ -248,4 +248,34 @@ public class MainControllerImpl implements MainController {
         return "test"; // test.html로 이동 (없어도 일단 동작함)
     }
 	
+
+	
+	// 2025-11-26
+	
+	// 회원가입 폼
+	@GetMapping("/login/signUpForm.do")
+	public ModelAndView signUpForm() throws Exception {
+		ModelAndView mav = new ModelAndView("/login/signUpForm.do");
+		List<String> departmentList = loginDAO.departmentList();
+		mav.addObject("departmentList", departmentList);
+		return mav;
+	}
+	
+	@GetMapping("/login/signUp.do")
+	public ModelAndView signUp(@ModelAttribute("signUp") LoginVO signUp, @RequestParam("write_department") String write_department) throws Exception {
+		ModelAndView mav = new ModelAndView("redirect:/login/memberList.do");
+		if (signUp.getLogin_department().equals("write")) {
+			signUp.setLogin_department(write_department);
+		}
+		int addSignUp = loginDAO.insertSignUp(signUp);
+		return mav;
+	}
+	
+	@GetMapping("/login/memberList.do")
+	public ModelAndView memberList() throws Exception {
+		ModelAndView mav = new ModelAndView("/login/memberList.do");
+		List<LoginVO> memberList = loginDAO.memberList();
+		mav.addObject("memberList", memberList);
+		return mav;
+	}
 }
