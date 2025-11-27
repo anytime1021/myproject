@@ -208,4 +208,9 @@ public interface BlockDAO {
 	public int searchInspectionListCount(@Param("searchArea") String searchArea, @Param("searchType") String searchType, @Param("searchQuery") String searchQuery, @Param("startDate") String startDate, @Param("endDate") String endDate) throws Exception;
 	public List<BlockVO> searchInspectionList(@Param("searchArea") String searchArea, @Param("searchType") String searchType, @Param("searchQuery") String searchQuery, 
 			@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
+
+	// 블럭 제작 요청 검색
+	public int selectCreateListCount(@Param("searchArea") String searchArea, @Param("searchType") String searchType, @Param("searchQuery") String searchQuery) throws Exception;
+	public List<BlockVO> searchCreateBlockList(@Param("searchArea") String searchArea, @Param("searchType") String searchType, @Param("searchQuery") String searchQuery,
+			@Param("offset") int offset, @Param("limit") int limit) throws Exception;
 }

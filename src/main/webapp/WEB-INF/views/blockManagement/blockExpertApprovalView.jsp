@@ -39,7 +39,7 @@
 							<th class="title-sub">인수</th>
 						</tr>
 						<tr>
-							<th class="title-sub">
+							<th>
 								<c:if test="${expertApprovalView.app_type eq 'rental'}">
 									<img src="${contextPath}/resources/img/sign-${hndArea}.png" style="width:100%; height:100%;">
 								</c:if>
@@ -47,14 +47,14 @@
 									<img src="${contextPath}/resources/img/${expertApprovalView.expSign_name}" style="width:100%; height:100%;">
 								</c:if>
 							</th>
-							<th class="title-sub">
+							<th>
 								<c:choose>
 									<c:when test="${expertApprovalView.app_head_status eq 'Y'}">
 										<img src="${contextPath}/resources/img/sign-qualityTeam.png" style="width:100%; height:100%;">
 									</c:when>
 								</c:choose>
 							</th>
-							<th class="title-sub">
+							<th>
 								<c:choose>
 									<c:when test="${expertApprovalView.app_rcv_status eq 'Y'}">
 										<img src="${contextPath}/resources/img/${expertApprovalView.expSign_name}" style="width:100%; height:100%;">

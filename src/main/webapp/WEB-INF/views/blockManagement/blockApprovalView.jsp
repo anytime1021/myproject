@@ -39,17 +39,17 @@
 							<th class="title-sub">품질팀</th>
 					    </tr>
 						<tr>
-							<th class="title-sub">
+							<th>
 								<img src="${contextPath}/resources/img/sign-${hndArea}.png" style="width:100%; height:100%;">
 							</th>
-							<th class="title-sub">
+							<th>
 								<c:choose>
 									<c:when test="${ApprovalView.app_rcv_status eq 'Y'}">
 										<img src="${contextPath}/resources/img/sign-${rcvArea}.png" style="width:100%; height:100%;">
 									</c:when>
 								</c:choose>
 							</th>
-							<th class="title-sub">
+							<th>
 								<c:choose>
 									<c:when test="${ApprovalView.app_head_status eq 'Y'}">
 										<img src="${contextPath}/resources/img/sign-qualityTeam.png" style="width:100%; height:100%;">

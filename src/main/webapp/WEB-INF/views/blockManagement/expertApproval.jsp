@@ -26,7 +26,7 @@
 								<select name="searchType">
 									<option value="idNumber">식별번호</option>
 									<option value="app_hnd_area">인계 사업소</option>
-									<option value="app_rcv_area">인수 사업소</option>
+									<option value="app_rcv_area">인수업체</option>
 									<option value="approval_status">승인상태</option>
 								</select>
 								<div class="searchWithButton">

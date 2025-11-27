@@ -22,10 +22,14 @@
                 <div class="contents-list">
 					<div class="search-write">
 						<div>
-							<form class="search-box" method="get" action="#">
+							<form autocomplete="off" class="search-box" method="get" action="${contextPath}/blockManagement/searchCreateBlock.do">
 								<select name="searchType">
-									<option value="-">게시글 제목</option>
-									<option value="-">-</option>
+									<option value="createBlockBoard_title">게시글 제목</option>
+									<option value="createBlockBoard_date">요청일</option>
+									<option value="createBlock_material">재질</option>
+									<option value="createBlock_thick">두께</option>
+									<option value="createBlock_diameter">관경</option>
+									<option value="createBlock_weld">용접형상</option>
 								</select>
 								<div class="searchWithButton">
 									<input type="text" name="searchQuery" placeholder="검색어 입력">

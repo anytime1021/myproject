@@ -170,4 +170,8 @@ public interface BlockController {
 	// 점검 기록 삭제
 	public ModelAndView searchInspectionList(@RequestParam(value="page", defaultValue="1") int page, @RequestParam("searchType") String searchType,
 			@RequestParam("searchQuery") String searchQuery, @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, HttpServletRequest request) throws Exception;
+
+	// 블럭 제작 요청 검색
+	public ModelAndView searchCreateBlock(@RequestParam(value="page", defaultValue="1") int page, @RequestParam("searchType") String searchType,
+	@RequestParam("searchQuery") String searchQuery, HttpServletRequest request) throws Exception;
 }

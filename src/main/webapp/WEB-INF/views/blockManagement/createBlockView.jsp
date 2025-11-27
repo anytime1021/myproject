@@ -39,10 +39,10 @@
 							<th class="title-sub">기술팀</th>
 					    </tr>
 						<tr>
-							<th class="title-sub">
+							<th>
 								<img src="${contextPath}/resources/img/sign-${hndArea}.png" style="width:100%; height:100%;">
 							</th>
-							<th class="title-sub">
+							<th>
 								<c:choose>
 									<c:when test="${createBlockView.createBlock_status eq 'Y'}">
 										<img src="${contextPath}/resources/img/sign-technical_team.png" style="width:100%; height:100%;">

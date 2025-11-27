@@ -861,6 +861,7 @@
 		) sub order by row_num desc
 	</select>
 	
+	<!-- 점검 기록 검색 -->
 	<sql id="searchInspection">
 		<where>
 	        <choose>
@@ -877,7 +878,6 @@
 	    </where>
 	</sql>
 	
-	<!-- 점검 기록 검색 -->
 	<select id="searchInspectionListCount" parameterType="int">
 		select count(distinct a.bib_num) from blockInspectionBoard a inner join blockInspectionList b
 		on a.bib_num = b.bib_num
@@ -901,5 +901,48 @@
 				and bib_date between #{startDate} and #{endDate}
 			) a
 		) sub order by row_num desc limit #{offset}, #{limit};
+	</select>
+	
+	<!-- 블럭 제작 요청 검색 -->
+	<sql id="searchCreateBlock">
+		<where>
+			<choose>
+				<when test="searchType == 'createBlockBoard_title'">
+					createBlockBoard_title like concat('%', #{searchQuery}, '%')
+				</when>
+				<when test="searchType == 'createBlockBoard_date'">
+					createBlockBoard_date like concat('%', #{searchQuery},'%')
+				</when>
+				<when test="searchType == 'blockSpec_material'">
+					blockSpec_material like concat('%', #{searchQuery},'%')
+				</when>
+				<when test="searchType == 'blockSpec_thick'">
+					blockSpec_thick like concat('%', #{searchQuery},'%')
+				</when>
+				<when test="searchType == 'blockSpec_diameter'">
+					blockSpec_diameter like concat('%', #{searchQuery},'%')
+				</when>
+				<when test="searchType == 'blockSpec_weld'">
+					blockSpec_weld like concat('%', #{searchQuery},'%')
+				</when>
+			</choose>
+		</where>
+	</sql>
+	
+	<select id="selectCreateListCount" parameterType="Map" resultType="int">
+		select count(*) from createBlockBoard a inner join createBlock b on a.createBlockBoard_num = b.createBlockBoard_num
+	</select>
+	
+	<select id="searchCreateBlockList" parameterType="Map">
+		select * from (
+			select row_number() over (order by createBlockBoard_date asc) as row_num, a.*, b.blockSpec_material, b.blockSpec_thick, b.blockSpec_diameter, b.blockSpec_weld, b.createBlock_status
+			from createBlockBoard a inner join createBlock b on a.createBlockBoard_num = b.createBlockBoard_num
+			<include refid="searchCreateBlock"/>
+			<if test="searchArea != '본사'">
+				and a.login_area = #{searchArea}
+			</if>
+			order by row_num desc limit #{offset}, #{limit}
+		) sub
+		order by row_num desc
 	</select>
 </mapper>

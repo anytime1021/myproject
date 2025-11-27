@@ -22,35 +22,37 @@
                 <div class="contents-list">
 					<div class="search-write">
 						<div>
-							<form class="search-box" method="get" action="${contextPath}/blockManagement/searchExpertApproval.do">
+							<form autocomplete="off" class="search-box" method="get" action="${contextPath}/blockManagement/searchCreateBlock.do">
 								<select name="searchType">
-									<option value="idNumber" ${searchType == 'idNumber' ? 'selected' : ''}>식별번호</option>
-									<option value="app_hnd_area" ${searchType == 'app_hnd_area' ? 'selected' : ''}>인계 사업소</option>
-									<option value="app_rcv_area" ${searchType == 'app_rcv_area' ? 'selected' : ''}>인수업체</option>
-									<option value="approval_status" ${searchType == 'approval_status' ? 'selected' : ''}>승인상태</option>
+									<option value="createBlockBoard_title" ${searchType == 'createBlockBoard_title' ? 'selected' : ''}>게시글</option>
+									<option value="createBlockBoard_date" ${searchType == 'createBlockBoard_date' ? 'selected' : ''}>요청일</option>
+									<option value="createBlock_material" ${searchType == 'createBlock_material' ? 'selected' : ''}>재질</option>
+									<option value="createBlock_thick" ${searchType == 'createBlock_thick' ? 'selected' : ''}>두께</option>
+									<option value="createBlock_diameter" ${searchType == 'createBlock_diameter' ? 'selected' : ''}>관경</option>
+									<option value="createBlock_weld" ${searchType == 'createBlock_weld' ? 'selected' : ''}>용접형상</option>
 								</select>
 								<div class="searchWithButton">
-									<input type="text" name="searchQuery" value="${searchQuery}" placeholder="검색어 입력">
+									<input type="text" name="searchQuery" placeholder="검색어 입력">
 									<button type="submit" title="검색">&#128269;</button>
 								</div>
 							</form>
+						</div>
+						<div>
+							<a style="display:inline-block; width:100px; text-align:center; height:30px; border:1px solid black;" href="${contextPath}/blockManagement/createBlockForm.do">시험편 요청</a>
 						</div>
 					</div>
                     <table class="table-control">
                         <thead>
                             <tr>
-								<th style="width:6%;"></th>
-								<th style="width:18%;">식별번호</th>
-								<th style="width:16%;">인계 사업소</th>
-								<th style="width:16%;">인수업체</th>
-								<th style="width:16%;">본사 승인</th>
-								<th style="width:16%;">인수자 승인</th>
-								<th style="width:12%;"></th>
+                                <th style="width:10%;">NO</th>
+                                <th style="width:60%;">제 목</th>
+                                <th style="width:20%;">요청일</th>
+								<th style="width:10%;">상태</th>
                             </tr>
                         </thead>
                         <tbody>
 							<c:choose>
-								<c:when test="${empty ApprovalList}">
+								<c:when test="${empty createBlockList}">
 									<tr>
 										<td colspan="7" style="text-align:center; padding:20px;">
 											검색 결과가 없습니다.
@@ -58,40 +60,27 @@
 									</tr>
 								</c:when>
 								<c:otherwise>
-									<c:forEach var="ApprovalList" items="${ApprovalList}">
-										<tr>
-											<td>${ApprovalList.row_num}</td>
-											<td><button style="font-size: 15px; cursor: pointer; background-color: white; border: none;" onclick="detailViewIdNumber(this)">${ApprovalList.df_idNumber}</button></td>
-											<td>${ApprovalList.app_hnd_area}</td>
-											<td>${ApprovalList.app_rcv_area}</td>
-											<c:choose>
-												<c:when test="${ApprovalList.app_head_status eq 'W'}">
-													<td>대기</td>
-												</c:when>
-												<c:when test="${ApprovalList.app_head_status eq 'Y'}">
-													<td style="color:blue;">승인</td>
-												</c:when>
-												<c:otherwise>
-													<td style="color:red;">거절</td>
-												</c:otherwise>
-											</c:choose>
-											<c:choose>
-												<c:when test="${ApprovalList.app_rcv_status eq 'W'}">
-													<td>대기</td>
-												</c:when>
-												<c:when test="${ApprovalList.app_rcv_status eq 'Y'}">
-													<td style="color:blue;">승인</td>
-												</c:when>
-												<c:otherwise>
-													<td style="color:red;">거절</td>
-												</c:otherwise>
-											</c:choose>
-											<td><button style="font-weight: bold; cursor: pointer; background-color: white; border: none;" 
-										        onclick="detailViewApproval(this)" 
-										        data-app-num="${ApprovalList.app_num}">이동 보고서<br> 상세보기</button>
+		                            <c:forEach var="createBlockList" items="${createBlockList}">
+		                                <tr>
+		                                    <td>${createBlockList.row_num}</td>
+		 									<td><button style="font-size: 15px; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">${createBlockList.createBlockBoard_title}</button></td>
+		                                    <td>${createBlockList.createBlockBoard_date}</td>
+											<td>
+												<c:choose>
+													<c:when test="${createBlockList.createBlock_status eq 'W'}">
+														<span style="color:green">승인대기</span>
+													</c:when>
+													<c:when test="${createBlockList.createBlock_status eq 'Y'}">
+														<span style="color:blue">승인</span>
+													</c:when>
+													<c:when test="${createBlockList.createBlock_status eq 'N'}">
+														<span style="color:red">거절</span>
+													</c:when>
+												</c:choose>
 											</td>
-										</tr>
-									</c:forEach>
+											<input type="hidden" class="createBlockBoard_num" value="${createBlockList.createBlockBoard_num}">
+		                                </tr>
+		                            </c:forEach>
 								</c:otherwise>
 							</c:choose>
                         </tbody>
@@ -123,43 +112,25 @@
 						</ul>
 					</div>
 				</c:if>
-        	</div>
+            </div>
         </div>
     </main>
     <%@ include file="../include/footer2.jsp"%>
 </body>
 <script>
-	function detailViewIdNumber(button) {
-		const row = button.closest("tr");
-		const cells = row.getElementsByTagName("td");
-		
-		const id = cells[1].innerText;
-		
-		const form = document.createElement("form");
-		form.method = "POST";
-		form.action = "/blockManagement/blockView.do";
-		
-		const inputId = document.createElement("input");
-		inputId.type = "hidden";
-		inputId.name = "df_idNumber";
-		inputId.value = id;
-		
-		form.appendChild(inputId);
-		document.body.appendChild(form);
-		form.submit();
-	}
-	
-	function detailViewApproval(button) {	
-	    const appNum = button.dataset.appNum; // 클릭한 버튼의 data-app-num
+	function detailView(button) {
+	    const row = button.closest("tr");
+	    const id = row.querySelector(".createBlockBoard_num").value;
+
 	    const form = document.createElement("form");
 	    form.method = "POST";
-	    form.action = "/blockManagement/blockExpertApprovalView.do";
-	    
+	    form.action = "/blockManagement/createBlockView.do";
+
 	    const inputId = document.createElement("input");
 	    inputId.type = "hidden";
-	    inputId.name = "app_num_Str";
-	    inputId.value = appNum;
-	    
+	    inputId.name = "createBlockBoard_numStr";
+	    inputId.value = id;
+
 	    form.appendChild(inputId);
 	    document.body.appendChild(form);
 	    form.submit();
@@ -168,7 +139,7 @@
 	function goToPage(pageNumber) {
 		const form = document.createElement("form");
 		form.method = "GET";
-		form.action = "${contextPath}/blockManagement/searchExpertApproval.do";
+		form.action = "${contextPath}/blockManagement/searchCreateBlock.do";
 
 		const searchType = document.querySelector('select[name="searchType"]').value;
 		const searchQuery = document.querySelector('input[name="searchQuery"]').value;

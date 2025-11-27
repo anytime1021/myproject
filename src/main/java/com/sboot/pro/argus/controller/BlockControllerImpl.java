@@ -562,7 +562,7 @@ public class BlockControllerImpl implements BlockController {
 		BlockVO ApprovalView = blockService.selectBlockApprovalView(app_num);
 //		BlockVO ApprovalDivision = blockDAO.ApprovalDivision(app_num);
 		AreaMap areaMap = new AreaMap();
-		String hndArea = areaMap.getEnglishArea(ApprovalView.getLogin_area());
+		String hndArea = areaMap.getEnglishArea(ApprovalView.getApp_hnd_area());
 		String rcvArea = "";
 		if (ApprovalView.getApp_rcv_status().equals("Y")) {
 			rcvArea = areaMap.getEnglishArea(ApprovalView.getApp_rcv_area());
@@ -658,7 +658,14 @@ public class BlockControllerImpl implements BlockController {
 		String expSign_name = "";
 		if (!expertSign.isEmpty()) {
 		    String originalName = expertSign.getOriginalFilename();
-		    String savedName = originalName;
+		    String checkName = "";
+		    int i = 1;
+		    while(blockDAO.checkFileName(expSign_name) == 1) {
+		    	checkName = originalName + "_" + i;
+		    	i++;
+		    }
+		    String savedName = checkName;
+
 		    String uploadDir = request.getServletContext().getRealPath("/resources/img/");
 		    File dir = new File(uploadDir);
 		    if (!dir.exists()) dir.mkdirs();
@@ -1097,6 +1104,26 @@ public class BlockControllerImpl implements BlockController {
 		mav.addObject("paging", paging);
 		mav.addObject("startDate", startDate);
 		mav.addObject("endDate", endDate);
+		return mav;
+	}
+	
+	// 블럭 제작 요청 검색
+	@Override
+	@GetMapping("/blockManagement/searchCreateBlock.do")
+	public ModelAndView searchCreateBlock(@RequestParam(value="page", defaultValue="1") int page, @RequestParam("searchType") String searchType,
+	@RequestParam("searchQuery") String searchQuery, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/blockManagement/searchCreateBlock");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		
+		int totalCount = blockDAO.selectCreateListCount(login.getLogin_area(), searchType, searchQuery);
+		
+		PagingDTO paging = new PagingDTO(totalCount, page);
+		List<BlockVO> createBlockList = blockDAO.searchCreateBlockList(login.getLogin_area(), searchType, searchQuery, paging.getOffset(), paging.getLimit());
+		
+		mav.addObject("searchType", searchType);
+		mav.addObject("searchQuery", searchQuery);
+		mav.addObject("createBlockList", createBlockList);
+		mav.addObject("paging", paging);
 		return mav;
 	}
 	
