@@ -17,7 +17,7 @@ public interface MainController {
 	// 메인 로그인 페이지 접속
 	public ModelAndView ArgusloginForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
-	public ModelAndView main2(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView main3(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	// 메인 페이지 접속
 	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception;

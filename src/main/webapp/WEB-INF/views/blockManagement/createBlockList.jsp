@@ -10,7 +10,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>아거스 리포트</title>
+    <title>시험편 제작 요청 목록</title>
     <link rel="stylesheet" href="${contextPath}/resources/css/boardStyle.css">
 </head>
 <body>
@@ -46,8 +46,11 @@
                             <tr>
                                 <th style="width:10%;">NO</th>
                                 <th style="width:60%;">제 목</th>
-                                <th style="width:20%;">요청일</th>
-								<th style="width:10%;">상태</th>
+                                <th style="width:15%;">요청일</th>
+								<th style="width:8%;">상태</th>
+								<c:if test="${department eq '품질' || department eq '기술'}">
+									<th></th>								
+								</c:if>
                             </tr>
                         </thead>
                         <tbody>
@@ -69,6 +72,14 @@
 											</c:when>
 										</c:choose>
 									</td>
+									<c:if test="${department eq '품질' || department eq '기술'}">
+										<td>
+											<button type="button" onclick="deleteSelect('${createBlockList.createBlockList.createBlockBoard_num}')"
+											style="background-color: white; color: black; border: none; border-radius: 4px; cursor: pointer;">
+											삭제
+											</button>
+										</td>							
+									</c:if>
 									<input type="hidden" class="createBlockBoard_num" value="${createBlockList.createBlockBoard_num}">
                                 </tr>
                             </c:forEach>
@@ -135,6 +146,13 @@
 	    form.appendChild(inputId);
 	    document.body.appendChild(form);
 	    form.submit();
+	}
+	
+	function deleteSelect(createNum) {
+		const tableName="create"
+		if (confirm("정말 삭제하십니까?")) {
+			window.location.href = "${contextPath}/blockManagement/deleteSelect.do?tableName="+tableName+"&primaryKey="+createNum;
+		}
 	}
 </script>
 </html>

@@ -60,9 +60,9 @@ public class MainControllerImpl implements MainController {
 	
 	// 메인 페이지 접속2
 	@Override
-	@GetMapping("/argus/main2.do")
-	public ModelAndView main2(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("/argus/main2");
+	@GetMapping("/argus/main3.do")
+	public ModelAndView main3(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView("/argus/main3");
 		HttpSession session = request.getSession();
 		LoginVO login = (LoginVO) session.getAttribute("login");
 		String searchArea = login.getLogin_area();
@@ -101,7 +101,7 @@ public class MainControllerImpl implements MainController {
 	public ModelAndView login(@RequestParam("login_id") String login_id, @RequestParam("login_pwd") String login_pwd,
 			@RequestParam(value = "rememberId", required = false) String rememberId,
 			RedirectAttributes rAttr, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("/argus/main2");
+		ModelAndView mav = new ModelAndView("/argus/main3");
 		loginVO = loginService.login(login_id, login_pwd);
 		if(loginVO != null) {
 			HttpSession session = request.getSession();
@@ -129,7 +129,7 @@ public class MainControllerImpl implements MainController {
 			if(action != null) {
 				mav.setViewName("redirect:"+action);
 			} else {
-				mav.setViewName("redirect:/argus/main2.do");
+				mav.setViewName("redirect:/argus/main3.do");
 			}
 		} else {
 			rAttr.addAttribute("result","loginFailed");
@@ -256,8 +256,8 @@ public class MainControllerImpl implements MainController {
 	@GetMapping("/login/signUpForm.do")
 	public ModelAndView signUpForm() throws Exception {
 		ModelAndView mav = new ModelAndView("/login/signUpForm");
-		List<String> departmentList = loginDAO.departmentList();
-		mav.addObject("departmentList", departmentList);
+		List<LoginVO> singUpList = loginDAO.singUpList();
+		mav.addObject("singUpList", singUpList);
 		return mav;
 	}
 	
@@ -267,8 +267,18 @@ public class MainControllerImpl implements MainController {
 		if (signUp.getLogin_department().equals("write")) {
 			signUp.setLogin_department(write_department);
 		}
+		System.out.println(signUp.getLogin_area() + " + " + signUp.getLogin_id() + " + " + signUp.getLogin_name()
+		 + " + " + signUp.getLogin_position() + " + " + signUp.getLogin_department());
 		int addSignUp = loginDAO.insertSignUp(signUp);
 		return mav;
+	}
+	
+	// 아이디 중복 체크
+	@ResponseBody
+	@GetMapping("/login/checkDuplicate.do")
+	public String checkDuplicate(@RequestParam("login_id") String login_id) throws Exception {
+		boolean exists = loginDAO.checkDuplicate(login_id);
+		return exists ? "duplicate" : "available";
 	}
 	
 	// 아이디 목록
@@ -277,6 +287,14 @@ public class MainControllerImpl implements MainController {
 		ModelAndView mav = new ModelAndView("/login/memberList");
 		List<LoginVO> memberList = loginDAO.memberList();
 		mav.addObject("memberList", memberList);
+		return mav;
+	}
+	
+	// 회원 탈퇴
+	@GetMapping("/login/deleteMember.do")
+	public ModelAndView deleteMember(@RequestParam("login_num") int login_num) throws Exception {
+		ModelAndView mav = new ModelAndView("redirect:/login/memberList.do");
+		int result = loginDAO.deleteMember(login_num);
 		return mav;
 	}
 }

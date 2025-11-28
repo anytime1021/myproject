@@ -10,7 +10,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>아거스 리포트</title>
+    <title>비밀번호 변경</title>
     <link rel="stylesheet" href="${contextPath}/resources/css/myPage.css">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -39,6 +39,7 @@
 			</form>
 	    </div>
     </main>
+		<%@ include file="../include/footer2.jsp"%>
 </body>
 <script>
     const currentPassword = "${passwordForm.login_pwd}";

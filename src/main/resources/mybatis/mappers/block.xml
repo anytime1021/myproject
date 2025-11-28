@@ -945,4 +945,23 @@
 		) sub
 		order by row_num desc
 	</select>
+	
+	<!-- 삭제 통합 -->
+	<delete id="deleteMoveList" parameterType="int">
+		delete from blockMoveList where moveList_num = #{primaryKey}
+	</delete>
+	<delete id="deleteApprovalList" parameterType="int">
+		delete from Approval where app_num = #{primaryKey}
+	</delete>
+	<delete id="deleteExpertApprovalList" parameterType="int">
+		delete from expertApproval where app_num = #{primaryKey}
+	</delete>
+	<delete id="deleteInspectionList" parameterType="int">
+		delete from blockInspectionBoard where bib_num = #{primaryKey};
+		delete from blockInspectionList where bib_num = #{primaryKey}
+	</delete>
+	<delete id="deleteCreateBlock" parameterType="int">
+		delete from createBlockBoard where createBlockBoard_num = #{primaryKey};
+		delete from createBlock where createBlockBoard_num = #{primaryKey}
+	</delete>
 </mapper>

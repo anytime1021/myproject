@@ -10,7 +10,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>아거스 리포트</title>
+    <title>검색결과</title>
     <link rel="stylesheet" href="${contextPath}/resources/css/boardStyle.css">
 </head>
 <body>
@@ -24,7 +24,7 @@
 						<div>
 							<form autocomplete="off" class="search-box" method="get" action="${contextPath}/blockManagement/searchCreateBlock.do">
 								<select name="searchType">
-									<option value="createBlockBoard_title" ${searchType == 'createBlockBoard_title' ? 'selected' : ''}>게시글</option>
+									<option value="createBlockBoard_title" ${searchType == 'createBlockBoard_title' ? 'selected' : ''}>게시글 제목</option>
 									<option value="createBlockBoard_date" ${searchType == 'createBlockBoard_date' ? 'selected' : ''}>요청일</option>
 									<option value="createBlock_material" ${searchType == 'createBlock_material' ? 'selected' : ''}>재질</option>
 									<option value="createBlock_thick" ${searchType == 'createBlock_thick' ? 'selected' : ''}>두께</option>

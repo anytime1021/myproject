@@ -10,7 +10,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>아거스 리포트</title>
+    <title>점검 내용 상세보기</title>
     <link rel="stylesheet" href="${contextPath}/resources/css/boardStyle.css">
 	<style>
 		input[type="text"] {display: inline-block; width: 100%; height: 30px; background-color: white; border: none; font-weight: bold; text-align: center; margin:0 auto;}

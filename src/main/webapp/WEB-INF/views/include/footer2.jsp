@@ -11,7 +11,7 @@
 	<div class="information">
 		<div class="ft-text">
 			<div>
-				찾아오시는길ㆍ회사소개ㆍ고객센터
+
 			</div>
 			<div style="margin-top: 5px;">
 				(주)아거스 | 경기도 성남시 분당구 성남대로 779번길 19 (이매동) 아거스빌딩

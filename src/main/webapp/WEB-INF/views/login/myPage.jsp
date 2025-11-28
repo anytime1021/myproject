@@ -10,7 +10,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>아거스 리포트</title>
+    <title>내 정보</title>
     <link rel="stylesheet" href="${contextPath}/resources/css/myPage.css">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -46,7 +46,7 @@
 
             <a href="${contextPath}/login/modMyPageForm.do" class="modMyPage">수정하기</a>
         </div>
-
     </main>
-</main>
+	<%@ include file="../include/footer2.jsp"%>
+</body>
 </html>

@@ -25,9 +25,15 @@ public interface LoginDAO {
 	// 2025-11-26
 	
 	// 회원가입
-	public List<String> departmentList() throws Exception;
+	public List<LoginVO> singUpList() throws Exception;
 	public int insertSignUp(LoginVO signUp) throws Exception;
+	
+	// 아이디 붕복 체크
+	public boolean checkDuplicate(String login_id) throws Exception;
 	
 	// 아이디 목록
 	public List<LoginVO> memberList() throws Exception;
+	
+	// 회원 탈퇴
+	public int deleteMember(int login_num) throws Exception;
 }

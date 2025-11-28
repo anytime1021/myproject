@@ -10,7 +10,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>아거스 리포트</title>
+    <title>시험편 이동 목록</title>
     <link rel="stylesheet" href="${contextPath}/resources/css/boardStyle.css">
 
 </head>
@@ -42,13 +42,16 @@
                         <thead>
                             <tr>
 								<th style="width:6%;"></th>
-								<th style="width:20%;">식별번호</th>
+								<th style="width:17%;">식별번호</th>
 								<th style="width:11%;">인계자</th>
 								<th style="width:11%;">인수자</th>
 								<th style="width:12%;">인수지역</th>
-								<th style="width:14%;">대여일</th>
-								<th style="width:14%;">반납일</th>
-								<th style="width:13%;">상태</th>
+								<th style="width:13%;">대여일</th>
+								<th style="width:13%;">반납일</th>
+								<th style="width:12%;">상태</th>
+								<c:if test="${department eq '품질' || department eq '기술'}">
+									<th></th>								
+								</c:if>
                             </tr>
                         </thead>
                         <tbody>
@@ -81,6 +84,14 @@
 									    </c:otherwise>
 									</c:choose>
 									</td>
+									<c:if test="${department eq '품질' || department eq '기술'}">
+										<td>
+											<button type="button" onclick="deleteSelect('${blockMoveList.moveList_num}')"
+											style="background-color: white; color: black; border: none; border-radius: 4px; cursor: pointer;">
+											삭제
+											</button>
+										</td>							
+									</c:if>
 								</tr>
 							</c:forEach>
                         </tbody>
@@ -134,6 +145,13 @@
 		form.appendChild(inputId);
 		document.body.appendChild(form);
 		form.submit();
+	}
+	
+	function deleteSelect(moveListNum) {
+		const tableName="move"
+		if (confirm("정말 삭제하십니까?")) {
+			window.location.href = "${contextPath}/blockManagement/deleteSelect.do?tableName="+tableName+"&primaryKey="+moveListNum;
+		}
 	}
 </script>
 </html>

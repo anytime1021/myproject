@@ -213,4 +213,12 @@ public interface BlockDAO {
 	public int selectCreateListCount(@Param("searchArea") String searchArea, @Param("searchType") String searchType, @Param("searchQuery") String searchQuery) throws Exception;
 	public List<BlockVO> searchCreateBlockList(@Param("searchArea") String searchArea, @Param("searchType") String searchType, @Param("searchQuery") String searchQuery,
 			@Param("offset") int offset, @Param("limit") int limit) throws Exception;
+	
+	// 삭제통합
+	public int deleteMoveList(int primaryKey) throws Exception;
+	public int deleteApprovalList(int primaryKey) throws Exception;
+	public int deleteExpertApprovalList(int primaryKey) throws Exception;
+	public int deleteInspectionList(int primaryKey) throws Exception;
+	public int deleteCreateBlock(int primaryKey) throws Exception;
+	
 }

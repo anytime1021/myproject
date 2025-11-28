@@ -10,7 +10,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>아거스 리포트</title>
+    <title>시험편 이동 요청</title>
     <link rel="stylesheet" href="${contextPath}/resources/css/boardStyle.css">
 </head>
 <body>
@@ -41,11 +41,14 @@
                             <tr>
 								<th style="width:6%;"></th>
 								<th style="width:18%;">식별번호</th>
-								<th style="width:16%;">인계 사업소</th>
-								<th style="width:16%;">인수 사업소</th>
-								<th style="width:16%;">인수자 승인</th>
-								<th style="width:16%;">본사 승인</th>
+								<th style="width:14%;">인계 사업소</th>
+								<th style="width:14%;">인수 사업소</th>
+								<th style="width:15%;">인수자 승인</th>
+								<th style="width:15%;">본사 승인</th>
 								<th style="width:12%;"></th>
+								<c:if test="${department eq '품질' || department eq '기술'}">
+									<th></th>								
+								</c:if>
                             </tr>
                         </thead>
                         <tbody>
@@ -81,6 +84,14 @@
 								        onclick="detailViewApproval(this)" 
 								        data-app-num="${ApprovalList.app_num}">이동 보고서<br> 상세보기</button>
 									</td>
+									<c:if test="${department eq '품질' || department eq '기술'}">
+										<td>
+											<button type="button" onclick="deleteSelect('${ApprovalList.app_num}')"
+											style="background-color: white; color: black; border: none; border-radius: 4px; cursor: pointer;">
+											삭제
+											</button>
+										</td>						
+									</c:if>
 								</tr>
 							</c:forEach>
                         </tbody>
@@ -166,6 +177,13 @@
 	    form.appendChild(inputId);
 	    document.body.appendChild(form);
 	    form.submit();
+	}
+	
+	function deleteSelect(appNum) {
+		const tableName="appro"
+		if (confirm("정말 삭제하십니까?")) {
+			window.location.href = "${contextPath}/blockManagement/deleteSelect.do?tableName="+tableName+"&primaryKey="+appNum;
+		}
 	}
 </script>
 </html>

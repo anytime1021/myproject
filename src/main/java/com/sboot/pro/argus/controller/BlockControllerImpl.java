@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -436,10 +437,11 @@ public class BlockControllerImpl implements BlockController {
 		if (totalCount == 0) {
 			totalCount = 1;
 		}
-		
+		System.out.println(login.getLogin_department());
 		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
 		List<BlockVO> blockMoveList = blockService.selectBlockMoveList(searchArea, paging.getOffset(), limit);
 		mav.addObject("searchArea", searchArea);
+		mav.addObject("department", login.getLogin_department());
 		mav.addObject("paging", paging);
 		mav.addObject("blockMoveList", blockMoveList);
 		return mav;
@@ -523,6 +525,7 @@ public class BlockControllerImpl implements BlockController {
 		
 		List<BlockVO> ApprovalList = blockService.selectApprovalList(searchArea, paging.getOffset(), limit);
 		mav.addObject("paging", paging);
+		mav.addObject("department", login.getLogin_department());
 		mav.addObject("ApprovalList", ApprovalList);
 		return mav;
 	}
@@ -547,6 +550,7 @@ public class BlockControllerImpl implements BlockController {
 		
 		List<BlockVO> expertApprovalList = blockService.selectExpertApprovalList(searchArea, paging.getOffset(), limit);
 		mav.addObject("paging", paging);
+		mav.addObject("department", login.getLogin_department());
 		mav.addObject("expertApprovalList", expertApprovalList);
 		return mav;
 	}
@@ -813,6 +817,7 @@ public class BlockControllerImpl implements BlockController {
 
 		List<BlockVO> blockInspectionList = blockService.selectInspectionList(searchArea, paging.getOffset(), limit);
 		mav.addObject("blockInspectionList", blockInspectionList);
+		mav.addObject("department", login.getLogin_department());
 		mav.addObject("paging", paging);
 		mav.addObject("searchArea", searchArea);
 		return mav;
@@ -920,6 +925,7 @@ public class BlockControllerImpl implements BlockController {
 		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
 		createBlockList = blockService.selectCreateBlockList(searchArea, paging.getOffset(), limit);
 		mav.addObject("createBlockList", createBlockList);
+		mav.addObject("department", login.getLogin_department());
 		mav.addObject("paging", paging);
 		return mav;
 	}
@@ -1139,6 +1145,30 @@ public class BlockControllerImpl implements BlockController {
 		mav.addObject("searchQuery", searchQuery);
 		mav.addObject("createBlockList", createBlockList);
 		mav.addObject("paging", paging);
+		return mav;
+	}
+	
+	// 삭제 통합
+	@Transactional
+	@GetMapping("/blockManagement/deleteSelect.do")
+	public ModelAndView deleteSelect(@RequestParam("tableName") String tableName, @RequestParam("primaryKey") int primaryKey) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		if(tableName.equals("move")) {
+			int result = blockDAO.deleteMoveList(primaryKey);
+			mav.setViewName("redirect:/blockManagement/blockMoveList.do");
+		} else if(tableName.equals("appro")) {
+			int result = blockDAO.deleteApprovalList(primaryKey);
+			mav.setViewName("redirect:/blockManagement/blockApproval.do");
+		} else if(tableName.equals("expertAppro")) {
+			int result = blockDAO.deleteExpertApprovalList(primaryKey);
+			mav.setViewName("redirect:/blockManagement/expertApproval.do");
+		} else if(tableName.equals("inspection")) {
+			int result = blockDAO.deleteInspectionList(primaryKey);
+			mav.setViewName("redirect:/blockManagement/blockInspectionList.do");
+		} else if(tableName.equals("create")) {
+			int result = blockDAO.deleteCreateBlock(primaryKey);
+			mav.setViewName("redirect:/blockManagement/createBlockList.do");
+		}
 		return mav;
 	}
 	

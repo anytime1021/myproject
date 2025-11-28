@@ -10,7 +10,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>아거스 리포트</title>
+    <title>검색결과</title>
     <link rel="stylesheet" href="${contextPath}/resources/css/boardStyle.css">
 </head>
 <body>
@@ -42,7 +42,8 @@
                         <thead>
                             <tr>
                                 <th style="width:10%;">NO</th>
-                                <th style="width:70%;">제 목</th>
+                                <th style="width:50%;">제 목</th>
+								<th style="width:20%;">사업소</th>
                                 <th style="width:20%;">점검일</th>
                             </tr>
                         </thead>
@@ -60,7 +61,8 @@
 		                                <tr>
 		                                    <td>${blockInspectionList.row_num}</td>
 		                                    <td><a href="${contextPath}/blockManagement/blockInspectionView.do?bib_num=${blockInspectionList.bib_num}">${blockInspectionList.bib_title}</a></td>
-		                                    <td>${blockInspectionList.bib_date}</td>
+		                                    <td>${blockInspectionList.login_area}</td>
+											<td>${blockInspectionList.bib_date}</td>
 		                                </tr>
 		                            </c:forEach>
 								</c:otherwise>

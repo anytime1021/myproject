@@ -10,7 +10,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-	<title>시험편 제작 승인 요청서</title>
+	<title>시험편 제작 요청</title>
 	<link rel="stylesheet" href="${contextPath}/resources/css/moveBlockForm.css">
 </head>
 <style>
@@ -44,8 +44,8 @@
 							<th class="title-sub">기술팀</th>
 					    </tr>
 						<tr>
-							<th class="title-sub"></th>
-							<th class="title-sub"></th>
+							<th></th>
+							<th></th>
 					    <tr>
 					    	<td class="col-group" colspan="2">사업소 명</td>
 					    	<td class="col-value" colspan="4"><input type="text" name="login_area" value="${searchArea}"></td>

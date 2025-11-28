@@ -29,8 +29,8 @@
 	
 	<!-- 2025-11-26 -->
 	<!-- 회원가입 -->
-	<select id="departmentList">
-		select distinct login_department from login;
+	<select id="singUpList">
+		select distinct login_department, login_area from login;
 	</select>
 	
 	<insert id="insertSignUp">
@@ -38,8 +38,18 @@
 		values (#{login_id}, #{login_pwd}, #{login_area}, #{login_name}, #{login_position}, #{login_department})
 	</insert>
 	
+	<!-- 아이디 중복 체크 -->
+	<select id="checkDuplicate" parameterType="String">
+		select count(*) from login where login_id = #{login_id}
+	</select>
+	
 	<!-- 아이디 목록 -->
 	<select id="memberList">
 		select * from login;
 	</select>
+	
+	<!-- 회원 탈퇴 -->
+	<delete id="deleteMember">
+		delete from login where login_num = #{login_num}
+	</delete>
 </mapper>

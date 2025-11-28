@@ -85,7 +85,7 @@
 	        });
 	    });
 	</script>
-	<%@ include file="../include/footer.jsp"%>
+	<%@ include file="../include/footer2.jsp"%>
 </body>
 <script src="${contextPath}/resources/js/weather_location.js"></script>
 <script src="${contextPath}/resources/js/script.js"></script>

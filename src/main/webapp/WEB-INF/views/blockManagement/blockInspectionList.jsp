@@ -10,7 +10,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>아거스 리포트</title>
+    <title>점검 게시판</title>
     <link rel="stylesheet" href="${contextPath}/resources/css/boardStyle.css">
 </head>
 <body>
@@ -41,17 +41,30 @@
                     <table class="table-control">
                         <thead>
                             <tr>
-                                <th style="width:10%;">NO</th>
-                                <th style="width:70%;">제 목</th>
-                                <th style="width:20%;">점검일</th>
+								<th style="width:10%;">NO</th>
+								<th style="width:50%;">제 목</th>
+								<th style="width:16%;">사업소</th>
+								<th style="width:16%;">점검일</th>
+								<c:if test="${department eq '품질' || department eq '기술'}">
+									<th></th>								
+								</c:if>
                             </tr>
                         </thead>
                         <tbody>
                             <c:forEach var="blockInspectionList" items="${blockInspectionList}">
                                 <tr>
-                                    <td>${blockInspectionList.row_num}</td>
-                                    <td><a href="${contextPath}/blockManagement/blockInspectionView.do?bib_num=${blockInspectionList.bib_num}">${blockInspectionList.bib_title}</a></td>
-                                    <td>${blockInspectionList.bib_date}</td>
+									<td>${blockInspectionList.row_num}</td>
+									<td><a href="${contextPath}/blockManagement/blockInspectionView.do?bib_num=${blockInspectionList.bib_num}">${blockInspectionList.bib_title}</a></td>
+									<td>${blockInspectionList.login_area}</td>
+									<td>${blockInspectionList.bib_date}</td>
+									<c:if test="${department eq '품질' || department eq '기술'}">
+										<td>
+											<button type="button" onclick="deleteSelect('${blockInspectionList.bib_num}')"
+											style="background-color: white; color: black; border: none; border-radius: 4px; cursor: pointer;">
+											삭제
+											</button>
+										</td>							
+									</c:if>
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -112,5 +125,12 @@
 	
 	document.getElementById('startDate').value = formatDate(standard_Date);
 	document.getElementById('endDate').value = formatDate(today);
+	
+	function deleteSelect(bibNum) {
+		const tableName="inspection"
+		if (confirm("정말 삭제하십니까?")) {
+			window.location.href = "${contextPath}/blockManagement/deleteSelect.do?tableName="+tableName+"&primaryKey="+bibNum;
+		}
+	}
 </script>
 </html>

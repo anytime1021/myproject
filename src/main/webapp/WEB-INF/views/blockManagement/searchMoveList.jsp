@@ -10,7 +10,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>아거스 리포트</title>
+    <title>검색결과</title>
     <link rel="stylesheet" href="${contextPath}/resources/css/boardStyle.css">
 
 </head>

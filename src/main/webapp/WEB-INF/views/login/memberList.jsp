@@ -10,7 +10,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>아거스 리포트</title>
+    <title>이용자 목록</title>
     <link rel="stylesheet" href="${contextPath}/resources/css/memberList.css">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -27,6 +27,7 @@
 					<th>직급</th>
 					<th>사업소</th>
 					<th>부서</th>
+					<th></th>
                 </tr>
 				<c:forEach var="memberList" items="${memberList}">
 	                <tr>
@@ -35,11 +36,17 @@
 						<td><input type="text" name="login_position" value="${memberList.login_position}" readonly></td>
 						<td><input type="text" name="login_area" value="${memberList.login_area}" readonly></td>
 						<td><input type="text" name="login_department" value="${memberList.login_department}" readonly></td>
+						<td>
+							<button type="button" onclick="deleteMember('${memberList.login_num}')" class="delete-btn">
+								회원탈퇴
+							</button>
+						</td>
 					</tr>
 				</c:forEach>
             </table>
         </div>
     </main>
+	<%@ include file="../include/footer2.jsp"%>
 </body>
 <script>
 	const departmentSelect = document.querySelector('select[name="login_department"]');
@@ -55,5 +62,11 @@
             writeDeptRow.style.display = 'none';
         }
     });
+	
+	function deleteMember(loginNum) {
+		if (confirm("정말 탈퇴하십니까?")) {
+			window.location.href = "${contextPath}/login/deleteMember.do?login_num=" + loginNum;
+		}
+	}
 </script>
 </html>
