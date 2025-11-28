@@ -608,11 +608,12 @@ public class BlockControllerImpl implements BlockController {
 	// 이동 승인
 	@Override
 	@GetMapping("/blockManagement/updateApproval.do")
-	public ModelAndView updateApproval(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError, HttpServletRequest request) throws Exception {
+	public ModelAndView updateApproval(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError,
+			@RequestParam("comment") String comment, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockApproval.do");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
-
+		app_isError = searchArea + " : " + app_isError + comment;
 		int result = blockService.updateApproval(app_num, app_isError, searchArea);
 		int tnf = blockDAO.tnfCheck(app_num);
 		if (tnf == 1) {

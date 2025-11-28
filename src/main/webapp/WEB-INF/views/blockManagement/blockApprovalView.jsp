@@ -95,7 +95,7 @@
 						</tr>
 						<tr>
 							<td class="col-label">이상유무</td>
-							<td class="col-value" colspan="4"><textarea name="app_isError">${ApprovalView.app_isError}</textarea></td>
+							<td class="col-value" colspan="4"><textarea name="app_isError" readonly>${ApprovalView.app_isError}</textarea></td>
 						</tr>
 						<tr>
 					    	<td class="col-label" colspan="2">[특이사항]</td>
@@ -107,6 +107,7 @@
 					<div style="display:flex; justify-content:right;">
 						<c:choose>
 							<c:when test="${searchArea eq ApprovalView.app_rcv_area && ApprovalView.app_rcv_status eq 'W'}">
+								<span style="width:20%;">코멘트 : </span><input type="text" name="comment" style="border:1px solid black; height:50px; margin-right:30px; text-align:left;">
 								<a href="#"
 								   onclick="submitApproval('${contextPath}/blockManagement/updateApproval.do', '${ApprovalView.app_num}')"
 								   style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
@@ -119,6 +120,7 @@
 								</a>
 							</c:when>
 							<c:when test="${searchArea eq '본사' && ApprovalView.app_rcv_status eq 'Y' && ApprovalView.app_head_status eq 'W'}">
+								<span style="width:20%;">코멘트 : </span><input type="text" name="comment" style="border:1px solid black; height:50px; margin-right:30px; text-align:left;">
 								<c:if test="${ApprovalView.app_type eq 'rental'}">
 									<a href="#"
 									   onclick="submitApproval('${contextPath}/blockManagement/updateApproval.do', '${ApprovalView.app_num}')"

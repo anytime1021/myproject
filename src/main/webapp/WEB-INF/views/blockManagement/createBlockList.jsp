@@ -74,7 +74,7 @@
 									</td>
 									<c:if test="${department eq '품질' || department eq '기술'}">
 										<td>
-											<button type="button" onclick="deleteSelect('${createBlockList.createBlockList.createBlockBoard_num}')"
+											<button type="button" onclick="deleteSelect('${createBlockList.createBlockBoard_num}')"
 											style="background-color: white; color: black; border: none; border-radius: 4px; cursor: pointer;">
 											삭제
 											</button>

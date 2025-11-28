@@ -84,8 +84,7 @@ public interface BlockController {
 	public ModelAndView blockExpertApprovalView(@RequestParam("app_num_Str") String app_num_Str, HttpServletRequest request) throws Exception;
 	
 	// 이동 승인
-	public ModelAndView updateApproval(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError, HttpServletRequest request) throws Exception;
-
+	public ModelAndView updateApproval(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError, @RequestParam("comment") String comment, HttpServletRequest request) throws Exception;
 	// 반출 이동 승인
 	public ModelAndView updateExpertApproval(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError, @RequestParam("token") String token_Str, 
 			@RequestParam("app_rcv_name") String app_rcv_name, HttpServletRequest request) throws Exception;
