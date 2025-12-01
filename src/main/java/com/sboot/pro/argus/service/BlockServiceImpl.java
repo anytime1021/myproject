@@ -42,8 +42,8 @@ public class BlockServiceImpl implements BlockService {
 	
 	// 블럭 상세보기
 	@Override
-	public BlockVO selectBlockView(String df_idNumber) throws Exception {
-		return blockDAO.selectBlockView(df_idNumber);
+	public BlockVO selectBlockView(String df_num) throws Exception {
+		return blockDAO.selectBlockView(df_num);
 	}
 	
 	// 블럭 추가 폼 일련번호 체크
@@ -266,7 +266,7 @@ public class BlockServiceImpl implements BlockService {
 	// 블럭 스펙 업로드
 	@Override
 	public void insertBlockSpec(String df_idNumber, MultipartFile[] files, HttpServletRequest request) throws Exception {
-		String uploadDir = request.getServletContext().getRealPath("/resources/img/");
+		String uploadDir = request.getServletContext().getRealPath("/resources/img/bSpec");
 		File dir = new File(uploadDir);
 		if (!dir.exists()) {
 			dir.mkdirs();
@@ -326,8 +326,8 @@ public class BlockServiceImpl implements BlockService {
 	
 	// 블럭 스펙 보기
 	@Override
-	public List<BlockVO> selectBlockSpecView(String df_idNumber) throws Exception {
-		return blockDAO.selectBlockSpecView(df_idNumber);
+	public List<BlockVO> selectBlockSpecView(String df_num) throws Exception {
+		return blockDAO.selectBlockSpecView(df_num);
 	}
 	
 	// 블럭 스펙 삭제
@@ -413,7 +413,7 @@ public class BlockServiceImpl implements BlockService {
 		blockDAO.insertCreateBlockBoard(createBlockForm, searchArea);
 		blockDAO.insertCreateBlockInformation(createBlockForm, searchArea);
 		
-		String uploadDir = request.getServletContext().getRealPath("/resources/img/");
+		String uploadDir = request.getServletContext().getRealPath("/resources/img/bCreate");
 		File dir = new File(uploadDir);
 		if (!dir.exists()) {
 			dir.mkdirs();

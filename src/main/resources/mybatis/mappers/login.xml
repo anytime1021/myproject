@@ -15,7 +15,8 @@
 		update login
 		set login_name = #{login_name},
 		login_department = #{login_department},
-		login_position = #{login_position}
+		login_position = #{login_position},
+		login_signName = #{login_signName}
 		where login_id = #{login_id}
 	</update>
 	
@@ -52,4 +53,9 @@
 	<delete id="deleteMember">
 		delete from login where login_num = #{login_num}
 	</delete>
+	
+	<!-- 사인 찾기 -->
+	<select id="searchSign">
+		select login_signName from login where login_department = #{login_department}
+	</select>
 </mapper>

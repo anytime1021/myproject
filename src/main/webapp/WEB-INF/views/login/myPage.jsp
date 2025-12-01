@@ -42,6 +42,18 @@
                     <th>사업소</th>
                     <td>${myPage.login_area}</td>
                 </tr>
+				<tr>
+					<th>사인</th>
+					<c:choose>
+						<c:when test="${empty myPage.login_signName}">
+							<td>등록된 사인이 없습니다</td>
+						</c:when>
+						<c:otherwise>
+							<td><img src="${contextPath}/resources/img/loginSign/${myPage.login_signName}"></td>
+							<input type="hidden" name="login_signName" value="${myPage.login_signName}">
+						</c:otherwise>
+					</c:choose>
+				</tr>
             </table>
 
             <a href="${contextPath}/login/modMyPageForm.do" class="modMyPage">수정하기</a>

@@ -36,4 +36,7 @@ public interface LoginDAO {
 	
 	// 회원 탈퇴
 	public int deleteMember(int login_num) throws Exception;
+	
+	// 사인 찾기
+	public String searchSign(String login_department) throws Exception;
 }

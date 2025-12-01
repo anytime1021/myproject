@@ -1,6 +1,7 @@
 package com.sboot.pro.argus.vo;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
 
@@ -16,6 +17,8 @@ public class LoginVO {
 	private int login_block_access;
 	private String login_position;
 	private String login_department;
+	private MultipartFile login_sign;
+	private String login_signName;
 	
 	public int getLogin_num() {
 		return login_num;
@@ -70,5 +73,17 @@ public class LoginVO {
 	}
 	public void setLogin_department(String login_department) {
 		this.login_department = login_department;
+	}
+	public MultipartFile getLogin_sign() {
+		return login_sign;
+	}
+	public void setLogin_sign(MultipartFile login_sign) {
+		this.login_sign = login_sign;
+	}
+	public String getLogin_signName() {
+		return login_signName;
+	}
+	public void setLogin_signName(String login_signName) {
+		this.login_signName = login_signName;
 	}
 }

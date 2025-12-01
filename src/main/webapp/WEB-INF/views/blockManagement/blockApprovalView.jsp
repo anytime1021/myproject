@@ -18,6 +18,7 @@
 </style>
 <body>
 	<%@ include file="../include/header2.jsp" %>
+	<%@ include file="../include/loginInfo.jsp" %>
 	<div class="moveForm-container">
 		<%@ include file="../include/sidebar.jsp" %>
 		<div class="moveReport-container">
@@ -40,19 +41,21 @@
 					    </tr>
 						<tr>
 							<th>
-								<img src="${contextPath}/resources/img/sign-${hndArea}.png" style="width:100%; height:100%;">
+								<img src="${contextPath}/resources/img/loginSign/${hndArea}" style="width:100%; height:100%;">
 							</th>
 							<th>
 								<c:choose>
 									<c:when test="${ApprovalView.app_rcv_status eq 'Y'}">
-										<img src="${contextPath}/resources/img/sign-${rcvArea}.png" style="width:100%; height:100%;">
+<!--										<img src="${contextPath}/resources/img/sign-${rcvArea}.png" style="width:100%; height:100%;">-->
+										<img src="${contextPath}/resources/img/loginSign/${rcvArea}" style="width:100%; height:100%;">
 									</c:when>
 								</c:choose>
 							</th>
 							<th>
 								<c:choose>
 									<c:when test="${ApprovalView.app_head_status eq 'Y'}">
-										<img src="${contextPath}/resources/img/sign-qualityTeam.png" style="width:100%; height:100%;">
+<!--										<img src="${contextPath}/resources/img/sign-qualityTeam.png" style="width:100%; height:100%;">-->
+										<img src="${contextPath}/resources/img/loginSign/${qualityTeam}" style="width:100%; height:100%;">
 									</c:when>
 								</c:choose>
 							</th>

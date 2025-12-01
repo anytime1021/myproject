@@ -44,7 +44,7 @@
 								<td class="background" style="width:15%;">이동현황</td>
 							</tr>
 							<tr>
-								<td colspan="5" rowspan="7" style="width:85%; height:300px;"><img src="${contextPath}/resources/img/${blockView.df_pictureName}" style="object-fit:contain; display:block; margin: 0 auto;"></td>
+								<td colspan="5" rowspan="7" style="width:85%; height:300px;"><img src="${contextPath}/resources/img/bInfo/${blockView.df_pictureName}" style="object-fit:contain; display:block; margin: 0 auto;"></td>
 								<td style="width:15%; height:30px;">${blockView.df_moveStatus}</td>
 							</tr>
 							<tr>
@@ -67,7 +67,7 @@
 						</tbody>
 					</table>
 					<div class="btn-wrapper">
-						<a class="btn" href="${contextPath}/blockManagement/blockSpecView.do?df_idNumber=${blockView.df_idNumber}">성적서 보기</a>
+						<a class="btn" href="${contextPath}/blockManagement/blockSpecView.do?df_num=${blockView.df_num}">성적서 보기</a>
 						<c:if test="${blockView.login_area eq searchArea}">
 							<c:if test="${blockView.df_itemStatus eq '이상없음'}">
 								<a class="btn" href="${contextPath}/blockManagement/addBlockSpecForm.do?df_idNumber=${blockView.df_idNumber}">성적서 등록</a>

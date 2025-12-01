@@ -20,8 +20,9 @@
         <%@ include file="../include/sidebar.jsp" %>
         <div class="mypage-container">
             <h2>마이페이지</h2>
-			<form name="modMyPage" method="get" action="${contextPath}/login/modMyPage.do">
+			<form name="modMyPage" method="post" action="${contextPath}/login/modMyPage.do" enctype="multipart/form-data">
 	            <table class="mypage-table">
+					<input type="hidden" name="login_num" value="${myPageForm.login_num}">
 	                <tr>
 	                    <th>아이디</th>
 	                    <td>${myPageForm.login_id}</td>
@@ -47,6 +48,22 @@
 	                    <th>사업소</th>
 	                    <td><input type="text" name="login_area" value="${myPageForm.login_area}"></td>
 	                </tr>
+					<tr>
+						<th>사인추가</th>
+						<td><input type="file" name="login_sign"></td>
+					</tr>
+					<tr>
+						<th>현재사인</th>
+						<c:choose>
+							<c:when test="${empty myPageForm.login_signName}">
+								<td>등록된 사인이 없습니다</td>
+							</c:when>
+							<c:otherwise>
+								<td><img src="${contextPath}/resources/img/loginSign/${myPageForm.login_signName}"></td>
+								<input type="hidden" name="login_signName" value="${myPageForm.login_signName}">
+							</c:otherwise>
+						</c:choose>
+					</tr>
 	            </table>
             <button type="submit" class="modMyPage">저장하기</button>
 			</form>

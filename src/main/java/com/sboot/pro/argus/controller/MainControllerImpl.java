@@ -1,9 +1,15 @@
 package com.sboot.pro.argus.controller;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -164,9 +171,45 @@ public class MainControllerImpl implements MainController {
 	
 	// 마이페이지 수정
 	@Override
-	@GetMapping("/login/modMyPage.do")
+	@PostMapping("/login/modMyPage.do")
 	public ModelAndView modMyPage(@ModelAttribute("modMyPage") LoginVO modMyPage, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/login/myPage.do");
+		
+		if (!modMyPage.getLogin_sign().isEmpty()) {
+
+		    MultipartFile uploadFile = modMyPage.getLogin_sign();
+
+		    if (!uploadFile.isEmpty()) {
+		        String uploadDir = request.getServletContext().getRealPath("/resources/img/loginSign");
+		        File dir = new File(uploadDir);
+		        if (!dir.exists()) dir.mkdirs();
+
+		        String originalName = modMyPage.getLogin_sign().getOriginalFilename();
+		        String ext = originalName.substring(originalName.lastIndexOf(".") + 1);
+		        String savedName = modMyPage.getLogin_department() + "_" + modMyPage.getLogin_num() + "." + ext;
+
+		        try (InputStream inputStream = uploadFile.getInputStream()) {
+		            BufferedImage originalImage = ImageIO.read(inputStream);
+
+		            int originalWidth = originalImage.getWidth();
+		            int originalHeight = originalImage.getHeight();
+
+		            int targetHeight = 150;
+		            int targetWidth = (originalWidth * targetHeight) / originalHeight;
+
+		            BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+		            Graphics2D g2d = resizedImage.createGraphics();
+		            g2d.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
+		            g2d.dispose();
+
+		            File outputFile = new File(uploadDir + File.separator + savedName);
+		            ImageIO.write(resizedImage, "jpg", outputFile);
+
+		            modMyPage.setLogin_signName(savedName);
+		        }
+		    }
+		}
+		
 		loginDAO.updateMyPage(modMyPage);
 		return mav;
 	}

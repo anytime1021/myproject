@@ -20,7 +20,7 @@ public interface BlockDAO {
 	public List<BlockVO> selectBlockList(@Param("searchArea") String searchArea, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
 
 	// 블럭 상세보기
-	public BlockVO selectBlockView(String df_idNumber) throws Exception;
+	public BlockVO selectBlockView(String df_num) throws Exception;
 	
 	// 블럭 추가 폼 일련번호 체크
 	public int isExistIdNumber(String df_idNumber) throws Exception;

@@ -22,7 +22,7 @@
 	
 	<!-- 블럭 상세보기 -->
 	<select id="selectBlockView" resultType="BlockVO">
-		select * from blockinformation where df_idNumber = #{df_idNumber} and YN = 'Y'
+		select * from blockinformation where df_num = #{df_num} and YN = 'Y'
 	</select>
 	
 	<!-- 블럭 추가 폼 일련번호 체크 -->
@@ -644,7 +644,7 @@
 	
 	<!-- 블럭 스펙 보기 -->
 	<select id="selectBlockSpecView" parameterType="String">
-		select * from blockSpec_Image where df_idNumber = #{df_idNumber}
+		select * from blockSpec_Image where df_num = #{df_num}
 	</select>
 	
 	<!-- 블럭 스펙 삭제 -->

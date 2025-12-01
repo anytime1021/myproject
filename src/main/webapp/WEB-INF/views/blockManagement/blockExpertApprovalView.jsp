@@ -41,16 +41,16 @@
 						<tr>
 							<th>
 								<c:if test="${expertApprovalView.app_type eq 'rental'}">
-									<img src="${contextPath}/resources/img/sign-${hndArea}.png" style="width:100%; height:100%;">
+									<img src="${contextPath}/resources/img/loginSign/${hndArea}" style="width:100%; height:100%;">
 								</c:if>
 								<c:if test="${expertApprovalView.app_type eq 'return'}">
-									<img src="${contextPath}/resources/img/${expertApprovalView.expSign_name}" style="width:100%; height:100%;">
+									<img src="${contextPath}/resources/img/expertSign/${expertApprovalView.expSign_name}" style="width:100%; height:100%;">
 								</c:if>
 							</th>
 							<th>
 								<c:choose>
 									<c:when test="${expertApprovalView.app_head_status eq 'Y'}">
-										<img src="${contextPath}/resources/img/sign-qualityTeam.png" style="width:100%; height:100%;">
+										<img src="${contextPath}/resources/img/loginSign/${qualitySign}" style="width:100%; height:100%;">
 									</c:when>
 								</c:choose>
 							</th>
@@ -58,10 +58,10 @@
 								<c:choose>
 									<c:when test="${expertApprovalView.app_rcv_status eq 'Y'}">
 										<c:if test="${expertApprovalView.app_type eq 'rental'}">
-											<img src="${contextPath}/resources/img/${expertApprovalView.expSign_name}" style="width:100%; height:100%;">
+											<img src="${contextPath}/resources/img/expertSign/${expertApprovalView.expSign_name}" style="width:100%; height:100%;">
 										</c:if>
 										<c:if test="${expertApprovalView.app_type eq 'return'}">
-											<img src="${contextPath}/resources/img/sign-${rcvArea}.png" style="width:100%; height:100%;">
+											<img src="${contextPath}/resources/img/loginSign/${rcvArea}" style="width:100%; height:100%;">
 										</c:if>
 									</c:when>
 								</c:choose>

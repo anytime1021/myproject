@@ -28,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.sboot.pro.argus.DTO.PagingDTO;
 import com.sboot.pro.argus.dao.BlockDAO;
+import com.sboot.pro.argus.dao.LoginDAO;
 import com.sboot.pro.argus.service.BlockService;
 import com.sboot.pro.argus.vo.BlockVO;
 import com.sboot.pro.argus.vo.LoginVO;
@@ -44,6 +45,9 @@ public class BlockControllerImpl implements BlockController {
 	
 	@Autowired
 	BlockDAO blockDAO;
+	
+	@Autowired
+	LoginDAO loginDAO;
 
 //    BlockControllerImpl(ReportControllerImpl reportController) {
 //        this.reportController = reportController;
@@ -77,12 +81,12 @@ public class BlockControllerImpl implements BlockController {
 	// 블럭 상세보기
 	@Override
 	@RequestMapping(value="/blockManagement/blockView.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView blockView(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception {
+	public ModelAndView blockView(@RequestParam("df_num") String df_num, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("/blockManagement/blockView");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
-		
-		BlockVO blockView = blockService.selectBlockView(df_idNumber);
+		System.out.println(df_num);
+		BlockVO blockView = blockService.selectBlockView(df_num);
 		mav.addObject("searchArea", searchArea);
 		mav.addObject("blockView", blockView);
 		return mav;
@@ -117,7 +121,7 @@ public class BlockControllerImpl implements BlockController {
 		MultipartFile uploadFile = addBlockForm.getDf_picture();
 		
 		if (!uploadFile.isEmpty()) {
-				String uploadDir = request.getServletContext().getRealPath("/resources/img/");
+				String uploadDir = request.getServletContext().getRealPath("/resources/img/bInfo");
 				File dir = new File(uploadDir);
 				if (!dir.exists()) dir.mkdirs();
 				
@@ -208,7 +212,7 @@ public class BlockControllerImpl implements BlockController {
 		    MultipartFile uploadFile = modBlockForm.getDf_picture();
 
 		    if (!uploadFile.isEmpty()) {
-		        String uploadDir = request.getServletContext().getRealPath("/resources/img/");
+		        String uploadDir = request.getServletContext().getRealPath("/resources/img/bInfo");
 		        File dir = new File(uploadDir);
 		        if (!dir.exists()) dir.mkdirs();
 
@@ -565,15 +569,23 @@ public class BlockControllerImpl implements BlockController {
 		int app_num = Integer.parseInt(app_num_Str);
 		BlockVO ApprovalView = blockService.selectBlockApprovalView(app_num);
 //		BlockVO ApprovalDivision = blockDAO.ApprovalDivision(app_num);
-		AreaMap areaMap = new AreaMap();
-		String hndArea = areaMap.getEnglishArea(ApprovalView.getApp_hnd_area());
-		String rcvArea = "";
-		if (ApprovalView.getApp_rcv_status().equals("Y")) {
-			rcvArea = areaMap.getEnglishArea(ApprovalView.getApp_rcv_area());
-		}
+//		AreaMap areaMap = new AreaMap();
+//		String hndArea = areaMap.getEnglishArea(ApprovalView.getApp_hnd_area());
+//		String rcvArea = "";
+//		if (ApprovalView.getApp_rcv_status().equals("Y")) {
+//			rcvArea = areaMap.getEnglishArea(ApprovalView.getApp_rcv_area());
+//		}
 		mav.addObject("searchArea", searchArea);
 		mav.addObject("ApprovalView", ApprovalView);
+//		mav.addObject("hndArea", hndArea);
+//		mav.addObject("rcvArea", rcvArea);
+		
+		// -- //
+		String qualityTeam = loginDAO.searchSign("품질");
+		String rcvArea = loginDAO.searchSign(ApprovalView.getApp_rcv_area());
+		String hndArea = loginDAO.searchSign(ApprovalView.getApp_hnd_area());
 		mav.addObject("hndArea", hndArea);
+		mav.addObject("qualityTeam", qualityTeam);
 		mav.addObject("rcvArea", rcvArea);
 //		mav.addObject("ApprovalDivision", ApprovalDivision);
 		return mav;
@@ -592,16 +604,22 @@ public class BlockControllerImpl implements BlockController {
 		AreaMap areaMap = new AreaMap();
 		String hndArea = "";
 		String rcvArea = "";
+		String approvalSign = loginDAO.searchSign(login.getLogin_department());
 		if(expertApprovalView.getApp_type().equals("rental")) {
-			hndArea = areaMap.getEnglishArea(expertApprovalView.getApp_hnd_area());
+//			hndArea = areaMap.getEnglishArea(expertApprovalView.getApp_hnd_area());
+			hndArea = approvalSign;
 		} else if(expertApprovalView.getApp_type().equals("return")) {
-			rcvArea = areaMap.getEnglishArea(expertApprovalView.getApp_rcv_area());
+//			rcvArea = areaMap.getEnglishArea(expertApprovalView.getApp_rcv_area());
+			rcvArea = approvalSign;
 		}
 		mav.addObject("searchArea", searchArea);
 		mav.addObject("expertApprovalView", expertApprovalView);
 		mav.addObject("hndArea", hndArea);
 		mav.addObject("rcvArea", rcvArea);
 //		mav.addObject("ApprovalDivision", ApprovalDivision);
+		// -- //
+		String qualitySign = loginDAO.searchSign("품질");
+		mav.addObject("qualitySign", qualitySign);
 		return mav;
 	}
 	
@@ -686,7 +704,7 @@ public class BlockControllerImpl implements BlockController {
 		    }
 		    String savedName = checkName;
 
-		    String uploadDir = request.getServletContext().getRealPath("/resources/img/");
+		    String uploadDir = request.getServletContext().getRealPath("/resources/img/expertSign");
 		    File dir = new File(uploadDir);
 		    if (!dir.exists()) dir.mkdirs();
 
@@ -777,14 +795,14 @@ public class BlockControllerImpl implements BlockController {
 	// 블럭 스펙 보기
 	@Override
 	@GetMapping("/blockManagement/blockSpecView.do")
-	public ModelAndView blockSpecView(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception {
+	public ModelAndView blockSpecView(@RequestParam("df_num") String df_num, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("/blockManagement/blockSpecView");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
 		List<BlockVO> blockSpecView = new ArrayList<BlockVO>();
-		blockSpecView = blockService.selectBlockSpecView(df_idNumber);
+		blockSpecView = blockService.selectBlockSpecView(df_num);
 		mav.addObject("blockSpecView", blockSpecView);
-		mav.addObject("df_idNumber", df_idNumber);
+		mav.addObject("df_num", df_num);
 		mav.addObject("searchArea", searchArea);
 		return mav;
 	}
@@ -966,11 +984,17 @@ public class BlockControllerImpl implements BlockController {
 		BlockVO createBlockView = blockService.selectCreateBlockView(createBlockBoard_num);
 		
 		
-		AreaMap areaMap = new AreaMap();
-		String hndArea = areaMap.getEnglishArea(createBlockView.getLogin_area());
+//		AreaMap areaMap = new AreaMap();
+//		String hndArea = areaMap.getEnglishArea(createBlockView.getLogin_area());
 		mav.addObject("createBlockView", createBlockView);
-		mav.addObject("hndArea", hndArea);
+//		mav.addObject("hndArea", hndArea);
 		mav.addObject("department", department);
+		
+		// -- //
+		String techSign = loginDAO.searchSign("기술");
+		String hndArea = loginDAO.searchSign(createBlockView.getLogin_area());
+		mav.addObject("techSign", techSign);
+		mav.addObject("hndArea", hndArea);
 		return mav;
 	}
 	

@@ -22,7 +22,7 @@
         <div class="main-content">
 			<div class="slider">
 				<button class="prev" onclick="prev()">←</button>
-				<img id="slide" src="${pageContext.request.contextPath}/resources/img/${drawingView[0].cbd_drawing}" alt="Spec Image">
+				<img id="slide" src="${pageContext.request.contextPath}/resources/img/bCreate/${drawingView[0].cbd_drawing}" alt="Spec Image">
 				<button class="next" onclick="next()">→</button>
 			</div>
 			<div class="contents-container">

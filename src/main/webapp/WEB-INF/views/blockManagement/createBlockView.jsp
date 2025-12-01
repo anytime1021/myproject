@@ -40,12 +40,12 @@
 					    </tr>
 						<tr>
 							<th>
-								<img src="${contextPath}/resources/img/sign-${hndArea}.png" style="width:100%; height:100%;">
+								<img src="${contextPath}/resources/img/loginSign/${hndArea}" style="width:100%; height:100%;">
 							</th>
 							<th>
 								<c:choose>
 									<c:when test="${createBlockView.createBlock_status eq 'Y'}">
-										<img src="${contextPath}/resources/img/sign-technical_team.png" style="width:100%; height:100%;">
+										<img src="${contextPath}/resources/img/loginSign/${techSign}" style="width:100%; height:100%;">
 									</c:when>
 								</c:choose>
 							</th>
