@@ -17,7 +17,7 @@ public interface BlockService {
 	public List<BlockVO> selectBlockList(String searchArea, int offset, int limit) throws Exception;
 	
 	// 블럭 상세보기
-	public BlockVO selectBlockView(String df_idNumber) throws Exception;
+	public BlockVO selectBlockView(String df_num) throws Exception;
 	
 	// 블럭 추가 폼 일련번호 체크
 	public boolean isExistIdNumber(String idNumber) throws Exception;
@@ -29,7 +29,7 @@ public interface BlockService {
 	public void modBlock(BlockVO modBlockForm) throws Exception;
 	
 	// 블럭 삭제
-	public void removeBlock(String df_idNumber) throws Exception;
+	public void removeBlock(String df_num) throws Exception;
 		
 	// 블럭 대여
 	public void modItemStatus(String df_idNumber, String df_moveStatus) throws Exception;
@@ -104,16 +104,16 @@ public interface BlockService {
 	public int updateRejection(int app_num, String searchArea) throws Exception;
 	
 	// 반출 거절
-	public int updateExpertRejection(int app_num, String app_isError, int token, String app_type) throws Exception; 
+	public int updateExpertRejection(int app_num, String app_isError, int token, String app_type, int df_num) throws Exception; 
 	
 	// 블럭 스펙 추가
 	public void insertBlockSpec(String df_idNumber, MultipartFile[] files, HttpServletRequest request) throws Exception;
 
 	// 블럭 스펙 보기
-	public List<BlockVO> selectBlockSpecView(String df_idNumber) throws Exception;
+	public List<BlockVO> selectBlockSpecView(String df_num) throws Exception;
 	
 	// 블럭 스펙 삭제
-	public void removeBlockSpec(String df_idNumber) throws Exception;
+	public void removeBlockSpec(String df_num) throws Exception;
 	
 	// 블럭 점검 게시판 수 카운트
 	public int inspectionListCount(String searchArea) throws Exception;
@@ -135,8 +135,8 @@ public interface BlockService {
 	public int removeInspectionView(int bib_num) throws Exception;
 	
 	// 블럭 점검 이력 보기
-	public int inspectionHistoryCount(String df_idNumber) throws Exception;
-	public List<BlockVO> selectInspectionHistory(String df_idNumber, int offset, int limit) throws Exception;
+	public int inspectionHistoryCount(String df_num) throws Exception;
+	public List<BlockVO> selectInspectionHistory(String df_num, int offset, int limit) throws Exception;
 
 	// 블럭 제작 요청 게시판
 	public int createBlockListCount(String searchArea) throws Exception;

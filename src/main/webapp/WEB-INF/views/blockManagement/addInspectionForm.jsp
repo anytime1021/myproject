@@ -41,6 +41,7 @@
 	                        <tbody>
 								<c:forEach var="inspectionList" items="${inspectionList}">
 									<tr>
+										<input type="hidden" name="df_num" value="${inspectionList.df_num}">
 										<td style="border-bottom:1px solid:gray;">${inspectionList.row_num}</td>
 										<td style="border-bottom:1px solid:gray;">${inspectionList.df_idNumber}</td>
 										<input type="hidden" name="df_idNumber" value="${inspectionList.df_idNumber}">

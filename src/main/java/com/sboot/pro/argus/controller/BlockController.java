@@ -22,26 +22,32 @@ public interface BlockController {
 	// 블럭 추가 폼
 	public ModelAndView addBlockForm(HttpServletRequest request) throws Exception;
 	
+	// 표준 블럭 추가 폼
+	public ModelAndView addStandardBlockForm(HttpServletRequest request) throws Exception;
+	
 	// 블럭 추가
 	public ModelAndView addBlock(@ModelAttribute("addBlockForm") BlockVO addblockForm, HttpServletRequest request) throws Exception;
 
+	// 표준 블럭 추가
+	public ModelAndView addStandardBlock(@ModelAttribute("addBlockForm") BlockVO addBlockForm, HttpServletRequest request) throws Exception;
+
 	// 블럭 수정 폼
-	public ModelAndView modBlockForm(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception;
+	public ModelAndView modBlockForm(@RequestParam("df_num") String df_num, HttpServletRequest request) throws Exception;
 
 	// 블럭 수정
 	public ModelAndView modBlock(@ModelAttribute("modBlock") BlockVO modBlock, HttpServletRequest request) throws Exception;
 
 	// 블럭 삭제
-	public ModelAndView removeBlock(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest requst) throws Exception;
+	public ModelAndView removeBlock(@RequestParam("df_num") String df_idNumber, HttpServletRequest requst) throws Exception;
 	
 	// 블럭 대여 등록 폼
-	public ModelAndView moveBlockForm(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception;
+	public ModelAndView moveBlockForm(@RequestParam("df_num") String df_num, HttpServletRequest request) throws Exception;
 	
 	// 블럭 대여
 	public ModelAndView moveBlock(@ModelAttribute("moveBlockList") BlockVO moveBlockList, HttpServletRequest request) throws Exception;
 	
 	// 블럭 외부 반출 폼
-	public ModelAndView expertBlockForm(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception;
+	public ModelAndView expertBlockForm(@RequestParam("df_num") String df_num, HttpServletRequest request) throws Exception;
 
 	// 블럭 외부 반출
 	public ModelAndView expertBlock(@ModelAttribute("expertBlock") BlockVO expertBlock, HttpServletRequest request) throws Exception;
@@ -94,23 +100,24 @@ public interface BlockController {
 	public ModelAndView updateExpertSign(@RequestParam("app_num") int app_num, @RequestParam("expertSign") MultipartFile expertSign, @RequestParam("app_rcv_area") String app_rcv_area, HttpServletRequest request) throws Exception;
 	
 	// 이동 거절
-	public ModelAndView updateRejection(@RequestParam("app_num") int app_num, HttpServletRequest request) throws Exception;
+	public ModelAndView updateRejection(@RequestParam("app_num") int app_num, 
+			@RequestParam("df_num") String df_num, HttpServletRequest request) throws Exception;
 	
 	// 반출 거절
-	public ModelAndView updateExpertRejection(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError, @RequestParam("token") String token_Str, 
+	public ModelAndView updateExpertRejection(@RequestParam("app_num") int app_num, @RequestParam("df_num") String df_num, @RequestParam("app_isError") String app_isError, @RequestParam("token") String token_Str, 
 			@RequestParam("app_rcv_name") String app_rcv_name, @RequestParam("app_type") String app_type, HttpServletRequest request) throws Exception;
 	
 	// 블럭 스펙 추가 폼
-	public ModelAndView addBlockSpecForm(@RequestParam("df_idNumber") String df_idNumber) throws Exception;
+	public ModelAndView addBlockSpecForm(@RequestParam("df_num") String df_num) throws Exception;
 	
 	// 블럭 스펙 추가
-	public ModelAndView addBlockSpec(@RequestParam("df_idNumber") String df_idNumber, @RequestParam("files") MultipartFile[] files, HttpServletRequest request) throws Exception;
+	public ModelAndView addBlockSpec(@RequestParam("df_num") String df_num, @RequestParam("files") MultipartFile[] files, HttpServletRequest request) throws Exception;
 	
 	// 블럭 스펙 보기
 	public ModelAndView blockSpecView(@RequestParam("df_num") String df_num, HttpServletRequest request) throws Exception;
 
 	// 블럭 스펙 삭제
-	public ModelAndView removeBlockSpec(@RequestParam("df_idNumber") String df_idNumber) throws Exception;
+	public ModelAndView removeBlockSpec(@RequestParam("df_num") String df_num) throws Exception;
 
 	// 블럭 점검 리스트
 	public ModelAndView blockInspectionList(@RequestParam(value="page", defaultValue="1") int page, HttpServletRequest request) throws Exception;
@@ -120,6 +127,7 @@ public interface BlockController {
 	
 	// 블럭 점검 추가 (정보저장)
 	public ModelAndView addInspection(@RequestParam("bib_title") String bib_title,
+			@RequestParam(value = "df_num", required = false) String[] df_numArray,
 			@RequestParam(value = "df_idNumber", required = false) String[] df_idNumberArray,
 			@RequestParam(value = "bil_status", required = false) String[] bil_statusArray,
 			HttpServletRequest request) throws Exception;
@@ -131,7 +139,7 @@ public interface BlockController {
 	public ModelAndView removeInspectionView(@RequestParam("bib_num") int bib_num) throws Exception;
 	
 	// 블럭 점검 이력 보기
-	public ModelAndView inspectionHistory(@RequestParam(value="page", defaultValue = "1") int page, @RequestParam("df_idNumber") String df_idNumber) throws Exception;
+	public ModelAndView inspectionHistory(@RequestParam(value="page", defaultValue = "1") int page, @RequestParam("df_num") String df_num) throws Exception;
 
 	// 블럭 제작 요청 폼
 	public ModelAndView createBlockList(@RequestParam(value="page", defaultValue = "1") int page, HttpServletRequest request) throws Exception;

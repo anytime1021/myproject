@@ -19,9 +19,9 @@
     <main class="first-container">
         <%@ include file="../include/sidebar.jsp" %>
         <div class="main-content">
-			<div class="addBlock-container">
-				<form autocomplete="off" name="addBlockForm" method="post" action="${contextPath}/blockManagement/addBlock.do" enctype="multipart/form-data">
-					<div class="addBlock">
+			<div class="addBlock-container">					
+				<div class="addBlock">
+					<form autocomplete="off" name="addBlockForm" method="post" action="${contextPath}/blockManagement/addBlock.do" enctype="multipart/form-data">
 						<div class="form-group">
 							<label for="df_idNumber">식별번호 : </label>
 							<span id="numberspan" style="flex: 2; width: 30%; padding: 8px 10px; font-size: 15px; border: 1.8px solid #ccc; border-radius: 6px; transition: border-color 0.3s ease;">

@@ -4,12 +4,15 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.InputStream;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
@@ -103,6 +106,17 @@ public class BlockControllerImpl implements BlockController {
 		return mav;
 	}
 	
+	// 표준 블럭 추가 폼
+	@Override
+	@GetMapping("/blockManagement/addStandardBlockForm.do")
+	public ModelAndView addStandardBlockForm(HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/blockManagement/addStandardBlockForm");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		mav.addObject("searchArea", searchArea);
+		return mav;
+	}
+	
 	// 블럭 추가 폼 일련번호 체크 - ajax
 	@ResponseBody
 	@GetMapping("/blockManagement/checkDuplicateIdNumber.do")
@@ -161,44 +175,74 @@ public class BlockControllerImpl implements BlockController {
 		return mav;
 	}
 	
+	// 표준 블럭 추가
+	@Override
+	@PostMapping("/blockManagement/addStandardBlock.do")
+	public ModelAndView addStandardBlock(@ModelAttribute("addBlockForm") BlockVO addBlockForm, HttpServletRequest request) throws Exception {
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		// df_type default 'S'
+		MultipartFile uploadFile = addBlockForm.getDf_picture();
+		
+		if (!uploadFile.isEmpty()) {
+				String uploadDir = request.getServletContext().getRealPath("/resources/img/bInfo");
+				File dir = new File(uploadDir);
+				if (!dir.exists()) dir.mkdirs();
+								
+		        String originalName = addBlockForm.getDf_picture().getOriginalFilename();
+		        String ext = originalName.substring(originalName.lastIndexOf(".") + 1);
+		        String savedName = addBlockForm.getDf_idNumber() + UUID.randomUUID().toString() + "." + ext;
+		        
+				try (InputStream inputStream = uploadFile.getInputStream()) {
+				BufferedImage originalImage = ImageIO.read(inputStream);
+				
+				int originalWidth = originalImage.getWidth();
+				int originalHeight = originalImage.getHeight();
+				
+				int targetHeight = 300;
+				int targetWidth = (originalWidth * targetHeight) / originalHeight;
+	
+				BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+				Graphics2D g2d = resizedImage.createGraphics();
+				g2d.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
+				g2d.dispose();
+				
+				File outputFile = new File(uploadDir + File.separator + savedName);
+				ImageIO.write(resizedImage, "jpg", outputFile);
+				
+				addBlockForm.setDf_pictureName(savedName);
+			}
+		} else {
+			addBlockForm.setDf_pictureName("A-NoImage.jpg");
+		}
+		
+		if (addBlockForm.getDf_manufacture().isEmpty()) {
+			addBlockForm.setDf_manufacture(null);
+		}
+		addBlockForm.setDf_usage(addBlockForm.getDf_idNumber().substring(6,8));
+		blockService.addBlock(addBlockForm, searchArea);
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockList.do");
+		return mav;
+	}
+	
 	// 블럭 수정 폼
 	@Override
 	@GetMapping("/blockManagement/modBlockForm.do")
-	public ModelAndView modBlockForm(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception {
+	public ModelAndView modBlockForm(@RequestParam("df_num") String df_num, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("/blockManagement/modBlockForm");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
 		
-		String compare_block = df_idNumber.substring(2,4);
-		String compare_login = "";
-		if (searchArea.equals("서산")) {
-			compare_login = "SS";
-		} else if (searchArea.equals("울산")) {
-			compare_login = "US";
-		} else if (searchArea.equals("창원")) {
-			compare_login = "CW";
-		} else if (searchArea.equals("마산")) {
-			compare_login = "MS";
-		} else if (searchArea.equals("여수")) {
-			compare_login = "YS";
-		} else if (searchArea.equals("본사")) {
-			compare_login = "본사";
+		BlockVO blockView = blockService.selectBlockView(df_num);
+		if (blockView.getDf_pictureName().isEmpty() || blockView.getDf_pictureName() == null) {
+			blockView.setDf_pictureName("A-NoImage.jpg");
 		}
-		
-		if (compare_block.equals(compare_login) || compare_login.equals("본사") ) {
-			BlockVO blockView = blockService.selectBlockView(df_idNumber);
-			if (blockView.getDf_pictureName().isEmpty() || blockView.getDf_pictureName() == null) {
-				blockView.setDf_pictureName("A-NoImage.jpg");
-			}
-			int imageNameIndex = blockView.getDf_pictureName().indexOf("A");
-			String imageName = blockView.getDf_pictureName().substring(imageNameIndex);
-			mav.addObject("imageName", imageName);
-			mav.addObject("blockView", blockView);
-			mav.addObject("searchArea", searchArea);
-			return mav;
-		}
-
-		return new ModelAndView("/argus/main2");
+		int imageNameIndex = blockView.getDf_pictureName().indexOf("A");
+		String imageName = blockView.getDf_pictureName().substring(imageNameIndex);
+		mav.addObject("imageName", imageName);
+		mav.addObject("blockView", blockView);
+		mav.addObject("searchArea", searchArea);
+		return mav;
 	}
 	
 	// 블럭 수정
@@ -249,21 +293,21 @@ public class BlockControllerImpl implements BlockController {
 	// 블럭 삭제
 	@Override
 	@GetMapping("/blockManagement/removeBlock.do")
-	public ModelAndView removeBlock(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception {
+	public ModelAndView removeBlock(@RequestParam("df_num") String df_num, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockList.do");
-		blockService.removeBlock(df_idNumber);
+		blockService.removeBlock(df_num);
 		return mav;
 	}
 	
 	// 블럭 대여 등록 폼
 	@Override
 	@GetMapping("/blockManagement/moveBlockForm.do")
-	public ModelAndView moveBlockForm(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception {
+	public ModelAndView moveBlockForm(@RequestParam("df_num") String df_num, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("/blockManagement/moveBlockForm");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		
 		String searchArea = login.getLogin_area();
-		BlockVO blockInformation = blockService.selectBlockView(df_idNumber);
+		BlockVO blockInformation = blockService.selectBlockView(df_num);
 		LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		String timeNow = now.format(formatter);
@@ -293,12 +337,12 @@ public class BlockControllerImpl implements BlockController {
 	// 블럭 외부 반출 폼
 	@Override
 	@GetMapping("/blockManagement/expertBlockForm.do")
-	public ModelAndView expertBlockForm(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception {
+	public ModelAndView expertBlockForm(@RequestParam("df_num") String df_num, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("/blockManagement/expertBlockForm");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
 		
-		BlockVO blockInformation = blockService.selectBlockView(df_idNumber);
+		BlockVO blockInformation = blockService.selectBlockView(df_num);
 		LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		String timeNow = now.format(formatter);
@@ -363,6 +407,7 @@ public class BlockControllerImpl implements BlockController {
 		LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		String timeNow = now.format(formatter);
+		System.out.println(returnBlockForm.getDf_num());
 		mav.addObject("login_name", login_name);
 		mav.addObject("timeNow", timeNow);
 		mav.addObject("returnBlockForm", returnBlockForm);
@@ -624,6 +669,7 @@ public class BlockControllerImpl implements BlockController {
 	}
 	
 	// 이동 승인
+	@Transactional
 	@Override
 	@GetMapping("/blockManagement/updateApproval.do")
 	public ModelAndView updateApproval(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError,
@@ -631,13 +677,13 @@ public class BlockControllerImpl implements BlockController {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockApproval.do");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
-		app_isError = searchArea + " : " + app_isError + comment;
+		app_isError = app_isError + searchArea + " : "  + comment;
 		int result = blockService.updateApproval(app_num, app_isError, searchArea);
 		int tnf = blockDAO.tnfCheck(app_num);
 		if (tnf == 1) {
 			BlockVO approval = blockDAO.selectBlockApprovalView_df_idNumber(app_num);
 //			blockService.modItemStatus(approval.getDf_idNumber(), approval.getApp_rcv_area()); - 관련 삭제 가능성 있음
-			blockDAO.finalApproval(approval.getDf_idNumber(), approval.getApp_rcv_area(), searchArea, app_num);
+			blockDAO.finalApproval(approval.getDf_num(), approval.getApp_rcv_area(), searchArea, app_num);
 		}
 		return mav;
 	}
@@ -662,7 +708,7 @@ public class BlockControllerImpl implements BlockController {
 		if (tnf == 1) {
 			BlockVO expertApproval = blockDAO.selectExpertBlockApprovalView_df_idNumber(app_num);
 //			blockService.modItemStatus(approval.getDf_idNumber(), approval.getApp_rcv_area()); - 관련 삭제 가능성 있음
-			blockDAO.finalExpertApproval(expertApproval.getDf_idNumber(), expertApproval.getApp_rcv_area(), searchArea, app_num);
+			blockDAO.finalExpertApproval(expertApproval.getDf_num(), expertApproval.getApp_rcv_area(), searchArea, app_num);
 		}
 		return mav;
 	}
@@ -748,47 +794,49 @@ public class BlockControllerImpl implements BlockController {
 	// 이동 거절
 	@Override
 	@GetMapping("/blockManagement/updateRejection.do")
-	public ModelAndView updateRejection(@RequestParam("app_num") int app_num, HttpServletRequest request) throws Exception {
+	public ModelAndView updateRejection(@RequestParam("app_num") int app_num, 
+			@RequestParam("df_num") String df_num, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockApproval.do");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
 
 		int result = blockService.updateRejection(app_num, searchArea);
-		blockDAO.finalRejection(app_num);
+		blockDAO.finalRejection(Integer.parseInt(df_num));
 		return mav;
 	}
 	
 	// 반출 거절
 	@Override
 	@GetMapping("/blockManagement/updateExpertRejection.do")
-	public ModelAndView updateExpertRejection(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError, @RequestParam("token") String token_Str, 
+	public ModelAndView updateExpertRejection(@RequestParam("app_num") int app_num, 
+			@RequestParam("df_num") String df_num,
+			@RequestParam("app_isError") String app_isError, @RequestParam("token") String token_Str, 
 			@RequestParam("app_rcv_name") String app_rcv_name, @RequestParam("app_type") String app_type, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/expertApproval.do");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
 		int token = Integer.parseInt(token_Str);
 		System.out.println(token);
-		int result = blockService.updateExpertRejection(app_num, app_isError, token, app_type);
+		int result = blockService.updateExpertRejection(app_num, app_isError, token, app_type, Integer.parseInt(df_num));
 		return mav;
 	}
 	
 	// 블럭 스펙 추가 폼
 	@Override
 	@GetMapping("/blockManagement/addBlockSpecForm.do")
-	public ModelAndView addBlockSpecForm(@RequestParam("df_idNumber") String df_idNumber) throws Exception {
+	public ModelAndView addBlockSpecForm(@RequestParam("df_num") String df_num) throws Exception {
 		ModelAndView mav = new ModelAndView("/blockManagement/addBlockSpecForm");
-		mav.addObject("df_idNumber", df_idNumber);
+		mav.addObject("df_num", df_num);
 		return mav;
 	}
 	
 	// 블럭 스펙 추가
 	@Override
 	@PostMapping("/blockManagement/addBlockSpec.do")
-	public ModelAndView addBlockSpec(@RequestParam("df_idNumber") String df_idNumber, @RequestParam("files") MultipartFile[] files, HttpServletRequest request) throws Exception {
+	public ModelAndView addBlockSpec(@RequestParam("df_num") String df_num, @RequestParam("files") MultipartFile[] files, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("forward:/blockManagement/blockView.do");
-		LoginVO login = (LoginVO) request.getAttribute("login");
-		String searchArea = login.getLogin_area();
-		blockService.insertBlockSpec(df_idNumber, files, request);
+
+		blockService.insertBlockSpec(df_num, files, request);
 		return mav;
 	}
 	
@@ -810,9 +858,9 @@ public class BlockControllerImpl implements BlockController {
 	// 블럭 스펙 삭제
 	@Override
 	@GetMapping("/blockManagement/removeBlockSpec.do")
-	public ModelAndView removeBlockSpec(@RequestParam("df_idNumber") String df_idNumber) throws Exception {
-		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockView.do?df_idNumber="+df_idNumber);
-		blockService.removeBlockSpec(df_idNumber);
+	public ModelAndView removeBlockSpec(@RequestParam("df_num") String df_num) throws Exception {
+		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockView.do?df_num="+df_num);
+		blockService.removeBlockSpec(df_num);
 		return mav;
 	}
 	
@@ -860,6 +908,7 @@ public class BlockControllerImpl implements BlockController {
 	@Override
 	@PostMapping("/blockManagement/addInspection.do")
 	public ModelAndView addInspection(@RequestParam("bib_title") String bib_title,
+			@RequestParam(value = "df_num", required = false) String[] df_numArray,
 			@RequestParam(value = "df_idNumber", required = false) String[] df_idNumberArray,
 			@RequestParam(value = "bil_status", required = false) String[] bil_statusArray,
 			HttpServletRequest request) throws Exception{
@@ -870,6 +919,7 @@ public class BlockControllerImpl implements BlockController {
 		List<BlockVO> inspectionList = new ArrayList<>();
 		for (int i = 0; i < df_idNumberArray.length; i++) {
 			BlockVO inspectionStatus = new BlockVO();
+			inspectionStatus.setDf_num(Integer.parseInt(df_numArray[i]));
 			inspectionStatus.setDf_idNumber(df_idNumberArray[i]);
 			inspectionStatus.setBil_status(bil_statusArray[i]);
 			inspectionStatus.setLogin_area(searchArea);
@@ -906,19 +956,19 @@ public class BlockControllerImpl implements BlockController {
 	// 블럭 점검 이력 보기
 	@Override
 	@GetMapping("/blockManagement/inspectionHistory.do")
-	public ModelAndView inspectionHistory(@RequestParam(value="page", defaultValue = "1") int page, @RequestParam("df_idNumber") String df_idNumber) throws Exception {
+	public ModelAndView inspectionHistory(@RequestParam(value="page", defaultValue = "1") int page, @RequestParam("df_num") String df_num) throws Exception {
 		ModelAndView mav = new ModelAndView("/blockManagement/inspectionHistory");
 	
 		int limit = 20;
 		int currentPage = page;
 		int pageBlockSize = 5;
-		int totalCount = blockService.inspectionHistoryCount(df_idNumber);
+		int totalCount = blockService.inspectionHistoryCount(df_num);
 		if(totalCount == 0) {
 			totalCount = 1;
 		}
 		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
 		
-		List<BlockVO> inspectionHistory = blockService.selectInspectionHistory(df_idNumber, paging.getOffset(), limit);
+		List<BlockVO> inspectionHistory = blockService.selectInspectionHistory(df_num, paging.getOffset(), limit);
 		
 		mav.addObject("inspectionHistory", inspectionHistory);
 		mav.addObject("paging", paging);
@@ -1099,7 +1149,7 @@ public class BlockControllerImpl implements BlockController {
 		mav.addObject("searchQuery", searchQuery);
 		mav.addObject("paging", paging);
 		mav.addObject("ApprovalList", ApprovalList);
-
+		System.out.println(ApprovalList.get(0).getDf_num());
 		return mav;
 	}
 	

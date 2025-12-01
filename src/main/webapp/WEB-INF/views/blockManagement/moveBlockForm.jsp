@@ -36,9 +36,9 @@
 							<th class="title-sub">품질팀</th>
 					    </tr>
 						<tr>
-							<th class="title-sub"></th>
-							<th class="title-sub"></th>
-							<th class="title-sub"></th>
+							<th></th>
+							<th></th>
+							<th></th>
 					    <tr>
 					    	<td class="col-group" colspan="2">시험편 식별 번호</td>
 					    	<td class="col-value" colspan="4"><input type="text" name="df_idNumber" value="${blockInformation.df_idNumber}"></td>
@@ -107,6 +107,7 @@
 								<input type="text" name="note" style="height: 150px;" placeholder="특이사항 입력">
 							</td>
 					    </tr>
+						<input type="hidden" name="df_num" value="${blockInformation.df_num}">
 					</table>
 					<button type="submit">시험편 이동 등록</button>
 				</form>

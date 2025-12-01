@@ -41,7 +41,8 @@
 							</form>
 						</div>
 						<div>
-							<a style="display:inline-block; width:100px; text-align:center; height:30px; border:1px solid black;" href="${contextPath}/blockManagement/addBlockForm.do">시험편 등록</a>
+							<a style="display:inline-block; width:100px; text-align:center; height:30px; border:1px solid black;" href="${contextPath}/blockManagement/addStandardBlockForm.do">표준 시험편 등록</a>
+							<a style="display:inline-block; width:100px; text-align:center; height:30px; border:1px solid black;" href="${contextPath}/blockManagement/addBlockForm.do">일반 시험편 등록</a>
 						</div>
 					</div>
                     <table class="table-control">

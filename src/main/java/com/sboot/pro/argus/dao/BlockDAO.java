@@ -33,7 +33,7 @@ public interface BlockDAO {
 	public void updateBlock(BlockVO modBlockForm) throws Exception;
 	
 	// 블럭 삭제
-	public void deleteBlock(String df_idNumber) throws Exception;
+	public void deleteBlock(String df_num) throws Exception;
 	
 	// 블럭 대여
 	public void updateItemStatus(@Param("df_idNumber") String df_idNumber, @Param("df_moveStatus") String df_moveStatus) throws Exception;
@@ -54,7 +54,7 @@ public interface BlockDAO {
 	
 	// 블럭 반납
 	public void updateReturnWaiting(int app_num) throws Exception;
-	public void finalApprovalReturn(@Param("df_idNumber") String df_idNumber, @Param("app_rcv_area") String app_rcv_area, @Param("searchArea") String searchArea, @Param("app_num") int app_num) throws Exception;
+	public void finalApprovalReturn(@Param("df_num") int df_num, @Param("app_rcv_area") String app_rcv_area, @Param("searchArea") String searchArea, @Param("app_num") int app_num) throws Exception;
 	
 	// 블럭 반납 - 구
 	public String selectIdNumber(int app_num) throws Exception;
@@ -111,12 +111,12 @@ public interface BlockDAO {
 	// 이동 승인
 	public int updateApproval(@Param("app_num") int app_num, @Param("app_isError") String app_isError, @Param("searchArea") String searchArea) throws Exception;
 	public int tnfCheck(int app_num) throws Exception;
-	public void finalApproval(@Param("df_idNumber") String df_idNumber, @Param("app_rcv_area") String app_rcv_area, @Param("searchArea") String searchArea, @Param("app_num") int app_num) throws Exception;
+	public void finalApproval(@Param("df_num") int df_num, @Param("app_rcv_area") String app_rcv_area, @Param("searchArea") String searchArea, @Param("app_num") int app_num) throws Exception;
 	
 	// 반출 이동 승인
 	public int updateExpertApproval(@Param("app_num") int app_num, @Param("app_isError") String app_isError, @Param("searchArea") String searchArea) throws Exception;
 	public int tnfExpertCheck(int app_num) throws Exception;
-	public void finalExpertApproval(@Param("df_idNumber") String df_idNumber, @Param("app_rcv_area") String app_rcv_area, @Param("searchArea") String searchArea, @Param("app_num") int app_num) throws Exception;
+	public void finalExpertApproval(@Param("df_num") int df_num, @Param("app_rcv_area") String app_rcv_area, @Param("searchArea") String searchArea, @Param("app_num") int app_num) throws Exception;
 
 	// 반출 이동 승인 (return, final, transMethod 입력(추가))
 	public int updateFinalExpertApproval(@Param("app_num") int app_num, @Param("app_hnd_transMethod") String app_hnd_transMethod, @Param("app_isError") String app_isError) throws Exception;
@@ -129,22 +129,22 @@ public interface BlockDAO {
 	public int checkFileName(String expSign_name) throws Exception;
 	// 이동 거절
 	public int updateRejection(@Param("app_num") int app_num, @Param("searchArea") String searchArea) throws Exception;
-	public void finalRejection(int app_num) throws Exception;
+	public void finalRejection(int df_num) throws Exception;
 	
 	// 반출 거절
 	public int updateExpertRejection(@Param("app_num") int app_num, @Param("app_isError") String app_isError, @Param("token") int token, @Param("app_type") String app_type) throws Exception;
 	public int countExpertRejection(int app_num) throws Exception;
-	public int rejectionRollbackData(@Param("app_num") int app_num, @Param("count") int count) throws Exception;
+	public int rejectionRollbackData(@Param("app_num") int app_num, @Param("count") int count, @Param("df_num") int df_num) throws Exception;
 	//	public void finalRejection(int app_num) throws Exception;
 	
 	// 블럭 스펙 추가
-	public void insertBlockSpec(@Param("df_idNumber") String df_idNumber, @Param("img") BlockVO img, @Param("searchArea") String searchArea) throws Exception;
+	public void insertBlockSpec(@Param("df_num") String df_num, @Param("img") BlockVO img, @Param("searchArea") String searchArea) throws Exception;
 	
 	// 블럭 스펙 보기
 	public List<BlockVO> selectBlockSpecView(String df_idNumber) throws Exception;
 
 	// 블럭 스펙 삭제
-	public void deleteBlockSpec(String df_idNumber) throws Exception;
+	public void deleteBlockSpec(String df_num) throws Exception;
 	
 	// 블럭 점검 게시판 수 카운트
 	public int inspectionListCount(String searchArea) throws Exception;
@@ -168,8 +168,8 @@ public interface BlockDAO {
 	public int deleteInspectionView(int bib_num) throws Exception;
 	
 	// 블럭 점검 이력 보기
-	public int inspectionHistoryCount(String df_idNumber) throws Exception;
-	public List<BlockVO> selectInspectionHistory(@Param("df_idNumber") String df_idNumber, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
+	public int inspectionHistoryCount(String df_num) throws Exception;
+	public List<BlockVO> selectInspectionHistory(@Param("df_num") String df_num, @Param("offset") int offset, @Param("limit") int limit) throws Exception;
 	
 	// 블럭 제작 요청 게시판
 	public int createBlockListCount(String searchArea) throws Exception;

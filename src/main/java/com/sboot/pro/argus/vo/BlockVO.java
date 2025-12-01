@@ -17,6 +17,10 @@ public class BlockVO extends WorkingDailyBaseVO {
 	private String df_manufacture;
 	private String df_itemStatus;
 	private String df_moveStatus;
+	private String df_stdCode;
+	private String df_stdClass;
+	private String df_stdThick;
+	private String df_type;
 	
 	// 이동 기록
 	private int moveList_num;
@@ -162,6 +166,30 @@ public class BlockVO extends WorkingDailyBaseVO {
 	}
 	public void setDf_moveStatus(String df_moveStatus) {
 		this.df_moveStatus = df_moveStatus;
+	}
+	public String getDf_stdCode() {
+		return df_stdCode;
+	}
+	public void setDf_stdCode(String df_stdCode) {
+		this.df_stdCode = df_stdCode;
+	}
+	public String getDf_stdClass() {
+		return df_stdClass;
+	}
+	public void setDf_stdClass(String df_stdClass) {
+		this.df_stdClass = df_stdClass;
+	}
+	public String getDf_stdThick() {
+		return df_stdThick;
+	}
+	public void setDf_stdThick(String df_stdThick) {
+		this.df_stdThick = df_stdThick;
+	}
+	public String getDf_type() {
+		return df_type;
+	}
+	public void setDf_type(String df_type) {
+		this.df_type = df_type;
 	}
 	public int getMoveList_num() {
 		return moveList_num;

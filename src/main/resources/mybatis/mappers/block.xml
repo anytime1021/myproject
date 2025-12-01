@@ -64,10 +64,10 @@
 	<!-- 블럭 삭제 -->
 	<delete id="deleteBlock">
 		insert into blockInformation_deleteLog(df_idNumber, df_pictureName, df_material, df_size, df_usage, df_weld, df_manufacture, df_itemStatus, df_moveStatus, note, login_area)
-		select df_idNumber, df_pictureName, df_material, df_size, df_usage, df_weld, df_manufacture, df_itemStatus, df_moveStatus, note, login_area from blockInformation where df_idNumber = #{df_idNumber};
+		select df_idNumber, df_pictureName, df_material, df_size, df_usage, df_weld, df_manufacture, df_itemStatus, df_moveStatus, note, login_area from blockInformation where df_num = #{df_num};
 		
 		delete from blockInformation
-		where df_idNumber = #{df_idNumber}	
+		where df_num = #{df_num}	
 	</delete>
 	
 	<!-- 블럭 대여 -->
@@ -79,8 +79,8 @@
 	</update>
 	
 	<insert id="insertMoveBlockList">
-		insert into approval(df_idNumber, app_hnd_comment, login_area, app_hnd_area, app_hnd_name, app_hnd_create_at, app_hnd_transMethod, app_rcv_area, app_rcv_name, app_rcv_create_at, app_isError, note, app_type)
-		values(#{moveBlock.df_idNumber}, #{moveBlock.app_hnd_comment}, #{moveBlock.login_area}, #{moveBlock.app_hnd_area}, #{moveBlock.app_hnd_name}, #{moveBlock.app_hnd_create_at}, #{moveBlock.app_hnd_transMethod}, #{moveBlock.app_rcv_area}, #{moveBlock.app_rcv_name}, #{moveBlock.app_rcv_create_at}, #{moveBlock.app_isError}, #{moveBlock.note}, #{moveBlock.app_type});
+		insert into approval(df_idNumber, df_num, app_hnd_comment, login_area, app_hnd_area, app_hnd_name, app_hnd_create_at, app_hnd_transMethod, app_rcv_area, app_rcv_name, app_rcv_create_at, app_isError, note, app_type)
+		values(#{moveBlock.df_idNumber}, #{moveBlock.df_num}, #{moveBlock.app_hnd_comment}, #{moveBlock.login_area}, #{moveBlock.app_hnd_area}, #{moveBlock.app_hnd_name}, #{moveBlock.app_hnd_create_at}, #{moveBlock.app_hnd_transMethod}, #{moveBlock.app_rcv_area}, #{moveBlock.app_rcv_name}, #{moveBlock.app_rcv_create_at}, #{moveBlock.app_isError}, #{moveBlock.note}, #{moveBlock.app_type});
 		
 		update blockInformation
 		set df_itemStatus = '승인대기중'
@@ -92,8 +92,8 @@
 	
 	<!-- 블럭 외부 반출 -->
 	<insert id="insertExpertBlock">
-		insert into expertApproval(df_idNumber, app_hnd_comment, app_period, login_area, app_hnd_area, app_hnd_name, app_hnd_create_at, app_hnd_transMethod, app_rcv_area, app_rcv_name, app_rcv_create_at, app_isError, note, app_type)
-		values(#{df_idNumber}, #{app_hnd_comment}, #{app_period}, #{login_area}, #{app_hnd_area}, #{app_hnd_name}, #{app_hnd_create_at}, #{app_hnd_transMethod}, #{app_rcv_area}, #{app_rcv_name}, #{app_rcv_create_at}, #{app_isError}, #{note}, #{app_type});
+		insert into expertApproval(df_idNumber, df_num, app_hnd_comment, app_period, login_area, app_hnd_area, app_hnd_name, app_hnd_create_at, app_hnd_transMethod, app_rcv_area, app_rcv_name, app_rcv_create_at, app_isError, note, app_type)
+		values(#{df_idNumber}, #{df_num}, #{app_hnd_comment}, #{app_period}, #{login_area}, #{app_hnd_area}, #{app_hnd_name}, #{app_hnd_create_at}, #{app_hnd_transMethod}, #{app_rcv_area}, #{app_rcv_name}, #{app_rcv_create_at}, #{app_isError}, #{note}, #{app_type});
 		
 		update blockInformation
 		set df_itemStatus = '승인대기중'
@@ -110,7 +110,7 @@
 	<select id="selectBlockRentalList" parameterType="list">
 		select * from (
 			select row_number() over (order by a.df_idNumber asc) as row_num, a.*, b.df_size, b.df_material, b.df_usage from blockMoveList a inner join blockInformation b on 
-			a.df_idNumber = b.df_idNumber where moveList_return_date is null
+			a.df_num = b.df_num where moveList_return_date is null
 			<if test="searchArea != '본사'">
 			and moveList_recipient_area = #{searchArea}
 			</if>
@@ -127,8 +127,8 @@
 	</update>
 	
 	<insert id="insertReturnRequestFormData" parameterType="int">
-		insert into expertApproval(df_idNumber, app_hnd_comment, app_period, login_area, app_hnd_area, app_hnd_name, app_hnd_create_at, app_rcv_area, app_rcv_name, note, app_type, expSign_num, returnRequest, request_reject_num)
-		select df_idNumber, '반납', app_period, login_area, app_rcv_area, app_rcv_name, now(), login_area, app_hnd_name, note, 'return', expSign_num, 'Y', app_num from expertApproval where app_num = #{app_num}
+		insert into expertApproval(df_num, df_idNumber, app_hnd_comment, app_period, login_area, app_hnd_area, app_hnd_name, app_hnd_create_at, app_rcv_area, app_rcv_name, note, app_type, expSign_num, returnRequest, request_reject_num)
+		select df_num, df_idNumber, '반납', app_period, login_area, app_rcv_area, app_rcv_name, now(), login_area, app_hnd_name, note, 'return', expSign_num, 'Y', app_num from expertApproval where app_num = #{app_num}
 	</insert>
 	
 	<!-- 블럭 반납 -->
@@ -391,7 +391,7 @@
 	<!-- 전체 블럭 리스트 검색 수 카운트 -->
 	<select id="selectSearchTotalList" parameterType="Map">
 		select * from (
-			select row_number() over (order by df_idNumber desc) as row_num, blockInformation.* from blockInformation
+			select row_number() over (order by df_idNumber asc) as row_num, blockInformation.* from blockInformation
 			<include refid="searchList" />
 			and YN = 'Y'
 			<if test="searchArea != '본사'">
@@ -444,7 +444,7 @@
 	
 	<!-- 이동 보고서 상세보기 -->	
 	<select id="selectBlockApprovalView_df_idNumber" parameterType="int" resultType="com.sboot.pro.argus.vo.BlockVO">
-		select df_idNumber, app_rcv_area from Approval where app_num = #{app_num};
+		select df_num, df_idNumber, app_rcv_area from Approval where app_num = #{app_num};
 	</select>
 	
 	<select id="selectBlockApprovalView" parameterType="int" resultType="BlockVO">
@@ -457,7 +457,7 @@
 	
 	<!-- 반출 이동 보고서 상세보기 -->
 	<select id="selectExpertBlockApprovalView_df_idNumber" parameterType="int" resultType="com.sboot.pro.argus.vo.BlockVO">
-		select df_idNumber, app_rcv_area from expertApproval where app_num = #{app_num};
+		select df_num, df_idNumber, app_rcv_area from expertApproval where app_num = #{app_num};
 	</select>
 	
 	<select id="selectExpSign_num" parameterType="int">
@@ -493,13 +493,13 @@
 	</select>
 	
 	<insert id="finalApproval" parameterType="Map">
-		insert into blockMoveList(moveList_lender, moveList_recipient, moveList_recipient_area, moveList_rental_date, df_itemStatus, df_idNumber, login_area, YN, app_num)
-		select app_hnd_name, app_rcv_name, app_rcv_area, app_hnd_create_at, '대여중', df_idNumber, login_area, 'Y', app_num from Approval where app_num = #{app_num};
+		insert into blockMoveList(moveList_lender, moveList_recipient, moveList_recipient_area, moveList_rental_date, df_itemStatus, df_idNumber, login_area, YN, app_num, df_num)
+		select app_hnd_name, app_rcv_name, app_rcv_area, app_hnd_create_at, '대여중', df_idNumber, login_area, 'Y', app_num, df_num from Approval where app_num = #{app_num};
 		
 		update blockInformation
 		set df_itemStatus = '대여중',
 		df_moveStatus = #{app_rcv_area}
-		where df_idNumber = #{df_idNumber}
+		where df_num = #{df_num}
 	</insert>
 	
 	<!-- 반출 이동 승인 -->
@@ -522,13 +522,13 @@
 	</select>
 	
 	<insert id="finalExpertApproval" parameterType="Map">
-		insert into blockMoveList(moveList_lender, moveList_recipient, moveList_recipient_area, moveList_rental_date, df_itemStatus, df_idNumber, login_area, YN, app_num)
-		select app_hnd_name, app_rcv_name, app_rcv_area, app_hnd_create_at, '대여중', df_idNumber, login_area, 'Y', app_num from expertApproval where app_num = #{app_num};
+		insert into blockMoveList(moveList_lender, moveList_recipient, moveList_recipient_area, moveList_rental_date, df_itemStatus, df_idNumber, login_area, YN, app_num, df_num)
+		select app_hnd_name, app_rcv_name, app_rcv_area, app_hnd_create_at, '대여중', df_idNumber, login_area, 'Y', app_num, df_num from expertApproval where app_num = #{app_num};
 		
 		update blockInformation
 		set df_itemStatus = '대여중',
 		df_moveStatus = #{app_rcv_area}
-		where df_idNumber = #{df_idNumber}
+		where df_num = #{df_num}
 	</insert>
 	
 	<!-- 반출 이동 승인 (return, final, transMethod 입력(추가)) -->
@@ -587,7 +587,7 @@
 		update blockInformation
 		set df_itemStatus = '이상없음',
 		df_moveStatus = '-'
-		where df_idNumber = (select df_idNumber from Approval where app_num = #{app_num});
+		where df_num = #{df_num}
 	</update>
 	
 	<!-- 반출 거절 -->
@@ -626,7 +626,7 @@
 			update blockInformation
 			set df_itemStatus = '이상없음',
 			df_moveStatus = '-'
-			where df_idNumber = (select df_idNumber from expertApproval where app_num = #{app_num})
+			where df_num = #{df_num}
 		</if>
 		<if test="count == 1">
 			update expertApproval a inner join 
@@ -638,8 +638,8 @@
 	
 	<!-- 블럭 스펙 추가 -->
 	<insert id="insertBlockSpec" parameterType="Map">
-		insert into blockSpec_image(df_idNumber, file_name, file_path, login_area)
-		values (#{df_idNumber}, #{img.file_name}, #{img.file_path}, #{searchArea})
+		insert into blockSpec_image(df_num, file_name, file_path, login_area)
+		values (#{df_num}, #{img.file_name}, #{img.file_path}, #{searchArea})
 	</insert>
 	
 	<!-- 블럭 스펙 보기 -->
@@ -649,7 +649,7 @@
 	
 	<!-- 블럭 스펙 삭제 -->
 	<select id="deleteBlockSpec" parameterType="String">
-		delete from blockSpec_Image where df_idNumber = #{df_idNumber}
+		delete from blockSpec_Image where df_num = #{df_num}
 	</select>
 	
 	<!-- 블럭 점검 게시판 수 카운트 -->
@@ -674,7 +674,7 @@
 	<!-- 블럭 점검 폼 -->
 	<select id="inspectionList" parameterType="String">
 		select * from (
-			select row_number() over (order by df_idNumber asc) as row_num, df_idNumber from blockInformation where login_area = #{searchArea}
+			select row_number() over (order by df_idNumber asc) as row_num, df_num, df_idNumber from blockInformation where login_area = #{searchArea}
 		) sub order by row_num desc
 	</select>
 
@@ -689,9 +689,9 @@
 	</select>
 	
 	<insert id="insertInspectionList" parameterType="Map">
-		insert into blockInspectionList (bil_status, bil_date, df_idNumber, login_area, bib_num) values
+		insert into blockInspectionList (bil_status, bil_date, df_idNumber, login_area, bib_num, df_num) values
 		<foreach collection="blockInspectionList" item="item" separator=",">
-			(#{item.bil_status}, now(), #{item.df_idNumber}, #{item.login_area}, #{item.bib_num})
+			(#{item.bil_status}, now(), #{item.df_idNumber}, #{item.login_area}, #{item.bib_num}, #{item.df_num})
 		</foreach>
 	</insert>
 	
@@ -716,13 +716,13 @@
 	
 	<!-- 블럭 점검 이력 보기 -->
 	<select id="inspectionHistoryCount" parameterType="String">
-		select count(*) from blockInspectionList where df_idNumber = #{df_idNumber}
+		select count(*) from blockInspectionList where df_num = #{df_num}
 	</select>
 	
 	<select id="selectInspectionHistory" parameterType="Map">
 		select * from (
 			select row_number() over (order by df_idNumber asc) as row_num, blockInspectionList.*
-			from blockInspectionList where df_idNumber = #{df_idNumber}
+			from blockInspectionList where df_num = #{df_num}
 			order by row_num desc limit #{offset}, #{limit}
 		) sub order by row_num desc
 	</select>

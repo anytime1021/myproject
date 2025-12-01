@@ -54,6 +54,7 @@
                         <tbody>
 							<c:forEach var="ApprovalList" items="${ApprovalList}">
 								<tr>
+									<input type="hidden" id="df_num" name="df_num" value="${ApprovalList.df_num}">
 									<td>${ApprovalList.row_num}</td>
 									<td><button style="font-size: 15px; cursor: pointer; background-color: white; border: none;" onclick="detailViewIdNumber(this)">${ApprovalList.df_idNumber}</button></td>
 									<td>${ApprovalList.login_area}</td>
@@ -145,9 +146,8 @@
 <script>
 	function detailViewIdNumber(button) {
 		const row = button.closest("tr");
-		const cells = row.getElementsByTagName("td");
-		
-		const id = cells[1].innerText;
+
+		const dfNum = row.querySelector("input[name='df_num']").value;
 		
 		const form = document.createElement("form");
 		form.method = "POST";
@@ -155,8 +155,8 @@
 		
 		const inputId = document.createElement("input");
 		inputId.type = "hidden";
-		inputId.name = "df_idNumber";
-		inputId.value = id;
+		inputId.name = "df_num";
+		inputId.value = dfNum;
 		
 		form.appendChild(inputId);
 		document.body.appendChild(form);

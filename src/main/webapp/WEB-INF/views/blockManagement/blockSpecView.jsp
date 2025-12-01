@@ -22,14 +22,14 @@
         <div class="main-content">
 			<div class="slider">
 				<button class="prev" onclick="prev()">←</button>
-				<img id="slide" src="${pageContext.request.contextPath}/resources/img/${blockSpecView[0].file_name}" alt="Spec Image">
+				<img id="slide" src="${pageContext.request.contextPath}/resources/img/bSpec/${blockSpecView[0].file_name}" alt="Spec Image">
 				<button class="next" onclick="next()">→</button>
 			</div>
 			<div class="contents-container">
 				<div class="contents-list">
 					<div class="btn-wrapper">
 						<c:if test="${blockSpecView[0].login_area eq searchArea}">
-							<a class="btn" style="display:inline-block; width:100px; text-align:center; height:30px; border:1px solid black; align-items:right;" href="${contextPath}/blockManagement/removeBlockSpec.do?df_idNumber=${df_idNumber}">삭제하기</a>
+							<a class="btn" style="display:inline-block; width:100px; text-align:center; height:30px; border:1px solid black; align-items:right;" href="${contextPath}/blockManagement/removeBlockSpec.do?df_num=${df_num}">삭제하기</a>
 						</c:if>
 					</div>
 				</div>
@@ -41,7 +41,7 @@
 <script>
 	const imgs = [
 		<c:forEach var="blockSpecView" items="${blockSpecView}" varStatus="status">
-			"${contextPath}/resources/img/${blockSpecView.file_name}"<c:if test="${!status.last}">,</c:if>
+			"${contextPath}/resources/img/bSpec/${blockSpecView.file_name}"<c:if test="${!status.last}">,</c:if>
 		</c:forEach>
 	];
 	

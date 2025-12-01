@@ -56,9 +56,10 @@
                         <tbody>
 							<c:forEach var="rentalList" items="${rentalList}">
 								<tr>
+									<input type="hidden" id="df_num" name="df_num" value="${rentalList.df_num}">
+									<input type="hidden" id="app_num" name="app_num" value="${rentalList.app_num}">
 									<td>${rentalList.row_num}</td>
 									<td><button style="font-size: 15px; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">${rentalList.df_idNumber}</button></td>
-									<input type="hidden" id="app_num" name="app_num" value="${rentalList.app_num}">
 									<td>${rentalList.df_size}</td>
 									<td>${rentalList.df_material}</td>
 									<td>${rentalList.df_usage}</td>
@@ -114,9 +115,8 @@
 <script>
 	function detailView(button) {
 		const row = button.closest("tr");
-		const cells = row.getElementsByTagName("td");
 		
-		const id = cells[1].innerText;
+		const dfNum = row.querySelector("input[name='df_num']").value;
 		
 		const form = document.createElement("form");
 		form.method = "POST";
@@ -124,8 +124,8 @@
 		
 		const inputId = document.createElement("input");
 		inputId.type = "hidden";
-		inputId.name = "df_idNumber";
-		inputId.value = id;
+		inputId.name = "df_num";
+		inputId.value = dfNum;
 		
 		form.appendChild(inputId);
 		document.body.appendChild(form);

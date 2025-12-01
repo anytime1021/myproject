@@ -63,12 +63,13 @@
 						</div>
 						<div class="form-group">
 							<label>용접여부 : </label>
-							<input type="text" id="df_weld" name="df_weld" value= "${blockView.df_weld}">
+							<input type="text" id="df_weld" name="df_weld" value="${blockView.df_weld}">
 						</div>
 						<div class="form-group">
 							<label>비고 : </label>
 							<input type="text" id="note" name="note" value="${blockView.note}">
 						</div>
+						<input type="hidden" name="df_num" value="${blockView.df_num}">
 						<button type="submit" id="submitBtn">수정하기</button>
 					</div>
 				</form>

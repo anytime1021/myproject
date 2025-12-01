@@ -55,6 +55,7 @@
                         <tbody>
 							<c:forEach var="blockTotalList" items="${blockTotalList}">
 								<tr>
+									<input type="hidden" name="df_num" value="${blockList.df_num}">
 									<td>${blockTotalList.row_num}</td>
 									<td><button style="font-size: 15px; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">${blockTotalList.df_idNumber}</button></td>
 									<td>${blockTotalList.df_size}</td>
@@ -115,9 +116,8 @@
 <script>
 	function detailView(button) {
 		const row = button.closest("tr");
-		const cells = row.getElementsByTagName("td");
 		
-		const id = cells[1].innerText;
+		const dfNum = row.querySelector("input[name='df_num']").value;
 		
 		const form = document.createElement("form");
 		form.method = "POST";
@@ -125,8 +125,8 @@
 		
 		const inputId = document.createElement("input");
 		inputId.type = "hidden";
-		inputId.name = "df_idNumber";
-		inputId.value = id;
+		inputId.name = "df_num";
+		inputId.value = df_num;
 		
 		form.appendChild(inputId);
 		document.body.appendChild(form);

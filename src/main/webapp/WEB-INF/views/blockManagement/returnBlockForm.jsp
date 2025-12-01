@@ -89,6 +89,7 @@
 							</td>
 					    </tr>
 						<input type="hidden" name="app_num" value="${returnBlockForm.app_num}">
+						<input type="hidden" name="df_num" value="${returnBlockForm.df_num}">
 					</table>
 					<button type="submit">시험편 이동 등록</button>
 				</form>

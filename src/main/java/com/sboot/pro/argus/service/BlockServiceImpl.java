@@ -67,8 +67,8 @@ public class BlockServiceImpl implements BlockService {
 	
 	// 블럭 삭제
 	@Override
-	public void removeBlock(String df_idNumber) throws Exception {
-		blockDAO.deleteBlock(df_idNumber);
+	public void removeBlock(String df_num) throws Exception {
+		blockDAO.deleteBlock(df_num);
 	}
 	
 	// 블럭 대여
@@ -256,16 +256,16 @@ public class BlockServiceImpl implements BlockService {
 	
 	// 반출 거절
 	@Override
-	public int updateExpertRejection(int app_num, String app_isError, int token, String app_type) throws Exception {
+	public int updateExpertRejection(int app_num, String app_isError, int token, String app_type, int df_num) throws Exception {
 		int result1 = blockDAO.updateExpertRejection(app_num, app_isError, token, app_type);
 		int count = blockDAO.countExpertRejection(app_num);
-		int result2 = blockDAO.rejectionRollbackData(app_num, count);
+		int result2 = blockDAO.rejectionRollbackData(app_num, count, df_num);
 		return result1;
 	}
 	
 	// 블럭 스펙 업로드
 	@Override
-	public void insertBlockSpec(String df_idNumber, MultipartFile[] files, HttpServletRequest request) throws Exception {
+	public void insertBlockSpec(String df_num, MultipartFile[] files, HttpServletRequest request) throws Exception {
 		String uploadDir = request.getServletContext().getRealPath("/resources/img/bSpec");
 		File dir = new File(uploadDir);
 		if (!dir.exists()) {
@@ -292,17 +292,16 @@ public class BlockServiceImpl implements BlockService {
 		            // 파일명 중복 방지 + 확장자 유지
 		            String originalName = file.getOriginalFilename();
 		            String ext = originalName.substring(originalName.lastIndexOf(".") + 1);
-		            String savedName = df_idNumber + "_" + System.currentTimeMillis() + "." + ext;
+		            String savedName = df_num + "_" + System.currentTimeMillis() + "." + ext;
 
 		            File outputFile = new File(uploadDir, savedName);
 		            ImageIO.write(resizedImage, ext, outputFile);
 
 		            BlockVO img = new BlockVO();
-		            img.setDf_idNumber(df_idNumber);
 		            img.setFile_name(savedName);
 		            img.setFile_path(outputFile.getAbsolutePath());
 
-		            blockDAO.insertBlockSpec(df_idNumber, img, searchArea);
+		            blockDAO.insertBlockSpec(df_num, img, searchArea);
 		        } catch (Exception e) {
 		            e.printStackTrace();
 		        }
@@ -332,8 +331,8 @@ public class BlockServiceImpl implements BlockService {
 	
 	// 블럭 스펙 삭제
 	@Override
-	public void removeBlockSpec(String df_idNumber) throws Exception {
-		blockDAO.deleteBlockSpec(df_idNumber);
+	public void removeBlockSpec(String df_num) throws Exception {
+		blockDAO.deleteBlockSpec(df_num);
 	}
 	
 	// 블럭 점검 게시판 수 카운트
@@ -385,8 +384,8 @@ public class BlockServiceImpl implements BlockService {
 	
 	// 블럭 점검 이력 보기
 	@Override
-	public int inspectionHistoryCount(String df_idNumber) throws Exception {
-		return blockDAO.inspectionHistoryCount(df_idNumber);
+	public int inspectionHistoryCount(String df_num) throws Exception {
+		return blockDAO.inspectionHistoryCount(df_num);
 	}
 	
 	// 블럭 제작 요청 게시판
@@ -401,8 +400,8 @@ public class BlockServiceImpl implements BlockService {
 	}
 	
 	@Override
-	public List<BlockVO> selectInspectionHistory(String df_idNumber, int offset, int limit) throws Exception {
-		return blockDAO.selectInspectionHistory(df_idNumber, offset, limit);
+	public List<BlockVO> selectInspectionHistory(String df_num, int offset, int limit) throws Exception {
+		return blockDAO.selectInspectionHistory(df_num, offset, limit);
 	}
 	
 	// 블럭 제작 (정보 저장)

@@ -22,7 +22,7 @@
 			<div class="addBlock-container">
 				<form autocomplete="off" name="addBlockSpec" method="post" action="${contextPath}/blockManagement/addBlockSpec.do" enctype="multipart/form-data">
 					<div class="addBlock">
-						<input type="hidden" name="df_idNumber" value="${df_idNumber}">
+						<input type="hidden" name="df_num" value="${df_num}">
 						<div class="form-group">
 							<label for="df_pictureName">사진 : </label>
 							<input type="file" name="files" multiple>

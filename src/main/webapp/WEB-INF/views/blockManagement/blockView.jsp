@@ -70,14 +70,14 @@
 						<a class="btn" href="${contextPath}/blockManagement/blockSpecView.do?df_num=${blockView.df_num}">성적서 보기</a>
 						<c:if test="${blockView.login_area eq searchArea}">
 							<c:if test="${blockView.df_itemStatus eq '이상없음'}">
-								<a class="btn" href="${contextPath}/blockManagement/addBlockSpecForm.do?df_idNumber=${blockView.df_idNumber}">성적서 등록</a>
-								<a class="btn" href="${contextPath}/blockManagement/inspectionHistory.do?df_idNumber=${blockView.df_idNumber}">점검 이력 보기</a>
-								<a class="btn" href="${contextPath}/blockManagement/moveBlockForm.do?df_idNumber=${blockView.df_idNumber}">시험편 대여하기</a>
-								<a class="btn" href="${contextPath}/blockManagement/expertBlockForm.do?df_idNumber=${blockView.df_idNumber}">외부 반출 요청</a>
-								<a class="btn" href="${contextPath}/blockManagement/modBlockForm.do?df_idNumber=${blockView.df_idNumber}">수정하기</a>
+								<a class="btn" href="${contextPath}/blockManagement/addBlockSpecForm.do?df_num=${blockView.df_num}">성적서 등록</a>
+								<a class="btn" href="${contextPath}/blockManagement/inspectionHistory.do?df_num=${blockView.df_num}">점검 이력 보기</a>
+								<a class="btn" href="${contextPath}/blockManagement/moveBlockForm.do?df_num=${blockView.df_num}">시험편 대여하기</a>
+								<a class="btn" href="${contextPath}/blockManagement/expertBlockForm.do?df_num=${blockView.df_num}">외부 반출 요청</a>
+								<a class="btn" href="${contextPath}/blockManagement/modBlockForm.do?df_num=${blockView.df_num}">수정하기</a>
 							</c:if>
 							<c:if test="${blockView.df_itemStatus eq '이상없음'}">
-								<a class="btn" onclick="return confirm('정말 삭제하시겠습니까?');" href="${contextPath}/blockManagement/removeBlock.do?df_idNumber=${blockView.df_idNumber}">삭제하기</a>
+								<a class="btn" onclick="return confirm('정말 삭제하시겠습니까?');" href="${contextPath}/blockManagement/removeBlock.do?df_num=${blockView.df_num}">삭제하기</a>
 							</c:if>
 						</c:if>
 					</div>

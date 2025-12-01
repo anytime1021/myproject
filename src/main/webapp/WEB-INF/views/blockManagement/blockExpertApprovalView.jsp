@@ -118,39 +118,40 @@
 							</td>
 					    </tr>
 						<input type="hidden" name="app_type" value="${expertApprovalView.app_type}">
+						<input type="hidden" id="df_num" name="df_num" value="${expertApprovalView.df_num}">
 					</table>
 					<div style="display:flex; justify-content:right;">
 						<c:choose>
 							<c:when test="${searchArea eq '본사' && expertApprovalView.app_head_status eq 'W'}">
 								<a href="#"
 								   onclick="submitApproval('${contextPath}/blockManagement/updateExpertApproval.do', '${expertApprovalView.app_num}')"
-								   class="submitButton">
-								   승인
+								   class="approval-btn btn-approve">
+								   <span class="icon">✔</span> 승인
 								</a>
 								<a href="#"
 								   onclick="submitApproval('${contextPath}/blockManagement/updateExpertRejection.do', '${expertApprovalView.app_num}')"
-								   class="submitButton">
-								   거절
+								   class="approval-btn btn-approve">
+								   <span class="icon">✖</span> 거절
 								</a>
 							</c:when>
 							<c:when test="${searchArea eq '본사' && expertApprovalView.app_head_status eq 'Y' && empty expertApprovalView.expSign_name}">
 								<input type="file" name="expertSign">
 								<a href="#"
 									onclick="submitExpertSign('${contextPath}/blockManagement/updateExpertSign.do', '${expertApprovalView.app_num}')"
-									class="submitButton">
+									class="approval-btn btn-approve">
 									사인등록
 								</a>
 							</c:when>
 							<c:when test="${searchArea eq '본사' && expertApprovalView.app_head_status eq 'Y' && not empty expertApprovalView.expSign_name && expertApprovalView.app_rcv_status eq 'W' && expertApprovalView.app_type eq 'rental'}">
 								<a href="#"
 								   onclick="submitApproval('${contextPath}/blockManagement/updateExpertApproval.do', '${expertApprovalView.app_num}')"
-								   class="submitButton">
-								   승인
+								   class="approval-btn btn-approve">
+								   <span class="icon">✔</span> 승인
 								</a>
 								<a href="#"
 								   onclick="submitApproval('${contextPath}/blockManagement/updateExpertRejection.do', '${expertApprovalView.app_num}')"
-								   class="submitButton">
-								   거절
+								   class="approval-btn btn-approve">
+								   <span class="icon">✖</span> 거절
 								</a>
 							</c:when>
 							<c:when test="${searchArea eq expertApprovalView.login_area && expertApprovalView.app_head_status eq 'Y' && not empty expertApprovalView.expSign_name && expertApprovalView.app_rcv_status eq 'Y' && expertApprovalView.returnRequest eq 'N'}">
@@ -162,13 +163,13 @@
 							<c:when test="${searchArea ne '본사' && expertApprovalView.app_type eq 'return' && expertApprovalView.app_head_status eq 'Y' && expertApprovalView.app_rcv_status eq 'W'}">
 								<a href="#"
 								   onclick="returnSubmit('${contextPath}/blockManagement/updateFinalExpertApproval.do', '${expertApprovalView.app_num}')"
-								   class="submitButton">
-								   승인
+								   class="approval-btn btn-approve">
+								   <span class="icon">✔</span> 승인
 								</a>
 								<a href="#"
     							   onclick="submitReject('${contextPath}/blockManagement/updateExpertRejection.do', '${expertApprovalView.app_num}')"
-								   class="submitButton">
-								   거절
+								   class="approval-btn btn-approve">
+								   <span class="icon">✖</span> 거절
 								</a>
 							</c:when>
 						</c:choose>
@@ -295,6 +296,11 @@ function submitReject(url, appNum) {
 		hiddenToken.value = tokenValue;
 		form.appendChild(hiddenToken);
 	}
+	
+	let hiddenDfNum = document.createElement("input");
+	hiddenDfNum.type = "hidden";
+	hiddenDfNum.name = "df_num";
+	hiddenDfNum.value = document.getElementById("df_num").value;
 
 	form.action = url;
 	form.method = "get";

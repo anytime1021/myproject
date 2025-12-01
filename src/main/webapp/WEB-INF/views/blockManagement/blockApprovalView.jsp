@@ -106,20 +106,21 @@
 								<input type="text" name="note" value="${ApprovalView.note}" style="height: 150px;" readonly>
 							</td>
 					    </tr>
+						<input type="hidden" id="df_num" name="df_num" value="${ApprovalView.df_num}">
 					</table>
 					<div style="display:flex; justify-content:right;">
 						<c:choose>
 							<c:when test="${searchArea eq ApprovalView.app_rcv_area && ApprovalView.app_rcv_status eq 'W'}">
-								<span style="width:20%;">코멘트 : </span><input type="text" name="comment" style="border:1px solid black; height:50px; margin-right:30px; text-align:left;">
+								<span style="width:20%;">코멘트 : </span><input type="text" name="comment" style="border:1px solid black; height:30px; margin-right:30px; text-align:left;">
 								<a href="#"
 								   onclick="submitApproval('${contextPath}/blockManagement/updateApproval.do', '${ApprovalView.app_num}')"
-								   style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
-								   승인
+								   class="approval-btn btn-approve">
+								   <span class="icon">✔</span> 승인
 								</a>
 								<a href="#"
 								   onclick="submitApproval('${contextPath}/blockManagement/updateRejection.do', '${ApprovalView.app_num}')"
-								   style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
-								   거절
+								   class="approval-btn btn-reject">
+								   <span class="icon">✖</span> 거절
 								</a>
 							</c:when>
 							<c:when test="${searchArea eq '본사' && ApprovalView.app_rcv_status eq 'Y' && ApprovalView.app_head_status eq 'W'}">
@@ -127,21 +128,21 @@
 								<c:if test="${ApprovalView.app_type eq 'rental'}">
 									<a href="#"
 									   onclick="submitApproval('${contextPath}/blockManagement/updateApproval.do', '${ApprovalView.app_num}')"
-									   style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
-									   승인
+									   class="approval-btn btn-approve">
+									   <span class="icon">✔</span> 승인
 									</a>
 								</c:if>
 								<c:if test="${ApprovalView.app_type eq 'return'}">
 									<a href="#"
 									   onclick="submitApproval('${contextPath}/blockManagement/returnApproval.do', '${ApprovalView.app_num}')"
 									   style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
-									   승인
+									   <span class="icon">✔</span> 승인
 									</a>
 								</c:if>
 								<a href="#"
 								   onclick="submitApproval('${contextPath}/blockManagement/updateRejection.do', '${ApprovalView.app_num}')"
 								   style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
-								   거절
+								   <span class="icon">✖</span> 거절
 								</a>
 							</c:when>
 						</c:choose>
@@ -172,6 +173,11 @@
 	    hiddenAppNum.name = "app_num";
 	    hiddenAppNum.value = appNum;
 	    form.appendChild(hiddenAppNum);
+		
+		let hiddenDfNum = document.createElement("input");
+		hiddenDfNum.type = "hidden";
+		hiddenDfNum.name = "df_num";
+		hiddenDfNum.value = document.getElementById("df_num").value;
 	
 	    form.action = url;
 	    form.method = "get";
