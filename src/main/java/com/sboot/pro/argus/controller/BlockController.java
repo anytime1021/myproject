@@ -56,14 +56,14 @@ public interface BlockController {
 	public ModelAndView blockRentalList(@RequestParam(value="page", defaultValue="1") int page, HttpServletRequest request) throws Exception;
 	
 	// 블럭 반납 폼
-	public ModelAndView returnBlockForm(@RequestParam("app_num_Str") String app_num_str, HttpServletRequest request) throws Exception;
+//	public ModelAndView returnBlockForm(@RequestParam("app_num_Str") String app_num_str, @RequestParam("moveList_num") int moveList_num, HttpServletRequest request) throws Exception;
 	
 	// 블럭 반출 반납 폼
 	public ModelAndView returnExpertBlockForm(@RequestParam("app_num") int app_num, HttpServletRequest request) throws Exception;
 	
 	// 블럭 반납
-	public ModelAndView returnBlockApproval(@ModelAttribute("returnBlockApproval") BlockVO returnBlockApproval, HttpServletRequest request) throws Exception;
-	public ModelAndView returnApproval(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError, HttpServletRequest request) throws Exception;
+//	public ModelAndView returnBlockApproval(@ModelAttribute("returnBlockApproval") BlockVO returnBlockApproval, HttpServletRequest request) throws Exception;
+	public ModelAndView returnApproval(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError, @RequestParam("qualityComment") String qualityComment, HttpServletRequest request) throws Exception;
 	
 	// 블럭 반납 - 구
 	public ModelAndView returnBlock(@RequestParam("df_idNumber") String df_idNumber, HttpServletRequest request) throws Exception;
@@ -90,9 +90,9 @@ public interface BlockController {
 	public ModelAndView blockExpertApprovalView(@RequestParam("app_num_Str") String app_num_Str, HttpServletRequest request) throws Exception;
 	
 	// 이동 승인
-	public ModelAndView updateApproval(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError, @RequestParam("comment") String comment, HttpServletRequest request) throws Exception;
+	public ModelAndView updateApproval(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError, @RequestParam("qualityComment") String qualityComment, HttpServletRequest request) throws Exception;
 	// 반출 이동 승인
-	public ModelAndView updateExpertApproval(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError, @RequestParam("token") String token_Str, 
+	public ModelAndView updateExpertApproval(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError,  @RequestParam("qualityComment") String qualityComment, @RequestParam("token") String token_Str, 
 			@RequestParam("app_rcv_name") String app_rcv_name, HttpServletRequest request) throws Exception;
 	
 	// 반출 이동 사인 업로드
@@ -100,12 +100,12 @@ public interface BlockController {
 	public ModelAndView updateExpertSign(@RequestParam("app_num") int app_num, @RequestParam("expertSign") MultipartFile expertSign, @RequestParam("app_rcv_area") String app_rcv_area, HttpServletRequest request) throws Exception;
 	
 	// 이동 거절
-	public ModelAndView updateRejection(@RequestParam("app_num") int app_num, 
-			@RequestParam("df_num") String df_num, HttpServletRequest request) throws Exception;
+	public ModelAndView updateRejection(@RequestParam("app_num") int app_num, @RequestParam("app_type") String app_type, @RequestParam("app_hnd_area") String app_hnd_area, @RequestParam("app_isError") String app_isError,
+			@RequestParam("df_num") String df_num,  @RequestParam("qualityComment") String qualityComment, HttpServletRequest request) throws Exception;
 	
 	// 반출 거절
-	public ModelAndView updateExpertRejection(@RequestParam("app_num") int app_num, @RequestParam("df_num") String df_num, @RequestParam("app_isError") String app_isError, @RequestParam("token") String token_Str, 
-			@RequestParam("app_rcv_name") String app_rcv_name, @RequestParam("app_type") String app_type, HttpServletRequest request) throws Exception;
+//	public ModelAndView updateExpertRejection(@RequestParam("app_num") int app_num, @RequestParam("df_num") String df_num, @RequestParam("app_isError") String app_isError, @RequestParam("token") String token_Str, 
+//			@RequestParam("app_rcv_name") String app_rcv_name, @RequestParam("app_type") String app_type, HttpServletRequest request) throws Exception;
 	
 	// 블럭 스펙 추가 폼
 	public ModelAndView addBlockSpecForm(@RequestParam("df_num") String df_num) throws Exception;

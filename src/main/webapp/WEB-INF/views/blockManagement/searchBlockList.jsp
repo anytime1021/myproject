@@ -22,7 +22,7 @@
                 <div class="contents-list">
 					<div class="search-write">
 						<div>
-							<form class="search-box" method="get" action="${contextPath}/blockManagement/searchList.do">
+							<form class="search-box" method="get" action="${contextPath}/blockManagement/searchBlockList.do">
 								<select name="searchType">
 									<option value="idNumber" ${searchType == 'idNumber' ? 'selected' : ''}>식별번호</option>
 									<option value="material" ${searchType == 'material' ? 'selected' : ''}>재질</option>
@@ -32,7 +32,6 @@
 									<option value="moveStatus" ${searchType == 'moveStatus' ? 'selected' : ''}>이동현황</option>
 									<option value="note" ${searchType == 'note' ? 'selected' : ''}>비고</option>
 								</select>
-								<input type="hidden" name="token" value="${token}">
 								<div class="searchWithButton">
 									<input type="text" name="searchQuery" value="${searchQuery}" placeholder="검색어 입력">
 									<button type="submit" title="검색">&#128269;</button>
@@ -71,16 +70,7 @@
 											<td>${searchList.df_material}</td>
 											<td>${searchList.df_usage}</td>
 											<td>${searchList.df_itemStatus}</td>
-											<td>
-											<c:choose>
-												<c:when test="${token eq 'blockList' or token eq 'blockTotalList'}">
-													<button style="font-weight: bold; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">상세보기</button>
-												</c:when>
-												<c:otherwise>
-													<button style="font-size: 16px; cursor: pointer; background-color: white; border: none;" onclick="returnBlock(this)">반납하기</button>
-												</c:otherwise>
-											</c:choose>
-											</td>
+											<td><button style="font-weight: bold; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">상세보기</button></td>
 										</tr>
 									</c:forEach>
 								</c:otherwise>
@@ -141,11 +131,10 @@
 	function goToPage(pageNumber) {
 			const form = document.createElement("form");
 			form.method = "GET";
-			form.action = "${contextPath}/blockManagement/searchList.do";
+			form.action = "${contextPath}/blockManagement/searchBlockList.do";
 
 			const searchType = document.querySelector('select[name="searchType"]').value;
 			const searchQuery = document.querySelector('input[name="searchQuery"]').value;
-			const token = document.querySelector('input[name="token"]').value;
 
 			const inputType = document.createElement("input");
 			inputType.type = "hidden";
@@ -165,12 +154,6 @@
 			inputPage.value = pageNumber;
 			form.appendChild(inputPage);
 			
-			const inputToken = document.createElement("input");
-			inputToken.type = "hidden";
-			inputToken.name = "token";
-			inputToken.value = token;
-			form.appendChild(inputToken);
-
 			document.body.appendChild(form);
 			form.submit();
 		}

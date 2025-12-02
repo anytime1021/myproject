@@ -12,7 +12,6 @@
     <meta charset="UTF-8">
     <title>검색결과</title>
     <link rel="stylesheet" href="${contextPath}/resources/css/boardStyle.css">
-
 </head>
 <body>
     <%@ include file="../include/header2.jsp" %>
@@ -22,65 +21,56 @@
             <div class="contents-container">
                 <div class="contents-list">
 					<div class="search-write">
-						<form class="search-box" method="get" action="${contextPath}/blockManagement/searchList.do">
-							<input type="hidden" name="token" value="blockMoveList">
-							<select name="searchType">
-								<option value="idNumber" ${searchType == 'idNumber' ? 'selected' : ''}>식별번호</option>
-								<option value="material" ${searchType == 'material' ? 'selected' : ''}>재질</option>
-								<option value="usage" ${searchType == 'usage' ? 'selected' : ''}>용도</option>
-								<option value="manufacture" ${searchType == 'manufacture' ? 'selected' : ''}>제작일자</option>
-								<option value="itemStatus" ${searchType == 'itemStatus' ? 'selected' : ''}>상태</option>
-								<option value="moveStatus" ${searchType == 'moveStatus' ? 'selected' : ''}>이동현황</option>
-								<option value="note" ${searchType == 'note' ? 'selected' : ''}>비고</option>
-							</select>
-							<div class="searchWithButton">
-								<input type="text" name="searchQuery" value="${searchQuery}" placeholder="검색어 입력">
-								<button type="submit" title="검색">&#128269;</button>
-							</div>
-						</form>
+						<div>
+							<form class="search-box" method="get" action="${contextPath}/blockManagement/searchTotalBlockList.do">
+								<select name="searchType">
+									<option value="idNumber" ${searchType == 'idNumber' ? 'selected' : ''}>식별번호</option>
+									<option value="material" ${searchType == 'material' ? 'selected' : ''}>재질</option>
+									<option value="usage" ${searchType == 'usage' ? 'selected' : ''}>용도</option>
+									<option value="manufacture" ${searchType == 'manufacture' ? 'selected' : ''}>제작일자</option>
+									<option value="itemStatus" ${searchType == 'itemStatus' ? 'selected' : ''}>상태</option>
+									<option value="moveStatus" ${searchType == 'moveStatus' ? 'selected' : ''}>이동현황</option>
+									<option value="note" ${searchType == 'note' ? 'selected' : ''}>비고</option>
+								</select>
+								<div class="searchWithButton">
+									<input type="text" name="searchQuery" value="${searchQuery}" placeholder="검색어 입력">
+									<button type="submit" title="검색">&#128269;</button>
+								</div>
+							</form>
+						</div>
 					</div>
                     <table class="table-control">
                         <thead>
                             <tr>
 								<th style="width:6%;"></th>
-								<th style="width:20%;">식별번호</th>
-								<th style="width:11%;">인계자</th>
-								<th style="width:11%;">인수자</th>
-								<th style="width:12%;">인수지역</th>
-								<th style="width:14%;">대여일</th>
-								<th style="width:14%;">반납일</th>
-								<th style="width:13%;">상태</th>
+								<th style="width:18%;">식별번호</th>
+								<th style="width:18%;">크기</th>
+								<th style="width:15%;">재질</th>
+								<th style="width:15%;">용도</th>
+								<th style="width:14%;">상태</th>
+								<th style="width:14%;"></th>
                             </tr>
                         </thead>
                         <tbody>
 							<c:choose>
 								<c:when test="${empty searchList}">
 									<tr>
-										<td colspan="8" style="text-align:center; padding:20px;">
+										<td colspan="7" style="text-align:center; padding:20px;">
 											검색 결과가 없습니다.
 										</td>
 									</tr>
 								</c:when>
 								<c:otherwise>
-									<c:forEach var="searchList" items="${searchList}"> 
+									<c:forEach var="searchList" items="${searchList}">
 										<tr>
+											<input type="hidden" id="df_num" name="df_num" value="${searchList.df_num}">
 											<td>${searchList.row_num}</td>
-											<td><button style="font-size: 16px; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">${searchList.df_idNumber}</button></td>
-											<td>${searchList.moveList_lender}</td>
-											<td>${searchList.moveList_recipient}</td>
-											<td>${searchList.moveList_recipient_area}</td>
-											<td>${searchList.moveList_rental_date}</td>
-											<td>${searchList.moveList_return_date}</td>
-											<td>
-											<c:choose>
-												<c:when test="${searchList.df_itemStatus eq '사용중'}">
-											    	반납완료
-											    </c:when>
-											    <c:otherwise>
-											    	${searchList.df_itemStatus}
-											    </c:otherwise>
-											</c:choose>
-											</td>
+											<td><button style="font-size: 15px; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">${searchList.df_idNumber}</button></td>
+											<td>${searchList.df_size}</td>
+											<td>${searchList.df_material}</td>
+											<td>${searchList.df_usage}</td>
+											<td>${searchList.df_itemStatus}</td>
+											<td><button style="font-weight: bold; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">상세보기</button></td>
 										</tr>
 									</c:forEach>
 								</c:otherwise>
@@ -114,7 +104,7 @@
 						</ul>
 					</div>
 				</c:if>
-            </div>
+        	</div>
         </div>
     </main>
     <%@ include file="../include/footer2.jsp"%>
@@ -122,9 +112,7 @@
 <script>
 	function detailView(button) {
 		const row = button.closest("tr");
-		const cells = row.getElementsByTagName("td");
-		
-		const id = cells[1].innerText;
+		const dfNum = row.querySelector("input[name='df_num']").value;
 		
 		const form = document.createElement("form");
 		form.method = "POST";
@@ -132,22 +120,21 @@
 		
 		const inputId = document.createElement("input");
 		inputId.type = "hidden";
-		inputId.name = "df_idNumber";
-		inputId.value = id;
+		inputId.name = "df_num";
+		inputId.value = dfNum;
 		
 		form.appendChild(inputId);
 		document.body.appendChild(form);
 		form.submit();
 	}
-
+	
 	function goToPage(pageNumber) {
 			const form = document.createElement("form");
 			form.method = "GET";
-			form.action = "${contextPath}/blockManagement/searchList.do";
+			form.action = "${contextPath}/blockManagement/searchTotalBlockList.do";
 
 			const searchType = document.querySelector('select[name="searchType"]').value;
 			const searchQuery = document.querySelector('input[name="searchQuery"]').value;
-			const token = document.querySelector('input[name="token"]').value;
 
 			const inputType = document.createElement("input");
 			inputType.type = "hidden";
@@ -167,12 +154,6 @@
 			inputPage.value = pageNumber;
 			form.appendChild(inputPage);
 			
-			const inputToken = document.createElement("input");
-			inputToken.type = "hidden";
-			inputToken.name = "token";
-			inputToken.value = token;
-			form.appendChild(inputToken);
-
 			document.body.appendChild(form);
 			form.submit();
 		}

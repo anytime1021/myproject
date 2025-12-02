@@ -109,20 +109,35 @@
 						</tr>
 						<tr>
 							<td class="col-label">이상유무</td>
-							<td class="col-value" colspan="4"><textarea name="app_isError"><c:out value="${expertApprovalView.app_isError}"/></textarea></td>
+							<td class="col-value" colspan="4">
+							    <textarea name="app_isError"
+							        <c:if test="${expertApprovalView.app_type eq 'rental' && (department ne '품질' || expertApprovalView.app_head_status ne 'Y')}">
+										readonly
+									</c:if>
+									<c:if test="${expertApprovalView.app_type eq 'return' && (searchArea ne expertApprovalView.login_area || expertApprovalView.app_head_status ne 'Y' || expertApprovalView.app_rcv_status ne 'W')}">
+										readonly
+									</c:if>
+									><c:out value="${expertApprovalView.app_isError}"/></textarea>
+							</td>
 						</tr>
 						<tr>
 					    	<td class="col-label" colspan="2">[특이사항]</td>
 					    	<td class="col-value" colspan="4">
-								<input type="text" name="note" value="${expertApprovalView.note}" style="height: 130px;">
+								<input type="text" name="note" value="${expertApprovalView.note}" style="height: 100px;">
 							</td>
 					    </tr>
+						<tr>
+							<td class="col-label" colspan="2">품질팀 의견</td>
+							<td class="col-value" colspan="4"><textarea name="qualityComment" <c:if test="${department ne '품질' || expertApprovalView.app_head_status ne 'W'}"> readonly </c:if>>${expertApprovalView.qualityComment}</textarea>
+							</td>
+						</tr>
 						<input type="hidden" name="app_type" value="${expertApprovalView.app_type}">
 						<input type="hidden" id="df_num" name="df_num" value="${expertApprovalView.df_num}">
 					</table>
 					<div style="display:flex; justify-content:right;">
 						<c:choose>
-							<c:when test="${searchArea eq '본사' && expertApprovalView.app_head_status eq 'W'}">
+							<c:when test="${department eq '품질' && expertApprovalView.app_head_status eq 'W'}">
+								<span style="width:20%;"></span><input type="text" name="comment" style="border:none; height:50px; margin-right:30px; text-align:left;" readonly>
 								<a href="#"
 								   onclick="submitApproval('${contextPath}/blockManagement/updateExpertApproval.do', '${expertApprovalView.app_num}')"
 								   class="approval-btn btn-approve">
@@ -130,11 +145,11 @@
 								</a>
 								<a href="#"
 								   onclick="submitApproval('${contextPath}/blockManagement/updateExpertRejection.do', '${expertApprovalView.app_num}')"
-								   class="approval-btn btn-approve">
+								   class="approval-btn btn-reject">
 								   <span class="icon">✖</span> 거절
 								</a>
 							</c:when>
-							<c:when test="${searchArea eq '본사' && expertApprovalView.app_head_status eq 'Y' && empty expertApprovalView.expSign_name}">
+							<c:when test="${department eq '품질' && expertApprovalView.app_head_status eq 'Y' && empty expertApprovalView.expSign_name}">
 								<input type="file" name="expertSign">
 								<a href="#"
 									onclick="submitExpertSign('${contextPath}/blockManagement/updateExpertSign.do', '${expertApprovalView.app_num}')"
@@ -142,7 +157,8 @@
 									사인등록
 								</a>
 							</c:when>
-							<c:when test="${searchArea eq '본사' && expertApprovalView.app_head_status eq 'Y' && not empty expertApprovalView.expSign_name && expertApprovalView.app_rcv_status eq 'W' && expertApprovalView.app_type eq 'rental'}">
+							<c:when test="${department eq '품질' && expertApprovalView.app_head_status eq 'Y' && not empty expertApprovalView.expSign_name && expertApprovalView.app_rcv_status eq 'W' && expertApprovalView.app_type eq 'rental'}">
+								<span style="width:20%;"></span><input type="text" name="comment" style="border:none; height:50px; margin-right:30px; text-align:left;" readonly>
 								<a href="#"
 								   onclick="submitApproval('${contextPath}/blockManagement/updateExpertApproval.do', '${expertApprovalView.app_num}')"
 								   class="approval-btn btn-approve">
@@ -150,17 +166,19 @@
 								</a>
 								<a href="#"
 								   onclick="submitApproval('${contextPath}/blockManagement/updateExpertRejection.do', '${expertApprovalView.app_num}')"
-								   class="approval-btn btn-approve">
+								   class="approval-btn btn-reject">
 								   <span class="icon">✖</span> 거절
 								</a>
 							</c:when>
 							<c:when test="${searchArea eq expertApprovalView.login_area && expertApprovalView.app_head_status eq 'Y' && not empty expertApprovalView.expSign_name && expertApprovalView.app_rcv_status eq 'Y' && expertApprovalView.returnRequest eq 'N'}">
+								<span style="width:20%;"></span><input type="text" name="comment" style="border:none; height:50px; margin-right:30px; text-align:left;" readonly>
 								<a href="${contextPath}/blockManagement/returnExpertApprovalForm.do?app_num=${expertApprovalView.app_num}"
 								class="submitButton">
 									반납요청
 								</a>
 							</c:when>
-							<c:when test="${searchArea ne '본사' && expertApprovalView.app_type eq 'return' && expertApprovalView.app_head_status eq 'Y' && expertApprovalView.app_rcv_status eq 'W'}">
+							<c:when test="${searchArea eq expertApprovalView.login_area && expertApprovalView.app_type eq 'return' && expertApprovalView.app_head_status eq 'Y' && expertApprovalView.app_rcv_status eq 'W'}">
+								<span style="width:20%;"></span><input type="text" name="comment" style="border:none; height:50px; margin-right:30px; text-align:left;" readonly>	
 								<a href="#"
 								   onclick="returnSubmit('${contextPath}/blockManagement/updateFinalExpertApproval.do', '${expertApprovalView.app_num}')"
 								   class="approval-btn btn-approve">
@@ -168,7 +186,7 @@
 								</a>
 								<a href="#"
     							   onclick="submitReject('${contextPath}/blockManagement/updateExpertRejection.do', '${expertApprovalView.app_num}')"
-								   class="approval-btn btn-approve">
+								   class="approval-btn btn-reject">
 								   <span class="icon">✖</span> 거절
 								</a>
 							</c:when>

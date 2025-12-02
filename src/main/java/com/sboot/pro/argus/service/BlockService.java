@@ -33,7 +33,7 @@ public interface BlockService {
 		
 	// 블럭 대여
 	public void modItemStatus(String df_idNumber, String df_moveStatus) throws Exception;
-	public void addMoveBlockList(BlockVO moveBlock, String login_area) throws Exception;
+	public void addMoveBlockList(BlockVO moveBlock, String login_area, String app_type) throws Exception;
 	
 	// 블럭 외부 반출
 	public int addExpertBlock(BlockVO expertBlock) throws Exception;
@@ -88,10 +88,10 @@ public interface BlockService {
 	public BlockVO selectExpertBlockApprovalView(int app_num) throws Exception;
 	
 	// 이동 승인
-	public int updateApproval(int app_num, String app_isError, String searchArea) throws Exception;
+	public int updateApproval(int app_num, String app_isError, String qualityComment, String searchArea) throws Exception;
 	
 	// 반출 이동 승인
-	public int updateExpertApproval(int app_num, String app_isError, String searchArea) throws Exception;
+	public int updateExpertApproval(int app_num, String app_isError, String qualityComment, String searchArea) throws Exception;
 	
 	// 반출 이동 승인 (return, final, transMethod 입력(추가))
 	public int updateFinalExpertApproval(int app_num, String app_hnd_transMethod, String app_isError) throws Exception;
@@ -101,10 +101,10 @@ public interface BlockService {
 	public int updateExpertSign(int app_num, String expSign_name, String app_rcv_area) throws Exception;
 
 	// 이동 거절
-	public int updateRejection(int app_num, String searchArea) throws Exception;
+	public int updateRejection(int app_num, String app_isError, String qualityComment, String searchArea) throws Exception;
 	
 	// 반출 거절
-	public int updateExpertRejection(int app_num, String app_isError, int token, String app_type, int df_num) throws Exception; 
+	public int updateExpertRejection(int app_num, String qualityComment, String app_isError, int token, String app_type, int df_num) throws Exception; 
 	
 	// 블럭 스펙 추가
 	public void insertBlockSpec(String df_idNumber, MultipartFile[] files, HttpServletRequest request) throws Exception;

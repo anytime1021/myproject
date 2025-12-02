@@ -70,6 +70,7 @@
 					    	<td class="col-group" rowspan="4">인계</td>
 					    	<td class="col-label">소 속</td>
 							<td class="col-value" colspan="4"><input type="text" name="login_area" value="${ApprovalView.login_area}" readonly></td>
+							<input type="hidden" id="app_hnd_area" name="app_hnd_area" value="${ApprovalView.app_hnd_area}">
 						</tr>
 						<tr>
 							<td class="col-label">성 명</td>
@@ -98,20 +99,28 @@
 						</tr>
 						<tr>
 							<td class="col-label">이상유무</td>
-							<td class="col-value" colspan="4"><textarea name="app_isError" readonly>${ApprovalView.app_isError}</textarea></td>
+							<td class="col-value" colspan="4"><textarea name="app_isError" <c:if test="${searchArea ne ApprovalView.app_rcv_area || ApprovalView.app_rcv_status ne 'W'}">
+								readonly </c:if>>${ApprovalView.app_isError}</textarea></td>
 						</tr>
 						<tr>
 					    	<td class="col-label" colspan="2">[특이사항]</td>
 					    	<td class="col-value" colspan="4">
-								<input type="text" name="note" value="${ApprovalView.note}" style="height: 150px;" readonly>
+								<input type="text" name="note" value="${ApprovalView.note}" style="height: 100px;" readonly>
 							</td>
 					    </tr>
+						<tr>
+							<td class="col-label" colspan="2">품질팀 의견</td>
+							<td class="col-value" colspan="4">
+								<textarea name="qualityComment" <c:if test="${department ne '품질' || ApprovalView.app_rcv_status ne 'Y' || ApprovalView.app_head_status ne 'W'}">
+									readonly </c:if>>${ApprovalView.qualityComment}</textarea></td>
+						</tr>
 						<input type="hidden" id="df_num" name="df_num" value="${ApprovalView.df_num}">
+						<input type="hidden" id="app_type" name="app_type" value="${ApprovalView.app_type}">
 					</table>
 					<div style="display:flex; justify-content:right;">
 						<c:choose>
 							<c:when test="${searchArea eq ApprovalView.app_rcv_area && ApprovalView.app_rcv_status eq 'W'}">
-								<span style="width:20%;">코멘트 : </span><input type="text" name="comment" style="border:1px solid black; height:30px; margin-right:30px; text-align:left;">
+								<span style="width:20%;"></span><input type="text" name="comment" style="border:none; height:50px; margin-right:30px; text-align:left;" readonly>
 								<a href="#"
 								   onclick="submitApproval('${contextPath}/blockManagement/updateApproval.do', '${ApprovalView.app_num}')"
 								   class="approval-btn btn-approve">
@@ -123,8 +132,8 @@
 								   <span class="icon">✖</span> 거절
 								</a>
 							</c:when>
-							<c:when test="${searchArea eq '본사' && ApprovalView.app_rcv_status eq 'Y' && ApprovalView.app_head_status eq 'W'}">
-								<span style="width:20%;">코멘트 : </span><input type="text" name="comment" style="border:1px solid black; height:50px; margin-right:30px; text-align:left;">
+							<c:when test="${department eq '품질' && ApprovalView.app_rcv_status eq 'Y' && ApprovalView.app_head_status eq 'W'}">
+								<span style="width:20%;"></span><input type="text" name="comment" style="border:none; height:50px; margin-right:30px; text-align:left;" readonly>
 								<c:if test="${ApprovalView.app_type eq 'rental'}">
 									<a href="#"
 									   onclick="submitApproval('${contextPath}/blockManagement/updateApproval.do', '${ApprovalView.app_num}')"
@@ -135,13 +144,13 @@
 								<c:if test="${ApprovalView.app_type eq 'return'}">
 									<a href="#"
 									   onclick="submitApproval('${contextPath}/blockManagement/returnApproval.do', '${ApprovalView.app_num}')"
-									   style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
+									   class="approval-btn btn-approve">
 									   <span class="icon">✔</span> 승인
 									</a>
 								</c:if>
 								<a href="#"
 								   onclick="submitApproval('${contextPath}/blockManagement/updateRejection.do', '${ApprovalView.app_num}')"
-								   style="display:flex; width:120px; padding:12px 0; color:black; font-size:17px; font-weight:700; justify-content:center; border:1px solid black;">
+								   class="approval-btn btn-reject">
 								   <span class="icon">✖</span> 거절
 								</a>
 							</c:when>
@@ -178,6 +187,16 @@
 		hiddenDfNum.type = "hidden";
 		hiddenDfNum.name = "df_num";
 		hiddenDfNum.value = document.getElementById("df_num").value;
+		
+		let hiddenType = document.createElement("input");
+		hiddenType.type = "hidden";
+		hiddenType.name = "app_type";
+		hiddenType.value = document.getElementById("app_type").value;
+		
+		let hiddenArea = document.createElement("input");
+		hiddenArea.type = "hidden";
+		hiddenArea.name = "app_hnd_area";
+		hiddenArea.value = document.getElementById("app_hnd_area").value;
 	
 	    form.action = url;
 	    form.method = "get";

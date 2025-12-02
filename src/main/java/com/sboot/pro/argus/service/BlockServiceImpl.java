@@ -78,8 +78,8 @@ public class BlockServiceImpl implements BlockService {
 	}
 	
 	@Override
-	public void addMoveBlockList(BlockVO moveBlock, String login_area) throws Exception {
-		blockDAO.insertMoveBlockList(moveBlock, login_area);
+	public void addMoveBlockList(BlockVO moveBlock, String login_area, String app_type) throws Exception {
+		blockDAO.insertMoveBlockList(moveBlock, login_area, app_type);
 	}
 	
 	// 블럭 외부 반출
@@ -135,14 +135,14 @@ public class BlockServiceImpl implements BlockService {
 		if (token.equals("blockList")) {
 			return blockDAO.selectSearchList(searchArea, searchType, searchQuery, offset, limit);
 		} else if(token.equals("blockMoveList")) {
-			List<String> idNumber = blockDAO.selectIdNumberSearch(searchArea, searchType, searchQuery);
+			List<Integer> idNumber = blockDAO.selectIdNumberSearch(searchArea, searchType, searchQuery);
 			if (idNumber == null || idNumber.isEmpty()) {
 				idNumber = new ArrayList<>();
-				idNumber.add("1");
+				idNumber.add(1);
 			}
-			return blockDAO.selectSearchMoveList(idNumber, offset, limit);
+			return blockDAO.selectSearchMoveList("dummyString(임시)", idNumber, offset, limit);
 		} else if(token.equals("blockRentalList")) {
-			List<String> idNumber = blockDAO.selectRentalListId(searchArea);
+			List<Integer> idNumber = blockDAO.selectRentalListId(searchArea);
 			return blockDAO.selectSearchRentalList(idNumber, searchType, searchQuery, offset, limit);
 		} else if(token.equals("blockTotalList")) {
 			return blockDAO.selectSearchTotalList(searchArea, searchType, searchQuery, offset, limit);
@@ -154,10 +154,10 @@ public class BlockServiceImpl implements BlockService {
 	@Override
 	public int getSearchListCount(String searchArea, String searchType, String searchQuery, String token) throws Exception {
 		if ("blockRentalList".equals(token)) {
-			List<String> idNumber = blockDAO.selectRentalListId(searchArea);
+			List<Integer> idNumber = blockDAO.selectRentalListId(searchArea);
 			if (idNumber == null || idNumber.isEmpty()) {
 				idNumber = new ArrayList<>();
-				idNumber.add("1");
+				idNumber.add(1);
 			}
 			return blockDAO.selectListCount(searchArea, searchType, searchQuery, token, idNumber);
 		} else if ("blockMoveList".equals(token)) {
@@ -221,14 +221,14 @@ public class BlockServiceImpl implements BlockService {
 	
 	// 이동 승인
 	@Override
-	public int updateApproval(int app_num, String app_isError, String searchArea) throws Exception {
-		return blockDAO.updateApproval(app_num, app_isError, searchArea);
+	public int updateApproval(int app_num, String app_isError, String qualityComment, String searchArea) throws Exception {
+		return blockDAO.updateApproval(app_num, app_isError, qualityComment, searchArea);
 	}
 	
 	// 반출 이동 승인
 	@Override
-	public int updateExpertApproval(int app_num, String app_isError, String searchArea) throws Exception {
-		return blockDAO.updateExpertApproval(app_num, app_isError, searchArea);
+	public int updateExpertApproval(int app_num, String app_isError, String qualityComment, String searchArea) throws Exception {
+		return blockDAO.updateExpertApproval(app_num, app_isError, qualityComment, searchArea);
 	}
 	
 	// 반출 이동 승인 (return, final, transMethod 입력(추가))
@@ -250,16 +250,17 @@ public class BlockServiceImpl implements BlockService {
 	
 	// 이동 거절
 	@Override
-	public int updateRejection(int app_num, String searchArea) throws Exception {
-		return blockDAO.updateRejection(app_num, searchArea);
+	public int updateRejection(int app_num, String app_isError, String qualityComment, String searchArea) throws Exception {
+		return blockDAO.updateRejection(app_num, app_isError, qualityComment, searchArea);
 	}
 	
 	// 반출 거절
 	@Override
-	public int updateExpertRejection(int app_num, String app_isError, int token, String app_type, int df_num) throws Exception {
-		int result1 = blockDAO.updateExpertRejection(app_num, app_isError, token, app_type);
+	public int updateExpertRejection(int app_num, String qualityComment, String app_isError, int token, String app_type, int df_num) throws Exception {
+		int result1 = blockDAO.updateExpertRejection(app_num, qualityComment, app_isError, token, app_type);
 		int count = blockDAO.countExpertRejection(app_num);
-		int result2 = blockDAO.rejectionRollbackData(app_num, count, df_num);
+		System.out.println(count);
+		int result2 = blockDAO.rejectionRollbackData(app_num, count, df_num, app_type);
 		return result1;
 	}
 	

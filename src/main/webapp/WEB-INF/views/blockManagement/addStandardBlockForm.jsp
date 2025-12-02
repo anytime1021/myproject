@@ -31,6 +31,14 @@
 							<input type="file" id="df_picture" name="df_picture">
 						</div>
 						<div class="form-group">
+							<label for="df_material">재질 : </label>
+							<input type="text" id="df_material" name="df_material">
+						</div>
+						<div class="form-group">
+							<label for="df_size">크기 : </label>
+							<input type="text" id="df_size" name="df_size">
+						</div>
+						<div class="form-group">
 							<label>제작일자 : </label>
 							<input type="text" id="df_manufacture" name="df_manufacture" placeholder="yyyy-mm-dd">
 						</div>
@@ -42,6 +50,10 @@
 								<option value="분실">분실</option>
 								<option value="대여중">대여중</option>
 							</select>
+						</div>
+						<div class="form-group">
+							<label>용도 : </label>
+							<input type="text" id="df_usage" name="df_usage">
 						</div>
 						<div class="form-group">
 							<label>이동현황 : </label>
@@ -58,10 +70,6 @@
 						<div class="form-group">
 							<label>등급 : </label>
 							<input type="text" id="df_stdClass" name="df_stdClass">
-						</div>
-						<div class="form-group">
-							<label>두께 : </label>
-							<input type="text" id="df_stdThick" name="df_stdThick">
 						</div>
 						<button type="submit" id="submitBtn">추가하기</button>
 					</div>

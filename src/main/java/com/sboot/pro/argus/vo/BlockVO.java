@@ -52,6 +52,7 @@ public class BlockVO extends WorkingDailyBaseVO {
 	private int expSign_num;
 	private String expSign_name;
 	private MultipartFile expertSignName;
+	private String qualityComment;
 	
 	// 시험편 반출 관련
 	private String app_period;
@@ -521,4 +522,11 @@ public class BlockVO extends WorkingDailyBaseVO {
 	public void setCbd_drawing(String cbd_drawing) {
 		this.cbd_drawing = cbd_drawing;
 	}
+	public String getQualityComment() {
+		return qualityComment;
+	}
+	public void setQualityComment(String qualityComment) {
+		this.qualityComment = qualityComment;
+	}
+	
 }

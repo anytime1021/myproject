@@ -39,6 +39,14 @@
 		#{addBlockForm.df_itemStatus}, #{addBlockForm.df_moveStatus}, #{addBlockForm.note}, #{searchArea})
 	</insert>
 	
+	<!-- 표준 블럭 추가 -->
+	<insert id="insertStandardBlock">
+		insert into blockinformation(df_idNumber, df_pictureName, df_material, df_size, df_usage, df_weld, df_manufacture, df_itemStatus, df_moveStatus, note, login_area, df_stdCode, df_stdClass)
+		values (#{addBlockForm.df_idNumber}, #{addBlockForm.df_pictureName}, #{addBlockForm.df_material}, #{addBlockForm.df_size}, #{addBlockForm.df_usage}, #{addBlockForm.df_weld},
+		#{addBlockForm.df_manufacture}, #{addBlockForm.df_itemStatus}, #{addBlockForm.df_moveStatus}, 
+		#{addBlockForm.note}, #{searchArea}, #{addBlockForm.df_stdCode}, #{addBlockForm.df_stdClass})
+	</insert>
+	
 	<!-- 블럭 수정 -->
 	<insert id="insertUpdateLog">
 		insert into blockinformation_updatelog(df_idNumber, df_pictureName, df_material, df_size, df_usage, df_weld, df_manufacture, df_itemStatus, df_moveStatus, note, login_area, YN)
@@ -79,9 +87,16 @@
 	</update>
 	
 	<insert id="insertMoveBlockList">
-		insert into approval(df_idNumber, df_num, app_hnd_comment, login_area, app_hnd_area, app_hnd_name, app_hnd_create_at, app_hnd_transMethod, app_rcv_area, app_rcv_name, app_rcv_create_at, app_isError, note, app_type)
-		values(#{moveBlock.df_idNumber}, #{moveBlock.df_num}, #{moveBlock.app_hnd_comment}, #{moveBlock.login_area}, #{moveBlock.app_hnd_area}, #{moveBlock.app_hnd_name}, #{moveBlock.app_hnd_create_at}, #{moveBlock.app_hnd_transMethod}, #{moveBlock.app_rcv_area}, #{moveBlock.app_rcv_name}, #{moveBlock.app_rcv_create_at}, #{moveBlock.app_isError}, #{moveBlock.note}, #{moveBlock.app_type});
-		
+	<choose>
+		<when test="app_type == 'rental'">
+			insert into approval(df_idNumber, df_num, app_hnd_comment, login_area, app_hnd_area, app_hnd_name, app_hnd_create_at, app_hnd_transMethod, app_rcv_area, app_rcv_name, app_rcv_create_at, app_isError, note, app_type)
+			values(#{moveBlock.df_idNumber}, #{moveBlock.df_num}, #{moveBlock.app_hnd_comment}, #{moveBlock.login_area}, #{moveBlock.app_hnd_area}, #{moveBlock.app_hnd_name}, #{moveBlock.app_hnd_create_at}, #{moveBlock.app_hnd_transMethod}, #{moveBlock.app_rcv_area}, #{moveBlock.app_rcv_name}, #{moveBlock.app_rcv_create_at}, #{moveBlock.app_isError}, #{moveBlock.note}, #{moveBlock.app_type});
+		</when>
+		<when test="app_type == 'return'">
+			insert into approval(df_idNumber, df_num, app_hnd_comment, login_area, app_hnd_area, app_hnd_name, app_hnd_create_at, app_hnd_transMethod, app_rcv_area, app_rcv_name, app_rcv_create_at, app_isError, note, app_type, moveList_num)
+			values(#{moveBlock.df_idNumber}, #{moveBlock.df_num}, #{moveBlock.app_hnd_comment}, #{moveBlock.login_area}, #{moveBlock.app_hnd_area}, #{moveBlock.app_hnd_name}, #{moveBlock.app_hnd_create_at}, #{moveBlock.app_hnd_transMethod}, #{moveBlock.app_rcv_area}, #{moveBlock.app_rcv_name}, #{moveBlock.app_rcv_create_at}, #{moveBlock.app_isError}, #{moveBlock.note}, #{moveBlock.app_type}, #{moveBlock.moveList_num});
+		</when>
+	</choose>	
 		update blockInformation
 		set df_itemStatus = '승인대기중'
 		where df_idNumber = #{moveBlock.df_idNumber}
@@ -109,14 +124,14 @@
 	<!-- 대여한 블럭 리스트 -->	
 	<select id="selectBlockRentalList" parameterType="list">
 		select * from (
-			select row_number() over (order by a.df_idNumber asc) as row_num, a.*, b.df_size, b.df_material, b.df_usage from blockMoveList a inner join blockInformation b on 
+			select row_number() over (order by a.moveList_rental_date asc) as row_num, a.*, b.df_size, b.df_material, b.df_usage from blockMoveList a inner join blockInformation b on 
 			a.df_num = b.df_num where moveList_return_date is null
 			<if test="searchArea != '본사'">
 			and moveList_recipient_area = #{searchArea}
 			</if>
-			order by row_num desc, df_idNumber desc limit #{offset}, #{limit}
+			order by row_num desc, moveList_rental_date desc limit #{offset}, #{limit}
 		) sub
-		order by row_num desc, df_idNumber desc
+		order by row_num desc, moveList_rental_date desc
 	</select>
 	
 	<!-- 블럭 반출 반납요청-->
@@ -158,7 +173,7 @@
 	
 	<update id="updateReturnRecipient" parameterType="String">
 		update blockMoveList
-		set df_itemStatus = '이상없음',
+		set df_itemStatus = '반납완료',
 		moveList_return_date = now()
 		where df_idNumber = #{df_idNumber} and moveList_return_date is null
 	</update>
@@ -173,22 +188,15 @@
 	
 	<!-- 블럭 이동 기록 -->
 	<select id="selectBlockMoveList" parameterType="String">
-		<choose>
-			<when test="searchArea == '본사'">
 			select * from (
-				select row_number() over (order by moveList_rental_date asc) as row_num, blockMoveList.* from blockMoveList where YN = 'Y' 
+				select row_number() over (order by moveList_rental_date asc) as row_num, blockMoveList.* from blockMoveList 
+				where YN = 'Y' 
+				<if test="searchArea != '본사'">
+					and (login_area = #{searchArea} or moveList_recipient_area = #{searchArea})
+				</if>
 				order by row_num desc, moveList_rental_date desc limit #{offset}, #{limit}
 			) sub
 			order by row_num desc
-			</when>
-			<otherwise>
-			select * from (
-				select row_number() over (order by moveList_rental_date asc) as row_num, blockMoveList.* from blockMoveList where (login_area = #{searchArea} or moveList_recipient_area = #{searchArea}) and YN = 'Y'
-				order by row_num desc, moveList_rental_date desc limit #{offset}, #{limit}
-			) sub
-			order by row_num desc
-			</otherwise>
-		</choose>
 	</select>
 	
 	<!-- 블럭 검색 및 페이징 카운트 수 -->
@@ -303,51 +311,16 @@
 	</select>
 	
 	<!-- 검색 수 카운트 2 -->
-	<select id="selectMoveListCount" resultType="int" parameterType="Map">
-		select count(*) from blockInformation a inner join blockMoveList b on a.df_idNumber = b.df_idNumber
-		<include refid="aliasSearchList">
-			<property name="alias" value="a"/>
-		</include>
-		and a.YN = 'Y'
-		<if test="searchArea != '본사'">
-		and (a.login_area = #{searchArea} or b.moveList_recipient_area = #{searchArea})
-		</if>
-	</select>
+
 	
 	<!-- 검색 식별번호 찾기 1 -->
-	<select id="selectIdNumberSearch" parameterType="Map">
-		select a.df_idNumber from blockInformation a inner join blockMoveList b on
-		a.df_idNumber = b.df_idNumber
-		<include refid="aliasSearchList">
-			<property name="alias" value="a"/>
-		</include>
-		and a.YN = 'Y'
-		<if test="searchArea != '본사'">
-			and (a.login_area = #{searchArea} or (b.moveList_recipient_area = #{searchArea} and b.moveList_return_date is null))
-		</if>
-	</select>
+
 	
 	<!-- 검색 이동 기록 -->
-	<select id="selectSearchMoveList" parameterType="Map">
-		select * from (
-			select row_number() over (order by a.moveList_rental_date asc) as row_num, a.*, b.df_size, b.df_material, b.df_usage from blockMoveList a inner join blockInformation b on 
-			a.df_idNumber = b.df_idNumber
-			where a.YN = 'Y' and a.df_idNumber in 
-			<foreach item="id" collection="idNumber" open="(" separator="," close=")">
-				#{id}
-			</foreach>
-			order by row_num desc limit #{offset}, #{limit}
-		) sub
-		order by row_num desc;
-	</select>
+
 	
 	<!-- 검색 식별번호 찾기 2-->
-	<select id="selectRentalListId" parameterType="Map">
-		select df_idNumber from blockMoveList where YN = 'Y'
-			<if test="searchArea != '본사'">
-				and moveList_recipient_area = #{searchArea} and moveList_return_date is null
-			</if>
-	</select>
+
 	
 	<!-- 검색 대여 기록 -->
 	<select id="selectSearchRentalList" parameterType="list">
@@ -483,7 +456,7 @@
 		</if>
 		<if test="searchArea == '본사'">
 			set app_head_status = 'Y',
-			app_isError = #{app_isError}
+			qualityComment = #{qualityComment}
 		</if>
 		where app_num = #{app_num}
 	</update>
@@ -512,7 +485,7 @@
 		</if>
 		<if test="searchArea == '본사'">
 			set app_head_status = 'Y',
-			app_isError = #{app_isError}
+			qualityComment = #{qualityComment}
 		</if>
 		where app_num = #{app_num}
 	</update>
@@ -575,19 +548,32 @@
 	<update id="updateRejection" parameterType="Map">
 		update Approval
 		<if test="searchArea != '본사'">
-			set app_rcv_status = 'N'
+			set app_rcv_status = 'N',
+			app_isError = #{app_isError}
 		</if>
 		<if test="searchArea == '본사'">
-			set app_head_status = 'N'
+			set app_head_status = 'N',
+			qualityComment = #{qualityComment}
 		</if>
 		where app_num = #{app_num};
 	</update>
-	
+		
 	<update id="finalRejection" parameterType="int">
 		update blockInformation
 		set df_itemStatus = '이상없음',
 		df_moveStatus = '-'
 		where df_num = #{df_num}
+	</update>
+	
+	<update id="finalReturnRejection" parameterType="Map">
+		update blockInformation
+		set df_itemStatus = '대여중',
+		df_moveStatus = #{app_hnd_area}
+		where df_num = #{df_num};
+		
+		update blockMoveList
+		set df_itemStatus = '대여중'
+		where moveList_num = (select moveList_num from approval where app_num = #{app_num});
 	</update>
 	
 	<!-- 반출 거절 -->
@@ -596,11 +582,12 @@
 		update expertApproval
 		<if test="token == 1">
 			set app_head_status = 'N',
+			qualityComment = #{qualityComment}
 		</if>
 		<if test="token == 2">
 			set app_rcv_status = 'N',
+			app_isError = #{app_isError}
 		</if>
-		app_isError = #{app_isError}
 		where app_num = #{app_num}
 	</if>
 	
@@ -608,11 +595,12 @@
 		update expertApproval
 		<if test="token == 1">
 			set app_head_status = 'N',
+			qualityComment = #{qualityComment}
 		</if>
 		<if test="token == 2">
 			set app_rcv_status = 'N',
+			app_isError = #{app_isError}
 		</if>
-		app_isError = #{app_isError}
 		where app_num = #{app_num}
 	</if>
 	</update>
@@ -622,13 +610,13 @@
 	</select>
 	
 	<update id="rejectionRollbackData" parameterType="Map">
-		<if test="count == 0">
+		<if test="app_type == 'rental'">
 			update blockInformation
 			set df_itemStatus = '이상없음',
 			df_moveStatus = '-'
-			where df_num = #{df_num}
+			where df_num = #{df_num};
 		</if>
-		<if test="count == 1">
+		<if test="app_type == 'return'">
 			update expertApproval a inner join 
 			(select request_reject_num from expertApproval where app_num = #{app_num}) b 
 			on a.app_num = b.request_reject_num
@@ -964,4 +952,126 @@
 		delete from createBlockBoard where createBlockBoard_num = #{primaryKey};
 		delete from createBlock where createBlockBoard_num = #{primaryKey}
 	</delete>
+	
+	<!-- 검색 -->
+	<!-- 블럭 -->
+	<select id="searchBlockListCount" parameterType="Map">
+	    select count(*) 
+	    from blockInformation
+	    <include refid="searchList" />
+	    and YN = 'Y'
+		<if test="searchArea != '본사'">
+			and login_area = #{searchArea}
+		</if>
+	</select>
+	<select id="searchBlockList" parameterType="Map">
+		select * from (
+			select row_number() over (order by df_idNumber asc) as row_num, blockInformation.* 
+			from blockInformation
+			<include refid="searchList" />
+			and YN = 'Y'
+			<if test="searchArea != '본사'">
+			and login_area = #{searchArea}
+			</if>
+			order by row_num desc, df_idNumber desc limit #{offset}, #{limit}
+		) sub
+		order by row_num desc, df_idNumber desc
+	</select>
+	
+	<!-- 전체블럭 -->
+	<select id="searchTotalBlockListCount" parameterType="Map">
+	    select count(*) 
+	    from blockInformation
+	    <include refid="searchList" />
+	    and YN = 'Y'
+	</select>
+	<select id="searchTotalBlockList" parameterType="Map">
+		select * from (
+			select row_number() over (order by df_idNumber asc) as row_num, blockInformation.* 
+			from blockInformation
+			<include refid="searchList" />
+			and YN = 'Y'
+			order by row_num desc, df_idNumber desc limit #{offset}, #{limit}
+		) sub
+		order by row_num desc, df_idNumber desc
+	</select>
+	
+	<!-- 대여블럭 -->
+	<select id="selectRentalListId" parameterType="Map">
+		select df_num from blockMoveList where YN = 'Y'
+			<if test="searchArea != '본사'">
+				and moveList_recipient_area = #{searchArea} and moveList_return_date is null
+			</if>
+	</select>
+	
+	<select id="searchRentalListCount" resultType="int" parameterType="Map">
+	    select count(*) 
+	    from blockInformation
+	    <include refid="searchList" />
+	    and YN = 'Y' and df_num in
+        <foreach item="id" collection="idNumber" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    	<if test="searchArea != '본사'">
+    		and login_area = #{searchArea}
+    	</if>
+	</select>
+	
+	<select id="searchRentalBlockList" parameterType="Map">
+		select * from (
+			select row_number() over (order by a.moveList_rental_date asc) as row_num, a.*, b.df_size, b.df_material, b.df_usage from blockMoveList a inner join blockInformation b on 
+			a.df_num = b.df_num 
+			<include refid="aliasSearchList">
+				<property name="alias" value="b"/>
+			</include>
+			and a.YN = 'Y' and moveList_return_date is null 
+			and a.df_num in
+			<foreach item="id" collection="idNumber" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+			order by row_num desc limit #{offset}, #{limit}
+		) sub
+		order by row_num desc
+	</select>
+	
+	<!-- 이동기록 -->
+	<select id="selectMoveListCount" resultType="int" parameterType="Map">
+		select count(*) from blockInformation a inner join blockMoveList b on a.df_num = b.df_num
+		<include refid="aliasSearchList">
+			<property name="alias" value="a"/>
+		</include>
+		and a.YN = 'Y'
+		<if test="searchArea != '본사'">
+		and (a.login_area = #{searchArea} or b.moveList_recipient_area = #{searchArea})
+		</if>
+	</select>
+	
+	<select id="selectIdNumberSearch" parameterType="Map">
+		select a.df_num from blockInformation a inner join blockMoveList b on
+		a.df_num = b.df_num
+		<include refid="aliasSearchList">
+			<property name="alias" value="a"/>
+		</include>
+		and a.YN = 'Y'
+		<if test="searchArea != '본사'">
+			and (a.login_area = #{searchArea} or (b.moveList_recipient_area = #{searchArea} and b.moveList_return_date is null));
+		</if>
+	</select>
+	
+	<select id="selectSearchMoveList" parameterType="Map">
+		select * from (
+			select row_number() over (order by a.moveList_rental_date asc) as row_num, a.*, b.df_size, b.df_material, b.df_usage from blockMoveList a inner join blockInformation b on 
+			a.df_num = b.df_num
+			where a.YN = 'Y'
+			<if test="searchArea != '본사'">
+				and (a.login_area = #{searchArea} or moveList_recipient_area = #{searchArea})
+			</if>
+			and a.df_num in
+			<foreach item="id" collection="idNumber" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+			order by row_num desc
+		) sub
+		order by row_num desc;
+	</select>
 </mapper>

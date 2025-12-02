@@ -41,6 +41,8 @@ import jakarta.servlet.http.HttpServletRequest;
 @Controller("blockManagementController")
 public class BlockControllerImpl implements BlockController {
 
+    private final ReportControllerImpl reportController;
+
 //    private final ReportControllerImpl reportController;
 	
 	@Autowired
@@ -51,6 +53,10 @@ public class BlockControllerImpl implements BlockController {
 	
 	@Autowired
 	LoginDAO loginDAO;
+
+    BlockControllerImpl(ReportControllerImpl reportController) {
+        this.reportController = reportController;
+    }
 
 //    BlockControllerImpl(ReportControllerImpl reportController) {
 //        this.reportController = reportController;
@@ -88,7 +94,6 @@ public class BlockControllerImpl implements BlockController {
 		ModelAndView mav = new ModelAndView("/blockManagement/blockView");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
-		System.out.println(df_num);
 		BlockVO blockView = blockService.selectBlockView(df_num);
 		mav.addObject("searchArea", searchArea);
 		mav.addObject("blockView", blockView);
@@ -217,10 +222,11 @@ public class BlockControllerImpl implements BlockController {
 		}
 		
 		if (addBlockForm.getDf_manufacture().isEmpty()) {
-			addBlockForm.setDf_manufacture(null);
+			String today = java.time.LocalDate.now().toString();
+			addBlockForm.setDf_manufacture(today);
 		}
-		addBlockForm.setDf_usage(addBlockForm.getDf_idNumber().substring(6,8));
-		blockService.addBlock(addBlockForm, searchArea);
+
+		blockDAO.insertStandardBlock(addBlockForm, searchArea);
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockList.do");
 		return mav;
 	}
@@ -330,7 +336,7 @@ public class BlockControllerImpl implements BlockController {
 		}
 		moveBlock.setApp_type("rental");
 		moveBlock.setLogin_area(login.getLogin_area());
-		blockService.addMoveBlockList(moveBlock, login.getLogin_area());
+		blockService.addMoveBlockList(moveBlock, login.getLogin_area(), moveBlock.getApp_type());
 		return mav;
 	}
 	
@@ -396,9 +402,8 @@ public class BlockControllerImpl implements BlockController {
 	}
 	
 	// 블럭 반납 폼
-	@Override
 	@PostMapping("/blockManagement/returnBlockForm.do")
-	public ModelAndView returnBlockForm(@RequestParam("app_num_Str") String app_num_Str, HttpServletRequest request) throws Exception {
+	public ModelAndView returnBlockForm(@RequestParam("app_num_Str") String app_num_Str, @RequestParam("moveList_num_Str") String moveList_num_Str, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("/blockManagement/returnBlockForm");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String login_name = login.getLogin_name();
@@ -407,7 +412,9 @@ public class BlockControllerImpl implements BlockController {
 		LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		String timeNow = now.format(formatter);
-		System.out.println(returnBlockForm.getDf_num());
+		int moveList_num = Integer.parseInt(moveList_num_Str);
+		System.out.println(moveList_num);
+		mav.addObject("moveList_num", moveList_num);
 		mav.addObject("login_name", login_name);
 		mav.addObject("timeNow", timeNow);
 		mav.addObject("returnBlockForm", returnBlockForm);
@@ -429,9 +436,8 @@ public class BlockControllerImpl implements BlockController {
 	}
 	
 	// 블럭 반납 - 폼 작성 후 정보저장
-	@Override
 	@PostMapping("/blockManagement/returnBlockApproval.do")
-	public ModelAndView returnBlockApproval(@ModelAttribute("returnBlockApproval") BlockVO returnBlockApproval, HttpServletRequest request) throws Exception {
+	public ModelAndView returnBlockApproval(@ModelAttribute("returnBlockApproval") BlockVO returnBlockApproval, @RequestParam("moveList_num") int moveList_num, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockRentalList.do");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		if(returnBlockApproval.getApp_rcv_create_at().equals("")||returnBlockApproval.getApp_rcv_create_at().isEmpty()) {
@@ -439,7 +445,8 @@ public class BlockControllerImpl implements BlockController {
 		}
 		returnBlockApproval.setApp_type("return");
 		returnBlockApproval.setLogin_area(login.getLogin_area());
-		blockService.addMoveBlockList(returnBlockApproval, login.getLogin_area());
+		returnBlockApproval.setMoveList_num(moveList_num);
+		blockService.addMoveBlockList(returnBlockApproval, login.getLogin_area(), returnBlockApproval.getApp_type());
 		blockDAO.updateReturnWaiting(returnBlockApproval.getApp_num());
 		return mav;
 	}
@@ -447,11 +454,12 @@ public class BlockControllerImpl implements BlockController {
 	// 블럭 반납 - 반납 승인(결재) 관련
 	@Override
 	@GetMapping("/blockManagement/returnApproval.do")
-	public ModelAndView returnApproval(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError, HttpServletRequest request) throws Exception {
+	public ModelAndView returnApproval(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError,
+			@RequestParam("qualityComment") String qualityComment, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockApproval.do");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
-		int result = blockService.updateApproval(app_num, app_isError, searchArea);
+		int result = blockService.updateApproval(app_num, app_isError, qualityComment, searchArea);
 		int tnf = blockDAO.tnfCheck(app_num);
 		if (tnf == 1) {
 			BlockVO returnBlockInfo = blockDAO.selectBlockApprovalView_df_idNumber(app_num);
@@ -486,7 +494,6 @@ public class BlockControllerImpl implements BlockController {
 		if (totalCount == 0) {
 			totalCount = 1;
 		}
-		System.out.println(login.getLogin_department());
 		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
 		List<BlockVO> blockMoveList = blockService.selectBlockMoveList(searchArea, paging.getOffset(), limit);
 		mav.addObject("searchArea", searchArea);
@@ -611,6 +618,7 @@ public class BlockControllerImpl implements BlockController {
 		ModelAndView mav = new ModelAndView("/blockManagement/blockApprovalView");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
+		String department = login.getLogin_department();
 		int app_num = Integer.parseInt(app_num_Str);
 		BlockVO ApprovalView = blockService.selectBlockApprovalView(app_num);
 //		BlockVO ApprovalDivision = blockDAO.ApprovalDivision(app_num);
@@ -629,6 +637,7 @@ public class BlockControllerImpl implements BlockController {
 		String qualityTeam = loginDAO.searchSign("품질");
 		String rcvArea = loginDAO.searchSign(ApprovalView.getApp_rcv_area());
 		String hndArea = loginDAO.searchSign(ApprovalView.getApp_hnd_area());
+		mav.addObject("department", department);
 		mav.addObject("hndArea", hndArea);
 		mav.addObject("qualityTeam", qualityTeam);
 		mav.addObject("rcvArea", rcvArea);
@@ -643,6 +652,7 @@ public class BlockControllerImpl implements BlockController {
 		ModelAndView mav = new ModelAndView("/blockManagement/blockExpertApprovalView");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
+		String department = login.getLogin_department();
 		int app_num = Integer.parseInt(app_num_Str);
 		BlockVO expertApprovalView = blockService.selectExpertBlockApprovalView(app_num);
 //		BlockVO ApprovalDivision = blockDAO.ApprovalDivision(app_num);
@@ -665,6 +675,7 @@ public class BlockControllerImpl implements BlockController {
 		// -- //
 		String qualitySign = loginDAO.searchSign("품질");
 		mav.addObject("qualitySign", qualitySign);
+		mav.addObject("department", department);
 		return mav;
 	}
 	
@@ -673,12 +684,11 @@ public class BlockControllerImpl implements BlockController {
 	@Override
 	@GetMapping("/blockManagement/updateApproval.do")
 	public ModelAndView updateApproval(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError,
-			@RequestParam("comment") String comment, HttpServletRequest request) throws Exception {
+			@RequestParam("qualityComment") String qualityComment, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockApproval.do");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
-		app_isError = app_isError + searchArea + " : "  + comment;
-		int result = blockService.updateApproval(app_num, app_isError, searchArea);
+		int result = blockService.updateApproval(app_num, app_isError, qualityComment, searchArea);
 		int tnf = blockDAO.tnfCheck(app_num);
 		if (tnf == 1) {
 			BlockVO approval = blockDAO.selectBlockApprovalView_df_idNumber(app_num);
@@ -691,18 +701,20 @@ public class BlockControllerImpl implements BlockController {
 	// 반출 이동 승인
 	@Override
 	@GetMapping("/blockManagement/updateExpertApproval.do")
-	public ModelAndView updateExpertApproval(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError, @RequestParam("token") String token_Str, 
+	public ModelAndView updateExpertApproval(@RequestParam("app_num") int app_num, @RequestParam("app_isError") String app_isError, @RequestParam("qualityComment") String qualityComment, @RequestParam("token") String token_Str, 
 			@RequestParam("app_rcv_name") String app_rcv_name, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/expertApproval.do");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
-		
+
+		System.out.println(qualityComment);
 		int token = Integer.parseInt(token_Str);
+		System.out.println(token);
 		if (token == 1) {
-			int result = blockService.updateExpertApproval(app_num, app_isError, searchArea);
+			int result = blockService.updateExpertApproval(app_num, app_isError, qualityComment, searchArea);
 		} else if (token == 2) {
 			searchArea = app_rcv_name;
-			int result = blockService.updateExpertApproval(app_num, app_isError, searchArea);
+			int result = blockService.updateExpertApproval(app_num, app_isError, qualityComment, searchArea);
 		} 
 		int tnf = blockDAO.tnfExpertCheck(app_num);
 		if (tnf == 1) {
@@ -794,30 +806,35 @@ public class BlockControllerImpl implements BlockController {
 	// 이동 거절
 	@Override
 	@GetMapping("/blockManagement/updateRejection.do")
-	public ModelAndView updateRejection(@RequestParam("app_num") int app_num, 
-			@RequestParam("df_num") String df_num, HttpServletRequest request) throws Exception {
+	public ModelAndView updateRejection(@RequestParam("app_num") int app_num, @RequestParam("app_type") String app_type, @RequestParam("app_hnd_area") String app_hnd_area, @RequestParam("app_isError") String app_isError,
+			@RequestParam("df_num") String df_num, @RequestParam("qualityComment") String qualityComment, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/blockApproval.do");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
-
-		int result = blockService.updateRejection(app_num, searchArea);
-		blockDAO.finalRejection(Integer.parseInt(df_num));
+		System.out.println(app_type);
+		System.out.println(df_num);
+		System.out.println(app_hnd_area);
+		System.out.println(app_num);
+		int result = blockService.updateRejection(app_num, app_isError, qualityComment, searchArea);
+		if (app_type.equals("rental")) {
+			blockDAO.finalRejection(Integer.parseInt(df_num));
+		} else if (app_type.equals("return")) {
+			blockDAO.finalReturnRejection(Integer.parseInt(df_num), app_hnd_area, app_num);
+		}
 		return mav;
 	}
 	
 	// 반출 거절
-	@Override
 	@GetMapping("/blockManagement/updateExpertRejection.do")
 	public ModelAndView updateExpertRejection(@RequestParam("app_num") int app_num, 
-			@RequestParam("df_num") String df_num,
+			@RequestParam("df_num") String df_num, @RequestParam("qualityComment") String qualityComment,
 			@RequestParam("app_isError") String app_isError, @RequestParam("token") String token_Str, 
 			@RequestParam("app_rcv_name") String app_rcv_name, @RequestParam("app_type") String app_type, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/blockManagement/expertApproval.do");
 		LoginVO login = (LoginVO) request.getAttribute("login");
 		String searchArea = login.getLogin_area();
 		int token = Integer.parseInt(token_Str);
-		System.out.println(token);
-		int result = blockService.updateExpertRejection(app_num, app_isError, token, app_type, Integer.parseInt(df_num));
+		int result = blockService.updateExpertRejection(app_num, qualityComment, app_isError, token, app_type, Integer.parseInt(df_num));
 		return mav;
 	}
 	
@@ -1246,6 +1263,122 @@ public class BlockControllerImpl implements BlockController {
 		}
 		return mav;
 	}
+	
+	
+	// 검색
+	// 블럭
+	@GetMapping("/blockManagement/searchBlockList.do")
+	public ModelAndView searchBlockList(@RequestParam(value="page", defaultValue="1") int page, @RequestParam("searchType") String searchType, @RequestParam("searchQuery") String searchQuery, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/blockManagement/searchBlockList");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		int limit = 20;
+		int currentPage = page;
+		int pageBlockSize = 5;
+		int totalCount = blockDAO.searchBlockListCount(searchArea, searchType, searchQuery);
+		if (totalCount == 0) {
+			totalCount = 1;
+		}
+		
+		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
+		List<BlockVO> searchList = blockDAO.searchBlockList(searchArea, searchType, searchQuery, paging.getOffset(), limit);
+
+		mav.addObject("searchType", searchType);
+		mav.addObject("searchQuery", searchQuery);
+		mav.addObject("searchList", searchList);
+		mav.addObject("paging", paging);
+		
+		return mav;
+	}
+	
+	// 전체블럭
+	@GetMapping("/blockManagement/searchTotalBlockList.do")
+	public ModelAndView searchTotalBlockList(@RequestParam(value="page", defaultValue="1") int page, @RequestParam("searchType") String searchType, @RequestParam("searchQuery") String searchQuery, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/blockManagement/searchTotalBlockList");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		int limit = 20;
+		int currentPage = page;
+		int pageBlockSize = 5;
+		int totalCount = blockDAO.searchTotalBlockListCount(searchArea, searchType, searchQuery);
+		if (totalCount == 0) {
+			totalCount = 1;
+		}
+		
+		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
+		List<BlockVO> searchList = blockDAO.searchTotalBlockList(searchArea, searchType, searchQuery, paging.getOffset(), limit);
+
+		mav.addObject("searchType", searchType);
+		mav.addObject("searchQuery", searchQuery);
+		mav.addObject("searchList", searchList);
+		mav.addObject("paging", paging);
+		
+		return mav;
+	}
+	
+	// 대여블럭
+	@GetMapping("/blockManagement/searchRentalBlockList.do")
+	public ModelAndView searchRentalBlockList(@RequestParam(value="page", defaultValue="1") int page, @RequestParam("searchType") String searchType, @RequestParam("searchQuery") String searchQuery, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/blockManagement/searchRentalBlockList");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		int limit = 20;
+		int currentPage = page;
+		int pageBlockSize = 5;
+		
+		List<Integer> rentalId = blockDAO.selectRentalListId(searchArea);
+		
+		int totalCount = blockDAO.searchRentalListCount(searchArea, searchType, searchQuery, rentalId);
+		if (totalCount == 0) {
+			totalCount = 1;
+		}
+		
+		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
+
+		List<BlockVO> searchList = blockDAO.searchRentalBlockList(searchArea, searchType, searchQuery, paging.getOffset(), limit, rentalId);
+
+		mav.addObject("searchType", searchType);
+		mav.addObject("searchQuery", searchQuery);
+		mav.addObject("searchList", searchList);
+		mav.addObject("paging", paging);
+		
+		return mav;
+	}
+	
+	// 이동기록
+	@GetMapping("/blockManagement/searchBlockMoveList.do")
+	public ModelAndView searchBlockMoveList(@RequestParam(value="page", defaultValue="1") int page, @RequestParam("searchType") String searchType, @RequestParam("searchQuery") String searchQuery, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("/blockManagement/searchBlockMoveList");
+		LoginVO login = (LoginVO) request.getAttribute("login");
+		String searchArea = login.getLogin_area();
+		int limit = 20;
+		int currentPage = page;
+		int pageBlockSize = 5;
+		
+		int totalCount = blockDAO.selectMoveListCount(searchArea, searchType, searchQuery);
+		if (totalCount == 0) {
+			totalCount = 1;
+		}
+		
+		PagingDTO paging = new PagingDTO(totalCount, currentPage, limit, pageBlockSize);
+
+		List<Integer> idNumber = blockDAO.selectIdNumberSearch(searchArea, searchType, searchQuery);
+		if (idNumber == null || idNumber.isEmpty()) {
+			idNumber = new ArrayList<>();
+			idNumber.add(1);
+		}
+		List<BlockVO> searchList = blockDAO.selectSearchMoveList(searchArea, idNumber, paging.getOffset(), limit);
+		
+		mav.addObject("searchType", searchType);
+		mav.addObject("searchQuery", searchQuery);
+		mav.addObject("searchList", searchList);
+		mav.addObject("paging", paging);
+		
+		return mav;
+	}
+	
+	
+	
 	
 	// 테스트
 	@GetMapping("/blockManagement/test.do")

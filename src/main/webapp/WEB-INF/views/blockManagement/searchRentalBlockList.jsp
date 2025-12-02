@@ -22,7 +22,7 @@
                 <div class="contents-list">
 					<div class="search-write">
 						<div>
-							<form class="search-box" method="get" action="${contextPath}/blockManagement/searchList.do">
+							<form class="search-box" method="get" action="${contextPath}/blockManagement/searchRentalBlockList.do">
 								<select name="searchType">
 									<option value="idNumber" ${searchType == 'idNumber' ? 'selected' : ''}>식별번호</option>
 									<option value="material" ${searchType == 'material' ? 'selected' : ''}>재질</option>
@@ -32,7 +32,6 @@
 									<option value="moveStatus" ${searchType == 'moveStatus' ? 'selected' : ''}>이동현황</option>
 									<option value="note" ${searchType == 'note' ? 'selected' : ''}>비고</option>
 								</select>
-								<input type="hidden" name="token" value="${token}">
 								<div class="searchWithButton">
 									<input type="text" name="searchQuery" value="${searchQuery}" placeholder="검색어 입력">
 									<button type="submit" title="검색">&#128269;</button>
@@ -64,6 +63,9 @@
 								<c:otherwise>
 									<c:forEach var="searchList" items="${searchList}">
 										<tr>
+											<input type="hidden" id="moveList_num" name="moveList_num" value="${searchList.moveList_num}">
+											<input type="hidden" id="df_num" name="df_num" value="${searchList.df_num}">
+											<input type="hidden" id="app_num" name="app_num" value="${searchList.app_num}">
 											<input type="hidden" id="df_num" name="df_num" value="${searchList.df_num}">
 											<td>${searchList.row_num}</td>
 											<td><button style="font-size: 15px; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">${searchList.df_idNumber}</button></td>
@@ -72,16 +74,10 @@
 											<td>${searchList.df_usage}</td>
 											<td>${searchList.df_itemStatus}</td>
 											<td>
-											<c:choose>
-												<c:when test="${token eq 'blockList' or token eq 'blockTotalList'}">
-													<button style="font-weight: bold; cursor: pointer; background-color: white; border: none;" onclick="detailView(this)">상세보기</button>
-												</c:when>
-												<c:otherwise>
-													<button style="font-size: 16px; cursor: pointer; background-color: white; border: none;" onclick="returnBlock(this)">반납하기</button>
-												</c:otherwise>
-											</c:choose>
-											</td>
-										</tr>
+												<c:if test="${searchList.df_itemStatus eq '대여중'}">
+													<button type="button" style="font-size: 16px; cursor: pointer; background-color: white; border: none;" onclick="returnBlock(this)">반납하기</button>
+												</c:if>
+											</td>										</tr>
 									</c:forEach>
 								</c:otherwise>
 							</c:choose>
@@ -139,40 +135,65 @@
 	}
 	
 	function goToPage(pageNumber) {
-			const form = document.createElement("form");
-			form.method = "GET";
-			form.action = "${contextPath}/blockManagement/searchList.do";
+		const form = document.createElement("form");
+		form.method = "GET";
+		form.action = "${contextPath}/blockManagement/searchRentalBlockList.do";
 
-			const searchType = document.querySelector('select[name="searchType"]').value;
-			const searchQuery = document.querySelector('input[name="searchQuery"]').value;
-			const token = document.querySelector('input[name="token"]').value;
+		const searchType = document.querySelector('select[name="searchType"]').value;
+		const searchQuery = document.querySelector('input[name="searchQuery"]').value;
 
-			const inputType = document.createElement("input");
-			inputType.type = "hidden";
-			inputType.name = "searchType";
-			inputType.value = searchType;
-			form.appendChild(inputType);
+		const inputType = document.createElement("input");
+		inputType.type = "hidden";
+		inputType.name = "searchType";
+		inputType.value = searchType;
+		form.appendChild(inputType);
 
-			const inputQuery = document.createElement("input");
-			inputQuery.type = "hidden";
-			inputQuery.name = "searchQuery";
-			inputQuery.value = searchQuery;
-			form.appendChild(inputQuery);
+		const inputQuery = document.createElement("input");
+		inputQuery.type = "hidden";
+		inputQuery.name = "searchQuery";
+		inputQuery.value = searchQuery;
+		form.appendChild(inputQuery);
 
-			const inputPage = document.createElement("input");
-			inputPage.type = "hidden";
-			inputPage.name = "page";
-			inputPage.value = pageNumber;
-			form.appendChild(inputPage);
-			
-			const inputToken = document.createElement("input");
-			inputToken.type = "hidden";
-			inputToken.name = "token";
-			inputToken.value = token;
-			form.appendChild(inputToken);
-
-			document.body.appendChild(form);
-			form.submit();
+		const inputPage = document.createElement("input");
+		inputPage.type = "hidden";
+		inputPage.name = "page";
+		inputPage.value = pageNumber;
+		form.appendChild(inputPage);
+		
+		document.body.appendChild(form);
+		form.submit();
+	}
+		
+	function returnBlock(button) {
+		
+		if (!confirm("정말 반납하시겠습니까?")) {
+			return;
 		}
+		
+		const tr = button.closest("tr");
+		
+		const app_num_Str = tr.querySelector("input[name='app_num']").value;
+		const moveList_num_Str = tr.querySelector("input[name='moveList_num']").value;
+		
+		const form = document.createElement("form");
+		form.method = "POST";
+		form.action = "/blockManagement/returnBlockForm.do";
+		
+		const inputId = document.createElement("input");
+		inputId.type = "hidden";
+		inputId.name = "app_num_Str"
+		inputId.value = app_num_Str;
+		
+		const inputNum = document.createElement("input");
+		inputNum.type = "hidden";
+		inputNum.name = "moveList_num_Str";
+		inputNum.value = moveList_num_Str;
+		
+		form.appendChild(inputId);
+		form.appendChild(inputNum);
+		
+		document.body.appendChild(form);
+		form.submit();
+	}
 </script>
 </html>

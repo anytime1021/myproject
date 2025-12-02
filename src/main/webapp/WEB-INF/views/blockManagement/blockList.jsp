@@ -22,8 +22,7 @@
                 <div class="contents-list">
 					<div class="search-write">
 						<div>
-							<form class="search-box" method="get" action="${contextPath}/blockManagement/searchList.do">
-								<input type="hidden" name="token" value="blockList">
+							<form class="search-box" method="get" action="${contextPath}/blockManagement/searchBlockList.do">
 								<select name="searchType">
 									<option value="idNumber">식별번호</option>
 									<option value="material">재질</option>
@@ -41,8 +40,8 @@
 							</form>
 						</div>
 						<div>
-							<a style="display:inline-block; width:100px; text-align:center; height:30px; border:1px solid black;" href="${contextPath}/blockManagement/addStandardBlockForm.do">표준 시험편 등록</a>
-							<a style="display:inline-block; width:100px; text-align:center; height:30px; border:1px solid black;" href="${contextPath}/blockManagement/addBlockForm.do">일반 시험편 등록</a>
+							<a style="display:inline-block; width:120px; text-align:center; height:30px; border:1px solid black;" href="${contextPath}/blockManagement/addStandardBlockForm.do">표준 시험편 등록</a>
+							<a style="display:inline-block; width:120px; text-align:center; height:30px; border:1px solid black;" href="${contextPath}/blockManagement/addBlockForm.do">일반 시험편 등록</a>
 						</div>
 					</div>
                     <table class="table-control">

@@ -22,7 +22,7 @@
                 <div class="contents-list">
 					<div class="search-write">
 						<div>
-							<form class="search-box" method="get" action="${contextPath}/blockManagement/searchList.do">
+							<form class="search-box" method="get" action="${contextPath}/blockManagement/searchRentalBlockList.do">
 								<input type="hidden" name="token" value="blockRentalList">
 								<select name="searchType">
 									<option value="idNumber">식별번호</option>
@@ -56,6 +56,7 @@
                         <tbody>
 							<c:forEach var="rentalList" items="${rentalList}">
 								<tr>
+									<input type="hidden" id="moveList_num" name="moveList_num" value="${rentalList.moveList_num}">
 									<input type="hidden" id="df_num" name="df_num" value="${rentalList.df_num}">
 									<input type="hidden" id="app_num" name="app_num" value="${rentalList.app_num}">
 									<td>${rentalList.row_num}</td>
@@ -63,16 +64,7 @@
 									<td>${rentalList.df_size}</td>
 									<td>${rentalList.df_material}</td>
 									<td>${rentalList.df_usage}</td>
-									<td>
-									<c:choose>
-										<c:when test="${rentalList.df_itemStatus eq '이상없음'}">
-											반납완료
-										</c:when>
-										<c:otherwise>
-											${rentalList.df_itemStatus}
-										</c:otherwise>
-									</c:choose>
-									</td>
+									<td>${rentalList.df_itemStatus}</td>
 									<td>
 										<c:if test="${rentalList.df_itemStatus eq '대여중'}">
 											<button type="button" style="font-size: 16px; cursor: pointer; background-color: white; border: none;" onclick="returnBlock(this)">반납하기</button>
@@ -141,6 +133,7 @@
 		const tr = button.closest("tr");
 		
 		const app_num_Str = tr.querySelector("input[name='app_num']").value;
+		const moveList_num_Str = tr.querySelector("input[name='moveList_num']").value;
 		
 		const form = document.createElement("form");
 		form.method = "POST";
@@ -151,7 +144,14 @@
 		inputId.name = "app_num_Str"
 		inputId.value = app_num_Str;
 		
+		const inputNum = document.createElement("input");
+		inputNum.type = "hidden";
+		inputNum.name = "moveList_num_Str";
+		inputNum.value = moveList_num_Str;
+		
 		form.appendChild(inputId);
+		form.appendChild(inputNum);
+		
 		document.body.appendChild(form);
 		form.submit();
 	}
