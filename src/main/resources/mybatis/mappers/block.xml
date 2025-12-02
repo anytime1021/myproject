@@ -520,7 +520,7 @@
 		
 		update blockMoveList
 		set moveList_return_date = now(),
-		df_itemStatus = '이상없음'
+		df_itemStatus = '반납완료'
 		where moveList_return_date is null and
 		df_idNumber = (select df_idNumber from expertApproval where app_num = #{app_num})
 	</update>

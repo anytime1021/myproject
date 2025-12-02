@@ -74,12 +74,22 @@
 											<td>${searchList.moveList_return_date}</td>
 											<td>
 											<c:choose>
-												<c:when test="${searchList.df_itemStatus eq '이상없음'}">
+												<c:when test="${searchList.df_itemStatus eq '반납완료'}">
 											    	반납완료
 											    </c:when>
-											    <c:otherwise>
-											    	${searchList.df_itemStatus}
-											    </c:otherwise>
+												<c:otherwise>
+													<c:choose>
+														<c:when test="${searchArea eq searchList.login_area && searchArea ne '본사'}">
+															<span style="color:green;">인계중</span>
+														</c:when>
+														<c:when test="${searchArea ne searchList.login_area && searchArea ne '본사'}">
+															<span style="color:green;">인수중</span>
+														</c:when>
+														<c:otherwise>
+															<span style="color:green;">대여중</span>
+														</c:otherwise>
+													</c:choose>
+												</c:otherwise>
 											</c:choose>
 											</td>
 										</tr>
