@@ -75,7 +75,7 @@
 											<td>
 											<c:choose>
 												<c:when test="${searchList.df_itemStatus eq '반납완료'}">
-											    	반납완료
+											    	<span style="color:blue;">반납완료</span>
 											    </c:when>
 												<c:otherwise>
 													<c:choose>
